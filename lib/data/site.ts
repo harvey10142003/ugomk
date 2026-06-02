@@ -9,9 +9,9 @@ export const site = {
   founded: '2024',
   contact: {
     email: 'shark@ugomk.com',
-    phone: '+886-7-000-0000',
+    phone: '+886-910-087-065',
     address: '高雄市 · Kaohsiung, Taiwan',
-    lineUrl: 'https://line.me/R/ti/p/@ugomk',
+    lineUrl: 'https://line.me/R/ti/p/%40ugomk',
     facebook: 'https://www.facebook.com/ugomk',
     instagram: 'https://www.instagram.com/ugomk'
   },
