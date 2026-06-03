@@ -26,6 +26,7 @@ export const navItems = [
   { label: '產品', href: '/features' },
   { label: '方案', href: '/pricing' },
   { label: '客戶案例', href: '/cases' },
+  { label: '行銷專欄', href: '/blog' },
   { label: '聯絡 / Demo', href: '/contact' }
 ];
 
