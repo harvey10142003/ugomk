@@ -34,10 +34,5 @@ export const externalSites = [
     label: 'LINExAI 學院',
     description: 'LINE 行銷課程與漏斗入口',
     href: 'https://lineai.ugomk.com'
-  },
-  {
-    label: 'BNI 富聯白金分會',
-    description: 'Shark 任 LINE 顧問的商務分會',
-    href: 'https://bnifl.ugomk.com'
   }
 ];
