@@ -28,11 +28,11 @@ export const websiteLd = {
 export const productLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Ugomk LINE CRM SaaS',
+  name: 'Ugomk LINE CRM',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
   url: `${site.url}/features`,
-  description: '多租戶 LINE CRM SaaS。可插拔模組、動態圖文選單、行銷自動化任務、POS 收銀、產業包（美業 / 餐酒館 / 補習班 / 宮廟）一站式。',
+  description: 'LINE 會員經營系統：會員 CRM、點數票券、預約報名、POS 與行銷自動化，依照產業與營運需求彈性導入，適合餐飲、美業、零售、課程與多分店品牌。',
   offers: {
     '@type': 'Offer',
     priceCurrency: 'TWD',

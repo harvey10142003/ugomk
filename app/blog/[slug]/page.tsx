@@ -116,14 +116,14 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                 {a.author.name[0]}
               </span>
               <div className="flex-1">
-                <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-600">
+                <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-700">
                   關於作者
                 </div>
                 <div className="mt-1 text-lg font-bold text-ink-900">
                   {a.author.name} · {a.author.role}
                 </div>
                 <p className="mt-2 text-sm text-ink-500 leading-relaxed">
-                  Shark 親自操作過 100+ 企業內部工具與 LINE@ 行銷漏斗，將「導航式行銷方法論」化為宇果 CRM SaaS 產品。
+                  Shark 親自操作過 100+ 企業內部工具與 LINE 行銷流程，協助企業把會員經營、行銷自動化與門市營運整理成真正能執行的系統。
                 </p>
               </div>
               <a
@@ -148,7 +148,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               <h2 className="heading-3">繼續讀</h2>
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
               >
                 所有文章
                 <ArrowRight className="h-4 w-4" />

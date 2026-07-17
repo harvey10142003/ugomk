@@ -16,14 +16,14 @@ export function Footer() {
               <div className="text-xs tracking-widest-2 uppercase text-ink-300">{site.name}</div>
             </div>
           </Link>
-          <p className="text-sm leading-relaxed text-ink-300 max-w-md">{site.description}</p>
+          <p className="text-sm leading-relaxed text-ink-300 max-w-md">{site.footerAbout}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
               href={site.contact.lineUrl}
-              className="inline-flex items-center gap-2 rounded-full bg-brand-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-brand-700 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-600 transition-colors"
             >
               <MessageCircle className="h-4 w-4" />
-              加 LINE@ 諮詢
+              加入 LINE 諮詢
             </a>
             <a
               href={`mailto:${site.contact.email}`}
@@ -67,12 +67,12 @@ export function Footer() {
                   className="block text-sm text-ink-300 hover:text-brand-300 transition-colors"
                 >
                   <div className="font-medium">{s.label}</div>
-                  <div className="text-xs text-ink-400">{s.description}</div>
+                  <div className="text-xs text-ink-300">{s.description}</div>
                 </a>
               </li>
             ))}
           </ul>
-          <div className="mt-6 flex items-start gap-2 text-xs text-ink-400">
+          <div className="mt-6 flex items-start gap-2 text-xs text-ink-300">
             <MapPin className="h-4 w-4 text-brand-400 mt-0.5 shrink-0" />
             <span>{site.contact.address}</span>
           </div>
@@ -81,11 +81,11 @@ export function Footer() {
 
       <div className="border-t border-ink-800">
         <div className="container-ug flex flex-col md:flex-row items-center justify-between py-6 gap-3">
-          <p className="text-xs text-ink-400">
+          <p className="text-xs text-ink-300">
             © {new Date().getFullYear()} {site.name} Yu Guo International Marketing. All rights reserved.
           </p>
-          <p className="text-[10px] tracking-widest-2 uppercase text-ink-500">
-            LINE × AI · Crafted in Kaohsiung
+          <p className="text-[10px] tracking-widest-2 uppercase text-ink-300">
+            LINE CRM · Crafted in Kaohsiung
           </p>
         </div>
       </div>

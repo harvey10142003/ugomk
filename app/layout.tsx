@@ -33,15 +33,15 @@ export const metadata: Metadata = {
   title: { default: `${site.name}｜${site.tagline}`, template: `%s｜${site.name}` },
   description: site.description,
   keywords: [
-    'LINE 行銷',
     'LINE CRM',
-    'LINE OA',
-    'LINE@ 自動化',
-    '多租戶 CRM',
+    'LINE 會員系統',
+    'LINE 行銷',
+    'LINE 官方帳號',
+    '會員經營',
+    '行銷自動化',
     'POS 系統',
-    '宇果國際行銷',
-    'No-Code',
-    'AI 行銷'
+    '多分店管理',
+    '宇果國際行銷'
   ],
   openGraph: {
     type: 'website',

@@ -78,7 +78,7 @@ export function ArticleCard({
             <div className="text-xs font-semibold text-ink-800">{article.author.name}</div>
             <div className="text-[10px] text-ink-400">{article.author.role}</div>
           </div>
-          <span className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-brand-600 group-hover:gap-2 transition-all">
+          <span className="ml-auto inline-flex items-center gap-1 text-xs font-semibold text-brand-700 group-hover:gap-2 transition-all">
             閱讀
             <ArrowRight className="h-3.5 w-3.5" />
           </span>

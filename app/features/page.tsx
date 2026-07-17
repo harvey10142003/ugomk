@@ -8,9 +8,9 @@ import { site } from '@/lib/data/site';
 import { productLd } from '@/lib/jsonld';
 
 export const metadata: Metadata = {
-  title: '產品模組',
+  title: 'LINE CRM 功能｜會員、點數、預約、POS 與行銷自動化',
   description:
-    'Ugomk LINE CRM SaaS 完整模組清單：多分店、會員、POS、行銷自動化、產業包（美業 / 餐酒館 / 補習班 / 宮廟）等 9 大模組群組。'
+    '從會員資料、標籤、點數票券，到預約、POS、多分店與行銷自動化，每項功能都能獨立啟用，依照營運需求彈性組合。'
 };
 
 export default function FeaturesPage() {
@@ -18,9 +18,9 @@ export default function FeaturesPage() {
     <>
       <JsonLd data={productLd} />
       <PageHero
-        eyebrow="Product Modules"
-        title={'9 大模組群組，照生意搭'}
-        subtitle="每個模組都附 admin 後台、LIFF 端、POS 整合；只開你需要的，未來想加再開。"
+        eyebrow="功能介紹"
+        title={'依照你的營運需求，組合真正會用到的功能'}
+        subtitle="從會員資料、標籤、點數票券，到預約、POS、多分店與行銷自動化，每項功能都能獨立啟用。不需要為了少數功能購買一整套複雜系統，也不必讓員工學習與工作無關的操作。"
       />
 
       <section className="section">
@@ -57,21 +57,21 @@ export default function FeaturesPage() {
           <div className="mt-20 card-glow p-10 md:p-14 text-center bg-gradient-to-br from-brand-50 to-mint-100/40">
             <span className="eyebrow justify-center">
               <Sparkles className="h-3 w-3 inline mr-1" />
-              Custom Build
+              客製開發與系統串接
             </span>
             <h2 className="heading-3 mt-4 text-balance">
               不在清單裡的功能？
             </h2>
             <p className="body-base mt-4 max-w-xl mx-auto">
-              產業專用、客製欄位、串第三方 API — Pro 方案皆可議價開發。先聊聊你的需求。
+              現有系統無法滿足的欄位、流程或第三方服務，可依實際需求評估 API 串接與客製開發。先聊聊你的情況。
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link href={site.cta.primary.href} className="btn-brand">
-                預約客製諮詢
+                預約需求討論
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link href="/pricing" className="btn-outline">
-                看方案
+                查看費用方案
               </Link>
             </div>
           </div>

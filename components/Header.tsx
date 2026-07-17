@@ -33,7 +33,7 @@ export function Header() {
       )}
     >
       <div className="container-ug flex h-18 md:h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group" aria-label={site.name}>
+        <Link href="/" className="flex items-center gap-2.5 group">
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-brand text-white font-extrabold shadow-brand">
             U
           </span>

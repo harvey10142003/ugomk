@@ -49,7 +49,7 @@
 
   /* Eyebrow — 統一無 dash 的緊湊版（SaaS 標竿做法） */
   .eyebrow {
-    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-600;
+    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-700;
   }
   .eyebrow-on-dark {
     @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-400;
@@ -91,7 +91,7 @@
     @apply btn text-ink-600 hover:text-ink-900;
   }
   .btn-line {
-    @apply btn bg-brand-500 text-white hover:bg-brand-600 shadow-brand;
+    @apply btn bg-brand-700 text-white hover:bg-brand-800 shadow-brand;
   }
 
   /* 卡片 */
@@ -118,7 +118,7 @@
   .chip {
     @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full border;
   }
-  .chip-brand { @apply chip border-brand-200 bg-brand-50 text-brand-700; }
+  .chip-brand { @apply chip border-brand-200 bg-brand-50 text-brand-800; }
   .chip-ink { @apply chip border-ink-200 bg-mist-200 text-ink-600; }
   .chip-dark { @apply chip border-ink-700 bg-ink-800 text-ink-200; }
 

@@ -34,11 +34,17 @@ export function POSMock() {
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-1.5">
-                <button className="h-5 w-5 rounded-full bg-mist-200 inline-flex items-center justify-center text-ink-600">
+                <button
+                  aria-label="減少數量"
+                  className="h-5 w-5 rounded-full bg-mist-200 inline-flex items-center justify-center text-ink-600"
+                >
                   <Minus className="h-3 w-3" />
                 </button>
                 <span className="text-xs font-semibold text-ink-800 w-3 text-center">1</span>
-                <button className="h-5 w-5 rounded-full bg-mist-200 inline-flex items-center justify-center text-ink-600">
+                <button
+                  aria-label="增加數量"
+                  className="h-5 w-5 rounded-full bg-mist-200 inline-flex items-center justify-center text-ink-600"
+                >
                   <Plus className="h-3 w-3" />
                 </button>
               </div>
@@ -57,7 +63,7 @@ export function POSMock() {
         </div>
         <div className="flex items-center justify-between text-ink-500">
           <span>會員 9 折</span>
-          <span className="text-brand-600">- $140</span>
+          <span className="text-brand-700">- $140</span>
         </div>
         <div className="border-t border-ink-200 pt-1.5 flex items-center justify-between">
           <span className="font-bold text-ink-900">應收</span>

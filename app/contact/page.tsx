@@ -4,17 +4,18 @@ import { PageHero } from '@/components/PageHero';
 import { site } from '@/lib/data/site';
 
 export const metadata: Metadata = {
-  title: '聯絡我們 / 預約 Demo',
-  description: '預約 30 分鐘 Ugomk LINE CRM SaaS Demo，或直接加 LINE@ 諮詢。高雄在地團隊，台灣全境支援。'
+  title: '預約 LINE CRM 導入諮詢',
+  description:
+    '告訴我們你的產業、分店數量、目前使用的工具，以及最想改善的問題，我們會協助你整理適合的導入方向。高雄在地團隊，台灣全境支援。'
 };
 
 export default function ContactPage() {
   return (
     <>
       <PageHero
-        eyebrow="Contact"
-        title="先聊聊你卡在哪"
-        subtitle="預約 30 分鐘 Demo、或直接加 LINE@ 問都行 — 不用先決定要不要買。"
+        eyebrow="預約諮詢"
+        title="說說你目前的 LINE 經營問題"
+        subtitle="第一次聯繫不需要準備完整規格，也不需要先選方案。告訴我們你的產業、分店數量、目前使用的工具，以及最想改善的問題，我們會協助你整理適合的導入方向。"
       />
 
       <section className="section">
@@ -34,8 +35,8 @@ export default function ContactPage() {
                   <MessageCircle className="h-6 w-6" />
                 </span>
                 <div className="flex-1">
-                  <div className="text-base font-bold text-ink-900">加 LINE@ 即時問</div>
-                  <div className="text-sm text-ink-600">最快回覆。看得到 demo 影片跟功能截圖。</div>
+                  <div className="text-base font-bold text-ink-900">加入 LINE 詢問</div>
+                  <div className="text-sm text-ink-600">加入 LINE 與顧問討論，回覆最快，也能直接看功能畫面。</div>
                 </div>
                 <span className="text-xs font-semibold text-brand-700">＞</span>
               </a>
@@ -48,8 +49,8 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6" />
                 </span>
                 <div className="flex-1">
-                  <div className="text-base font-bold text-ink-900">Email 詳述需求</div>
-                  <div className="text-sm text-ink-600 break-all">{site.contact.email}</div>
+                  <div className="text-base font-bold text-ink-900">寄送需求說明</div>
+                  <div className="text-sm text-ink-600 break-all">寄送需求至 {site.contact.email}</div>
                 </div>
                 <span className="text-xs font-semibold text-ink-500">＞</span>
               </a>
@@ -62,8 +63,8 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6" />
                 </span>
                 <div className="flex-1">
-                  <div className="text-base font-bold text-ink-900">電話聊</div>
-                  <div className="text-sm text-ink-600">{site.contact.phone}</div>
+                  <div className="text-base font-bold text-ink-900">電話聯繫</div>
+                  <div className="text-sm text-ink-600">{site.contact.phone} · 預約 30 分鐘線上討論</div>
                 </div>
                 <span className="text-xs font-semibold text-ink-500">＞</span>
               </a>
@@ -72,7 +73,7 @@ export default function ContactPage() {
 
           <aside className="space-y-6">
             <div className="card p-7">
-              <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-600">
+              <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-700">
                 Office
               </div>
               <h3 className="mt-2 text-lg font-bold text-ink-900">宇果國際行銷</h3>
@@ -89,12 +90,13 @@ export default function ContactPage() {
             </div>
 
             <div className="card-glow p-7 bg-gradient-brand-soft">
-              <h3 className="text-lg font-bold text-ink-900">Demo 聊什麼？</h3>
+              <h3 className="text-lg font-bold text-ink-900">第一次討論會確認這些事情</h3>
               <ul className="mt-4 space-y-2 text-sm text-ink-800">
-                <li>· 你現在 LINE@ 經營的痛點</li>
-                <li>· 是否需要多分店 / POS / 產業包</li>
-                <li>· 預算與導入時程</li>
-                <li>· 既有資料怎麼搬過來</li>
+                <li>· 目前 LINE 官方帳號的使用方式</li>
+                <li>· 會員、預約、點數或門市流程的問題</li>
+                <li>· 需要整合的既有系統</li>
+                <li>· 適合的功能與導入順序</li>
+                <li>· 預算範圍與預計上線時間</li>
               </ul>
             </div>
           </aside>

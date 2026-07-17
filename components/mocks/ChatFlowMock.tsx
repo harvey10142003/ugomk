@@ -35,7 +35,7 @@ export function ChatFlowMock() {
             </span>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-bold text-ink-900 truncate">菲韻美甲</div>
-              <div className="text-[9px] text-brand-600 inline-flex items-center gap-1">
+              <div className="text-[9px] text-brand-700 inline-flex items-center gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
                 線上
               </div>
@@ -58,7 +58,7 @@ export function ChatFlowMock() {
                   className={
                     m.from === 'bot'
                       ? 'max-w-[200px] rounded-2xl rounded-bl-sm bg-white px-3 py-2 text-[11px] leading-relaxed text-ink-800 whitespace-pre-line shadow-soft'
-                      : 'max-w-[200px] rounded-2xl rounded-br-sm bg-brand-500 px-3 py-2 text-[11px] leading-relaxed text-white whitespace-pre-line'
+                      : 'max-w-[200px] rounded-2xl rounded-br-sm bg-brand-700 px-3 py-2 text-[11px] leading-relaxed text-white whitespace-pre-line'
                   }
                 >
                   {m.text}
@@ -84,7 +84,7 @@ export function ChatFlowMock() {
           {/* Rich menu hint */}
           <div className="border-t border-ink-100 bg-white grid grid-cols-3 text-[9px] font-semibold text-ink-700">
             <div className="p-2 text-center border-r border-ink-100">會員專區</div>
-            <div className="p-2 text-center border-r border-ink-100 text-brand-600">兌換點數</div>
+            <div className="p-2 text-center border-r border-ink-100 text-brand-700">兌換點數</div>
             <div className="p-2 text-center">線上預約</div>
           </div>
         </div>

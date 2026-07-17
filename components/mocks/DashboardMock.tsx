@@ -98,7 +98,7 @@ export function DashboardMock() {
                   </div>
                   <div className="mt-1 flex items-baseline gap-1.5">
                     <span className="text-base font-extrabold text-ink-900">{c.value}</span>
-                    <span className="text-[10px] font-semibold text-brand-600 inline-flex items-center">
+                    <span className="text-[10px] font-semibold text-brand-800 inline-flex items-center">
                       <ArrowUpRight className="h-3 w-3" />
                       {c.delta}
                     </span>
