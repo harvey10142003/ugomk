@@ -84,7 +84,7 @@ export default function PricingPage() {
                 className={p.highlight ? 'card-glow p-8 relative' : 'card-hover p-8 relative'}
               >
                 {p.highlight ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-ink-900 px-3 py-1 text-xs font-bold text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1 text-xs font-bold text-white">
                     <Sparkles className="h-3 w-3 text-brand-400" />
                     最受歡迎
                   </span>

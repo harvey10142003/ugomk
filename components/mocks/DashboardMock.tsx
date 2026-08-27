@@ -125,8 +125,8 @@ export function DashboardMock() {
               <svg viewBox="0 0 280 70" className="w-full h-16">
                 <defs>
                   <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-                    <stop offset="0%" stopColor="#06C755" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#06C755" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#2A7D94" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#2A7D94" stopOpacity="0" />
                   </linearGradient>
                 </defs>
                 <path
@@ -136,7 +136,7 @@ export function DashboardMock() {
                 <path
                   d="M0,55 L20,48 L40,52 L60,42 L80,38 L100,40 L120,30 L140,26 L160,28 L180,20 L200,22 L220,14 L240,10 L260,12 L280,6"
                   fill="none"
-                  stroke="#06C755"
+                  stroke="#15697F"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -28,39 +29,38 @@ export function Header() {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-300',
         scrolled || open
-          ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(11,15,25,0.06)]'
+          ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(3,61,77,0.08)]'
           : 'bg-white/70 backdrop-blur-sm'
       )}
     >
-      <div className="container-ug flex h-18 md:h-20 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-brand text-white font-extrabold shadow-brand">
-            U
-          </span>
-          <div className="leading-none">
-            <div className="text-base font-extrabold text-ink-900 tracking-tight">{site.shortName}</div>
-            <div className="text-[10px] font-medium tracking-widest-2 uppercase text-ink-400">
-              {site.name}
-            </div>
-          </div>
+      <div className="container-ug flex h-18 md:h-20 items-center justify-between gap-5">
+        <Link href="/" className="shrink-0" aria-label={`${site.name} 首頁`}>
+          <Image
+            src="/ugo-logo.png"
+            alt={`${site.shortName} ${site.name}`}
+            width={1569}
+            height={528}
+            priority
+            className="h-9 w-auto md:h-10"
+          />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-7 xl:gap-8">
           {navItems.map((item) => {
-            const active = pathname === item.href;
+            const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'group relative text-sm font-semibold transition-colors',
+                  'group relative text-sm font-semibold transition-colors whitespace-nowrap',
                   active ? 'text-ink-900' : 'text-ink-500 hover:text-ink-900'
                 )}
               >
                 {item.label}
                 <span
                   className={cn(
-                    'absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-brand-500 transition-all duration-300',
+                    'absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-brand-600 transition-all duration-300',
                     active ? 'w-full' : 'w-0 group-hover:w-full'
                   )}
                 />
@@ -69,10 +69,7 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <Link href={site.cta.secondary.href} className="btn-ghost">
-            {site.cta.secondary.label}
-          </Link>
+        <div className="hidden lg:flex items-center gap-3 shrink-0">
           <Link href={site.cta.primary.href} className="btn-brand">
             {site.cta.primary.label}
           </Link>
@@ -80,6 +77,7 @@ export function Header() {
 
         <button
           aria-label={open ? '關閉選單' : '開啟選單'}
+          aria-expanded={open}
           className="lg:hidden p-2 text-ink-700"
           onClick={() => setOpen((v) => !v)}
         >
@@ -91,7 +89,7 @@ export function Header() {
         <div className="lg:hidden border-t border-ink-100 bg-white">
           <nav className="container-ug flex flex-col py-6 gap-1">
             {navItems.map((item) => {
-              const active = pathname === item.href;
+              const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
@@ -99,7 +97,7 @@ export function Header() {
                   className={cn(
                     'py-3 text-base font-semibold border-l-2 pl-4 transition-colors',
                     active
-                      ? 'border-brand-500 text-ink-900'
+                      ? 'border-brand-600 text-ink-900'
                       : 'border-transparent text-ink-500 hover:border-brand-300 hover:text-ink-900'
                   )}
                 >

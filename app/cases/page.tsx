@@ -131,7 +131,7 @@ export default function CasesPage() {
                 {site.cta.primary.label}
                 <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/features" className="btn-outline">
+              <Link href="/solutions" className="btn-outline">
                 {site.cta.secondary.label}
               </Link>
             </div>

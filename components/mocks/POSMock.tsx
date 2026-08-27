@@ -91,7 +91,7 @@ export function POSMock() {
         ))}
       </div>
 
-      <button className="w-full rounded-full bg-ink-900 text-white py-2.5 text-sm font-semibold inline-flex items-center justify-center gap-2 hover:bg-brand-600 transition-colors">
+      <button className="w-full rounded-full bg-brand-800 text-white py-2.5 text-sm font-semibold inline-flex items-center justify-center gap-2 hover:bg-brand-700 transition-colors">
         <Receipt className="h-4 w-4" />
         確認結帳 · $1,260
       </button>

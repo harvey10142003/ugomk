@@ -28,10 +28,10 @@ export const websiteLd = {
 export const productLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
-  name: 'Ugomk LINE CRM',
+  name: 'UGO AI CRM 會員裂變系統',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web',
-  url: `${site.url}/features`,
+  url: `${site.url}/solutions`,
   description: 'LINE 會員經營系統：會員 CRM、點數票券、預約報名、POS 與行銷自動化，依照產業與營運需求彈性導入，適合餐飲、美業、零售、課程與多分店品牌。',
   offers: {
     '@type': 'Offer',

@@ -4,14 +4,16 @@
 
 /*
  * Ugomk 官網 — 全站樣式基底
- * 設計語彙：淺色科技風 × LINE 綠（#06C755）品牌主色
+ * 設計語彙：淺色科技風 × UGO 青（#04566B，取自 logo 實際像素）
+ * LINE 綠（#06C755）降為語意色，只出現在與 LINE 有關的元件上（btn-line / chip-line / 對話氣泡）
  * 對齊 docs/CIS.md
  */
 
 @layer base {
   :root {
-    --color-brand: 6 199 85;
-    --color-mint: 52 232 158;
+    --color-brand: 4 86 107;
+    --color-mint: 124 182 198;
+    --color-line: 6 199 85;
     --color-ink: 11 15 25;
     --color-mist: 247 249 252;
   }
@@ -29,16 +31,21 @@
   }
 
   ::selection {
-    @apply bg-brand-200 text-ink-900;
+    @apply bg-brand-200 text-brand-950;
   }
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: #F7F9FC; }
-  ::-webkit-scrollbar-thumb { background: #06C755; border-radius: 6px; }
-  ::-webkit-scrollbar-thumb:hover { background: #04A847; }
+  ::-webkit-scrollbar-thumb { background: #04566B; border-radius: 6px; }
+  ::-webkit-scrollbar-thumb:hover { background: #033D4D; }
 
   input, textarea, select {
     @apply rounded-xl;
+  }
+
+  /* 深色區塊的標題被 sticky header 蓋住 → 錨點捲動時預留 header 高度 */
+  section[id], h2[id], h3[id] {
+    scroll-margin-top: 96px;
   }
 }
 
@@ -52,28 +59,24 @@
     @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-700;
   }
   .eyebrow-on-dark {
-    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-400;
+    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-300;
   }
 
   /* 標題系統 — 收緊 tracking、強化層級對比 */
   .heading-display {
     @apply font-display font-extrabold text-display-xl text-ink-900;
-    letter-spacing: -0.035em;
   }
   .heading-1 {
     @apply font-display font-extrabold text-display-lg text-ink-900;
-    letter-spacing: -0.032em;
   }
   .heading-2 {
     @apply font-display font-bold text-display-md text-ink-900;
-    letter-spacing: -0.025em;
   }
   .heading-3 {
     @apply font-display font-bold text-display-sm text-ink-900;
-    letter-spacing: -0.02em;
   }
 
-  .body-lg { @apply text-lg md:text-xl leading-[1.65] text-ink-500 font-normal; }
+  .body-lg { @apply text-base md:text-lg leading-[1.7] text-ink-500 font-normal; }
   .body-base { @apply text-base leading-relaxed text-ink-500; }
   .body-sm { @apply text-sm leading-relaxed text-ink-500; }
 
@@ -82,16 +85,17 @@
     @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold transition-all duration-200 rounded-full whitespace-nowrap;
   }
   .btn-brand {
-    @apply btn bg-ink-900 text-white hover:bg-brand-600 shadow-soft hover:shadow-brand hover:-translate-y-0.5;
+    @apply btn bg-brand-800 text-white hover:bg-brand-700 shadow-soft hover:shadow-brand hover:-translate-y-0.5;
   }
   .btn-outline {
-    @apply btn border border-ink-200 text-ink-800 bg-white hover:border-ink-900 hover:text-ink-900 hover:bg-mist-200;
+    @apply btn border border-ink-200 text-brand-900 bg-white hover:border-brand-800 hover:text-brand-800 hover:bg-brand-50;
   }
   .btn-ghost {
-    @apply btn text-ink-600 hover:text-ink-900;
+    @apply btn text-ink-600 hover:text-brand-800;
   }
+  /* LINE 專用 — 全站唯一的綠色按鈕 */
   .btn-line {
-    @apply btn bg-brand-700 text-white hover:bg-brand-800 shadow-brand;
+    @apply btn bg-line-500 text-white hover:bg-line-600 hover:-translate-y-0.5;
   }
 
   /* 卡片 */
@@ -99,19 +103,19 @@
     @apply bg-white border border-ink-100 rounded-2xl transition-all duration-300;
   }
   .card-hover {
-    @apply card hover:border-ink-200 hover:shadow-card hover:-translate-y-0.5;
+    @apply card hover:border-brand-200 hover:shadow-card hover:-translate-y-0.5;
   }
   .card-glow {
     @apply card border-brand-200 shadow-brand;
   }
   .card-dark {
-    @apply bg-ink-900 text-ink-100 rounded-2xl border border-ink-800;
+    @apply bg-brand-950 text-brand-100 rounded-2xl border border-brand-800;
   }
 
   /* 玻璃感（hero 上的浮動 UI mock） */
   .glass {
     @apply bg-white/80 backdrop-blur-xl border border-white/40 rounded-2xl;
-    box-shadow: 0 24px 60px -24px rgba(11, 15, 25, 0.18);
+    box-shadow: 0 24px 60px -24px rgba(3, 61, 77, 0.22);
   }
 
   /* 標籤 / 徽章 */
@@ -120,19 +124,33 @@
   }
   .chip-brand { @apply chip border-brand-200 bg-brand-50 text-brand-800; }
   .chip-ink { @apply chip border-ink-200 bg-mist-200 text-ink-600; }
-  .chip-dark { @apply chip border-ink-700 bg-ink-800 text-ink-200; }
+  .chip-dark { @apply chip border-brand-700 bg-brand-900 text-brand-200; }
+  /* LINE 專用標籤 */
+  .chip-line { @apply chip border-line-200 bg-line-50 text-line-700; }
 
   /* Section padding 統一 */
   .section { @apply py-24 md:py-32; }
   .section-tight { @apply py-16 md:py-24; }
 
-  /* Hero 漸層背景 — 更精緻的 mesh */
+  /* Hero 漸層背景 — UGO 青 mesh */
   .hero-bg {
     background:
-      radial-gradient(at 20% 0%, rgba(52, 232, 158, 0.16) 0px, transparent 50%),
-      radial-gradient(at 80% 10%, rgba(6, 199, 85, 0.12) 0px, transparent 45%),
-      radial-gradient(at 50% 80%, rgba(6, 199, 85, 0.06) 0px, transparent 50%),
-      linear-gradient(180deg, #FFFFFF 0%, #FAFBFD 100%);
+      radial-gradient(at 18% 0%, rgba(124, 182, 198, 0.32) 0px, transparent 52%),
+      radial-gradient(at 82% 6%, rgba(21, 105, 127, 0.18) 0px, transparent 46%),
+      radial-gradient(at 50% 92%, rgba(4, 86, 107, 0.08) 0px, transparent 54%),
+      linear-gradient(180deg, #FFFFFF 0%, #F6FAFC 100%);
+  }
+
+  /* 深色區塊（架構圖 / 創辦人） */
+  .section-dark {
+    @apply bg-brand-950 text-brand-100 relative overflow-hidden;
+  }
+  .section-dark::before {
+    content: '';
+    @apply absolute inset-0 pointer-events-none;
+    background:
+      radial-gradient(at 15% 0%, rgba(124, 182, 198, 0.16) 0px, transparent 48%),
+      radial-gradient(at 85% 100%, rgba(42, 125, 148, 0.2) 0px, transparent 50%);
   }
 }
 
@@ -142,7 +160,7 @@
 
   .text-gradient-brand {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #06C755 0%, #0FCB7E 100%);
+    background-image: linear-gradient(120deg, #04566B 0%, #2A7D94 55%, #7CB6C6 100%);
   }
   .text-gradient-ink {
     @apply bg-clip-text text-transparent;
@@ -151,14 +169,14 @@
 
   /* 微點背景（hero 副視覺） */
   .dot-grid {
-    background-image: radial-gradient(rgba(11, 15, 25, 0.07) 1px, transparent 1px);
-    background-size: 24px 24px;
+    background-image: radial-gradient(rgba(4, 86, 107, 0.10) 1px, transparent 1px);
+    background-size: 26px 26px;
   }
   .dot-grid-fade {
-    background-image: radial-gradient(rgba(11, 15, 25, 0.07) 1px, transparent 1px);
-    background-size: 24px 24px;
-    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+    background-image: radial-gradient(rgba(4, 86, 107, 0.10) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse at 50% 35%, black 32%, transparent 78%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 35%, black 32%, transparent 78%);
   }
 
   /* 細網格 */
@@ -181,6 +199,6 @@
 
   /* hover ring 動效 */
   .ring-soft {
-    box-shadow: 0 0 0 1px rgba(11, 15, 25, 0.06);
+    box-shadow: 0 0 0 1px rgba(3, 61, 77, 0.08);
   }
 }

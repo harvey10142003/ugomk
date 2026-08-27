@@ -1,7 +1,10 @@
 export const site = {
   name: '宇果國際行銷',
   shortName: 'Ugomk',
-  tagline: 'LINE CRM、會員系統與行銷自動化',
+  /** 系統品牌名 — 全站提到主架構時一律用這個寫法 */
+  product: 'UGO AI CRM 會員裂變系統',
+  productShort: 'UGO AI CRM',
+  tagline: 'LINE CRM、會員裂變與行銷自動化',
   description:
     '宇果協助企業整合 LINE 官方帳號、會員 CRM、點數票券、預約、POS 與行銷自動化。依照產業與營運需求彈性導入，適合餐飲、美業、零售、課程與多分店品牌。',
   footerAbout:
@@ -19,17 +22,18 @@ export const site = {
   },
   cta: {
     primary: { label: '預約需求討論', href: '/contact' },
-    secondary: { label: '查看系統功能', href: '/features' }
+    secondary: { label: '查看解決方案', href: '/solutions' }
   }
 };
 
+// 「預約諮詢」不放進 nav — 它已經是 header 右側的主要按鈕，重複出現會稀釋點擊
 export const navItems = [
   { label: '首頁', href: '/' },
-  { label: '功能介紹', href: '/features' },
+  { label: '解決方案', href: '/solutions' },
   { label: '費用方案', href: '/pricing' },
   { label: '成功案例', href: '/cases' },
   { label: 'LINE 經營知識', href: '/blog' },
-  { label: '預約諮詢', href: '/contact' }
+  { label: '關於宇果', href: '/about' }
 ];
 
 export const externalSites = [

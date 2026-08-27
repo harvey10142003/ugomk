@@ -22,6 +22,7 @@ import {
 import { site } from '@/lib/data/site';
 import { plans, billingNote } from '@/lib/data/pricing';
 import { cases } from '@/lib/data/cases';
+import { crmModules } from '@/lib/data/modules';
 import { DashboardMock } from '@/components/mocks/DashboardMock';
 import { ChatFlowMock } from '@/components/mocks/ChatFlowMock';
 import { POSMock } from '@/components/mocks/POSMock';
@@ -41,7 +42,7 @@ export default function HomePage() {
             <div>
               <span className="chip-brand">
                 <Sparkles className="h-3 w-3" />
-                LINE 官方帳號 × CRM × 行銷自動化
+                {site.product}
               </span>
               <h1 className="heading-display mt-6 text-balance">
                 讓 LINE 不只是發訊息，
@@ -62,6 +63,10 @@ export default function HomePage() {
                 <Link href={site.cta.secondary.href} className="btn-outline">
                   {site.cta.secondary.label}
                 </Link>
+                <a href={site.contact.lineUrl} className="btn-line" target="_blank" rel="noopener">
+                  <MessageCircle className="h-4 w-4" />
+                  加入 LINE 好友
+                </a>
               </div>
 
               <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm text-ink-500">
@@ -105,7 +110,7 @@ export default function HomePage() {
           <StatsBar
             stats={[
               { value: '6+', label: '正式營運品牌', hint: '美業 / 餐酒館 / 社群 / 商會' },
-              { value: '15+', label: '功能模組', hint: '依需求啟用' },
+              { value: `${crmModules.length}`, label: '功能模組', hint: '依需求逐一啟用' },
               { value: '3', label: '產業流程包', hint: '美業 / 餐飲 / 課程' },
               { value: '100%', label: '雲端自動部署', hint: '免自備主機' }
             ]}
@@ -199,7 +204,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────── 宇果優勢區塊 ─────────── */}
-      <section className="section bg-ink-900 text-white relative overflow-hidden">
+      <section className="section bg-brand-950 text-white relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
         <div className="container-ug relative">
           <div className="max-w-3xl">
@@ -237,7 +242,7 @@ export default function HomePage() {
             ].map((it) => (
               <div
                 key={it.title}
-                className="rounded-2xl border border-ink-700 bg-ink-800/50 p-6 hover:border-brand-500/50 transition-colors"
+                className="rounded-2xl border border-brand-800 bg-brand-900/50 p-6 hover:border-brand-400/50 transition-colors"
               >
                 <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-ink-700 text-brand-400">
                   <it.icon className="h-5 w-5" />
@@ -281,7 +286,7 @@ export default function HomePage() {
               <p className="body-base mt-6">
                 讓團隊少做重複工作，也避免重要的顧客跟進被遺漏。
               </p>
-              <Link href="/features" className="btn-ghost mt-6 -ml-2">
+              <Link href="/solutions" className="btn-ghost mt-6 -ml-2">
                 了解行銷自動化
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -357,7 +362,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-10 text-center">
-            <Link href="/features" className="btn-outline">
+            <Link href="/solutions" className="btn-outline">
               查看完整功能
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -390,7 +395,7 @@ export default function HomePage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/features" className="btn-ghost mt-8 -ml-2">
+              <Link href="/solutions" className="btn-ghost mt-8 -ml-2">
                 了解 POS 與產業模組
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -472,7 +477,7 @@ export default function HomePage() {
                 className={p.highlight ? 'card-glow p-8 relative' : 'card-hover p-8 relative'}
               >
                 {p.highlight ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-ink-900 px-3 py-1 text-xs font-bold text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1 text-xs font-bold text-white">
                     <Sparkles className="h-3 w-3 text-brand-400" />
                     最受歡迎
                   </span>
@@ -522,7 +527,7 @@ export default function HomePage() {
       {/* ─────────── 最終行動區塊 ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="relative overflow-hidden rounded-3xl bg-ink-900 p-10 md:p-16 text-center">
+          <div className="relative overflow-hidden rounded-3xl bg-brand-950 p-10 md:p-16 text-center">
             <div className="absolute inset-0 dot-grid-fade opacity-30 pointer-events-none" />
             <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-brand-500/20 blur-3xl pointer-events-none" />
             <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-mint-400/15 blur-3xl pointer-events-none" />
@@ -548,7 +553,10 @@ export default function HomePage() {
                 ))}
               </ul>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-                <Link href="/contact" className="btn-line">
+                <Link
+                  href="/contact"
+                  className="btn bg-white text-brand-900 hover:bg-brand-50 hover:-translate-y-0.5 shadow-soft"
+                >
                   預約 30 分鐘需求討論
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -556,7 +564,7 @@ export default function HomePage() {
                   href={site.contact.lineUrl}
                   target="_blank"
                   rel="noopener"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold text-white border border-ink-700 rounded-full hover:border-brand-500 hover:text-brand-400 transition-colors"
+                  className="btn-line"
                 >
                   <MessageCircle className="h-4 w-4" />
                   直接加入 LINE 諮詢
