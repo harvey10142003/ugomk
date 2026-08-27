@@ -6,7 +6,10 @@ import { moduleDetails } from '@/lib/data/module-details';
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url;
   const now = new Date();
-  const staticPages = ['', '/solutions', '/about', '/pricing', '/cases', '/blog', '/contact'].map((p) => ({
+  const staticPages = [
+    '', '/solutions', '/about', '/pricing', '/cases', '/blog', '/contact',
+    '/services/line-marketing', '/services/smart-card', '/services/custom-modules'
+  ].map((p) => ({
     url: `${base}${p}`,
     lastModified: now,
     changeFrequency: 'weekly' as const,

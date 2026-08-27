@@ -42,12 +42,12 @@ export const navItems: NavItem[] = [
     label: '解決方案',
     href: '/solutions',
     children: [
-      { label: 'LINE@ 行銷規劃', href: '/contact', desc: '導航式行銷策略與導入規劃', pending: true },
+      { label: 'LINE@ 行銷規劃', href: '/services/line-marketing', desc: '導航六步法與導入規劃' },
       { label: 'UGO AI CRM', href: '/solutions', desc: '多模組會員裂變系統' },
       { label: 'LINE@ AI 客服', href: '/solutions/ai_customer_service', desc: '知識庫自動回覆與轉真人' },
       { label: '官網建置', href: '/solutions/website', desc: '品牌官網、文章與 SEO' },
-      { label: 'LINE@ 智慧名片', href: '/contact', desc: '電子名片與人脈經營', pending: true },
-      { label: 'LINE@ 客製化模組', href: '/contact', desc: '依實際流程量身開發', pending: true }
+      { label: 'LINE@ 智慧名片', href: '/services/smart-card', desc: 'Flex 圖卡數位名片' },
+      { label: 'LINE@ 客製化模組', href: '/services/custom-modules', desc: '現成模組與客製開發' }
     ]
   },
   { label: '費用方案', href: '/pricing' },
