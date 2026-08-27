@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowRight, Check, CircleCheck } from 'lucide-react';
 import { crmModules, siteModuleGroups } from '@/lib/data/modules';
+import { moduleDemos } from '@/lib/data/module-demos';
+import { ModuleDemo } from '@/components/ModuleDemo';
 import { moduleDetails } from '@/lib/data/module-details';
 import { site } from '@/lib/data/site';
 
@@ -30,6 +32,7 @@ export default function ModulePage({ params }: Props) {
   if (!detail || !mod) notFound();
 
   const Icon = mod.icon;
+  const demo = moduleDemos[params.slug];
   const group = siteModuleGroups.find((g) => g.key === mod.site);
   const siblings = (group?.modules ?? []).filter((m) => m.id !== mod.id).slice(0, 6);
 
@@ -73,6 +76,22 @@ export default function ModulePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {/* ─────────── 互動 demo ─────────── */}
+      {demo ? (
+        <section className="section-tight">
+          <div className="container-ug">
+            <div className="mx-auto max-w-2xl text-center">
+              <span className="eyebrow">Walk through</span>
+              <h2 className="heading-2 mt-3 text-balance">{demo.title}</h2>
+              <p className="body-base mt-4">{demo.intro}</p>
+            </div>
+            <div className="mt-12">
+              <ModuleDemo demo={demo} />
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* ─────────── 可以做到什麼 ─────────── */}
       <section className="section">
