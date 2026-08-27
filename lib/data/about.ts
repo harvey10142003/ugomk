@@ -21,18 +21,6 @@ export const approach = [
   { mark: '陪', title: '上線後才是開始', description: '持續調整推播節奏與模組配置' }
 ];
 
-export const founder = {
-  name: '施雲漢 Shark',
-  role: '宇果國際行銷 執行長暨創辦人',
-  tags: ['BNI 富聯白金分會 LINE 行銷顧問', '高雄'],
-  /** 建議 4:5 直式；放進 public/ 後把路徑填在這裡 */
-  photo: null as string | null,
-  photoPending: '創辦人照片（建議 4:5 直式）',
-  /** 約 200 字；音樂教育到行銷自動化的轉折是最有記憶點的一段 */
-  bio: null as string | null,
-  bioPending: '創辦人自述約 200 字'
-};
-
 export type Milestone = { year: string; title: string; description?: string; pending?: boolean };
 
 export const milestones: Milestone[] = [

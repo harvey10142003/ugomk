@@ -5,7 +5,7 @@ import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
 import { organizationLd } from '@/lib/jsonld';
-import { positioning, approach, founder, milestones, sites } from '@/lib/data/about';
+import { positioning, approach, milestones, sites } from '@/lib/data/about';
 
 export const metadata: Metadata = {
   title: '關於宇果｜把 LINE 當成營運系統在做的團隊',
@@ -13,18 +13,6 @@ export const metadata: Metadata = {
     '宇果國際行銷來自高雄，替餐飲、美業、零售與課程品牌把 LINE 官方帳號接上會員、消費與推薦裂變，讓每一次互動都留下可以再利用的資料。',
   alternates: { canonical: '/about' }
 };
-
-/** 素材未到位時的明確佔位 — 比放假圖假數字誠實 */
-function Pending({ label, className }: { label: string; className?: string }) {
-  return (
-    <div
-      className={`flex flex-col items-center justify-center rounded-2xl border border-dashed border-brand-300/60 bg-white/[0.06] p-6 text-center ${className ?? ''}`}
-    >
-      <span className="text-sm font-semibold text-white">{label}</span>
-      <span className="mt-1.5 text-[0.72rem] font-normal text-brand-300">待提供</span>
-    </div>
-  );
-}
 
 export default function AboutPage() {
   return (
@@ -85,11 +73,11 @@ export default function AboutPage() {
       <section className="relative h-[280px] w-full overflow-hidden md:h-[380px]">
         {/* Unsplash 免費授權情境照，非宇果實景 */}
         <Image
-          src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1800&h=800&fit=crop&q=80"
-          alt="討論營運流程的工作場景"
+          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1800&h=760&fit=crop&q=80"
+          alt="辦公空間"
           fill
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950/85 via-brand-950/55 to-brand-950/20" />
         <div className="container-ug relative flex h-full items-center">
@@ -98,42 +86,6 @@ export default function AboutPage() {
             <br />
             而是陪你把流程走順。
           </p>
-        </div>
-      </section>
-
-      {/* ─────────── 創辦人 ─────────── */}
-      <section className="section section-dark">
-        <div className="container-ug relative grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-          {founder.photo ? (
-            <Image
-              src={founder.photo}
-              alt={founder.name}
-              width={800}
-              height={1000}
-              className="w-full rounded-2xl object-cover"
-            />
-          ) : (
-            <Pending label={founder.photoPending} className="min-h-[420px]" />
-          )}
-          <div>
-            <span className="eyebrow-on-dark">Founder</span>
-            <h2 className="heading-2 mt-3 text-white">{founder.name}</h2>
-            <div className="mt-4">
-              <span className="chip-dark">{founder.role}</span>
-            </div>
-            {founder.bio ? (
-              <p className="mt-7 text-base leading-relaxed text-brand-200">{founder.bio}</p>
-            ) : (
-              <Pending label={founder.bioPending} className="mt-7 min-h-[130px]" />
-            )}
-            <div className="mt-7 flex flex-wrap gap-2.5">
-              {founder.tags.map((t) => (
-                <span key={t} className="chip-dark">
-                  {t}
-                </span>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
