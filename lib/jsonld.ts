@@ -9,9 +9,12 @@ export const organizationLd = {
   description: site.description,
   email: site.contact.email,
   telephone: site.contact.phone,
+  // 完整地址對在地搜尋（例如「高雄 LINE CRM」）有幫助，不要只留城市
   address: {
     '@type': 'PostalAddress',
-    addressLocality: 'Kaohsiung',
+    streetAddress: site.contact.addressStreet,
+    addressLocality: site.contact.addressDistrict,
+    addressRegion: site.contact.addressCity,
     addressCountry: 'TW'
   },
   sameAs: [site.contact.facebook, site.contact.instagram, site.contact.lineUrl]

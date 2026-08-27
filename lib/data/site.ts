@@ -13,9 +13,15 @@ export const site = {
   locale: 'zh_TW',
   founded: '2024',
   contact: {
-    email: 'shark@ugomk.com',
+    email: 'harvey10142003@gmail.com',
     phone: '+886-910-087-065',
-    address: '高雄市 · Kaohsiung, Taiwan',
+    /** tel: 連結吃國際碼比較保險，畫面顯示用本地格式 */
+    phoneDisplay: '0910-087-065',
+    address: '高雄市橋頭區成功南路 198 號 1 樓',
+    addressStreet: '成功南路 198 號 1 樓',
+    addressDistrict: '橋頭區',
+    addressCity: '高雄市',
+    lineId: '@ugomk',
     lineUrl: 'https://line.me/R/ti/p/%40ugomk',
     facebook: 'https://www.facebook.com/ugomk',
     instagram: 'https://www.instagram.com/ugomk'

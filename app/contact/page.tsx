@@ -36,7 +36,7 @@ export default function ContactPage() {
                 </span>
                 <div className="flex-1">
                   <div className="text-base font-bold text-ink-900">加入 LINE 詢問</div>
-                  <div className="text-sm text-ink-600">加入 LINE 與顧問討論，回覆最快，也能直接看功能畫面。</div>
+                  <div className="text-sm text-ink-600">LINE ID：{site.contact.lineId} · 回覆最快，也能直接看功能畫面。</div>
                 </div>
                 <span className="text-xs font-semibold text-brand-700">＞</span>
               </a>
@@ -64,7 +64,7 @@ export default function ContactPage() {
                 </span>
                 <div className="flex-1">
                   <div className="text-base font-bold text-ink-900">電話聯繫</div>
-                  <div className="text-sm text-ink-600">{site.contact.phone} · 預約 30 分鐘線上討論</div>
+                  <div className="text-sm text-ink-600">{site.contact.phoneDisplay} · 預約 30 分鐘線上討論</div>
                 </div>
                 <span className="text-xs font-semibold text-ink-500">＞</span>
               </a>
