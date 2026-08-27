@@ -341,6 +341,23 @@ export const moduleDetails: Record<string, ModuleDetail> = {
       { title: '解鎖權限', description: '把票券、課程、貼文分類綁定到等級，達到才看得到。' },
       { title: '積分紀錄', description: '所有積分事件的流水帳，可查詢也可手動發放。' }
     ]
+  },
+  website: {
+    slug: 'website',
+    tagline: '官網自己改，不用每次找工程師',
+    intro:
+      '拖拉式編輯器做出來的品牌官網。頁面、文章、分店頁自己維護，接自己的網域，訪客留下的詢價名單直接進會員系統。',
+    forWho: ['需要品牌官網的店家', '想自己更新內容不想每次外包', '多分店品牌', '靠內容做 SEO 的品牌'],
+    features: [
+      { title: '拖拉式頁面編輯', description: '用 Block 組出頁面，不需要寫程式，改文案改圖自己來。' },
+      { title: '文章與部落格', description: 'Markdown 編輯、分類標籤、排程發布，內容經營的基本盤。' },
+      { title: '分店頁面', description: '每間分店各自一頁，含地區結構化資料，在地搜尋更容易被找到。' },
+      { title: '自訂網域', description: '四步驟精靈把官網接到自己的網域，不用自己碰 DNS 與憑證設定。' },
+      { title: 'SEO 監控', description: '整合 Google Search Console 與 GA4，看得到能見度、流量與關鍵字排名。' },
+      { title: '詢價名單', description: '官網表單收到的留言、詢價、預約集中在一個收件匣，含來源追蹤。' },
+      { title: '視覺模板', description: '套用模板調整品牌配色與字型，不用從零設計。' }
+    ],
+    note: '詢價名單會連到會員資料，官網來的詢問可以直接接後續的推播與追蹤。'
   }
 };
 

@@ -1375,6 +1375,80 @@ export const moduleDemos: Record<string, ModuleDemo> = {
         }
       }
     ]
+  },
+  website: {
+    title: '從改頁面到收到詢價',
+    intro: '官網自己維護，訪客留下的名單直接進會員系統。',
+    steps: [
+      {
+        label: '編頁面',
+        caption: '拖拉 Block 組出頁面，不需要寫程式。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'list',
+          title: '頁面管理',
+          rows: [
+            { left: '首頁', sub: 'Hero + 服務 + 案例 + 表單', badge: '已發布', tone: 'ok' },
+            { left: '關於我們', sub: '品牌故事 + 團隊', badge: '已發布', tone: 'ok' },
+            { left: '秋季活動', sub: '編輯中', badge: '草稿', tone: 'warn' }
+          ]
+        }
+      },
+      {
+        label: '接網域',
+        caption: '四步驟精靈接上自己的網域，不用碰 DNS 與憑證。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'form',
+          title: '自訂網域設定',
+          fields: [
+            { label: '網域', value: 'yourbrand.com' },
+            { label: 'DNS 驗證', value: '已通過' },
+            { label: 'SSL 憑證', value: '已自動簽發' },
+            { label: '狀態', value: '已上線' }
+          ],
+          submit: '完成設定'
+        }
+      },
+      {
+        label: '訪客詢價',
+        caption: '官網表單送出的留言即時進收件匣，含來源追蹤。',
+        actor: '顧客',
+        device: 'phone',
+        screen: {
+          kind: 'form',
+          title: '線上詢價',
+          fields: [
+            { label: '姓名', value: '林小姐' },
+            { label: '聯絡方式', value: '0912-345-678' },
+            { label: '需求', value: '想詢問企業尾牙包場' },
+            { label: '來源', value: 'Google 搜尋 · 秋季活動頁' }
+          ],
+          submit: '送出詢問'
+        }
+      },
+      {
+        label: '看成效',
+        caption: '整合 GSC 與 GA4，看得到能見度、流量與關鍵字排名。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'stats',
+          title: 'SEO 監控 · 近 28 天',
+          stats: [
+            { label: '曝光', value: '18,420' },
+            { label: '點擊', value: '862' },
+            { label: '詢價名單', value: '34' }
+          ],
+          rows: [
+            { left: '尾牙包場 高雄', right: '排名 3.2' },
+            { left: '企業聚餐 推薦', right: '排名 6.8' }
+          ]
+        }
+      }
+    ]
   }
 };
 

@@ -1,7 +1,7 @@
 import {
   UtensilsCrossed, ShoppingCart, CalendarClock, ReceiptText, Scissors, ShoppingBag,
   Fingerprint, GraduationCap, Building2, BedDouble, Route, School, Flame,
-  Bot, ScanLine, PartyPopper, Tent, Trophy, type LucideIcon
+  Bot, ScanLine, PartyPopper, Tent, Trophy, Globe, type LucideIcon
 } from 'lucide-react';
 
 /**
@@ -73,7 +73,7 @@ export const crmModules: CrmModule[] = [
   { id: 'market_expo', mark: '市', title: '市集展覽', category: 'grow', site: 'engage', icon: Tent, description: '攤商管理、QR 集點、電子名片型錄、完攤抽獎' },
   { id: 'game_community', mark: '社', title: '社群與遊戲化', category: 'grow', site: 'engage', icon: Trophy, description: '貼文留言讚、等級曲線、勳章成就、每日打卡、排行榜' },
   { id: 'advanced_reports', mark: '報', title: '進階報表', category: 'grow', description: 'RFM 分群、回購率、棄單率、LTV 終身價值' },
-  { id: 'website', mark: '網', title: '網站經營', category: 'grow', description: '導流頁、品牌官網、內容網站，三階加購方案' },
+  { id: 'website', mark: '網', title: '網站經營', category: 'grow', site: 'engage', icon: Globe, description: '導流頁、品牌官網、內容網站，三階加購方案' },
   { id: 'e_signing', mark: '簽', title: '線上簽約', category: 'grow', description: '範本、發起簽署、LINE 手寫簽名、稽核軌跡' },
   { id: 'chain_management', mark: '鎖', title: '連鎖運營', category: 'grow', description: '區域門市、店長店員角色、店倉、跨店調撥、月結分潤' },
 

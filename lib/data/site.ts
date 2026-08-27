@@ -26,10 +26,30 @@ export const site = {
   }
 };
 
+export type NavChild = {
+  label: string;
+  href: string;
+  desc?: string;
+  /** 服務內容尚未定稿的項目，暫時導到諮詢頁 */
+  pending?: boolean;
+};
+export type NavItem = { label: string; href: string; children?: NavChild[] };
+
 // 「預約諮詢」不放進 nav — 它已經是 header 右側的主要按鈕，重複出現會稀釋點擊
-export const navItems = [
+export const navItems: NavItem[] = [
   { label: '首頁', href: '/' },
-  { label: '解決方案', href: '/solutions' },
+  {
+    label: '解決方案',
+    href: '/solutions',
+    children: [
+      { label: 'LINE@ 行銷規劃', href: '/contact', desc: '導航式行銷策略與導入規劃', pending: true },
+      { label: 'UGO AI CRM', href: '/solutions', desc: '多模組會員裂變系統' },
+      { label: 'LINE@ AI 客服', href: '/solutions/ai_customer_service', desc: '知識庫自動回覆與轉真人' },
+      { label: '官網建置', href: '/solutions/website', desc: '品牌官網、文章與 SEO' },
+      { label: 'LINE@ 智慧名片', href: '/contact', desc: '電子名片與人脈經營', pending: true },
+      { label: 'LINE@ 客製化模組', href: '/contact', desc: '依實際流程量身開發', pending: true }
+    ]
+  },
   { label: '費用方案', href: '/pricing' },
   { label: '成功案例', href: '/cases' },
   { label: 'LINE 經營知識', href: '/blog' },
