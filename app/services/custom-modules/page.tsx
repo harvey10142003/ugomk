@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Blocks, CheckCircle2 } from 'lucide-react';
 import { ModuleGroups } from '@/components/ModuleGroups';
 import { ModuleArchitectureMock } from '@/components/mocks/ModuleArchitectureMock';
@@ -33,7 +34,8 @@ export default function CustomModulesPage() {
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-24">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
+        <div className="container-ug relative grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+          <div>
           <span className="chip-brand">
             <Blocks className="h-3 w-3" />
             LINE@ 客製化模組
@@ -54,6 +56,19 @@ export default function CustomModulesPage() {
             <Link href="/solutions" className="btn-outline">
               看多模組架構
             </Link>
+          </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-brand-100/50 via-mint-100/40 to-transparent blur-3xl" />
+            <Image
+              src="/hero-visual.jpg"
+              alt="模組像積木一樣掛在同一份會員資料上的示意"
+              width={1600}
+              height={900}
+              priority
+              className="relative rounded-2xl shadow-card"
+            />
           </div>
         </div>
       </section>

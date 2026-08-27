@@ -49,12 +49,17 @@ export const metadata: Metadata = {
     url: site.url,
     title: site.name,
     description: site.description,
-    siteName: site.name
+    siteName: site.name,
+    // 原本宣告了 summary_large_image 卻沒給圖，分享出去只有純文字
+    images: [
+      { url: '/og.jpg', width: 1200, height: 630, alt: `${site.name}｜${site.product}` }
+    ]
   },
   twitter: {
     card: 'summary_large_image',
     title: site.name,
-    description: site.description
+    description: site.description,
+    images: ['/og.jpg']
   },
   robots: { index: true, follow: true },
   alternates: { canonical: site.url }
