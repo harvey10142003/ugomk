@@ -9,7 +9,7 @@ import { site } from '@/lib/data/site';
 export const metadata: Metadata = {
   title: 'LINE CRM 客戶案例｜餐飲、美業、課程與會員經營',
   description:
-    '看看不同企業如何把 LINE 用進實際營運：小聚所（課程與體驗活動）、菲韻美甲（美業與多分店管理）、御十三餐酒館（帶客與業績管理）。'
+    '看看不同企業如何把 LINE 用進實際營運：小聚所（課程與體驗活動）、菲韻美甲（美業與多分店管理）、鴨點棧（烤鴨專賣與多分店餐飲）、王子娘（創業課程與顧問服務）。'
 };
 
 const quotes: Record<string, { text: string; author: string; role: string }> = {
@@ -23,11 +23,6 @@ const quotes: Record<string, { text: string; author: string; role: string }> = {
     author: '陳店長',
     role: '菲韻美甲 · 多分店'
   },
-  yu13: {
-    text: '帶客業績以前都用 Excel 算，常常算錯。現在客人加好友的時候掃專屬 QR Code，績效自動算到對的人頭上，結帳時抽成直接算出來，同事自己就會盯著看板確認。',
-    author: '御十三 經理',
-    role: '餐酒館 · 帶客與業績管理'
-  }
 };
 
 export default function CasesPage() {

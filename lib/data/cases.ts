@@ -40,16 +40,29 @@ export const cases: CaseStudy[] = [
     accent: 'mint'
   },
   {
-    id: 'yu13',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&h=700&fit=crop&q=80',
-    name: '御十三餐酒館',
-    industry: '帶客與業績管理',
-    problem: '帶客紀錄與績效以人工計算，容易算錯，也難以即時掌握每位服務人員的實際業績。',
+    id: 'yadianzhan',
+    image: 'https://images.unsplash.com/photo-1592915890261-c96701c071f6?w=1000&h=700&fit=crop&q=80',
+    name: '鴨點棧 烤鴨專賣',
+    industry: '烤鴨專賣與多分店餐飲',
+    problem: '五間分店共用一個 LINE 官方帳號，訂位分別來自電話、現場與線上；烤鴨需要提前備料，但訂位當下沒有地方記錄客人要幾隻。',
     summary:
-      '透過專屬 QR Code 記錄顧客來源，串接會員與現場結帳流程，讓帶客紀錄與績效計算更加清楚。',
-    flow: '顧客掃描服務人員專屬 QR Code 加入好友即綁定來源，現場結帳時系統自動計算對應績效。',
-    modules: ['帶客績效', 'POS 餐飲', '廚房出單螢幕', '會員 + 點數'],
-    outcome: '帶客業績透明、顧客來源一掃即綁定，現場結帳當下就完成績效計算。',
+      '把多店訂位、桌位安排、POS 點餐、廚房出單與電子發票整合成同一套流程，訂位的時候就把烤鴨數量記進單子裡。',
+    flow: '顧客在 LINE 訂位並選擇烤鴨數量，資料直接進入該分店的訂位列表與桌位時間表；現場 POS 送單後各廚房出單站同時收到，結帳完成開立電子發票。',
+    modules: ['餐飲 POS', '餐飲訂位', '發票管理', '連鎖運營', '會員 / 標籤'],
+    outcome: '五間分店在同一套後台運作，三種訂位管道統一檢視；備料需求在訂位當下就記錄下來，不必再另外用電話交代。',
+    accent: 'brand'
+  },
+  {
+    id: 'princemom',
+    image: 'https://images.unsplash.com/photo-1565598571120-4081876df4f7?w=1000&h=700&fit=crop&q=80',
+    name: '王子娘',
+    industry: '創業課程與顧問服務',
+    problem: '課程報名、學員名單與後續聯繫散在表單與通訊軟體之間，開課前要人工整理，課後也難以追蹤誰上過哪幾門課。',
+    summary:
+      '課程開課、報名、報到與學員歷程收進 LINE，並用同一套系統建立品牌官網，官網收到的詢問直接回到會員資料。',
+    flow: '學員在 LINE 內看課表報名，現場掃 QR 完成報到，完課紀錄留在同一筆會員資料；官網表單的詢問名單也進到同一份名單。',
+    modules: ['課程報名', '會員 / 標籤', '官網建置'],
+    outcome: '報名到報到都在 LINE 完成，不必另外發表單；官網與會員系統同源，詢問名單不用手動搬。',
     accent: 'ink'
   }
 ];
@@ -57,7 +70,8 @@ export const cases: CaseStudy[] = [
 export const clientLogos = [
   { name: '小聚所', initial: '聚' },
   { name: '菲韻美甲', initial: '菲' },
-  { name: '御十三餐酒館', initial: '御' },
+  { name: '鴨點棧', initial: '鴨' },
+  { name: '王子娘', initial: '王' },
   { name: 'BNI 富聯白金', initial: 'B' },
   { name: 'LINExAI 學院', initial: 'AI' }
 ];
