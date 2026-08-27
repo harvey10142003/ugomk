@@ -111,14 +111,14 @@ export const memberCoreFields = ['姓名 / 電話', '會員等級', '點數與�
  * on 代表「這間店開了」— 用開/未開的視覺差別讓「不用全買」這件事一眼看懂。
  */
 export const orbitModules = [
-  { mark: '餐', label: '餐飲 POS', on: true },
-  { mark: '位', label: '餐飲訂位', on: true },
-  { mark: '美', label: '美業預約', on: false },
-  { mark: '電', label: '電商商城', on: true },
-  { mark: '課', label: '課程報名', on: false },
-  { mark: 'AI', label: 'AI 客服', on: true },
-  { mark: '社', label: '遊戲化社群', on: false },
-  { mark: '市', label: '市集展覽', on: false }
+  { id: 'pos_restaurant', mark: '餐', label: '餐飲 POS', on: true },
+  { id: 'pos_reservation', mark: '位', label: '餐飲訂位', on: true },
+  { id: 'beauty_booking', mark: '美', label: '美業預約', on: false },
+  { id: 'ecommerce', mark: '電', label: '電商商城', on: true },
+  { id: 'course_enrollment', mark: '課', label: '課程報名', on: false },
+  { id: 'ai_customer_service', mark: 'AI', label: 'AI 客服', on: true },
+  { id: 'game_community', mark: '社', label: '遊戲化社群', on: false },
+  { id: 'market_expo', mark: '市', label: '市集展覽', on: false }
 ];
 
 /** 三種角色、三種介面 — 用實際畫面說明，比講「操作介面層」好懂 */
