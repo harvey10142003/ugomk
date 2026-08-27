@@ -1,3 +1,9 @@
+import {
+  UtensilsCrossed, ShoppingCart, CalendarClock, ReceiptText, Scissors, ShoppingBag,
+  Fingerprint, GraduationCap, Building2, BedDouble, Route, School, Flame,
+  Bot, ScanLine, PartyPopper, Tent, Trophy, type LucideIcon
+} from 'lucide-react';
+
 /**
  * UGO AI CRM 模組清單
  *
@@ -24,6 +30,8 @@ export type CrmModule = {
    * 只是對外講「多模組架構」時它們是預設就在的地基，列出來只會稀釋重點。
    */
   site?: 'store' | 'engage';
+  /** 卡片與模組頁的圖示（只有官網會展示的模組需要） */
+  icon?: LucideIcon;
   description: string;
 };
 
@@ -41,29 +49,29 @@ export const crmModules: CrmModule[] = [
   { id: 'system_management', mark: '系', title: '系統管理', category: 'core', description: '帳號管理、使用記錄、我的帳戶' },
 
   // ── 門市營運 ──
-  { id: 'pos_restaurant', mark: '餐', title: '餐飲 POS', category: 'store', perStore: true, site: 'store', description: '點餐收銀、訂單管理、商品管理、後廚工作台' },
-  { id: 'pos_retail', mark: '零', title: '零售 POS', category: 'store', perStore: true, site: 'store', description: '零售收銀、商品 SKU 條碼、進銷存、退換貨' },
-  { id: 'pos_reservation', mark: '位', title: '餐飲訂位', category: 'store', perStore: true, site: 'store', description: '訂位管理、取號排隊、桌位平面圖、線上訂位' },
-  { id: 'pos_invoice', mark: '票', title: '發票管理', category: 'store', perStore: true, site: 'store', description: '發票參數、捐贈碼、離線字軌、發票列表' },
-  { id: 'beauty_booking', mark: '美', title: '美業預約', category: 'store', perStore: true, site: 'store', description: '服務人員與項目、預約看板、班表、派工單' },
-  { id: 'ecommerce', mark: '電', title: '電商商城', category: 'store', perStore: true, site: 'store', description: '商品變體庫存、購物車、訂單、配送、金流' },
-  { id: 'hr_attendance', mark: '勤', title: '人事出勤', category: 'store', perStore: true, site: 'store', description: '員工打卡、排班、請假加班、月結薪資統計' },
-  { id: 'course_enrollment', mark: '課', title: '課程報名', category: 'store', perStore: true, site: 'store', description: '課程展示行事曆、報名 QR、掃碼報到、學習歷程' },
-  { id: 'venue_booking', mark: '場', title: '場地預約', category: 'store', perStore: true, site: 'store', description: '場地管理、可預約時段、線上預約、預約審核' },
-  { id: 'hotel_booking', mark: '房', title: '訂房', category: 'store', perStore: true, site: 'store', description: '房型管理、日期區間訂房、加購項目、訂金政策' },
-  { id: 'case_dispatch', mark: '派', title: '派案模組', category: 'store', perStore: true, site: 'store', description: '案件課程派遣、接案者分級、搶案指派、課後回饋' },
-  { id: 'cram_school', mark: '補', title: '補習班', category: 'store', perStore: true, site: 'store', description: '學生家長綁定、班級、聯絡簿、點名簽到、公告' },
-  { id: 'temple_management', mark: '廟', title: '宮廟管理', category: 'store', perStore: true, site: 'store', description: '光明燈認購、籤詩抽籤、安太歲名單、香油錢捐獻' },
+  { id: 'pos_restaurant', mark: '餐', title: '餐飲 POS', category: 'store', perStore: true, site: 'store', icon: UtensilsCrossed, description: '點餐收銀、訂單管理、商品管理、後廚工作台' },
+  { id: 'pos_retail', mark: '零', title: '零售 POS', category: 'store', perStore: true, site: 'store', icon: ShoppingCart, description: '零售收銀、商品 SKU 條碼、進銷存、退換貨' },
+  { id: 'pos_reservation', mark: '位', title: '餐飲訂位', category: 'store', perStore: true, site: 'store', icon: CalendarClock, description: '訂位管理、取號排隊、桌位平面圖、線上訂位' },
+  { id: 'pos_invoice', mark: '票', title: '發票管理', category: 'store', perStore: true, site: 'store', icon: ReceiptText, description: '發票參數、捐贈碼、離線字軌、發票列表' },
+  { id: 'beauty_booking', mark: '美', title: '美業預約', category: 'store', perStore: true, site: 'store', icon: Scissors, description: '服務人員與項目、預約看板、班表、派工單' },
+  { id: 'ecommerce', mark: '電', title: '電商商城', category: 'store', perStore: true, site: 'store', icon: ShoppingBag, description: '商品變體庫存、購物車、訂單、配送、金流' },
+  { id: 'hr_attendance', mark: '勤', title: '人事出勤', category: 'store', perStore: true, site: 'store', icon: Fingerprint, description: '員工打卡、排班、請假加班、月結薪資統計' },
+  { id: 'course_enrollment', mark: '課', title: '課程報名', category: 'store', perStore: true, site: 'store', icon: GraduationCap, description: '課程展示行事曆、報名 QR、掃碼報到、學習歷程' },
+  { id: 'venue_booking', mark: '場', title: '場地預約', category: 'store', perStore: true, site: 'store', icon: Building2, description: '場地管理、可預約時段、線上預約、預約審核' },
+  { id: 'hotel_booking', mark: '房', title: '訂房', category: 'store', perStore: true, site: 'store', icon: BedDouble, description: '房型管理、日期區間訂房、加購項目、訂金政策' },
+  { id: 'case_dispatch', mark: '派', title: '派案模組', category: 'store', perStore: true, site: 'store', icon: Route, description: '案件課程派遣、接案者分級、搶案指派、課後回饋' },
+  { id: 'cram_school', mark: '補', title: '補習班', category: 'store', perStore: true, site: 'store', icon: School, description: '學生家長綁定、班級、聯絡簿、點名簽到、公告' },
+  { id: 'temple_management', mark: '廟', title: '宮廟管理', category: 'store', perStore: true, site: 'store', icon: Flame, description: '光明燈認購、籤詩抽籤、安太歲名單、香油錢捐獻' },
   { id: 'bar_hostess', mark: '酒', title: '餐酒館公關', category: 'store', description: '公關管理、專屬 QR 帶客戰績、每日班表與展示頁' },
 
   // ── 成長行銷 ──
   { id: 'marketing_automation', mark: '行', title: '行銷自動化', category: 'grow', description: '訂單、預約、生日、久未回購自動推播發券加點' },
   { id: 'notification_center', mark: '通', title: 'LINE 通知中心', category: 'grow', description: '推播訊息範本管理、批次推播、推播紀錄統計' },
-  { id: 'ai_customer_service', mark: 'AI', title: 'AI 客服', category: 'grow', site: 'engage', description: '自動回覆、知識庫、工具查詢、轉真人、對話分析' },
-  { id: 'invoice_reward', mark: '登', title: '發票登錄', category: 'grow', site: 'engage', description: '登錄別家商店發票換獎勵，支援 QR 條碼與照片辨識' },
-  { id: 'event_module', mark: '宴', title: '活動模組', category: 'grow', site: 'engage', description: '婚禮尾牙春酒：報到 QR、桌號、現場抽獎、感謝牆' },
-  { id: 'market_expo', mark: '市', title: '市集展覽', category: 'grow', site: 'engage', description: '攤商管理、QR 集點、電子名片型錄、完攤抽獎' },
-  { id: 'game_community', mark: '社', title: '社群與遊戲化', category: 'grow', site: 'engage', description: '貼文留言讚、等級曲線、勳章成就、每日打卡、排行榜' },
+  { id: 'ai_customer_service', mark: 'AI', title: 'AI 客服', category: 'grow', site: 'engage', icon: Bot, description: '自動回覆、知識庫、工具查詢、轉真人、對話分析' },
+  { id: 'invoice_reward', mark: '登', title: '發票登錄', category: 'grow', site: 'engage', icon: ScanLine, description: '登錄別家商店發票換獎勵，支援 QR 條碼與照片辨識' },
+  { id: 'event_module', mark: '宴', title: '活動模組', category: 'grow', site: 'engage', icon: PartyPopper, description: '婚禮尾牙春酒：報到 QR、桌號、現場抽獎、感謝牆' },
+  { id: 'market_expo', mark: '市', title: '市集展覽', category: 'grow', site: 'engage', icon: Tent, description: '攤商管理、QR 集點、電子名片型錄、完攤抽獎' },
+  { id: 'game_community', mark: '社', title: '社群與遊戲化', category: 'grow', site: 'engage', icon: Trophy, description: '貼文留言讚、等級曲線、勳章成就、每日打卡、排行榜' },
   { id: 'advanced_reports', mark: '報', title: '進階報表', category: 'grow', description: 'RFM 分群、回購率、棄單率、LTV 終身價值' },
   { id: 'website', mark: '網', title: '網站經營', category: 'grow', description: '導流頁、品牌官網、內容網站，三階加購方案' },
   { id: 'e_signing', mark: '簽', title: '線上簽約', category: 'grow', description: '範本、發起簽署、LINE 手寫簽名、稽核軌跡' },
