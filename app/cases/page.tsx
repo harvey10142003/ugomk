@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, CheckCircle2, Quote } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { cases } from '@/lib/data/cases';
@@ -43,17 +44,29 @@ export default function CasesPage() {
           {cases.map((c, idx) => {
             const q = quotes[c.id];
             return (
-              <article
-                key={c.id}
-                className="card p-8 md:p-12"
-              >
-                <div className="grid gap-10 md:grid-cols-[1fr_2fr] items-start">
-                  <div>
-                    <div className="text-[11px] tracking-widest-2 uppercase font-semibold text-brand-700">
+              <article key={c.id} className="card overflow-hidden">
+                {/* 產業情境照，非客戶實景 —— 用來讓長篇文字有喘息，不宣稱是現場照片 */}
+                <div className="relative h-52 w-full md:h-64">
+                  <Image
+                    src={c.image}
+                    alt={`${c.industry}情境`}
+                    fill
+                    sizes="(min-width: 768px) 900px, 100vw"
+                    className="object-cover"
+                    priority={idx === 0}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/25 to-transparent" />
+                  <div className="absolute bottom-5 left-6 right-6">
+                    <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-200">
                       Case 0{idx + 1}
                     </div>
-                    <h2 className="mt-3 heading-3">{c.name}</h2>
-                    <div className="mt-2 text-sm text-ink-500">{c.industry}</div>
+                    <div className="mt-1 text-2xl font-extrabold text-white">{c.name}</div>
+                  </div>
+                </div>
+
+                <div className="grid gap-10 p-8 md:grid-cols-[1fr_2fr] md:p-12 items-start">
+                  <div>
+                    <h2 className="heading-3">{c.industry}</h2>
                     <div className="mt-6">
                       <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
                         導入的功能

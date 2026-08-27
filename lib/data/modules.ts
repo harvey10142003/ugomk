@@ -167,16 +167,20 @@ export const industryPacks = [
   {
     industry: '餐飲',
     title: '內用外帶 + 訂位',
-    modules: ['餐飲 POS', '餐飲訂位', '發票管理', '行銷自動化', '會員點數']
+    modules: ['餐飲 POS', '餐飲訂位', '發票管理', '行銷自動化', '會員點數'],
+    // Unsplash 免費授權（可商用、免標註）
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&h=600&fit=crop&q=80'
   },
   {
     industry: '美業',
     title: '預約 + 儲值 + 多分店',
-    modules: ['美業預約', '儲值金', '連鎖運營', '人事出勤', '行銷自動化']
+    modules: ['美業預約', '儲值金', '連鎖運營', '人事出勤', '行銷自動化'],
+    image: 'https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=900&h=600&fit=crop&q=80'
   },
   {
     industry: '課程活動',
     title: '報名 + 簽到 + 回訪',
-    modules: ['課程報名', '活動模組', '問卷', '票券', '行銷自動化']
+    modules: ['課程報名', '活動模組', '問卷', '票券', '行銷自動化'],
+    image: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=900&h=600&fit=crop&q=80'
   }
 ];

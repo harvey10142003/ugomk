@@ -81,6 +81,26 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* ─────────── 過場情境照 ─────────── */}
+      <section className="relative h-[280px] w-full overflow-hidden md:h-[380px]">
+        {/* Unsplash 免費授權情境照，非宇果實景 */}
+        <Image
+          src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1800&h=800&fit=crop&q=80"
+          alt="討論營運流程的工作場景"
+          fill
+          sizes="100vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-950/85 via-brand-950/55 to-brand-950/20" />
+        <div className="container-ug relative flex h-full items-center">
+          <p className="max-w-xl text-lg font-bold leading-relaxed text-white md:text-2xl">
+            我們不是把系統交出去就結束，
+            <br />
+            而是陪你把流程走順。
+          </p>
+        </div>
+      </section>
+
       {/* ─────────── 創辦人 ─────────── */}
       <section className="section section-dark">
         <div className="container-ug relative grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">

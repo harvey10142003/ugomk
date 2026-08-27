@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, CheckCircle2, Store, LayoutGrid, Users, Tablet, BarChart3 } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import { ModuleGroups } from '@/components/ModuleGroups';
@@ -274,9 +275,22 @@ export default function SolutionsPage() {
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
             {industryPacks.map((p) => (
-              <article key={p.industry} className="card-hover flex flex-col p-7">
-                <span className="chip-brand self-start">{p.industry}</span>
-                <h3 className="heading-3 mt-5">{p.title}</h3>
+              <article key={p.industry} className="card-hover flex flex-col overflow-hidden">
+                <div className="relative h-44 w-full overflow-hidden">
+                  <Image
+                    src={p.image}
+                    alt={`${p.industry}場景`}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-brand-950/10 to-transparent" />
+                  <span className="absolute bottom-3 left-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-brand-800">
+                    {p.industry}
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-7">
+                <h3 className="heading-3">{p.title}</h3>
                 <ul className="mt-5 flex-1 space-y-2">
                   {p.modules.map((m) => (
                     <li key={m} className="flex items-start gap-2 text-sm text-ink-500">
@@ -288,6 +302,7 @@ export default function SolutionsPage() {
                 <Link href="/cases" className="btn-outline mt-6 self-start px-4 py-2 text-[0.82rem]">
                   看實際案例
                 </Link>
+                </div>
               </article>
             ))}
           </div>
