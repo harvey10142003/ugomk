@@ -5,7 +5,8 @@
 /*
  * Ugomk 官網 — 全站樣式基底
  * 設計語彙：淺色科技風 × UGO 青（#04566B，取自 logo 實際像素）
- * LINE 綠（#06C755）降為語意色，只出現在與 LINE 有關的元件上（btn-line / chip-line / 對話氣泡）
+ * LINE 綠降為語意色，只出現在與 LINE 有關的元件上（btn-line / chip-line / 對話氣泡）
+ * ⚠️ 按鈕底色用 line-700 #038638（配白字 4.70:1）；line-500 #06C755 只有 2.26:1 會掉 a11y
  * 對齊 docs/CIS.md
  */
 
@@ -95,7 +96,7 @@
   }
   /* LINE 專用 — 全站唯一的綠色按鈕 */
   .btn-line {
-    @apply btn bg-line-500 text-white hover:bg-line-600 hover:-translate-y-0.5;
+    @apply btn bg-line-700 text-white hover:bg-line-800 hover:-translate-y-0.5;
   }
 
   /* 卡片 */

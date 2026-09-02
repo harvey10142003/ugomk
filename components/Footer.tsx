@@ -23,7 +23,7 @@ export function Footer() {
             {/* 全站唯一的綠 — 這顆按鈕的動作本身就是「去 LINE」 */}
             <a
               href={site.contact.lineUrl}
-              className="inline-flex items-center gap-2 rounded-full bg-line-500 px-4 py-2 text-sm font-semibold text-white hover:bg-line-600 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-line-700 px-4 py-2 text-sm font-semibold text-white hover:bg-line-800 transition-colors"
             >
               <MessageCircle className="h-4 w-4" />
               加入 LINE 諮詢
