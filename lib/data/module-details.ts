@@ -37,7 +37,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
     forWho: ['內用餐廳', '外帶店', '有廚房出單需求的店家', '多分店餐飲品牌'],
     features: [
       { title: '觸控點餐與送單', description: '以平板操作為前提設計的介面，選桌、點餐、加副選項、送單一氣呵成。' },
-      { title: 'KDS 廚房看板', description: '送單後廚房螢幕立即顯示待製作品項，做好按一下就通知外場，不用喊單。' },
+      { title: '廚房出單看板', description: '送單後廚房螢幕立即顯示待製作品項，做好按一下就通知外場，不用喊單。' },
       { title: '桌位與桌況圖', description: '把餐廳平面圖當底圖，哪張桌在用、哪張空著、幾點有訂位，一眼看得到。' },
       { title: '分帳與拆單', description: '同一桌拆成多份各自結帳、各自開發票，多人聚餐各付各的不用手算。' },
       { title: '會員折扣與點數', description: '結帳時帶出會員資料，折扣、集點、扣儲值金在同一個畫面完成。' },
@@ -55,11 +55,11 @@ export const moduleDetails: Record<string, ModuleDetail> = {
     updatedAt: '2026-08-28',
     tagline: '掃條碼結帳，庫存跟著動',
     intro:
-      '零售門市的收銀與進銷存。採 SPU + 變體（SKU）架構，同一款商品的不同顏色尺寸各自算庫存，賣出、退貨、進貨、盤點都留下異動紀錄。',
+      '零售門市的收銀與進銷存。同一款商品的不同顏色、尺寸各自算庫存，賣出、退貨、進貨、盤點都留下異動紀錄。',
     forWho: ['服飾與配件店', '生活雜貨店', '有庫存管理需求的門市', '需要退換貨流程的品牌'],
     features: [
       { title: '收銀檯', description: '搜尋商品、掃描條碼、加入購物車、辨識會員、結帳收銀在同一個畫面。' },
-      { title: '商品與變體管理', description: '一個商品底下管理多個 SKU，顏色尺寸各自定價與計庫存。' },
+      { title: '商品與變體管理', description: '一個商品底下管理多種款式，顏色與尺寸各自定價、各自計庫存。' },
       { title: '庫存異動全紀錄', description: '銷售、退款、進貨、盤點、手動調整都留下紀錄，庫存對不上時查得到原因。' },
       { title: '退換貨流程', description: '指定要退的品項與數量，走「待處理 → 已核准 → 已完成」的審核流程。' },
       { title: '低庫存提醒', description: '庫存低於門檻的商品集中列出，並可透過 LINE 通知負責人補貨。' },
@@ -358,7 +358,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
       '品牌自己的社群空間。會員在 LINE 內發文、留言、按讚，累積等級與勳章，高等級才能解鎖特定票券或課程。',
     forWho: ['想經營品牌社群', '會員黏著度需要提升', '有課程或內容可以分級開放'],
     features: [
-      { title: '貼文與留言', description: '會員在 LIFF 發文互動，後台可隱藏、精選、置頂與處理檢舉。' },
+      { title: '貼文與留言', description: '會員在 LINE 內發文互動，後台可隱藏、精選、置頂與處理檢舉。' },
       { title: '等級曲線', description: '自訂累積多少分升級、每一級的名稱與顏色。' },
       { title: '勳章與成就', description: '勳章在條件觸發時發放，成就則有進度條需要長期累積。' },
       { title: '排行榜', description: '本週、本月、總榜三種排名，把競爭氛圍視覺化。' },
@@ -375,8 +375,8 @@ export const moduleDetails: Record<string, ModuleDetail> = {
       '拖拉式編輯器做出來的品牌官網。頁面、文章、分店頁自己維護，接自己的網域，訪客留下的詢價名單直接進會員系統。',
     forWho: ['需要品牌官網的店家', '想自己更新內容不想每次外包', '多分店品牌', '靠內容做 SEO 的品牌'],
     features: [
-      { title: '拖拉式頁面編輯', description: '用 Block 組出頁面，不需要寫程式，改文案改圖自己來。' },
-      { title: '文章與部落格', description: 'Markdown 編輯、分類標籤、排程發布，內容經營的基本盤。' },
+      { title: '拖拉式頁面編輯', description: '用現成的版面區塊組出頁面，不需要寫程式，改文案改圖自己來。' },
+      { title: '文章與部落格', description: '線上編輯、分類標籤、排程發布，內容經營的基本盤。' },
       { title: '分店頁面', description: '每間分店各自一頁，含地區結構化資料，在地搜尋更容易被找到。' },
       { title: '自訂網域', description: '四步驟精靈把官網接到自己的網域，不用自己碰 DNS 與憑證設定。' },
       { title: 'SEO 監控', description: '整合 Google Search Console 與 GA4，看得到能見度、流量與關鍵字排名。' },

@@ -50,7 +50,7 @@ export const crmModules: CrmModule[] = [
 
   // ── 門市營運 ──
   { id: 'pos_restaurant', mark: '餐', title: '餐飲 POS', category: 'store', perStore: true, site: 'store', icon: UtensilsCrossed, description: '點餐收銀、訂單管理、商品管理、後廚工作台' },
-  { id: 'pos_retail', mark: '零', title: '零售 POS', category: 'store', perStore: true, site: 'store', icon: ShoppingCart, description: '零售收銀、商品 SKU 條碼、進銷存、退換貨' },
+  { id: 'pos_retail', mark: '零', title: '零售 POS', category: 'store', perStore: true, site: 'store', icon: ShoppingCart, description: '零售收銀、商品條碼、進銷存、退換貨' },
   { id: 'pos_reservation', mark: '位', title: '餐飲訂位', category: 'store', perStore: true, site: 'store', icon: CalendarClock, description: '訂位管理、取號排隊、桌位平面圖、線上訂位' },
   { id: 'pos_invoice', mark: '票', title: '發票管理', category: 'store', perStore: true, site: 'store', icon: ReceiptText, description: '發票參數、捐贈碼、離線字軌、發票列表' },
   { id: 'beauty_booking', mark: '美', title: '美業預約', category: 'store', perStore: true, site: 'store', icon: Scissors, description: '服務人員與項目、預約看板、班表、派工單' },
@@ -72,7 +72,7 @@ export const crmModules: CrmModule[] = [
   { id: 'event_module', mark: '宴', title: '活動模組', category: 'grow', site: 'engage', icon: PartyPopper, description: '婚禮尾牙春酒：報到 QR、桌號、現場抽獎、感謝牆' },
   { id: 'market_expo', mark: '市', title: '市集展覽', category: 'grow', site: 'engage', icon: Tent, description: '攤商管理、QR 集點、電子名片型錄、完攤抽獎' },
   { id: 'game_community', mark: '社', title: '社群與遊戲化', category: 'grow', site: 'engage', icon: Trophy, description: '貼文留言讚、等級曲線、勳章成就、每日打卡、排行榜' },
-  { id: 'advanced_reports', mark: '報', title: '進階報表', category: 'grow', description: 'RFM 分群、回購率、棄單率、LTV 終身價值' },
+  { id: 'advanced_reports', mark: '報', title: '進階報表', category: 'grow', description: '會員分群、回購率、棄單率、顧客終身價值' },
   { id: 'website', mark: '網', title: '網站經營', category: 'grow', site: 'engage', icon: Globe, description: '導流頁、品牌官網、內容網站，三階加購方案' },
   { id: 'e_signing', mark: '簽', title: '線上簽約', category: 'grow', description: '範本、發起簽署、LINE 手寫簽名、稽核軌跡' },
   { id: 'chain_management', mark: '鎖', title: '連鎖運營', category: 'grow', description: '區域門市、店長店員角色、店倉、跨店調撥、月結分潤' },

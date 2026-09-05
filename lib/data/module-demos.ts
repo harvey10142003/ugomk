@@ -94,7 +94,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
         device: 'desktop',
         screen: {
           kind: 'list',
-          title: 'KDS 後廚看板',
+          title: '後廚出單看板',
           caption: '待製作 2 單',
           rows: [
             { left: 'A3 桌 · 招牌牛肉麵 x1', sub: '18:42 送單 · 已過 3 分鐘', badge: '製作中', tone: 'warn' },
@@ -160,8 +160,8 @@ export const moduleDemos: Record<string, ModuleDemo> = {
           title: '收銀檯',
           caption: '購物車 2 件',
           rows: [
-            { left: '棉質上衣 / 白 / M', sub: 'SKU-1042 · 庫存 8', right: '$690' },
-            { left: '帆布托特包', sub: 'SKU-2277 · 庫存 3', right: '$480', badge: '低庫存', tone: 'warn' }
+            { left: '棉質上衣 / 白 / M', sub: '貨號 1042 · 庫存 8', right: '$690' },
+            { left: '帆布托特包', sub: '貨號 2277 · 庫存 3', right: '$480', badge: '低庫存', tone: 'warn' }
           ]
         }
       },
@@ -865,7 +865,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '每日點名',
         caption: '老師逐班點名簽到，出缺席紀錄留存。',
-        actor: '店員',
+        actor: '員工',
         device: 'tablet',
         screen: {
           kind: 'list',
@@ -882,7 +882,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '填聯絡簿',
         caption: '依日期與學生填學習狀況，一鍵推送到家長 LINE。',
-        actor: '店員',
+        actor: '員工',
         device: 'desktop',
         screen: {
           kind: 'form',
@@ -987,7 +987,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '名單管理',
         caption: '認購名單自動建檔，不用再手抄與人工核對。',
-        actor: '老闆',
+        actor: '員工',
         device: 'desktop',
         screen: {
           kind: 'stats',
@@ -1013,7 +1013,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
     steps: [
       {
         label: '顧客提問',
-        caption: 'AI 依你建的知識庫回答，不是隨便亂answer。',
+        caption: 'AI 依你建的知識庫回答，不是隨便亂答。',
         actor: '顧客',
         device: 'phone',
         screen: {
@@ -1239,7 +1239,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '掃攤位 QR',
         caption: '每逛一攤掃一次，點數即時累積。',
-        actor: '顧客',
+        actor: '賓客',
         device: 'phone',
         screen: {
           kind: 'stats',
@@ -1258,7 +1258,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '收藏名片',
         caption: '喜歡的攤商可收藏電子名片與型錄，活動後仍聯絡得上。',
-        actor: '顧客',
+        actor: '賓客',
         device: 'phone',
         screen: {
           kind: 'list',
@@ -1273,7 +1273,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       {
         label: '完攤抽獎',
         caption: '集滿指定點數才能抽，提高逛完全場的誘因。',
-        actor: '顧客',
+        actor: '賓客',
         device: 'phone',
         screen: {
           kind: 'chat',
@@ -1382,7 +1382,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
     steps: [
       {
         label: '編頁面',
-        caption: '拖拉 Block 組出頁面，不需要寫程式。',
+        caption: '拖拉版面區塊組出頁面，不需要寫程式。',
         actor: '老闆',
         device: 'desktop',
         screen: {
@@ -1431,7 +1431,7 @@ export const moduleDemos: Record<string, ModuleDemo> = {
       },
       {
         label: '看成效',
-        caption: '整合 GSC 與 GA4，看得到能見度、流量與關鍵字排名。',
+        caption: '整合 Google Search Console 與 GA4，看得到能見度、流量與關鍵字排名。',
         actor: '老闆',
         device: 'desktop',
         screen: {
