@@ -22,7 +22,9 @@ export const organizationLd = {
     addressRegion: site.contact.addressCity,
     addressCountry: 'TW'
   },
-  sameAs: [site.contact.facebook, site.contact.instagram, site.contact.lineUrl]
+  // 只放確定屬於宇果的帳號。sameAs 等於向 Google 宣告「這些也是我們」，
+  // 放錯的網址會把陌生人的帳號綁成公司的官方社群，比留空傷害大得多。
+  sameAs: [site.contact.lineUrl]
 };
 
 export const websiteLd = {

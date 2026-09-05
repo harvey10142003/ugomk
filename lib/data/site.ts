@@ -22,9 +22,13 @@ export const site = {
     addressDistrict: '橋頭區',
     addressCity: '高雄市',
     lineId: '@ugomk',
-    lineUrl: 'https://line.me/R/ti/p/%40ugomk',
-    facebook: 'https://www.facebook.com/ugomk',
-    instagram: 'https://www.instagram.com/ugomk'
+    lineUrl: 'https://line.me/R/ti/p/%40ugomk'
+    /*
+      ⚠️ 這裡曾放 facebook.com/ugomk 與 instagram.com/ugomk，兩個都不是宇果的帳號
+      （分別是陌生人的私人帳號），卻被 jsonld 的 sameAs 送給 Google 當成公司社群。
+      拿到真實帳號網址再加回來，並記得同步 lib/jsonld.ts 的 sameAs。
+      沒有真帳號時就空著 —— 指錯人比沒有更糟。
+    */
   },
   cta: {
     primary: { label: '預約需求討論', href: '/contact' },
