@@ -132,15 +132,24 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                   Shark 親自操作過 100+ 企業內部工具與 LINE 行銷流程，協助企業把會員經營、行銷自動化與門市營運整理成真正能執行的系統。
                 </p>
               </div>
-              <a
-                href={site.contact.lineUrl}
-                target="_blank"
-                rel="noopener"
-                className="btn-line shrink-0"
-              >
-                <MessageCircle className="h-4 w-4" />
-                加 LINE 聊
-              </a>
+              {/*
+                這頁的 main 裡原本沒有任何連到 /contact 的連結 ——
+                唯一的出口是外部 LINE，讀完文章想進一步了解的人在站內就斷了。
+              */}
+              <div className="flex shrink-0 flex-wrap gap-3">
+                <a
+                  href={site.contact.lineUrl}
+                  target="_blank"
+                  rel="noopener"
+                  className="btn-line"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  加 LINE 聊
+                </a>
+                <Link href={site.cta.primary.href} className="btn-outline">
+                  {site.cta.primary.label}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -11,11 +11,18 @@ const coverBg: Record<Article['cover']['tone'], string> = {
 
 export function ArticleCard({
   article,
-  featured = false
+  featured = false,
+  headingLevel = 'h3'
 }: {
   article: Article;
   featured?: boolean;
+  /**
+   * 卡片標題的階層。預設 h3 是給「已經有 h2 區塊標題」的地方用的（例如文章頁的相關文章）；
+   * /blog 列表頁的卡片直接掛在 h1 底下，要傳 h2，不然 h1 → h3 中間少一階。
+   */
+  headingLevel?: 'h2' | 'h3';
 }) {
+  const Heading = headingLevel;
   const date = new Date(article.publishedAt).toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: '2-digit',
@@ -54,14 +61,14 @@ export function ArticleCard({
             {article.readingMinutes} 分鐘
           </span>
         </div>
-        <h3
+        <Heading
           className={cn(
             'mt-3 font-display font-bold text-ink-900 tracking-tight group-hover:text-brand-700 transition-colors',
             featured ? 'text-2xl md:text-3xl' : 'text-lg'
           )}
         >
           {article.title}
-        </h3>
+        </Heading>
         <p
           className={cn(
             'mt-3 leading-relaxed text-ink-500 flex-1',

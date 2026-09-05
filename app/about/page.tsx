@@ -17,6 +17,8 @@ export const metadata: Metadata = pageMeta({
 });
 
 export default function AboutPage() {
+  const publishedMilestones = milestones.filter((m) => !m.pending);
+
   return (
     <>
       <JsonLd data={organizationLd} />
@@ -92,33 +94,41 @@ export default function AboutPage() {
       </section>
 
       {/* ─────────── 里程碑 ─────────── */}
-      <section className="section">
-        <div className="container-ug grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 items-start">
-          {/* 左欄內容短，跟著捲動貼住頂端，避免右側時間軸拉長後左邊出現大片空白 */}
-          <div className="lg:sticky lg:top-28">
-            <span className="eyebrow">Milestones</span>
-            <h2 className="heading-2 mt-3 text-balance">一路走過來</h2>
-            <p className="body-base mt-5">年份與事件以實際紀錄為準，尚未確認的先留空。</p>
+      {/*
+        pending 的項目不渲染。about.ts 的註解宣稱會顯示 placeholder，但渲染端
+        從來沒讀過 m.pending —— 結果線上真的印出「待補」「待確認實際年份與說明」
+        給客戶看。資料留著不動，年份確認後把 pending 拿掉就會自動出現；
+        目前四筆全是 pending，整個區塊會暫時不出現（空時間軸比沒有更糟）。
+      */}
+      {publishedMilestones.length > 0 ? (
+        <section className="section">
+          <div className="container-ug grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 items-start">
+            {/* 左欄內容短，跟著捲動貼住頂端，避免右側時間軸拉長後左邊出現大片空白 */}
+            <div className="lg:sticky lg:top-28">
+              <span className="eyebrow">Milestones</span>
+              <h2 className="heading-2 mt-3 text-balance">一路走過來</h2>
+              <p className="body-base mt-5">年份與事件以實際紀錄為準，尚未確認的先留空。</p>
+            </div>
+            <ol className="relative pl-8">
+              <span
+                className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5 rounded-full bg-gradient-to-b from-brand-300 to-brand-100"
+                aria-hidden
+              />
+              {publishedMilestones.map((m) => (
+                <li key={m.title} className="relative pb-9 last:pb-0">
+                  <span
+                    className="absolute -left-8 top-1 h-4 w-4 rounded-full border-[3px] border-brand-500 bg-white"
+                    aria-hidden
+                  />
+                  <div className="font-mono text-sm font-bold tracking-wide text-brand-600">{m.year}</div>
+                  <div className="mt-1 text-lg font-bold text-ink-900">{m.title}</div>
+                  {m.description ? <p className="mt-1 text-sm text-ink-400">{m.description}</p> : null}
+                </li>
+              ))}
+            </ol>
           </div>
-          <ol className="relative pl-8">
-            <span
-              className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5 rounded-full bg-gradient-to-b from-brand-300 to-brand-100"
-              aria-hidden
-            />
-            {milestones.map((m) => (
-              <li key={m.title} className="relative pb-9 last:pb-0">
-                <span
-                  className="absolute -left-8 top-1 h-4 w-4 rounded-full border-[3px] border-brand-500 bg-white"
-                  aria-hidden
-                />
-                <div className="font-mono text-sm font-bold tracking-wide text-brand-600">{m.year}</div>
-                <div className="mt-1 text-lg font-bold text-ink-900">{m.title}</div>
-                {m.description ? <p className="mt-1 text-sm text-ink-400">{m.description}</p> : null}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       {/* ─────────── 旗下站點 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">

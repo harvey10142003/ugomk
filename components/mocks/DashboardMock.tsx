@@ -24,7 +24,7 @@ export function DashboardMock() {
         <div className="ml-3 flex-1 max-w-xs">
           <div className="flex items-center gap-1.5 rounded-md bg-mist-200 px-2.5 py-1 text-[10px] text-ink-500">
             <span className="text-brand-500">●</span>
-            admin.ugomkcrm.com
+            crm.ugomk.com
           </div>
         </div>
       </div>

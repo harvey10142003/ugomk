@@ -147,7 +147,7 @@ function Device({ kind, children }: { kind: 'phone' | 'tablet' | 'desktop'; chil
         <span className="h-2 w-2 rounded-full bg-ink-200" />
         <span className="h-2 w-2 rounded-full bg-ink-200" />
         <span className="h-2 w-2 rounded-full bg-ink-200" />
-        <span className="ml-2 font-mono text-[10px] text-ink-400">admin.ugomkcrm.com</span>
+        <span className="ml-2 font-mono text-[10px] text-ink-400">crm.ugomk.com</span>
       </div>
       <div className="min-h-[340px] bg-mist-200 p-4">{children}</div>
     </div>
@@ -189,9 +189,11 @@ function Screen({ screen }: { screen: DemoScreen }) {
               <div
                 className={cn(
                   'max-w-[190px] whitespace-pre-line px-3 py-2 text-[11px] leading-relaxed',
+                  // 顧客那側的氣泡出現在 19 個模組頁的 8 個對話 demo：
+                  // 綠底白字只有 2.26:1，改深字後 8.49:1，也更接近 LINE 實際的樣子
                   m.from === 'brand'
                     ? 'rounded-2xl rounded-bl-sm bg-white text-ink-800 shadow-soft'
-                    : 'rounded-2xl rounded-br-sm bg-line-500 text-white'
+                    : 'rounded-2xl rounded-br-sm bg-line-500 text-ink-900'
                 )}
               >
                 {m.text}

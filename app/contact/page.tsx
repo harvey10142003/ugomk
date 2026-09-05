@@ -23,7 +23,8 @@ export default function ContactPage() {
       <section className="section">
         <div className="container-ug grid gap-10 lg:grid-cols-[1.2fr_1fr]">
           <div className="card p-8 md:p-10">
-            <h2 className="heading-3">三種方式找到我們</h2>
+            {/* 與 /solutions、/services/* 的區塊標題同階 */}
+            <h2 className="heading-2">三種方式找到我們</h2>
             <p className="body-base mt-4">挑你最順手的：</p>
 
             <div className="mt-8 space-y-4">

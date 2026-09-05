@@ -67,7 +67,8 @@ function SmartCardMock() {
                 </div>
                 {/* 按鈕 */}
                 <div className="space-y-1.5 border-t border-ink-100 p-2.5">
-                  <div className="rounded-lg bg-line-500 py-2 text-center text-[10px] font-bold text-white">
+                  {/* 白字配 #06C755 只有 2.26:1；按鈕沿用 .btn-line 的 line-700（4.70:1） */}
+                  <div className="rounded-lg bg-line-700 py-2 text-center text-[10px] font-bold text-white">
                     加入 LINE 好友
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -84,7 +85,8 @@ function SmartCardMock() {
 
             {/* 轉傳提示 */}
             <div className="mt-3 flex justify-end">
-              <div className="rounded-2xl rounded-br-sm bg-line-500 px-3 py-2 text-[11px] text-white">
+              {/* 氣泡保留 #06C755 綠底但改深字 —— LINE 桌機版本身就是深字綠底（8.49:1） */}
+              <div className="rounded-2xl rounded-br-sm bg-line-500 px-3 py-2 text-[11px] text-ink-900">
                 我把名片轉給朋友了
               </div>
             </div>

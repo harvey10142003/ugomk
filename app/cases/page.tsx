@@ -64,7 +64,8 @@ export default function CasesPage() {
 
                 <div className="grid gap-10 p-8 md:grid-cols-[1fr_2fr] md:p-12 items-start">
                   <div>
-                    <h2 className="heading-3">{c.industry}</h2>
+                    {/* 07-17 這批頁面的區塊標題整整比其他頁小一階，抬齊到 heading-2 */}
+                    <h2 className="heading-2">{c.industry}</h2>
                     <div className="mt-6">
                       <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
                         導入的功能

@@ -31,6 +31,7 @@ import { LogoBar } from '@/components/LogoBar';
 import { StatsBar } from '@/components/StatsBar';
 import { Testimonial } from '@/components/Testimonial';
 import { pageMeta } from '@/lib/seo';
+import { cn } from '@/lib/utils';
 
 // 首頁自己宣告 canonical，不靠繼承 —— 見 lib/seo.ts 開頭的說明
 const HOME_TITLE = `${site.name}｜${site.tagline}`;
@@ -452,7 +453,8 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {/* cases 已經是 4 筆；三欄會讓第二列只剩一張卡，2×2 才排得滿 */}
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
             {cases.map((c) => (
               <article key={c.id} className="card-hover p-7 flex flex-col">
                 <div className="text-[11px] tracking-widest-2 uppercase font-semibold text-brand-700">
@@ -486,11 +488,14 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((p) => (
               <article
                 key={p.id}
-                className={p.highlight ? 'card-glow p-8 relative' : 'card-hover p-8 relative'}
+                className={cn(
+                  'relative flex h-full flex-col p-8',
+                  p.highlight ? 'card-glow' : 'card-hover'
+                )}
               >
                 {p.highlight ? (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1 text-xs font-bold text-white">
@@ -509,7 +514,8 @@ export default function HomePage() {
                   <span className="text-sm text-ink-400">{p.priceSuffix}</span>
                 </div>
                 <p className="mt-3 text-sm leading-relaxed text-ink-500">{p.description}</p>
-                <ul className="mt-6 space-y-2.5">
+                {/* flex-1 吃掉高度差，三顆 CTA 才會落在同一條水平線上 */}
+                <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.slice(0, 5).map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-ink-700">
                       <CheckCircle2 className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
@@ -519,7 +525,7 @@ export default function HomePage() {
                 </ul>
                 <Link
                   href={p.cta.href}
-                  className={p.highlight ? 'btn-brand mt-8 w-full' : 'btn-outline mt-8 w-full'}
+                  className={cn('mt-8 w-full', p.highlight ? 'btn-brand' : 'btn-outline')}
                 >
                   {p.cta.label}
                 </Link>

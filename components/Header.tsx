@@ -52,7 +52,12 @@ export function Header() {
           : 'bg-white/70 backdrop-blur-sm'
       )}
     >
-      <div className="container-ug flex h-18 md:h-20 items-center justify-between gap-5">
+      {/*
+        h-18 不在 Tailwind 的間距刻度裡（沒有 18），這個 class 一直是靜默失效的，
+        手機版的高度其實是被內容撐出來的。CTA 進來之後內容高 44px，
+        沒有 h-16 兜底的話 logo 上下各只剩 4px。
+      */}
+      <div className="container-ug flex h-16 md:h-20 items-center justify-between gap-5">
         <Link href="/" className="shrink-0" aria-label={`${site.name} 首頁`}>
           <Image
             src="/ugo-logo.png"
@@ -157,16 +162,24 @@ export function Header() {
           })}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-3 shrink-0">
-          <Link href={site.cta.primary.href} className="btn-brand">
-            {site.cta.primary.label}
+        {/*
+          這顆按鈕原本包在 hidden lg:flex 裡，小於 lg 整顆不渲染。
+          site.ts 的註解說「預約諮詢不放進 nav，因為它已經是 header 右側的主要按鈕」——
+          這個前提在手機上是假的，結果手機訪客的常駐入口從 1 個變成 0 個
+          （而 LINE 點進來的訪客幾乎都是手機）。
+          小螢幕縮 padding、換短文案；.btn 已有 whitespace-nowrap，不會破版。
+        */}
+        <div className="flex items-center gap-3 shrink-0">
+          <Link href={site.cta.primary.href} className="btn-brand px-4 lg:px-6">
+            <span className="lg:hidden">預約諮詢</span>
+            <span className="hidden lg:inline">{site.cta.primary.label}</span>
           </Link>
         </div>
 
         <button
           aria-label={open ? '關閉選單' : '開啟選單'}
           aria-expanded={open}
-          className="lg:hidden p-2 text-ink-700"
+          className="lg:hidden -mr-2 p-2 text-ink-700"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -230,7 +243,8 @@ export function Header() {
                               </span>
                             ) : null}
                           </span>
-                          {c.desc ? <div className="mt-0.5 text-xs text-ink-300">{c.desc}</div> : null}
+                          {/* 桌機版同一段用 ink-400（4.83:1）；ink-300 只有 2.48:1 */}
+                          {c.desc ? <div className="mt-0.5 text-xs text-ink-400">{c.desc}</div> : null}
                         </Link>
                       ))}
                     </div>
