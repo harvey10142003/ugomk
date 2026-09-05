@@ -106,7 +106,18 @@ export function Footer() {
           <p className="text-xs text-brand-300">
             © {new Date().getFullYear()} {site.name} Yu Guo International Marketing. All rights reserved.
           </p>
-          <p className="text-[10px] tracking-widest-2 uppercase text-brand-300">{site.product}</p>
+          <div className="flex items-center gap-4">
+            {/* 表單有蒐集個資，隱私權說明必須全站可達 —— footer 是唯一每頁都在的位置 */}
+            <Link
+              href="/privacy"
+              className="text-xs text-brand-300 hover:text-white transition-colors"
+            >
+              隱私權說明
+            </Link>
+            <span className="text-[10px] tracking-widest-2 uppercase text-brand-300">
+              {site.product}
+            </span>
+          </div>
         </div>
       </div>
     </footer>

@@ -15,12 +15,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const staticPages = [
     '', '/solutions', '/about', '/pricing', '/cases', '/blog', '/contact',
-    '/services/line-marketing', '/services/smart-card', '/services/custom-modules'
+    '/services/line-marketing', '/services/smart-card', '/services/custom-modules',
+    '/privacy'
   ].map((p) => ({
     url: `${base}${p}`,
     lastModified: at(pageUpdatedAt[p]),
     changeFrequency: 'weekly' as const,
-    priority: p === '' ? 1 : 0.8
+    // 隱私權說明是義務性頁面，不該和內容頁搶排名權重
+    priority: p === '' ? 1 : p === '/privacy' ? 0.2 : 0.8
   }));
   // 每個模組說明頁都要進 sitemap —— 這些頁面是長尾搜尋的主要入口
   const modulePages = Object.values(moduleDetails).map((m) => ({

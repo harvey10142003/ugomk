@@ -71,13 +71,14 @@ export const navItems: NavItem[] = [
  * 改頁面內容時順手把這裡的日期一起改。
  */
 export const pageUpdatedAt: Record<string, string> = {
-  '': '2026-08-27',
+  '': '2026-09-05',
   '/solutions': '2026-08-28',
   '/about': '2026-08-28',
   '/pricing': '2026-08-27',
   '/cases': '2026-08-28',
   '/blog': '2026-07-17',
-  '/contact': '2026-08-28',
+  '/contact': '2026-09-05',
+  '/privacy': '2026-09-05',
   '/services/line-marketing': '2026-08-28',
   '/services/smart-card': '2026-08-28',
   '/services/custom-modules': '2026-08-28'

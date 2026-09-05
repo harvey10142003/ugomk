@@ -559,7 +559,9 @@ export default function HomePage() {
                 先不用決定買哪個方案，從你現在卡住的地方開始談
               </h2>
               <p className="body-base mt-5 text-ink-300 max-w-2xl mx-auto">
-                你可以告訴我們目前的 LINE 好友數、產業、分店數量，以及最希望改善的問題。我們會先協助判斷：
+                {/* 這句是對 /contact 表單的承諾，欄位改了這裡要跟著改：
+                    表單問的是產業、分店數量與想解決的問題，沒有問好友數。 */}
+                你可以告訴我們目前的產業、分店數量，以及最希望改善的問題。我們會先協助判斷：
               </p>
               <ul className="mt-6 inline-flex flex-col items-start gap-2 text-left text-sm text-ink-300">
                 {[
