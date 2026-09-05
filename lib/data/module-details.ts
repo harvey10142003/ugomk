@@ -17,12 +17,20 @@ export type ModuleDetail = {
   features: { title: string; description: string }[];
   /** 需要注意的前提或搭配關係 */
   note?: string;
+  /**
+   * 這份說明最後一次改內容的日期（YYYY-MM-DD）。
+   * sitemap 的 lastmod 讀這個欄位 —— 原本用 new Date()，等於每次部署都
+   * 宣稱全站今天更新過，Google 學會之後就整個站的 lastmod 都不看了。
+   * 改到這一頁的文案時，順手把日期一起改。
+   */
+  updatedAt: string;
 };
 
 export const moduleDetails: Record<string, ModuleDetail> = {
   // ══════════ 門市營運模組 ══════════
   pos_restaurant: {
     slug: 'pos_restaurant',
+    updatedAt: '2026-08-28',
     tagline: '點餐、出單、結帳、對帳，一台平板做完',
     intro:
       '為餐飲現場設計的觸控收銀。店員在平板上點餐送單，廚房立刻看到；結帳時會員折扣與點數同時算完，當天營業額不用另外整理。',
@@ -44,6 +52,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_retail: {
     slug: 'pos_retail',
+    updatedAt: '2026-08-28',
     tagline: '掃條碼結帳，庫存跟著動',
     intro:
       '零售門市的收銀與進銷存。採 SPU + 變體（SKU）架構，同一款商品的不同顏色尺寸各自算庫存，賣出、退貨、進貨、盤點都留下異動紀錄。',
@@ -61,6 +70,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_reservation: {
     slug: 'pos_reservation',
+    updatedAt: '2026-08-28',
     tagline: '線上訂位、電話訂位、現場取號，同一份名單',
     intro:
       '顧客在 LINE 上完成訂位，店員在後台或 POS 看到同一筆資料。現場排隊取號、桌位安排、no-show 追蹤都在同一個模組裡。',
@@ -81,6 +91,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_invoice: {
     slug: 'pos_invoice',
+    updatedAt: '2026-08-28',
     tagline: '結帳完成，發票自動開出來',
     intro:
       '電子發票開立、作廢、折讓與列印。結帳時自動觸發開立，發票證明聯直接從店裡的出單機印出來，字軌與捐贈碼在後台集中管理。',
@@ -99,6 +110,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   beauty_booking: {
     slug: 'beauty_booking',
+    updatedAt: '2026-08-28',
     tagline: '預約、班表、開單、儲值金，設計師與櫃台共用一套',
     intro:
       '美業的預約與收銀。顧客在 LINE 選設計師與服務項目預約，班表自動擋掉沒排班的時段；做完在櫃台開單結帳，可扣儲值金。',
@@ -118,6 +130,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   ecommerce: {
     slug: 'ecommerce',
+    updatedAt: '2026-08-28',
     tagline: '線上商城，訂單與會員接回同一套系統',
     intro:
       '完整的線上購物流程：商品上架、購物車、金流、配送、訂單通知。買過的紀錄回到同一筆會員資料上，線上線下的消費合併計算。',
@@ -138,6 +151,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   hr_attendance: {
     slug: 'hr_attendance',
+    updatedAt: '2026-08-28',
     tagline: '打卡、排班、請假、月結薪資統計',
     intro:
       '員工用手機打卡，班表與出勤紀錄自動對照。請假與加班走線上審核，月底直接產出結算報表，不用再對紙本班表。',
@@ -155,6 +169,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   course_enrollment: {
     slug: 'course_enrollment',
+    updatedAt: '2026-08-28',
     tagline: '開課、報名、報到、追蹤學習歷程',
     intro:
       '課程與聚會的完整流程。學員在 LINE 上看課表報名，現場掃 QR 報到，完課紀錄留在會員資料裡，之後要邀他上下一門課有依據。',
@@ -175,6 +190,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   venue_booking: {
     slug: 'venue_booking',
+    updatedAt: '2026-08-28',
     tagline: '場地時段線上預約與審核',
     intro:
       '把場地的可用時段開放線上預約。顧客自行選時段送出申請，管理端審核、收訂金、記錄收款，封閉日期優先於一般規則。',
@@ -191,6 +207,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   hotel_booking: {
     slug: 'hotel_booking',
+    updatedAt: '2026-08-28',
     tagline: '房型、房況、加價規則與訂房管理',
     intro:
       '民宿與旅館的線上訂房。顧客選日期區間與房型下單，房況月曆顯示未來每天的剩餘房數，週末與連假可自動加價。',
@@ -209,6 +226,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   case_dispatch: {
     slug: 'case_dispatch',
+    updatedAt: '2026-08-28',
     tagline: '案件派遣、接案者分級、課後回饋',
     intro:
       '把案件或課程發給外部接案者。可以開放搶案，也可以直接指派；接案者分等級決定能接哪些案，完成後系統自動建立結算單。',
@@ -226,6 +244,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   cram_school: {
     slug: 'cram_school',
+    updatedAt: '2026-08-28',
     tagline: '點名、聯絡簿、成績、學費，家長在 LINE 收得到',
     intro:
       '補習班的日常行政。學生綁定家長會員後，點名、聯絡簿、成績、公告與學費催繳都能推到家長的 LINE，不用再靠紙本轉交。',
@@ -244,6 +263,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   temple_management: {
     slug: 'temple_management',
+    updatedAt: '2026-08-28',
     tagline: '點燈、安太歲、抽籤、香油錢線上化',
     intro:
       '宮廟的信眾服務。點燈認購、法事報名、隨喜功德在 LINE 上完成，名單自動建檔，不用再手抄與人工核對。',
@@ -262,6 +282,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   // ══════════ 顧客互動模組 ══════════
   ai_customer_service: {
     slug: 'ai_customer_service',
+    updatedAt: '2026-08-28',
     tagline: '常見問題交給 AI，複雜的轉真人',
     intro:
       '用你自己的資料訓練的 LINE 客服。回答依據來自你建的知識庫，答不出來或顧客要求時轉給真人，對話紀錄完整保留。',
@@ -279,6 +300,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   invoice_reward: {
     slug: 'invoice_reward',
+    updatedAt: '2026-08-28',
     tagline: '登錄發票換獎勵，把別家的消費者變成你的會員',
     intro:
       '消費者上傳發票就能換點數、票券或抽獎機會。可以登錄別家商店的發票，適合品牌主辦的跨通路促銷，參加者會留在你的會員名單裡。',
@@ -296,6 +318,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   event_module: {
     slug: 'event_module',
+    updatedAt: '2026-08-28',
     tagline: '婚禮、尾牙、春酒的報到與現場互動',
     intro:
       '一次性大型聚會的完整流程。賓客名單、桌位安排、現場 QR 報到、抽獎與感謝牆都在同一個模組裡，活動結束名單留在會員系統。',
@@ -312,6 +335,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   market_expo: {
     slug: 'market_expo',
+    updatedAt: '2026-08-28',
     tagline: '攤位集點與完攤抽獎，讓訪客把整場逛完',
     intro:
       '市集、展覽與園遊會的參與機制。訪客掃攤位 QR 集點，集滿參加完攤抽獎；攤主可以用 LINE 登入自行管理攤位資料。',
@@ -328,6 +352,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   game_community: {
     slug: 'game_community',
+    updatedAt: '2026-08-28',
     tagline: '把會員從收優惠券，變成會回來互動',
     intro:
       '品牌自己的社群空間。會員在 LINE 內發文、留言、按讚，累積等級與勳章，高等級才能解鎖特定票券或課程。',
@@ -344,6 +369,7 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   },
   website: {
     slug: 'website',
+    updatedAt: '2026-08-28',
     tagline: '官網自己改，不用每次找工程師',
     intro:
       '拖拉式編輯器做出來的品牌官網。頁面、文章、分店頁自己維護，接自己的網域，訪客留下的詢價名單直接進會員系統。',

@@ -6,13 +6,15 @@ import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
 import { organizationLd } from '@/lib/jsonld';
 import { positioning, approach, milestones, sites } from '@/lib/data/about';
+import { CtaBlock } from '@/components/CtaBlock';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/about',
   title: '關於宇果｜把 LINE 當成營運系統在做的團隊',
   description:
-    '宇果國際行銷來自高雄，替餐飲、美業、零售與課程品牌把 LINE 官方帳號接上會員、消費與推薦裂變，讓每一次互動都留下可以再利用的資料。',
-  alternates: { canonical: '/about' }
-};
+    '宇果國際行銷來自高雄，替餐飲、美業、零售與課程品牌把 LINE 官方帳號接上會員、消費與推薦裂變，讓每一次互動都留下可以再利用的資料。'
+});
 
 export default function AboutPage() {
   return (
@@ -147,21 +149,11 @@ export default function AboutPage() {
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <h2 className="heading-3 text-balance">想知道你的營運流程能怎麼接？</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              先聊聊現在的流程卡在哪裡，我們再判斷要開哪些模組。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/solutions" className="btn-outline">
-                查看解決方案
-              </Link>
-            </div>
-          </div>
+          <CtaBlock
+            title="想知道你的營運流程能怎麼接？"
+            description="先聊聊現在的流程卡在哪裡，我們再判斷要開哪些模組。"
+            secondary={{ label: '查看解決方案', href: '/solutions' }}
+          />
         </div>
       </section>
     </>

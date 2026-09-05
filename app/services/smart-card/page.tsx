@@ -3,13 +3,18 @@ import Link from 'next/link';
 import { ArrowRight, ContactRound, Phone, MapPin, Globe, Share2, MessageCircle, CheckCircle2 } from 'lucide-react';
 import { cardActions } from '@/lib/data/services';
 import { site } from '@/lib/data/site';
+import { RelatedServices } from '@/components/RelatedServices';
+import { CtaBlock } from '@/components/CtaBlock';
+import { JsonLd } from '@/components/JsonLd';
+import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/smart-card',
   title: 'LINE@ 智慧名片｜用 Flex 圖卡做的數位名片，可點擊也可轉傳',
   description:
-    '用 LINE Flex 圖卡製作的數位名片：點電話直接撥號、點地址開導航、點按鈕加好友，對方還能整張轉傳給朋友。內容隨時改，不用重印。',
-  alternates: { canonical: '/services/smart-card' }
-};
+    '用 LINE Flex 圖卡製作的數位名片：點電話直接撥號、點地址開導航、點按鈕加好友，對方還能整張轉傳給朋友。內容隨時改，不用重印。'
+});
 
 /** Flex 名片示意 —— 用 CSS 重現 LINE 裡收到的樣子 */
 function SmartCardMock() {
@@ -117,6 +122,23 @@ function SmartCardMock() {
 export default function SmartCardPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          serviceLd({
+            name: 'LINE@ 智慧名片',
+            description:
+              '用 LINE Flex 圖卡製作的數位名片：點電話直接撥號、點地址開導航、點按鈕加好友，對方還能整張轉傳給朋友。',
+            path: '/services/smart-card',
+            serviceType: 'LINE 數位名片設計與製作'
+          }),
+          breadcrumbLd([
+            { name: '首頁', path: '/' },
+            { name: '解決方案', path: '/solutions' },
+            { name: 'LINE@ 智慧名片', path: '/services/smart-card' }
+          ])
+        ]}
+      />
+
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
@@ -253,24 +275,24 @@ export default function SmartCardPage() {
         </div>
       </section>
 
+      <RelatedServices current="/services/smart-card" />
+
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <h2 className="heading-3 text-balance">想看實際的卡片長什麼樣？</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              加我們的 LINE，直接把一張智慧名片傳給你，你就知道對方收到會是什麼感覺。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a href={site.contact.lineUrl} target="_blank" rel="noopener" className="btn-line">
-                <MessageCircle className="h-4 w-4" />
-                加 LINE 看範例
-              </a>
-              <Link href={site.cta.primary.href} className="btn-outline">
-                {site.cta.primary.label}
-              </Link>
-            </div>
-          </div>
+          {/* 這頁的主動作是「去 LINE 拿範例」，不是站內導向 —— 按鈕列自己畫 */}
+          <CtaBlock
+            title="想看實際的卡片長什麼樣？"
+            description="加我們的 LINE，直接把一張智慧名片傳給你，你就知道對方收到會是什麼感覺。"
+          >
+            <a href={site.contact.lineUrl} target="_blank" rel="noopener" className="btn-line">
+              <MessageCircle className="h-4 w-4" />
+              加 LINE 看範例
+            </a>
+            <Link href={site.cta.primary.href} className="btn-outline">
+              {site.cta.primary.label}
+            </Link>
+          </CtaBlock>
         </div>
       </section>
     </>

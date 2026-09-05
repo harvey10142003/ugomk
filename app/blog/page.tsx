@@ -2,12 +2,14 @@ import type { Metadata } from 'next';
 import { PageHero } from '@/components/PageHero';
 import { ArticleCard } from '@/components/ArticleCard';
 import { articles } from '@/lib/data/articles';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/blog',
   title: 'LINE 經營知識',
   description:
     '給經營者的 LINE 會員經營筆記：會員制度規劃、行銷自動化實務、多分店營運，專注討論真正用得上的決策邏輯。'
-};
+});
 
 export default function BlogPage() {
   const [first, ...rest] = articles;

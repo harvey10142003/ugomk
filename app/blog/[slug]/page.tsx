@@ -7,6 +7,8 @@ import { ArticleBody } from '@/components/ArticleBody';
 import { ArticleCard } from '@/components/ArticleCard';
 import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
+import { breadcrumbLd } from '@/lib/jsonld';
+import { pageMeta, OG_IMAGE } from '@/lib/seo';
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -15,18 +17,16 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const a = articleBySlug(params.slug);
   if (!a) return { title: '文章不存在' };
-  return {
+  return pageMeta({
+    path: `/blog/${a.slug}`,
     title: a.title,
     description: a.excerpt,
-    openGraph: {
-      type: 'article',
-      title: a.title,
-      description: a.excerpt,
-      publishedTime: a.publishedAt,
-      authors: [a.author.name]
-    },
-    alternates: { canonical: `${site.url}/blog/${a.slug}` }
-  };
+    ogType: 'article',
+    // 文章沒有自己的社群圖，退回全站 og.jpg —— 原本連 images 都沒給，
+    // 宣告了 summary_large_image 卻分享出純文字卡
+    ogImage: OG_IMAGE,
+    article: { publishedTime: a.publishedAt, authors: [a.author.name] }
+  });
 }
 
 const coverBg: Record<'brand' | 'ink' | 'mint', string> = {
@@ -61,9 +61,15 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
     inLanguage: 'zh-TW'
   };
 
+  const breadcrumb = breadcrumbLd([
+    { name: '首頁', path: '/' },
+    { name: 'LINE 經營知識', path: '/blog' },
+    { name: a.title, path: `/blog/${a.slug}` }
+  ]);
+
   return (
     <>
-      <JsonLd data={articleLd} />
+      <JsonLd data={[articleLd, breadcrumb]} />
 
       {/* Hero / Cover */}
       <section className={`${coverBg[a.cover.tone]} pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden`}>

@@ -7,6 +7,10 @@ import { moduleDemos } from '@/lib/data/module-demos';
 import { ModuleDemo } from '@/components/ModuleDemo';
 import { moduleDetails } from '@/lib/data/module-details';
 import { site } from '@/lib/data/site';
+import { CtaBlock } from '@/components/CtaBlock';
+import { JsonLd } from '@/components/JsonLd';
+import { breadcrumbLd } from '@/lib/jsonld';
+import { pageMeta } from '@/lib/seo';
 
 type Props = { params: { slug: string } };
 
@@ -19,11 +23,11 @@ export function generateMetadata({ params }: Props): Metadata {
   const detail = moduleDetails[params.slug];
   const mod = crmModules.find((m) => m.id === params.slug);
   if (!detail || !mod) return {};
-  return {
+  return pageMeta({
+    path: `/solutions/${params.slug}`,
     title: `${mod.title}｜${detail.tagline}`,
-    description: detail.intro,
-    alternates: { canonical: `/solutions/${params.slug}` }
-  };
+    description: detail.intro
+  });
 }
 
 export default function ModulePage({ params }: Props) {
@@ -38,6 +42,14 @@ export default function ModulePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbLd([
+          { name: '首頁', path: '/' },
+          { name: '解決方案', path: '/solutions' },
+          { name: mod.title, path: `/solutions/${params.slug}` }
+        ])}
+      />
+
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-20">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
@@ -196,21 +208,11 @@ export default function ModulePage({ params }: Props) {
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <h2 className="heading-3 text-balance">想知道{mod.title}接進你的流程會長怎樣？</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              先聊聊現在怎麼做、卡在哪裡，我們再判斷這個模組要不要開、怎麼設定。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/cases" className="btn-outline">
-                看實際案例
-              </Link>
-            </div>
-          </div>
+          <CtaBlock
+            title={`想知道${mod.title}接進你的流程會長怎樣？`}
+            description="先聊聊現在怎麼做、卡在哪裡，我們再判斷這個模組要不要開、怎麼設定。"
+            secondary={{ label: '看實際案例', href: '/cases' }}
+          />
         </div>
       </section>
     </>

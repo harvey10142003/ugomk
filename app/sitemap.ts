@@ -1,24 +1,31 @@
 import type { MetadataRoute } from 'next';
-import { site } from '@/lib/data/site';
+import { site, pageUpdatedAt } from '@/lib/data/site';
 import { articles } from '@/lib/data/articles';
 import { moduleDetails } from '@/lib/data/module-details';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url;
-  const now = new Date();
+  /**
+   * lastmod 只在真的沒宣告時才退回今天。
+   * 原本每一筆都用 new Date()，等於每次部署都對 Google 說「全站今天更新」——
+   * 幾次之後這個站的 lastmod 就不會再被採信，真的更新的那次也一起失效。
+   */
+  const fallback = new Date();
+  const at = (declared?: string) => (declared ? new Date(declared) : fallback);
+
   const staticPages = [
     '', '/solutions', '/about', '/pricing', '/cases', '/blog', '/contact',
     '/services/line-marketing', '/services/smart-card', '/services/custom-modules'
   ].map((p) => ({
     url: `${base}${p}`,
-    lastModified: now,
+    lastModified: at(pageUpdatedAt[p]),
     changeFrequency: 'weekly' as const,
     priority: p === '' ? 1 : 0.8
   }));
   // 每個模組說明頁都要進 sitemap —— 這些頁面是長尾搜尋的主要入口
-  const modulePages = Object.keys(moduleDetails).map((slug) => ({
-    url: `${base}/solutions/${slug}`,
-    lastModified: now,
+  const modulePages = Object.values(moduleDetails).map((m) => ({
+    url: `${base}/solutions/${m.slug}`,
+    lastModified: at(m.updatedAt),
     changeFrequency: 'monthly' as const,
     priority: 0.7
   }));

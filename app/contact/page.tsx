@@ -2,12 +2,14 @@ import type { Metadata } from 'next';
 import { Mail, MessageCircle, MapPin, Phone, Clock } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { site } from '@/lib/data/site';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/contact',
   title: '預約 LINE CRM 導入諮詢',
   description:
     '告訴我們你的產業、分店數量、目前使用的工具，以及最想改善的問題，我們會協助你整理適合的導入方向。高雄在地團隊，台灣全境支援。'
-};
+});
 
 export default function ContactPage() {
   return (

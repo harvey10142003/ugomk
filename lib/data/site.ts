@@ -62,6 +62,27 @@ export const navItems: NavItem[] = [
   { label: '關於宇果', href: '/about' }
 ];
 
+/**
+ * 靜態頁最後一次改內容的日期（YYYY-MM-DD），給 sitemap 的 lastmod 用。
+ *
+ * ⚠️ 不要改回 new Date()。那樣每次部署都在宣稱全站今天全部更新過，
+ * Google 對這個站的 lastmod 就會整組停止採信 —— 真的改了內容那次也一起被忽略。
+ * 初始值取自各頁 page.tsx 最後一次實際改動的 commit 日期。
+ * 改頁面內容時順手把這裡的日期一起改。
+ */
+export const pageUpdatedAt: Record<string, string> = {
+  '': '2026-08-27',
+  '/solutions': '2026-08-28',
+  '/about': '2026-08-28',
+  '/pricing': '2026-08-27',
+  '/cases': '2026-08-28',
+  '/blog': '2026-07-17',
+  '/contact': '2026-08-28',
+  '/services/line-marketing': '2026-08-28',
+  '/services/smart-card': '2026-08-28',
+  '/services/custom-modules': '2026-08-28'
+};
+
 export const externalSites = [
   {
     label: 'LINExAI 學院',

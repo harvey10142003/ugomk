@@ -6,13 +6,18 @@ import { ModuleGroups } from '@/components/ModuleGroups';
 import { ModuleArchitectureMock } from '@/components/mocks/ModuleArchitectureMock';
 import { siteModuleCount } from '@/lib/data/modules';
 import { site } from '@/lib/data/site';
+import { RelatedServices } from '@/components/RelatedServices';
+import { CtaBlock } from '@/components/CtaBlock';
+import { JsonLd } from '@/components/JsonLd';
+import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/custom-modules',
   title: `LINE@ 客製化模組｜${siteModuleCount} 個現成模組，不夠再依流程開發`,
   description:
-    '門市營運與顧客互動模組可依需求逐一開通，共用同一份會員資料。現有模組滿足不了的欄位、流程或第三方串接，可依實際營運方式評估客製開發。',
-  alternates: { canonical: '/services/custom-modules' }
-};
+    '門市營運與顧客互動模組可依需求逐一開通，共用同一份會員資料。現有模組滿足不了的欄位、流程或第三方串接，可依實際營運方式評估客製開發。'
+});
 
 const CUSTOM_PROCESS = [
   { step: '01', title: '流程訪談', detail: '先看你現在怎麼做：誰操作、什麼時候做、資料現在記在哪裡。' },
@@ -31,6 +36,23 @@ const CUSTOM_CASES = [
 export default function CustomModulesPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          serviceLd({
+            name: 'LINE@ 客製化模組',
+            description:
+              '現有模組滿足不了的欄位、流程或第三方服務，依實際營運方式評估客製開發與 API 串接，並接進同一份會員資料。',
+            path: '/services/custom-modules',
+            serviceType: 'LINE CRM 模組客製開發與系統串接'
+          }),
+          breadcrumbLd([
+            { name: '首頁', path: '/' },
+            { name: '解決方案', path: '/solutions' },
+            { name: 'LINE@ 客製化模組', path: '/services/custom-modules' }
+          ])
+        ]}
+      />
+
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-24">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
@@ -148,24 +170,16 @@ export default function CustomModulesPage() {
         </div>
       </section>
 
+      <RelatedServices current="/services/custom-modules" />
+
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <h2 className="heading-3 text-balance">先講你的流程，再談要不要客製</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              把現在的做法講一遍，我們判斷用現成模組能解決多少、真正缺的是哪一塊。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/pricing" className="btn-outline">
-                查看費用方案
-              </Link>
-            </div>
-          </div>
+          <CtaBlock
+            title="先講你的流程，再談要不要客製"
+            description="把現在的做法講一遍，我們判斷用現成模組能解決多少、真正缺的是哪一塊。"
+            secondary={{ label: '查看費用方案', href: '/pricing' }}
+          />
         </div>
       </section>
     </>

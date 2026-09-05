@@ -42,6 +42,11 @@ export function Footer() {
           <div className="text-xs tracking-widest-2 uppercase text-brand-300 font-semibold mb-5">
             網站導覽
           </div>
+          {/*
+            子項一定要展開列出來：header 的下拉是 client 端 state，收合時
+            子連結不在初始 HTML 裡，爬蟲看不到；footer 是 server component，
+            這裡列出來才是 /services/* 三頁唯一進得了初始 HTML 的內部連結。
+          */}
           <ul className="space-y-3">
             {navItems.map((item) => (
               <li key={item.href}>
@@ -51,6 +56,20 @@ export function Footer() {
                 >
                   {item.label}
                 </Link>
+                {item.children ? (
+                  <ul className="mt-2 space-y-2 border-l border-brand-800 pl-3">
+                    {item.children.map((c) => (
+                      <li key={`${item.href}-${c.href}-${c.label}`}>
+                        <Link
+                          href={c.href}
+                          className="text-xs text-brand-300 hover:text-white transition-colors"
+                        >
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </li>
             ))}
           </ul>

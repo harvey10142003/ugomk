@@ -43,10 +43,12 @@ export const metadata: Metadata = {
     '多分店管理',
     '宇果國際行銷'
   ],
+  // ⚠️ 這裡只放「全站共用且與頁面無關」的欄位。
+  // url / canonical 一旦寫在這一層，所有沒自己宣告的子頁都會沿用它，
+  // 結果每一頁都自報是首頁的複本 —— 那兩個欄位一律由 lib/seo.ts 的 pageMeta() 逐頁產出。
   openGraph: {
     type: 'website',
-    locale: 'zh_TW',
-    url: site.url,
+    locale: site.locale,
     title: site.name,
     description: site.description,
     siteName: site.name,
@@ -61,8 +63,7 @@ export const metadata: Metadata = {
     description: site.description,
     images: ['/og.jpg']
   },
-  robots: { index: true, follow: true },
-  alternates: { canonical: site.url }
+  robots: { index: true, follow: true }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

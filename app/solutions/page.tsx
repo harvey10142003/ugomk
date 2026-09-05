@@ -10,15 +10,18 @@ import { ChatFlowMock } from '@/components/mocks/ChatFlowMock';
 import { DashboardMock } from '@/components/mocks/DashboardMock';
 import { POSMock } from '@/components/mocks/POSMock';
 import { howItWorks, audienceViews, industryPacks, siteModuleCount } from '@/lib/data/modules';
+import { serviceOfferings } from '@/lib/data/services';
 import { site } from '@/lib/data/site';
 import { productLd } from '@/lib/jsonld';
+import { CtaBlock } from '@/components/CtaBlock';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/solutions',
   title: '多模組架構｜一套系統滿足企業所有需求',
   description:
-    '需要收銀就開收銀，需要預約就開預約。UGO AI CRM 讓門市營運與顧客互動模組共用同一份會員資料，每間分店各自開通需要的功能，不必為了一個功能買下整套系統。',
-  alternates: { canonical: '/solutions' }
-};
+    '需要收銀就開收銀，需要預約就開預約。UGO AI CRM 讓門市營運與顧客互動模組共用同一份會員資料，每間分店各自開通需要的功能，不必為了一個功能買下整套系統。'
+});
 
 /** 大圖旁的浮動說明 — 沿用 hero 對話圖那套語彙 */
 function Note({
@@ -309,25 +312,44 @@ export default function SolutionsPage() {
         </div>
       </section>
 
+      {/* ─────────── 我們提供的服務 ─────────── */}
+      <section className="section border-t border-ink-100 bg-mist-100">
+        <div className="container-ug">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow">Services</span>
+            <h2 className="heading-2 mt-3 text-balance">我們提供的服務</h2>
+            <p className="body-base mt-4">
+              上面列的是系統裡開得起來的功能；這三項是我們替你做的事。
+              模組決定系統能做什麼，服務決定它在你的店裡怎麼跑起來。
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            {serviceOfferings.map((s) => (
+              <Link key={s.href} href={s.href} className="card-hover group flex flex-col p-7">
+                <h3 className="text-lg font-bold text-ink-900 transition-colors group-hover:text-brand-800">
+                  {s.title}
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-brand-700">{s.summary}</p>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-500">{s.detail}</p>
+                <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition-all group-hover:gap-2">
+                  了解這項服務
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <span className="eyebrow">客製開發與系統串接</span>
-            <h2 className="heading-3 mt-4 text-balance">想要的功能不在上面？</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              現有模組滿足不了的欄位、流程或第三方服務，可以依實際需求評估串接與客製開發。先聊聊你的情況。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/pricing" className="btn-outline">
-                查看費用方案
-              </Link>
-            </div>
-          </div>
+          <CtaBlock
+            eyebrow="客製開發與系統串接"
+            title="想要的功能不在上面？"
+            description="現有模組滿足不了的欄位、流程或第三方服務，可以依實際需求評估串接與客製開發。先聊聊你的情況。"
+            secondary={{ label: '查看費用方案', href: '/pricing' }}
+          />
         </div>
       </section>
     </>

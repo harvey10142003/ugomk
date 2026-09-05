@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -29,6 +30,21 @@ import { POSMock } from '@/components/mocks/POSMock';
 import { LogoBar } from '@/components/LogoBar';
 import { StatsBar } from '@/components/StatsBar';
 import { Testimonial } from '@/components/Testimonial';
+import { pageMeta } from '@/lib/seo';
+
+// 首頁自己宣告 canonical，不靠繼承 —— 見 lib/seo.ts 開頭的說明
+const HOME_TITLE = `${site.name}｜${site.tagline}`;
+
+export const metadata: Metadata = {
+  ...pageMeta({
+    path: '/',
+    title: HOME_TITLE,
+    ogTitle: HOME_TITLE,
+    description: site.description
+  }),
+  // 首頁不套 title.template（那是給子頁接站名用的），標題直接給完整值
+  title: { absolute: HOME_TITLE }
+};
 
 export default function HomePage() {
   return (

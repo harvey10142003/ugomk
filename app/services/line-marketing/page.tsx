@@ -4,17 +4,39 @@ import { ArrowRight, Compass, Map, CheckCircle2 } from 'lucide-react';
 import { ChatFlowMock } from '@/components/mocks/ChatFlowMock';
 import { navigationSteps, planningProcess } from '@/lib/data/services';
 import { site } from '@/lib/data/site';
+import { RelatedServices } from '@/components/RelatedServices';
+import { CtaBlock } from '@/components/CtaBlock';
+import { JsonLd } from '@/components/JsonLd';
+import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/services/line-marketing',
   title: 'LINE@ 行銷規劃｜導航式行銷，用 LINE 自動帶路到成交',
   description:
-    '不用追著客戶跑。導航式行銷用六個步驟規劃從陌生好友到回頭客的路徑：加入、互動、信任、引導、成交、裂變，並落實到圖文選單、標籤與自動化設定。',
-  alternates: { canonical: '/services/line-marketing' }
-};
+    '不用追著客戶跑。導航式行銷用六個步驟規劃從陌生好友到回頭客的路徑：加入、互動、信任、引導、成交、裂變，並落實到圖文選單、標籤與自動化設定。'
+});
 
 export default function LineMarketingPage() {
   return (
     <>
+      <JsonLd
+        data={[
+          serviceLd({
+            name: 'LINE@ 行銷規劃',
+            description:
+              '用導航六步法規劃好友從加入、互動、信任、引導、成交到裂變的路徑，並落實到圖文選單、標籤與自動跟進的實際設定。',
+            path: '/services/line-marketing',
+            serviceType: 'LINE 官方帳號行銷規劃與導入顧問'
+          }),
+          breadcrumbLd([
+            { name: '首頁', path: '/' },
+            { name: '解決方案', path: '/solutions' },
+            { name: 'LINE@ 行銷規劃', path: '/services/line-marketing' }
+          ])
+        ]}
+      />
+
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
@@ -184,24 +206,16 @@ export default function LineMarketingPage() {
         </div>
       </section>
 
+      <RelatedServices current="/services/line-marketing" />
+
       {/* ─────────── CTA ─────────── */}
       <section className="section-tight">
         <div className="container-ug">
-          <div className="card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 p-10 text-center md:p-14">
-            <h2 className="heading-3 text-balance">先看看你的 LINE@ 卡在哪一步</h2>
-            <p className="body-base mx-auto mt-4 max-w-xl">
-              把現在的好友數、經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/cases" className="btn-outline">
-                看實際案例
-              </Link>
-            </div>
-          </div>
+          <CtaBlock
+            title="先看看你的 LINE@ 卡在哪一步"
+            description="把現在的好友數、經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。"
+            secondary={{ label: '看實際案例', href: '/cases' }}
+          />
         </div>
       </section>
     </>

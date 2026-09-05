@@ -5,12 +5,15 @@ import { ArrowRight, CheckCircle2, Quote } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { cases } from '@/lib/data/cases';
 import { site } from '@/lib/data/site';
+import { CtaBlock } from '@/components/CtaBlock';
+import { pageMeta } from '@/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/cases',
   title: 'LINE CRM 客戶案例｜餐飲、美業、課程與會員經營',
   description:
     '看看不同企業如何把 LINE 用進實際營運：小聚所（課程與體驗活動）、菲韻美甲（美業與多分店管理）、鴨點棧（烤鴨專賣與多分店餐飲）、王子娘（創業課程與顧問服務）。'
-};
+});
 
 const quotes: Record<string, { text: string; author: string; role: string }> = {
   gso: {
@@ -129,21 +132,13 @@ export default function CasesPage() {
             );
           })}
 
-          <div className="card-glow p-10 md:p-16 text-center bg-gradient-to-br from-brand-50 to-mint-100/40">
-            <h2 className="heading-3">你的產業沒有現成範本，也可以先談</h2>
-            <p className="body-base mt-4 max-w-xl mx-auto">
-              我們可以先了解目前的工作流程，再判斷適合使用既有模組、調整設定，或進行客製整合。
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
-                {site.cta.primary.label}
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link href="/solutions" className="btn-outline">
-                {site.cta.secondary.label}
-              </Link>
-            </div>
-          </div>
+          {/* 這張卡沒有自己的 section，是接在案例清單的容器裡，所以內距比其他頁大一階 */}
+          <CtaBlock
+            size="lg"
+            title="你的產業沒有現成範本，也可以先談"
+            description="我們可以先了解目前的工作流程，再判斷適合使用既有模組、調整設定，或進行客製整合。"
+            secondary={site.cta.secondary}
+          />
         </div>
       </section>
     </>

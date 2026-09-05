@@ -1,8 +1,13 @@
 import { site } from './data/site';
+import { priceRange } from './data/pricing';
+
+/** Organization 的全站唯一識別 —— 其他 schema 一律用 @id 引用，不要複製一份公司資料 */
+export const ORGANIZATION_ID = `${site.url}/#organization`;
 
 export const organizationLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': ORGANIZATION_ID,
   name: site.name,
   alternateName: site.shortName,
   url: site.url,
@@ -36,10 +41,69 @@ export const productLd = {
   operatingSystem: 'Web',
   url: `${site.url}/solutions`,
   description: 'LINE 會員經營系統：會員 CRM、點數票券、預約報名、POS 與行銷自動化，依照產業與營運需求彈性導入，適合餐飲、美業、零售、課程與多分店品牌。',
+  // 三個方案不是同一個價格。單一 Offer 只講得出最低價，搜尋結果就會顯示成「$1,980」
+  // 而漏掉上面兩級；數字一律從 lib/data/pricing.ts 算，避免改了方案價這裡還留舊值。
   offers: {
-    '@type': 'Offer',
-    priceCurrency: 'TWD',
-    price: '1980',
+    '@type': 'AggregateOffer',
+    priceCurrency: priceRange.currency,
+    lowPrice: priceRange.low,
+    highPrice: priceRange.high,
+    offerCount: priceRange.count,
     availability: 'https://schema.org/InStock'
   }
 };
+
+/**
+ * FAQPage —— 頁面上要有對應的問答內容，schema 才合規。
+ * 傳進來的就是畫面在渲染的那一份資料，不要另外寫一份給爬蟲看。
+ */
+export function faqPageLd(faqs: { q: string; a: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a }
+    }))
+  };
+}
+
+/** 麵包屑 —— items 由淺到深，最後一項是目前這頁 */
+export function breadcrumbLd(items: { name: string; path: string }[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: it.path === '/' ? site.url : `${site.url}${it.path}`
+    }))
+  };
+}
+
+/** 服務頁（/services/*）—— provider 用 @id 引用 Organization，不重複一份公司資料 */
+export function serviceLd({
+  name,
+  description,
+  path,
+  serviceType
+}: {
+  name: string;
+  description: string;
+  path: string;
+  serviceType: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    serviceType,
+    url: `${site.url}${path}`,
+    provider: { '@id': ORGANIZATION_ID },
+    areaServed: { '@type': 'Country', name: 'Taiwan' },
+    inLanguage: 'zh-TW'
+  };
+}

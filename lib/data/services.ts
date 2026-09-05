@@ -6,6 +6,36 @@
  * 「系統本來就有」和「要另外請你做」搞混。
  */
 
+/**
+ * 服務總覽 —— /solutions 頁尾用來把訪客帶到 /services/*。
+ *
+ * 這三個路由原本在初始 HTML 裡完全沒有入口（header 下拉是 client state、
+ * footer 只列頂層），等於爬蟲與不點選單的訪客都找不到。
+ */
+export const serviceOfferings = [
+  {
+    title: 'LINE@ 行銷規劃',
+    href: '/services/line-marketing',
+    summary: '先把路徑規劃出來，再談要發什麼訊息',
+    detail:
+      '用導航六步法排出好友從加入、互動到回購的路徑，再落到圖文選單、標籤與自動跟進的實際設定。'
+  },
+  {
+    title: 'LINE@ 智慧名片',
+    href: '/services/smart-card',
+    summary: '一張可以點、也可以轉傳的數位名片',
+    detail:
+      '點電話直接撥號、點地址開導航、點按鈕加好友，對方還能整張轉傳給朋友。換職稱換活動連結不用重印。'
+  },
+  {
+    title: 'LINE@ 客製化模組',
+    href: '/services/custom-modules',
+    summary: '現成的不夠用，才照你的流程開發',
+    detail:
+      '缺的欄位、不一樣的流程、要接的既有系統，依你的實際做法開發，並接進同一份會員資料。'
+  }
+];
+
 /** 導航式行銷六步法 —— Shark 的方法論，官網用來說明行銷規劃在規劃什麼 */
 export const navigationSteps = [
   {

@@ -3,13 +3,19 @@ import { Fragment } from 'react';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Sparkles, Minus } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
-import { plans, billingNote } from '@/lib/data/pricing';
+import { CtaBlock } from '@/components/CtaBlock';
+import { JsonLd } from '@/components/JsonLd';
+import { plans, billingNote, pricingFaqs } from '@/lib/data/pricing';
+import { faqPageLd } from '@/lib/jsonld';
+import { pageMeta } from '@/lib/seo';
+import { cn } from '@/lib/utils';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
+  path: '/pricing',
   title: 'LINE CRM 費用與方案',
   description:
     '入門 Starter / 成長 Growth / 專業 Pro 三個方案，依照分店數量、會員經營方式與需要啟用的模組區分，從單店到多分店品牌都有對應選擇。'
-};
+});
 
 type Row = {
   feature: string;
@@ -69,6 +75,8 @@ function Cell({ value }: { value: boolean | string }) {
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={faqPageLd(pricingFaqs)} />
+
       <PageHero
         eyebrow="費用方案"
         title="選擇現在適合的方案，未來再彈性擴充"
@@ -77,11 +85,19 @@ export default function PricingPage() {
 
       <section className="section-tight">
         <div className="container-ug">
-          <div className="grid gap-6 md:grid-cols-3">
+          {/*
+            768-900px 用三欄會把價格卡的內容寬壓到約 149px，
+            而 text-4xl 的「NT$ 8,800」大約要 185-200px —— 價格會換行。
+            所以中斷點提到 lg，之間先走兩欄。
+          */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {plans.map((p) => (
               <article
                 key={p.id}
-                className={p.highlight ? 'card-glow p-8 relative' : 'card-hover p-8 relative'}
+                className={cn(
+                  'relative flex h-full flex-col p-8',
+                  p.highlight ? 'card-glow' : 'card-hover'
+                )}
               >
                 {p.highlight ? (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1 text-xs font-bold text-white">
@@ -92,7 +108,12 @@ export default function PricingPage() {
                 <div className="text-[11px] tracking-widest-2 uppercase font-semibold text-ink-400">
                   {p.caption}
                 </div>
-                <h3 className="mt-2 text-xl font-bold text-ink-900">{p.name}</h3>
+                {/*
+                  h1 是 PageHero 的頁面標題，方案卡是它底下的第一層內容，
+                  所以這裡是 h2 —— 原本寫 h3，中間少一階（Lighthouse 會標紅）。
+                  字級與階層無關，維持 text-xl。
+                */}
+                <h2 className="mt-2 text-xl font-bold text-ink-900">{p.name}</h2>
                 <div className="mt-5 flex items-baseline gap-1">
                   <span className="text-4xl font-extrabold text-ink-900 tracking-tight">
                     {p.price}
@@ -100,7 +121,8 @@ export default function PricingPage() {
                   <span className="text-sm text-ink-400">{p.priceSuffix}</span>
                 </div>
                 <p className="mt-3 text-sm leading-relaxed text-ink-500">{p.description}</p>
-                <ul className="mt-6 space-y-2.5">
+                {/* flex-1 吃掉高度差，CTA 才會被推到卡片底部對齊 */}
+                <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-ink-700">
                       <CheckCircle2 className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
@@ -110,7 +132,7 @@ export default function PricingPage() {
                 </ul>
                 <Link
                   href={p.cta.href}
-                  className={p.highlight ? 'btn-brand mt-8 w-full' : 'btn-outline mt-8 w-full'}
+                  className={cn('mt-8 w-full', p.highlight ? 'btn-brand' : 'btn-outline')}
                 >
                   {p.cta.label}
                   <ArrowRight className="h-4 w-4" />
@@ -130,7 +152,7 @@ export default function PricingPage() {
         <div className="container-ug max-w-5xl">
           <div className="text-center mb-12">
             <span className="eyebrow">Compare</span>
-            <h2 className="heading-3 mt-3">完整方案比較</h2>
+            <h2 className="heading-2 mt-3">完整方案比較</h2>
           </div>
 
           <div className="card overflow-hidden">
@@ -196,27 +218,10 @@ export default function PricingPage() {
         <div className="container-ug max-w-3xl">
           <div className="text-center mb-12">
             <span className="eyebrow">FAQ</span>
-            <h2 className="heading-3 mt-3">常見問題</h2>
+            <h2 className="heading-2 mt-3">常見問題</h2>
           </div>
           <div className="space-y-3">
-            {[
-              {
-                q: '可以中途升級 / 降級嗎？',
-                a: '可以。會員與營運資料完整保留，功能依方案調整，費用差額按比例計算。'
-              },
-              {
-                q: '需要自己準備伺服器嗎？',
-                a: '不用。主機、資料庫與 LINE 串接都由我們建置與維運，你只需要有自己的 LINE 官方帳號。'
-              },
-              {
-                q: '客製開發要怎麼算？',
-                a: '專業方案可依實際需求評估客製開發；多數需求其實用既有功能調整設定就能完成，我們會先協助確認。'
-              },
-              {
-                q: '資料安全與備份？',
-                a: '資料每日自動備份並保留 14 天；系統權限依總部、店長、店員與收銀人員分流，避免跨權限存取。'
-              }
-            ].map((it) => (
+            {pricingFaqs.map((it) => (
               <details
                 key={it.q}
                 className="card-hover p-6 group"
@@ -230,6 +235,18 @@ export default function PricingPage() {
                 <p className="mt-4 text-sm leading-relaxed text-ink-500">{it.a}</p>
               </details>
             ))}
+          </div>
+
+          {/*
+            比較表與 FAQ 加起來佔了 2.3 屏之後的整整三屏，中間一顆 CTA 都沒有。
+            讀完 FAQ 正是意圖最高的一刻，不要讓它直接掉進 footer。
+          */}
+          <div className="mt-14">
+            <CtaBlock
+              title="還是不確定要選哪一個？"
+              description="把你的分店數量、目前的 LINE 好友數與最想解決的問題講一遍，我們直接說哪個方案夠用、哪些模組先不用開。"
+              secondary={{ label: '看實際案例', href: '/cases' }}
+            />
           </div>
         </div>
       </section>
