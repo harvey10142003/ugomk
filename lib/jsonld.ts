@@ -9,6 +9,10 @@ export const organizationLd = {
   '@type': 'Organization',
   '@id': ORGANIZATION_ID,
   name: site.name,
+  // 登記全名與統編是可查證的公司識別，比任何自我描述更能讓搜尋引擎確認實體是誰
+  legalName: site.legalName,
+  taxID: site.taxId,
+  foundingDate: site.foundedDate,
   alternateName: site.shortName,
   url: site.url,
   description: site.description,

@@ -1,5 +1,9 @@
 export const site = {
   name: '宇果國際行銷',
+  /** 公司登記全名 —— 法律責任主體（隱私權說明、footer、結構化資料用這個，不是簡稱） */
+  legalName: '宇果國際行銷有限公司',
+  /** 統一編號 —— 台灣 B2B 採購會拿它查公司實體，footer 一定要看得到 */
+  taxId: '83230056',
   shortName: 'Ugomk',
   /** 系統品牌名 — 全站提到主架構時一律用這個寫法 */
   product: 'UGO AI CRM 會員裂變系統',
@@ -11,7 +15,9 @@ export const site = {
     '宇果國際行銷專注於 LINE 官方帳號、會員 CRM、行銷自動化與產業系統整合。我們從實際的顧客旅程與營運流程出發，協助企業把加入好友、會員互動、預約消費與再次回購，整理成一套真正能執行的系統。',
   url: 'https://ugomk.com',
   locale: 'zh_TW',
-  founded: '2024',
+  /** 經濟部商業司核准設立日：民國 109/11/30。不要改成「開始做 LINE 行銷」那年 */
+  founded: '2020',
+  foundedDate: '2020-11-30',
   contact: {
     email: 'harvey10142003@gmail.com',
     phone: '+886-910-087-065',
@@ -82,7 +88,7 @@ export const pageUpdatedAt: Record<string, string> = {
   '/cases': '2026-08-28',
   '/blog': '2026-07-17',
   '/contact': '2026-09-05',
-  '/privacy': '2026-09-05',
+  '/privacy': '2026-09-06',
   '/services/line-marketing': '2026-08-28',
   '/services/smart-card': '2026-08-28',
   '/services/custom-modules': '2026-08-28'

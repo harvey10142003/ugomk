@@ -116,15 +116,19 @@ export default function PrivacyPage() {
               </div>
             ))}
             <p className="body-sm">
-              本說明如有調整，會直接更新在這一頁。最後更新：2026-09-05。
+              本說明如有調整，會直接更新在這一頁。最後更新：2026-09-06。
             </p>
           </div>
 
           <aside className="space-y-6">
             <div className="card-glow p-7 bg-gradient-brand-soft">
               <h2 className="text-lg font-bold text-ink-900">個資聯絡窗口</h2>
+              {/* 個資法的告知義務要求蒐集者身分明確 —— 用登記全名與統編，不用簡稱 */}
               <p className="mt-3 text-sm text-ink-700">
-                {site.name}（統一由以下窗口受理，不另設專線）
+                資料蒐集者：{site.legalName}（統一編號 {site.taxId}）
+              </p>
+              <p className="mt-2 text-sm text-ink-700">
+                統一由以下窗口受理，不另設專線。
               </p>
               <div className="mt-5 space-y-3">
                 <a

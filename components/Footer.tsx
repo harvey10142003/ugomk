@@ -103,9 +103,18 @@ export function Footer() {
 
       <div className="border-t border-brand-800">
         <div className="container-ug flex flex-col md:flex-row items-center justify-between py-6 gap-3">
-          <p className="text-xs text-brand-300">
-            © {new Date().getFullYear()} {site.name} Yu Guo International Marketing. All rights reserved.
-          </p>
+          {/*
+            公司全名與統編跟版權列同級、同一欄堆疊 —— 台灣 B2B 採購會查統編確認
+            對方是登記公司而不是個人接案，沒有這一行等於少了一份信任背書。
+          */}
+          <div className="space-y-1 text-center md:text-left">
+            <p className="text-xs text-brand-300">
+              {site.legalName}｜統一編號 {site.taxId}
+            </p>
+            <p className="text-xs text-brand-300">
+              © {new Date().getFullYear()} {site.name} Yu Guo International Marketing. All rights reserved.
+            </p>
+          </div>
           <div className="flex items-center gap-4">
             {/* 表單有蒐集個資，隱私權說明必須全站可達 —— footer 是唯一每頁都在的位置 */}
             <Link
