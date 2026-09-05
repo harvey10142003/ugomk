@@ -3,6 +3,8 @@ import { Inter, Noto_Sans_TC } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { JsonLd } from '@/components/JsonLd';
+import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
+import { OutboundClickTracker } from '@/components/OutboundClickTracker';
 import { organizationLd, websiteLd } from '@/lib/jsonld';
 import { site } from '@/lib/data/site';
 import './globals.css';
@@ -70,10 +72,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="zh-Hant-TW" className={`${inter.variable} ${notoSansTC.variable}`}>
       <body className="min-h-screen flex flex-col">
+        {/* GTM 的 noscript 備援要在 body 的最前面（官方要求）；未設容器 ID 時不渲染 */}
+        <GoogleTagManagerNoScript />
         <JsonLd data={[organizationLd, websiteLd]} />
+        {/* 全站 LINE / 電話 / Email 點擊追蹤 —— 委派式，不需要逐頁改 CTA */}
+        <OutboundClickTracker />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <GoogleTagManager />
       </body>
     </html>
   );

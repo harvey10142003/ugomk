@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Loader2, MessageCircle, AlertTriangle } from 'lucide-react';
 import { site } from '@/lib/data/site';
+import { pushEvent } from '@/lib/gtm';
 import {
   INDUSTRY_OPTIONS,
   STORE_COUNT_OPTIONS,
@@ -94,6 +95,16 @@ export function LeadForm() {
         setStatus('error');
         return;
       }
+      /* 只在後端真的回成功之後才送 generate_lead。
+         在送出當下就送會把「按了鈕」算成「留下名單」，報表上的轉換數會系統性高估，
+         而且高估的幅度剛好等於失敗率 —— 表單越常壞，數字看起來越漂亮。 */
+      pushEvent('generate_lead', {
+        form_name: 'contact_inquiry',
+        // 不帶姓名、電話、Email —— 個資不進第三方分析工具，隱私權說明也是這樣寫的
+        industry: (fd.get('industry') as string | null) || 'unspecified',
+        store_count: (fd.get('storeCount') as string | null) || 'unspecified',
+        page_path: sourcePathRef.current
+      });
       setStatus('done');
     } catch {
       // 網路層失敗（離線 / 被擋）—— 訪客那邊看到的是同一張「還有其他方式找到我們」的卡

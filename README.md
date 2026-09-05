@@ -44,6 +44,59 @@ npm install
 npm run dev   # http://localhost:3000
 ```
 
+## 環境變數
+
+全部都是選填。沒設的那一項就是「該功能不啟用」，不會讓網站壞掉，
+但**詢問表單的通知**沒設等於名單沒有人會知道（見下）。
+
+| 變數 | 用途 | 沒設會怎樣 |
+|---|---|---|
+| `NEXT_PUBLIC_GTM_ID` | GTM 容器 ID（`GTM-XXXXXXX`） | GTM 整段不載入，四個事件不會送出 |
+| `CRM_API_BASE` | CRM API 位址 | 預設 `https://crm.ugomk.com` |
+| `CRM_LEAD_TENANT` | 名單寫進哪個租戶 | 預設 `ugomk`（⚠️ 不是 `yuguo`，兩者是不同租戶） |
+| `LEAD_NOTIFY_LINE_TOKEN` | 發通知用的 LINE channel access token | 不走 LINE 通知 |
+| `LEAD_NOTIFY_LINE_TO` | 收通知的 LINE UID（逗號分隔可多人） | 不走 LINE 通知 |
+| `LEAD_NOTIFY_RESEND_KEY` | Resend API key | 不走 email 通知 |
+| `LEAD_NOTIFY_EMAIL_TO` | 收通知的信箱（逗號分隔可多人） | 不走 email 通知 |
+| `LEAD_NOTIFY_EMAIL_FROM` | 寄件者 | 預設 `ugomk.com 官網 <noreply@mail.ugomk.com>` |
+
+### 詢問表單的通知
+
+名單會寫進 CRM 的 `site_leads`，但 **CRM 那邊沒有任何機制會通知人**
+（`routes/site/leads.ts` 只有查詢與改狀態的端點；`lead_created` 這條 ma_rules trigger
+刻意沒有被放進後台的觸發下拉，而且只在電話對到既有會員且姓名吻合時才 fire）。
+所以通知是官網這一側自己做的，就靠上面那兩組環境變數。
+
+一組都沒設時，每收到一張名單都會在伺服器 log 印一行
+`[lead-notify] 沒有任何通知管道被設定 …`。看到這行就代表名單正在無聲落地。
+
+兩條路都刻意選「CRM production 已經有這個憑證」的，不需要開新帳號：
+LINE 的收件 UID 可沿用 CRM API service 上的 `UPTIME_ALERT_LINE_UID`；
+Resend 的金鑰與 `mail.ugomk.com` 寄件網域 CRM 已經在用且驗證過。
+
+### ⚠️ 在 Zeabur 加完環境變數之後要「重新部署」，不是「重啟」
+
+`NEXT_PUBLIC_*` 是在 `next build` 當下被字面替換進打包結果的，而且本站頁面都是靜態
+預先產生的。只按重啟跑的還是同一份 image，裡面沒有新的值。
+判準是 Zeabur 的 Deployments 有沒有新增一筆 —— 沒有新的一筆就代表沒有重建。
+
+（`CRM_*` 與 `LEAD_NOTIFY_*` 是伺服器端執行時讀的，重啟就會生效。）
+
+## 追蹤事件
+
+透過 `dataLayer` 推給 GTM，容器那邊自己決定要轉發到 GA4 還是別的地方。
+推送統一走 `lib/gtm.ts` 的 `pushEvent()`，不要各處直接碰 `window.dataLayer`。
+
+| 事件 | 何時送 |
+|---|---|
+| `generate_lead` | 詢問表單**後端回成功之後**（不是按下按鈕的當下） |
+| `click_line` | 點擊任何連到 `line.me` / `lin.ee` 的連結 |
+| `click_tel` | 點擊 `tel:` 連結 |
+| `click_mailto` | 點擊 `mailto:` 連結 |
+
+後三個由 `components/OutboundClickTracker.tsx` 用**事件委派**統一處理，
+新增頁面時不需要（也不應該）逐顆 CTA 去掛追蹤。
+
 ## Build 驗證（push 前）
 
 依 `reference_local_build_verify.md` 記憶條目：
