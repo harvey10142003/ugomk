@@ -1,6 +1,8 @@
 import { clientLogos } from '@/lib/data/cases';
 
-export function LogoBar({ caption = '已在這些品牌的日常運轉' }: { caption?: string }) {
+// caption 要說得出這些品牌與宇果的關係。「已在這些品牌的日常運轉」語意太寬，
+// 會把顧問服務、自家站都算進「客戶」；這裡限定成「正在用這套系統營運」。
+export function LogoBar({ caption = '正在用 UGO AI CRM 營運的品牌' }: { caption?: string }) {
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="text-[11px] tracking-widest-2 uppercase font-semibold text-ink-400">

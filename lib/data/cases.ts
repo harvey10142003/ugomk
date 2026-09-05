@@ -67,11 +67,15 @@ export const cases: CaseStudy[] = [
   }
 ];
 
+/**
+ * 只放「外部客戶、而且正在用 UGO AI CRM 營運」的品牌。
+ *
+ * ⚠️ 曾經多放了 BNI 富聯白金與 LINExAI 學院：前者是顧問身分服務的分會、
+ * 後者是自家站，都不是系統的客戶。多兩格帶來的說服力，遠低於被看穿的代價。
+ */
 export const clientLogos = [
   { name: '小聚所', initial: '聚' },
   { name: '菲韻美甲', initial: '菲' },
   { name: '鴨點棧', initial: '鴨' },
-  { name: '王子娘', initial: '王' },
-  { name: 'BNI 富聯白金', initial: 'B' },
-  { name: 'LINExAI 學院', initial: 'AI' }
+  { name: '王子娘', initial: '王' }
 ];

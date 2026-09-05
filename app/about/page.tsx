@@ -97,8 +97,8 @@ export default function AboutPage() {
       {/*
         pending 的項目不渲染。about.ts 的註解宣稱會顯示 placeholder，但渲染端
         從來沒讀過 m.pending —— 結果線上真的印出「待補」「待確認實際年份與說明」
-        給客戶看。資料留著不動，年份確認後把 pending 拿掉就會自動出現；
-        目前四筆全是 pending，整個區塊會暫時不出現（空時間軸比沒有更糟）。
+        給客戶看。這道過濾留著：日後新增還沒查證的年份時標 pending 即可，
+        整筆不會外流到畫面上，全部都 pending 時整個區塊也不出現。
       */}
       {publishedMilestones.length > 0 ? (
         <section className="section">
@@ -107,7 +107,10 @@ export default function AboutPage() {
             <div className="lg:sticky lg:top-28">
               <span className="eyebrow">Milestones</span>
               <h2 className="heading-2 mt-3 text-balance">一路走過來</h2>
-              <p className="body-base mt-5">年份與事件以實際紀錄為準，尚未確認的先留空。</p>
+              <p className="body-base mt-5">
+                公司從設計與出版起家，2024 年才轉做 LINE@
+                私域行銷，系統是最近這一年自己寫出來的。年份與事件以公司登記和系統紀錄為準。
+              </p>
             </div>
             <ol className="relative pl-8">
               <span

@@ -23,11 +23,33 @@ export const approach = [
 
 export type Milestone = { year: string; title: string; description?: string; pending?: boolean };
 
+/**
+ * 每一筆都要對得上可查證的來源：公司登記、租戶建立紀錄或系統現況。
+ * 沒有來源的年份寧可不寫，也不要為了讓時間軸好看而補一筆。
+ */
 export const milestones: Milestone[] = [
-  { year: '2024', title: '宇果國際行銷成立', description: '待確認實際年份與說明', pending: true },
-  { year: '待補', title: '第一套 LINE CRM 系統上線', pending: true },
-  { year: '待補', title: '多分店與 POS 模組推出', pending: true },
-  { year: '2026', title: 'UGO AI CRM 會員裂變系統，38 個模組', description: '待確認寫法', pending: true }
+  {
+    year: '2020',
+    title: '宇果國際行銷成立',
+    description: '從平面設計、網站建置與圖書出版做起，替在地品牌處理對外的視覺與內容。'
+  },
+  {
+    year: '2024',
+    title: '轉做 LINE@ 私域行銷',
+    description:
+      '把重心移到 LINE 官方帳號的會員經營，協助企業規劃好友加入之後的流程，至今超過 200 位客戶。'
+  },
+  {
+    year: '2026',
+    title: '自建 UGO AI CRM，五月第一個客戶上線',
+    description:
+      '四月開始寫自己的會員系統，餐飲 POS、美業預約與多分店模組陸續完成；五月第一個客戶正式用它營運。'
+  },
+  {
+    year: '2026',
+    title: '38 個模組可依需求啟用',
+    description: '從會員、點數票券、預約到 POS 與行銷自動化，客戶只開現在用得到的部分。'
+  }
 ];
 
 export const sites = [
