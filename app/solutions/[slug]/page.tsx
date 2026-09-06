@@ -19,14 +19,25 @@ export function generateStaticParams() {
   return Object.keys(moduleDetails).map((slug) => ({ slug }));
 }
 
+/**
+ * ⚠️ SERP 標題與畫面標題是兩件事。
+ *
+ * 這裡原本是 `${mod.title}｜${detail.tagline}`，接上 layout 的「｜宇果國際行銷」之後
+ * 全形早就超過 30 字，Google 截斷的位置正好把站名吃掉 —— 19 個模組頁沒有一頁在
+ * 搜尋結果上秀得出品牌。而且 tagline 講的是體感（「一台平板做完」），不是有人
+ * 真的會去搜的字，所以連截斷之前那段也接不到流量。
+ *
+ * 解法是讓 seoTitle / seoDescription 獨立於畫面文案：tagline 繼續當 H1 副標不動，
+ * 沒填 seo 欄位的模組自動退回原本的組法，不會有頁面因為漏填就沒有 metadata。
+ */
 export function generateMetadata({ params }: Props): Metadata {
   const detail = moduleDetails[params.slug];
   const mod = crmModules.find((m) => m.id === params.slug);
   if (!detail || !mod) return {};
   return pageMeta({
     path: `/solutions/${params.slug}`,
-    title: `${mod.title}｜${detail.tagline}`,
-    description: detail.intro
+    title: detail.seoTitle ?? `${mod.title}｜${detail.tagline}`,
+    description: detail.seoDescription ?? detail.intro
   });
 }
 

@@ -13,6 +13,20 @@ export type ModuleDetail = {
   slug: string;
   tagline: string;
   intro: string;
+  /**
+   * SERP 專用標題，不含站名（站名由 layout 的 title.template 補）。
+   *
+   * 為什麼不直接用 tagline：tagline 是 H1 底下給人看的副標，配上模組名再接站名之後
+   * 全形早就超過 30 字，Google 截斷的位置正好把站名吃掉。而且 tagline 講的是體感
+   * （「一台平板做完」），不是有人真的會去搜的字。兩者目的不同，硬要共用一份，
+   * 結果一定是其中一邊被犧牲 —— 所以分開放，tagline 維持原樣不被 SEO 綁架。
+   *
+   * ⚠️ pos_invoice 與 website 刻意不含「LINE」：前者的搜尋意圖是「POS 電子發票」，
+   * 後者與 LINE 無關。標題塞進頁面內容撐不起來的字，點進來的人會立刻跳出。
+   */
+  seoTitle?: string;
+  /** SERP 專用描述；沒填就退回 intro。開頭 20 字內要出現目標詞，全長抓 70-80 全形字 */
+  seoDescription?: string;
   forWho: string[];
   features: { title: string; description: string }[];
   /** 需要注意的前提或搭配關係 */
@@ -30,6 +44,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   // ══════════ 門市營運模組 ══════════
   pos_restaurant: {
     slug: 'pos_restaurant',
+    seoTitle: 'LINE 點餐與餐飲 POS 系統',
+    seoDescription:
+      'LINE 點餐與餐飲 POS 系統：平板點餐直送廚房出單，結帳同時算會員折扣與點數，桌位、拆單與日結對帳一次完成，適合單店與多分店餐飲品牌。',
     updatedAt: '2026-08-28',
     tagline: '點餐、出單、結帳、對帳，一台平板做完',
     intro:
@@ -52,6 +69,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_retail: {
     slug: 'pos_retail',
+    seoTitle: 'LINE 會員零售 POS 系統',
+    seoDescription:
+      'LINE 會員零售 POS 系統：掃條碼結帳同步扣庫存，同款商品的顏色與尺寸各自計算，退換貨、盤點與低庫存提醒都留紀錄，當天營收與熱賣排行一頁看完。',
     updatedAt: '2026-08-28',
     tagline: '掃條碼結帳，庫存跟著動',
     intro:
@@ -70,6 +90,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_reservation: {
     slug: 'pos_reservation',
+    seoTitle: 'LINE 訂位系統與現場取號',
+    seoDescription:
+      'LINE 訂位系統與現場取號：顧客在 LINE 完成訂位，電話與現場候位進同一份名單，桌位安排、報到與 no-show 追蹤都在後台一起處理。',
     updatedAt: '2026-08-28',
     tagline: '線上訂位、電話訂位、現場取號，同一份名單',
     intro:
@@ -91,6 +114,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   pos_invoice: {
     slug: 'pos_invoice',
+    seoTitle: 'POS 電子發票開立與折讓',
+    seoDescription:
+      'POS 電子發票開立與折讓：結帳自動觸發開立，證明聯由店裡的出單機印出，字軌、捐贈碼、會員載具與作廢流程在後台集中管理，每間分店可各自設定。',
     updatedAt: '2026-08-28',
     tagline: '結帳完成，發票自動開出來',
     intro:
@@ -110,6 +136,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   beauty_booking: {
     slug: 'beauty_booking',
+    seoTitle: 'LINE 美業預約與設計師班表',
+    seoDescription:
+      'LINE 美業預約與設計師班表：顧客自選設計師與服務項目，沒排班的時段自動擋掉；櫃台開單結帳可扣儲值金，預約與消費紀錄都留在同一筆會員資料裡。',
     updatedAt: '2026-08-28',
     tagline: '預約、班表、開單、儲值金，設計師與櫃台共用一套',
     intro:
@@ -130,6 +159,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   ecommerce: {
     slug: 'ecommerce',
+    seoTitle: 'LINE 電商商城與訂單通知',
+    seoDescription:
+      'LINE 電商商城與訂單通知：商品上架、購物車、金流與配送走完整流程，訂單進度推到顧客的 LINE，線上線下消費合併計算在同一筆會員資料上。',
     updatedAt: '2026-08-28',
     tagline: '線上商城，訂單與會員接回同一套系統',
     intro:
@@ -151,6 +183,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   hr_attendance: {
     slug: 'hr_attendance',
+    seoTitle: 'LINE 打卡排班與出勤管理',
+    seoDescription:
+      'LINE 打卡排班與出勤管理：員工用手機打卡，班表與出勤紀錄自動對照，請假與加班走線上審核，月底直接產出結算報表，不用再一張一張核對紙本班表。',
     updatedAt: '2026-08-28',
     tagline: '打卡、排班、請假、月結薪資統計',
     intro:
@@ -169,6 +204,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   course_enrollment: {
     slug: 'course_enrollment',
+    seoTitle: 'LINE 課程報名與掃碼報到',
+    seoDescription:
+      'LINE 課程報名與掃碼報到：學員在 LINE 看課表直接報名，現場掃 QR 完成報到，完課紀錄回到會員資料，之後要邀他報名下一門課時有依據。',
     updatedAt: '2026-08-28',
     tagline: '開課、報名、報到、追蹤學習歷程',
     intro:
@@ -190,6 +228,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   venue_booking: {
     slug: 'venue_booking',
+    seoTitle: 'LINE 場地預約與時段管理',
+    seoDescription:
+      'LINE 場地預約與時段管理：把可用時段開放線上預約，顧客自行選時段送出申請，管理端審核、收訂金與記錄收款都在後台完成，封閉日期優先於一般規則。',
     updatedAt: '2026-08-28',
     tagline: '場地時段線上預約與審核',
     intro:
@@ -207,6 +248,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   hotel_booking: {
     slug: 'hotel_booking',
+    seoTitle: 'LINE 民宿訂房與房況管理',
+    seoDescription:
+      'LINE 民宿訂房與房況管理：顧客選日期區間與房型直接下單，房況月曆顯示未來每天的剩餘房數，週末與連假可設定自動加價規則，訂房名單自動建檔。',
     updatedAt: '2026-08-28',
     tagline: '房型、房況、加價規則與訂房管理',
     intro:
@@ -226,6 +270,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   case_dispatch: {
     slug: 'case_dispatch',
+    seoTitle: 'LINE 案件派遣與接案分級',
+    seoDescription:
+      'LINE 案件派遣與接案分級：案件可開放搶案也可直接指派，接案者依等級決定能接哪些案，完成後系統自動建立結算單，派工進度與結算不用再靠私訊追。',
     updatedAt: '2026-08-28',
     tagline: '案件派遣、接案者分級、課後回饋',
     intro:
@@ -244,6 +291,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   cram_school: {
     slug: 'cram_school',
+    seoTitle: 'LINE 補習班聯絡簿與點名',
+    seoDescription:
+      'LINE 補習班聯絡簿與點名：學生綁定家長會員後，點名、聯絡簿、成績、公告與學費催繳都能推到家長的 LINE 上，不用再靠紙本一本一本轉交。',
     updatedAt: '2026-08-28',
     tagline: '點名、聯絡簿、成績、學費，家長在 LINE 收得到',
     intro:
@@ -263,6 +313,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   temple_management: {
     slug: 'temple_management',
+    seoTitle: 'LINE 宮廟點燈與線上抽籤',
+    seoDescription:
+      'LINE 宮廟點燈與線上抽籤：點燈認購、安太歲、法事報名與隨喜功德都在 LINE 上完成，信眾名單與繳費紀錄自動建檔，不用再手抄與人工核對。',
     updatedAt: '2026-08-28',
     tagline: '點燈、安太歲、抽籤、香油錢線上化',
     intro:
@@ -282,6 +335,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   // ══════════ 顧客互動模組 ══════════
   ai_customer_service: {
     slug: 'ai_customer_service',
+    seoTitle: 'LINE AI 客服與知識庫回覆',
+    seoDescription:
+      'LINE AI 客服與知識庫回覆：用你自己建的知識庫回答常見問題，答不出來或顧客要求時轉給真人，對話紀錄完整保留，重複的問題不用再手動回一次。',
     updatedAt: '2026-08-28',
     tagline: '常見問題交給 AI，複雜的轉真人',
     intro:
@@ -300,6 +356,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   invoice_reward: {
     slug: 'invoice_reward',
+    seoTitle: 'LINE 發票登錄與獎勵活動',
+    seoDescription:
+      'LINE 發票登錄與獎勵活動：消費者上傳發票就能換點數、票券或抽獎機會，也能登錄別家商店的發票，適合品牌跨通路促銷，參加者會留在會員名單裡。',
     updatedAt: '2026-08-28',
     tagline: '登錄發票換獎勵，把別家的消費者變成你的會員',
     intro:
@@ -318,6 +377,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   event_module: {
     slug: 'event_module',
+    seoTitle: 'LINE 尾牙報到與現場抽獎',
+    seoDescription:
+      'LINE 尾牙報到與現場抽獎：賓客名單、桌位安排、現場 QR 報到、抽獎與感謝牆在同一個模組完成，活動結束後賓客名單留在會員系統裡繼續經營。',
     updatedAt: '2026-08-28',
     tagline: '婚禮、尾牙、春酒的報到與現場互動',
     intro:
@@ -335,6 +397,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   market_expo: {
     slug: 'market_expo',
+    seoTitle: 'LINE 市集展覽攤位集點',
+    seoDescription:
+      'LINE 市集展覽攤位集點：訪客掃攤位 QR 集點，集滿可參加完攤抽獎，讓人潮把整場逛完；攤主能用 LINE 登入自行維護攤位資料，主辦看同一份名單。',
     updatedAt: '2026-08-28',
     tagline: '攤位集點與完攤抽獎，讓訪客把整場逛完',
     intro:
@@ -352,6 +417,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
 
   game_community: {
     slug: 'game_community',
+    seoTitle: 'LINE 會員遊戲化與等級制度',
+    seoDescription:
+      'LINE 會員遊戲化與等級制度：會員在 LINE 內發文、留言、按讚累積等級與勳章，高等級才解鎖特定票券或課程，讓人回來互動而不只是領優惠券。',
     updatedAt: '2026-08-28',
     tagline: '把會員從收優惠券，變成會回來互動',
     intro:
@@ -369,6 +437,9 @@ export const moduleDetails: Record<string, ModuleDetail> = {
   },
   website: {
     slug: 'website',
+    seoTitle: '品牌官網建置與文章 SEO',
+    seoDescription:
+      '品牌官網建置與文章 SEO：用拖拉式編輯器自己維護頁面、文章與分店頁，可綁自己的網域，訪客留下的詢價名單直接進會員系統，改文案不用每次找工程師。',
     updatedAt: '2026-08-28',
     tagline: '官網自己改，不用每次找工程師',
     intro:
