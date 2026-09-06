@@ -11,6 +11,7 @@ import { DashboardMock } from '@/components/mocks/DashboardMock';
 import { POSMock } from '@/components/mocks/POSMock';
 import { howItWorks, audienceViews, industryPacks, siteModuleCount } from '@/lib/data/modules';
 import { serviceOfferings } from '@/lib/data/services';
+import { solutionPages } from '@/lib/data/solution-pages';
 import { site } from '@/lib/data/site';
 import { productLd } from '@/lib/jsonld';
 import { CtaBlock } from '@/components/CtaBlock';
@@ -269,6 +270,35 @@ export default function SolutionsPage() {
           </div>
           <div className="mt-14">
             <ModuleGroups />
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────── 不用開通就有的能力 ─────────── */}
+      <section className="section">
+        <div className="container-ug">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow">Built in</span>
+            <h2 className="heading-2 mt-3 text-balance">不用開通，一進來就有的那幾件事</h2>
+            <p className="body-base mt-4">
+              上面那些模組是依行業選配的。下面這些是每個品牌開通就有的地基，
+              也是最常被問「你們到底怎麼做」的部分。
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            {solutionPages.map((p) => (
+              <Link key={p.href} href={p.href} className="card-hover group flex flex-col p-7">
+                <h3 className="text-lg font-bold text-ink-900 transition-colors group-hover:text-brand-800">
+                  {p.title}
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-brand-700">{p.summary}</p>
+                <p className="mt-4 flex-1 text-sm leading-relaxed text-ink-500">{p.detail}</p>
+                <span className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-700 transition-all group-hover:gap-2">
+                  看這一項怎麼運作
+                  <ArrowRight className="h-4 w-4" />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

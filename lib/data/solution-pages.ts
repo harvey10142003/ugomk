@@ -1,0 +1,29 @@
+/**
+ * 三個「跨模組能力」說明頁。
+ *
+ * 為什麼不放進 `crmModules`：那份清單的 id 對應系統真正的 module id，`/solutions/[slug]`
+ * 也是照它生頁面。集點、行銷自動化、推薦裂變都落在核心模組裡（activity_management /
+ * member_management / settings / marketing_automation），是租戶開通就有的地基，不是選配。
+ * 硬塞進 crmModules 會讓「可以開通的 N 個模組」這個數字說謊。
+ *
+ * 這裡只負責 /solutions 總覽頁的入口卡片；導覽列與 footer 的連結在 lib/data/site.ts 的
+ * navItems 裡（footer 會自動展開 children，不用另外維護第二份）。
+ */
+export type SolutionPage = {
+  href: string;
+  /** 卡片標題 */
+  title: string;
+  /** 一句話講這頁在回答什麼 */
+  summary: string;
+  detail: string;
+};
+
+export const solutionPages: SolutionPage[] = [
+  {
+    href: '/solutions/loyalty',
+    title: '會員集點・票券・儲值',
+    summary: '把集點卡搬進 LINE，名單留在自己手上',
+    detail:
+      '消費自動累積點數、點數換票券、票券掃碼核銷與轉贈、儲值金扣款與等級自動升等。點數、票券、儲值金與消費紀錄掛在同一位會員身上，不用再跟第三方平台對帳。'
+  }
+];

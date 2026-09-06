@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { site, pageUpdatedAt } from '@/lib/data/site';
 import { articles } from '@/lib/data/articles';
 import { moduleDetails } from '@/lib/data/module-details';
+import { solutionPages } from '@/lib/data/solution-pages';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = site.url;
@@ -24,6 +25,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // 隱私權說明是義務性頁面，不該和內容頁搶排名權重
     priority: p === '' ? 1 : p === '/privacy' ? 0.2 : 0.8
   }));
+  /**
+   * 跨模組能力頁（集點 / 行銷自動化 / 推薦裂變）。
+   * 這幾頁打的是主要查詢詞而不是長尾，權重與其他內容頁同級（0.8），不跟模組頁一起用 0.7。
+   * 從 solutionPages 推導而不是手寫路徑，新增一頁時不會有人忘記回來加。
+   */
+  const capabilityPages = solutionPages.map((p) => ({
+    url: `${base}${p.href}`,
+    lastModified: at(pageUpdatedAt[p.href]),
+    changeFrequency: 'monthly' as const,
+    priority: 0.8
+  }));
   // 每個模組說明頁都要進 sitemap —— 這些頁面是長尾搜尋的主要入口
   const modulePages = Object.values(moduleDetails).map((m) => ({
     url: `${base}/solutions/${m.slug}`,
@@ -37,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly' as const,
     priority: 0.6
   }));
-  return [...staticPages, ...modulePages, ...blogPages];
+  return [...staticPages, ...capabilityPages, ...modulePages, ...blogPages];
 }

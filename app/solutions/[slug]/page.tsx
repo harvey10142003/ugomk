@@ -21,6 +21,23 @@ export function generateStaticParams() {
 }
 
 /**
+ * ⚠️ 這一行是必要的，不是效能微調。
+ *
+ * `/solutions` 底下除了這支動態路由，還有 loyalty / marketing-automation / referral
+ * 三個實體資料夾。預設 `dynamicParams = true` 時，`next start` 會把「不在
+ * generateStaticParams 裡的 slug」當成可以隨選渲染的路徑接下來 ——
+ * 包含那三個。它們在這裡查不到 moduleDetails，於是 notFound()，
+ * 而這個 404 結果會被寫回 `.next/server/app/solutions/<name>.html`，
+ * **蓋掉 build 時已經產好的靜態頁**。症狀是第一次開得起來、之後全部變 404，
+ * 而且 build log 完全正常（那三頁確實有被 prerender）。
+ *
+ * 關掉 dynamicParams 之後，沒列在 generateStaticParams 裡的 slug 不再由這支路由接管，
+ * 實體資料夾的頁面才拿得到自己的網址。對既有 19 個模組頁沒有任何影響：
+ * 它們本來就全部列在 generateStaticParams 裡，未知 slug 的結果也一樣是 404。
+ */
+export const dynamicParams = false;
+
+/**
  * ⚠️ SERP 標題與畫面標題是兩件事。
  *
  * 這裡原本是 `${mod.title}｜${detail.tagline}`，接上 layout 的「｜宇果國際行銷」之後
