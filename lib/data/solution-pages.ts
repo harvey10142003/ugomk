@@ -25,5 +25,12 @@ export const solutionPages: SolutionPage[] = [
     summary: '把集點卡搬進 LINE，名單留在自己手上',
     detail:
       '消費自動累積點數、點數換票券、票券掃碼核銷與轉贈、儲值金扣款與等級自動升等。點數、票券、儲值金與消費紀錄掛在同一位會員身上，不用再跟第三方平台對帳。'
+  },
+  {
+    href: '/solutions/marketing-automation',
+    title: '行銷自動化',
+    summary: '設定一次，該做的跟進自動完成',
+    detail:
+      '設定「什麼情況發生，系統就做什麼」。生日、消費後、久未回訪、點數達標與票券到期自動推播、發券、加點與貼標籤，訊息只發給符合條件的會員。'
   }
 ];

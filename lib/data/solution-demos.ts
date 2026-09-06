@@ -1,7 +1,7 @@
 import type { ModuleDemo } from './module-demos';
 
 /**
- * 解決方案頁的互動 demo 腳本。
+ * 解決方案頁（/solutions/loyalty、/solutions/marketing-automation）的互動 demo 腳本。
  *
  * ## 為什麼另開一個檔而不是塞進 module-demos.ts
  *
@@ -18,7 +18,7 @@ import type { ModuleDemo } from './module-demos';
  * 這裡不是示意圖，是把後台實際的欄位與流程換成看得懂的說法 —— 演出系統做不到的步驟，
  * 第一個受害的是帶著這頁去談客戶的業務。
  */
-export const solutionDemos: Record<'loyalty', ModuleDemo> = {
+export const solutionDemos: Record<'loyalty' | 'marketing-automation', ModuleDemo> = {
   /* ══════════ 會員集點・票券・儲值 ══════════ */
   loyalty: {
     title: '一張 LINE 集點卡，從發點到核銷走一遍',
@@ -94,6 +94,88 @@ export const solutionDemos: Record<'loyalty', ModuleDemo> = {
             { left: '點數 +12', sub: '消費累積', right: '今天 19:40', badge: '入帳', tone: 'ok' },
             { left: '會員等級', sub: '銀卡 → 金卡', right: '今天 19:40', badge: '升等', tone: 'ok' },
             { left: '生日券', sub: '尚未使用', right: '11/30 到期', badge: '待核銷', tone: 'warn' }
+          ]
+        }
+      }
+    ]
+  },
+
+  /* ══════════ 行銷自動化 ══════════ */
+  'marketing-automation': {
+    title: '一條自動跟進的劇本，怎麼設定與執行',
+    intro: '點下面的步驟，看一條「久未回訪就自動關懷」的劇本從設定到送達的完整過程。',
+    steps: [
+      {
+        label: '設觸發條件',
+        caption: '先選什麼情況要觸發。生日、消費後、久未回訪、點數達標、票券快到期都可以。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'form',
+          title: '新增劇本 · 觸發條件',
+          fields: [
+            { label: '劇本名稱', value: '90 天未回訪關懷' },
+            { label: '觸發條件', value: '距離上次消費滿 N 天', hint: '系統每天自動掃描' },
+            { label: '天數', value: '90 天' },
+            { label: '適用分店', value: '全部分店共用', hint: '也可指定單一分店專用' }
+          ],
+          submit: '下一步'
+        }
+      },
+      {
+        label: '挑對象',
+        caption: '再縮小要發給誰。可依會員等級、必須有哪些標籤、要排除哪些標籤來篩。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'stats',
+          title: '啟用前預估',
+          stats: [
+            { label: '符合條件會員', value: '284 位', hint: '啟用前先算給你看' },
+            { label: '會員等級', value: '銀卡以上' },
+            { label: '排除標籤', value: '已退訂' }
+          ],
+          rows: [
+            { left: '必須有標籤', right: '曾消費' },
+            { left: '排除標籤', right: '已退訂、黑名單' },
+            { left: '這次會實際發送', right: '284 位' }
+          ]
+        }
+      },
+      {
+        label: '設動作',
+        caption: '選系統要做什麼。發訊息、發票券、加點數、貼標籤、發抽獎機會都可以一次設多個。',
+        actor: '老闆',
+        device: 'desktop',
+        screen: {
+          kind: 'grid',
+          title: '這條劇本要做的事',
+          caption: '可同時設定多個動作，也可以設定延遲多久才執行',
+          items: [
+            { label: '推播訊息', sub: '關懷文案', state: 'on' },
+            { label: '發放票券', sub: '回店折抵券', state: 'on' },
+            { label: '加點數', sub: '未使用' },
+            { label: '貼標籤', sub: '沉睡喚回', state: 'on' },
+            { label: '發抽獎機會', sub: '未使用' },
+            { label: '延遲執行', sub: '立即發送' }
+          ]
+        }
+      },
+      {
+        label: '自動執行',
+        caption: '之後不用再管。系統每天掃描，符合條件的會員自動收到，每一次執行都留紀錄。',
+        actor: '系統',
+        device: 'desktop',
+        screen: {
+          kind: 'list',
+          title: '執行紀錄',
+          caption: '每一次觸發都寫一筆，看得到成功、略過與失敗',
+          rows: [
+            { left: '90 天未回訪關懷', sub: '推播 + 發券', right: '今天 10:00', badge: '成功 284', tone: 'ok' },
+            { left: '生日當月祝賀', sub: '推播 + 發券', right: '今天 09:00', badge: '成功 41', tone: 'ok' },
+            { left: '票券到期前提醒', sub: '推播', right: '昨天 09:00', badge: '成功 96', tone: 'ok' },
+            { left: '新會員歡迎禮', sub: '推播 + 發券', right: '昨天 21:13', badge: '成功 3', tone: 'ok' },
+            { left: '點數達 500 點通知', sub: '推播', right: '昨天 18:02', badge: '略過 1', tone: 'muted' }
           ]
         }
       }
