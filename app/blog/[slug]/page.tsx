@@ -9,6 +9,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta, OG_IMAGE } from '@/lib/seo';
+import { campaignFromPath, ctaHref } from '@/lib/utm';
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -146,7 +147,15 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                   <MessageCircle className="h-4 w-4" />
                   加 LINE 聊
                 </a>
-                <Link href={site.cta.primary.href} className="btn-outline">
+                {/* campaign 帶到單篇 —— 「部落格有效」與「哪一篇有效」是兩個問題 */}
+                <Link
+                  href={ctaHref(
+                    site.cta.primary.href,
+                    campaignFromPath(`/blog/${params.slug}`),
+                    'article_footer'
+                  )}
+                  className="btn-outline"
+                >
                   {site.cta.primary.label}
                 </Link>
               </div>

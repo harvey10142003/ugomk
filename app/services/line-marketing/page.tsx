@@ -9,6 +9,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/line-marketing',
@@ -55,7 +56,10 @@ export default function LineMarketingPage() {
               多數人的 LINE@ 停在無差別群發與折扣轟炸，效果越做越差。導航式行銷把好友從加入到回購的路徑先規劃出來，再讓系統在每個關鍵時刻自動給出下一步。
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
+              <Link
+                href={ctaHref(site.cta.primary.href, 'services_line_marketing', 'hero')}
+                className="btn-brand"
+              >
                 預約規劃討論
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -214,6 +218,7 @@ export default function LineMarketingPage() {
           <CtaBlock
             title="先看看你的 LINE@ 卡在哪一步"
             description="把現在的好友數、經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。"
+            campaign="services_line_marketing"
             secondary={{ label: '看實際案例', href: '/cases' }}
           />
         </div>

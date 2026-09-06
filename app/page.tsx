@@ -31,6 +31,7 @@ import { LogoBar } from '@/components/LogoBar';
 import { StatsBar } from '@/components/StatsBar';
 import { Testimonial } from '@/components/Testimonial';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 import { cn } from '@/lib/utils';
 
 // 首頁自己宣告 canonical，不靠繼承 —— 見 lib/seo.ts 開頭的說明
@@ -73,7 +74,7 @@ export default function HomePage() {
                 不需要一開始買下所有功能。從目前最需要的模組開始，未來再跟著營運規模增加。
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <Link href={site.cta.primary.href} className="btn-brand">
+                <Link href={ctaHref(site.cta.primary.href, 'home', 'hero')} className="btn-brand">
                   {site.cta.primary.label}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -528,7 +529,7 @@ export default function HomePage() {
                   ))}
                 </ul>
                 <Link
-                  href={p.cta.href}
+                  href={ctaHref(p.cta.href, 'home', `plan_${p.id}`)}
                   className={cn('mt-8 w-full', p.highlight ? 'btn-brand' : 'btn-outline')}
                 >
                   {p.cta.label}
@@ -582,7 +583,7 @@ export default function HomePage() {
               </ul>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <Link
-                  href="/contact"
+                  href={ctaHref('/contact', 'home', 'final_cta')}
                   className="btn bg-white text-brand-900 hover:bg-brand-50 hover:-translate-y-0.5 shadow-soft"
                 >
                   預約 30 分鐘需求討論

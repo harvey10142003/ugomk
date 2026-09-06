@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { navItems, site } from '@/lib/data/site';
+import { campaignFromPath, ctaHref } from '@/lib/utm';
 import { cn } from '@/lib/utils';
 
 export function Header() {
@@ -30,6 +31,13 @@ export function Header() {
   }, [pathname]);
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
+
+  /**
+   * header 的預約按鈕出現在每一頁，所以 campaign 要看訪客當下在哪一頁，
+   * 不能寫死成 'header' —— 那樣只知道「有人按了 header」，答不出他從哪一頁按的。
+   * 位置差異（桌機常駐 vs 手機選單內）放在 utm_content。
+   */
+  const headerCampaign = campaignFromPath(pathname);
 
   /**
    * 滑出時延遲關閉 —— 游標從觸發按鈕移到面板的途中會經過空隙，
@@ -170,7 +178,10 @@ export function Header() {
           小螢幕縮 padding、換短文案；.btn 已有 whitespace-nowrap，不會破版。
         */}
         <div className="flex items-center gap-3 shrink-0">
-          <Link href={site.cta.primary.href} className="btn-brand px-4 lg:px-6">
+          <Link
+            href={ctaHref(site.cta.primary.href, headerCampaign, 'header')}
+            className="btn-brand px-4 lg:px-6"
+          >
             <span className="lg:hidden">預約諮詢</span>
             <span className="hidden lg:inline">{site.cta.primary.label}</span>
           </Link>
@@ -252,7 +263,10 @@ export function Header() {
                 </div>
               );
             })}
-            <Link href={site.cta.primary.href} className="btn-brand mt-4 w-full">
+            <Link
+              href={ctaHref(site.cta.primary.href, headerCampaign, 'header_menu')}
+              className="btn-brand mt-4 w-full"
+            >
               {site.cta.primary.label}
             </Link>
           </nav>

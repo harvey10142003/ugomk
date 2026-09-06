@@ -4,6 +4,7 @@ import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { site } from '@/lib/data/site';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 
 export const metadata: Metadata = pageMeta({
   path: '/privacy',
@@ -165,7 +166,7 @@ export default function PrivacyPage() {
               <p className="mt-3 text-sm text-ink-600">
                 可以。加 LINE 直接問，什麼都不用填。
               </p>
-              <Link href="/contact" className="btn-outline mt-5 w-full">
+              <Link href={ctaHref('/contact', 'privacy', 'aside')} className="btn-outline mt-5 w-full">
                 看聯絡方式
               </Link>
             </div>

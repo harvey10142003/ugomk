@@ -50,6 +50,7 @@ export default function BlogPage() {
             <CtaBlock
               title="讀完想直接問問看自己的狀況？"
               description="把你現在的 LINE 好友數、產業與最想改善的問題講一遍，我們一起看哪一段先做比較有效。"
+              campaign="blog"
               secondary={{ label: '看實際案例', href: '/cases' }}
             />
           </div>

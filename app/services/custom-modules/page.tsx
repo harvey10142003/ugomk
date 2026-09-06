@@ -11,6 +11,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/custom-modules',
@@ -71,7 +72,10 @@ export default function CustomModulesPage() {
             大部分需求用現成模組組合就能解決，開通當天就能用。真的缺的那一塊，我們才依你的實際流程開發，不是每個需求都從零寫一套。
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={site.cta.primary.href} className="btn-brand">
+            <Link
+              href={ctaHref(site.cta.primary.href, 'services_custom_modules', 'hero')}
+              className="btn-brand"
+            >
               討論你的需求
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -178,6 +182,7 @@ export default function CustomModulesPage() {
           <CtaBlock
             title="先講你的流程，再談要不要客製"
             description="把現在的做法講一遍，我們判斷用現成模組能解決多少、真正缺的是哪一塊。"
+            campaign="services_custom_modules"
             secondary={{ label: '查看費用方案', href: '/pricing' }}
           />
         </div>

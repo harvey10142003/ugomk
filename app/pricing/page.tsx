@@ -8,6 +8,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { plans, billingNote, pricingFaqs } from '@/lib/data/pricing';
 import { faqPageLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = pageMeta({
@@ -131,7 +132,7 @@ export default function PricingPage() {
                   ))}
                 </ul>
                 <Link
-                  href={p.cta.href}
+                  href={ctaHref(p.cta.href, 'pricing', `plan_${p.id}`)}
                   className={cn('mt-8 w-full', p.highlight ? 'btn-brand' : 'btn-outline')}
                 >
                   {p.cta.label}
@@ -245,6 +246,7 @@ export default function PricingPage() {
             <CtaBlock
               title="還是不確定要選哪一個？"
               description="把你的分店數量、目前的 LINE 好友數與最想解決的問題講一遍，我們直接說哪個方案夠用、哪些模組先不用開。"
+              campaign="pricing"
               secondary={{ label: '看實際案例', href: '/cases' }}
             />
           </div>

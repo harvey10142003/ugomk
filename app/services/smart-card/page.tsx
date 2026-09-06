@@ -8,6 +8,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ctaHref } from '@/lib/utm';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/smart-card',
@@ -159,7 +160,10 @@ export default function SmartCardPage() {
               用 LINE Flex 圖卡做的數位名片。點電話直接撥號、點地址開導航、點按鈕加你好友，對方還能把整張名片轉傳給朋友。
             </p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link href={site.cta.primary.href} className="btn-brand">
+              <Link
+                href={ctaHref(site.cta.primary.href, 'services_smart_card', 'hero')}
+                className="btn-brand"
+              >
                 詢問智慧名片
                 <ArrowRight className="h-4 w-4" />
               </Link>
@@ -252,7 +256,10 @@ export default function SmartCardPage() {
             <p className="body-base mt-4">
               需要把自己介紹出去、而且希望對方能順手轉介給別人的人。
             </p>
-            <Link href={site.cta.primary.href} className="btn-outline mt-6">
+            <Link
+              href={ctaHref(site.cta.primary.href, 'services_smart_card', 'for_who')}
+              className="btn-outline mt-6"
+            >
               預約需求討論
             </Link>
           </div>
@@ -291,7 +298,11 @@ export default function SmartCardPage() {
               <MessageCircle className="h-4 w-4" />
               加 LINE 看範例
             </a>
-            <Link href={site.cta.primary.href} className="btn-outline">
+            {/* children 自己畫按鈕，CtaBlock 的 campaign prop 管不到這裡，自己標 */}
+            <Link
+              href={ctaHref(site.cta.primary.href, 'services_smart_card', 'cta_block')}
+              className="btn-outline"
+            >
               {site.cta.primary.label}
             </Link>
           </CtaBlock>
