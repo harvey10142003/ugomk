@@ -40,6 +40,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   const a = articleBySlug(params.slug);
   if (!a) return notFound();
   const related = relatedArticles(a.slug, 2);
+  // campaign 帶到單篇 —— 「部落格有效」與「哪一篇有效」是兩個問題
+  const campaign = campaignFromPath(`/blog/${a.slug}`);
   const date = new Date(a.publishedAt).toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: 'long',
@@ -116,6 +118,43 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         <div className="container-ug max-w-3xl">
           <ArticleBody sections={a.sections} />
 
+          {/*
+            文末的題目出口。
+            作者區塊那顆固定指向 /contact，回答的是「要不要聯絡我們」；這一塊回答的是
+            「這個題目的下一頁在哪」—— 買方視角的文章讀完，下一步通常不是留資料，
+            是去看那件事實際長什麼樣。兩顆按鈕都走 ctaHref，campaign 用文章 slug，
+            所以名單進來時看得出是哪一篇帶來的（utm 實際會被加在 /contact 那顆上，
+            站內能力頁沒有表單會讀它，這是 lib/utm.ts 既有的邊界）。
+          */}
+          {a.cta ? (
+            <aside className="mt-14 rounded-2xl border border-brand-200 bg-brand-50 p-6 md:p-8">
+              <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-700">
+                下一步
+              </div>
+              <h2 className="mt-2 font-display text-xl font-bold tracking-tight text-ink-900 md:text-2xl">
+                {a.cta.heading}
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-ink-700 md:text-base">
+                {a.cta.text}
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Link
+                  href={ctaHref(a.cta.href, campaign, 'article_cta')}
+                  className="btn-brand"
+                >
+                  {a.cta.label}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href={ctaHref(site.cta.primary.href, campaign, 'article_cta_contact')}
+                  className="btn-outline"
+                >
+                  {site.cta.primary.label}
+                </Link>
+              </div>
+            </aside>
+          ) : null}
+
           {/* Author + CTA */}
           <div className="mt-16 pt-10 border-t border-ink-100">
             <div className="card p-6 md:p-8 bg-mist-100 flex flex-col md:flex-row gap-6 items-start md:items-center">
@@ -147,13 +186,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                   <MessageCircle className="h-4 w-4" />
                   加 LINE 聊
                 </a>
-                {/* campaign 帶到單篇 —— 「部落格有效」與「哪一篇有效」是兩個問題 */}
                 <Link
-                  href={ctaHref(
-                    site.cta.primary.href,
-                    campaignFromPath(`/blog/${params.slug}`),
-                    'article_footer'
-                  )}
+                  href={ctaHref(site.cta.primary.href, campaign, 'article_footer')}
                   className="btn-outline"
                 >
                   {site.cta.primary.label}

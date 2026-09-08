@@ -1,12 +1,31 @@
 import Link from 'next/link';
-import { ArrowRight, Clock } from 'lucide-react';
-import type { Article } from '@/lib/data/articles';
+import {
+  ArrowRight,
+  CalendarCheck,
+  ClipboardCheck,
+  Clock,
+  Coins,
+  Stamp,
+  type LucideIcon
+} from 'lucide-react';
+import type { Article, ArticleCoverIcon } from '@/lib/data/articles';
 import { cn } from '@/lib/utils';
 
 const coverBg: Record<Article['cover']['tone'], string> = {
   brand: 'bg-gradient-to-br from-brand-400 to-brand-600',
   ink: 'bg-gradient-to-br from-ink-800 to-ink-900',
   mint: 'bg-gradient-to-br from-mint-400 to-brand-500'
+};
+
+/**
+ * 封面圖示對應表。
+ * 介面不放 emoji（既有三篇維持原樣不動），新文章一律走這裡的 SVG。
+ */
+const coverIcon: Record<ArticleCoverIcon, LucideIcon> = {
+  checklist: ClipboardCheck,
+  cost: Coins,
+  reservation: CalendarCheck,
+  loyalty: Stamp
 };
 
 export function ArticleCard({
@@ -23,6 +42,7 @@ export function ArticleCard({
   headingLevel?: 'h2' | 'h3';
 }) {
   const Heading = headingLevel;
+  const CoverIcon = article.cover.icon ? coverIcon[article.cover.icon] : null;
   const date = new Date(article.publishedAt).toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: '2-digit',
@@ -44,9 +64,17 @@ export function ArticleCard({
           featured && 'md:aspect-auto md:h-full'
         )}
       >
-        <span className="text-[64px] md:text-[88px] drop-shadow-lg select-none">
-          {article.cover.emoji}
-        </span>
+        {CoverIcon ? (
+          <CoverIcon
+            className="h-16 w-16 text-white/90 drop-shadow-lg md:h-[88px] md:w-[88px]"
+            strokeWidth={1.25}
+            aria-hidden
+          />
+        ) : (
+          <span className="text-[64px] md:text-[88px] drop-shadow-lg select-none">
+            {article.cover.emoji}
+          </span>
+        )}
         <span className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white/90 backdrop-blur px-2.5 py-1 text-[11px] font-semibold text-ink-800">
           {article.category}
         </span>

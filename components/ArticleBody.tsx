@@ -1,3 +1,4 @@
+import { CircleAlert } from 'lucide-react';
 import type { ArticleSection } from '@/lib/data/articles';
 
 /**
@@ -62,6 +63,94 @@ export function ArticleBody({ sections }: { sections: ArticleSection[] }) {
                   {s.text}
                 </p>
               </aside>
+            );
+          case 'checklist':
+            return (
+              <ol key={i} className="my-8 space-y-4">
+                {s.items.map((it, j) => (
+                  <li
+                    key={j}
+                    className="flex items-start gap-4 rounded-2xl border border-ink-100 bg-white p-5 md:p-6"
+                  >
+                    <span className="mt-0.5 grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-800 text-xs font-bold text-white">
+                      {j + 1}
+                    </span>
+                    {/* min-w-0：長中文句子在 flex 子項裡不縮，會把卡片撐出容器 */}
+                    <div className="min-w-0">
+                      <div className="text-base font-bold text-ink-900">{it.label}</div>
+                      <p className="mt-2 text-sm leading-relaxed text-ink-600 md:text-base">
+                        {it.detail}
+                      </p>
+                      {it.watch ? (
+                        <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-ink-500">
+                          <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
+                          <span>{it.watch}</span>
+                        </p>
+                      ) : null}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            );
+          case 'compare':
+            return (
+              <div key={i} className="my-8">
+                {/* 桌機：三欄對照表 */}
+                <div className="hidden overflow-x-auto rounded-2xl border border-ink-100 md:block">
+                  <table className="w-full border-collapse text-left text-sm">
+                    <thead>
+                      <tr className="bg-mist-300">
+                        <th scope="col" className="w-36 px-5 py-4 font-semibold text-ink-500">
+                          維度
+                        </th>
+                        <th scope="col" className="px-5 py-4 font-bold text-ink-900">
+                          {s.columns[0]}
+                        </th>
+                        <th scope="col" className="px-5 py-4 font-bold text-brand-800">
+                          {s.columns[1]}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {s.rows.map((r) => (
+                        <tr key={r.label} className="border-t border-ink-100 align-top">
+                          <th
+                            scope="row"
+                            className="px-5 py-4 text-left font-semibold text-ink-800"
+                          >
+                            {r.label}
+                          </th>
+                          <td className="px-5 py-4 leading-relaxed text-ink-600">{r.a}</td>
+                          <td className="px-5 py-4 leading-relaxed text-ink-700">{r.b}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {/*
+                  手機：一列拆成一張卡。
+                  390px 放不下三欄表格，硬塞的話不是字擠成一行一字，就是整篇文章跟著橫向捲動。
+                */}
+                <div className="space-y-4 md:hidden">
+                  {s.rows.map((r) => (
+                    <div key={r.label} className="rounded-2xl border border-ink-100 bg-white p-5">
+                      <div className="text-sm font-bold text-ink-900">{r.label}</div>
+                      <div className="mt-3">
+                        <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-ink-400">
+                          {s.columns[0]}
+                        </div>
+                        <p className="mt-1 text-sm leading-relaxed text-ink-600">{r.a}</p>
+                      </div>
+                      <div className="mt-4 border-t border-ink-100 pt-4">
+                        <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-700">
+                          {s.columns[1]}
+                        </div>
+                        <p className="mt-1 text-sm leading-relaxed text-ink-700">{r.b}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             );
         }
       })}
