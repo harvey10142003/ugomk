@@ -9,7 +9,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/line-marketing',
@@ -218,7 +218,7 @@ export default function LineMarketingPage() {
           <CtaBlock
             title="先看看你的 LINE@ 卡在哪一步"
             description="把現在的好友數、經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。"
-            campaign="services_line_marketing"
+            source="services_line_marketing"
             secondary={{ label: '看實際案例', href: '/cases' }}
           />
         </div>

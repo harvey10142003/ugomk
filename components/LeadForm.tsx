@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowRight, CheckCircle2, Loader2, MessageCircle, AlertTriangle } from 'lucide-react';
 import { site } from '@/lib/data/site';
 import { pushEvent } from '@/lib/gtm';
+import { POS_PARAM, SRC_PARAM } from '@/lib/site-source';
 import {
   INDUSTRY_OPTIONS,
   STORE_COUNT_OPTIONS,
@@ -14,11 +15,24 @@ import {
 
 type Status = 'idle' | 'sending' | 'done' | 'error';
 
-/** 從網址抓 utm_*；沒有就是空物件（不要塞假值，之後分析會分不出「沒帶」與「帶了空的」） */
-function readUtm(): Record<string, string> {
+/**
+ * 從網址收「這張名單的來源」。收兩種東西，語意完全不同，**不可以混成一個欄位**：
+ *
+ *  1. **站外真實流量來源** —— `utm_*` 與廣告點擊 id。只有別的地方（Google 商家檔案的
+ *     `?utm_source=gbp`、日後的廣告）把人送過來時才會有，原樣保留：它就是答案。
+ *  2. **站內按鈕來源** —— `src` / `pos`（由 lib/site-source.ts 產生，刻意不叫 utm_*，
+ *     否則 GA4 會把站內點擊當成新流量來源，覆寫掉 1. 那個真答案）。
+ *     這裡轉成 `site_src` / `site_pos` 兩個非標準鍵，讓 app/api/lead/route.ts
+ *     一眼分得出來 —— 它會寫進 message 的來源摘要，而不是冒充 utm_source。
+ *
+ * 沒有就是空物件（不要塞假值，之後分析會分不出「沒帶」與「帶了空的」）。
+ * 兩者同時為空本身也是資訊：這個人是直接進站的。
+ */
+function readSourceParams(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   const out: Record<string, string> = {};
   const sp = new URLSearchParams(window.location.search);
+  // 1. 站外來源：utm_* 原樣（鍵名就是 CRM 後台認得的那五個標準鍵）
   for (const [k, v] of sp.entries()) {
     if (!k.toLowerCase().startsWith('utm_')) continue;
     const val = v.trim();
@@ -28,6 +42,14 @@ function readUtm(): Record<string, string> {
   for (const k of ['gclid', 'fbclid', 'ttclid', 'msclkid']) {
     const val = sp.get(k)?.trim();
     if (val) out[k] = val.slice(0, 200);
+  }
+  // 2. 站內來源：src / pos → site_src / site_pos
+  for (const [param, key] of [
+    [SRC_PARAM, 'site_src'],
+    [POS_PARAM, 'site_pos']
+  ] as const) {
+    const val = sp.get(param)?.trim();
+    if (val) out[key] = val.slice(0, 200);
   }
   return out;
 }
@@ -46,7 +68,7 @@ export function LeadForm() {
     // 掛載當下＝訪客看到表單的時間。CRM 端拿它擋「快到不可能是人」的送出，
     // 所以一定要在 client 取，不能用 server 時間。
     startedAtRef.current = Date.now();
-    utmRef.current = readUtm();
+    utmRef.current = readSourceParams();
     referrerRef.current = document.referrer || '';
     sourcePathRef.current = window.location.pathname + window.location.search;
   }, []);

@@ -82,9 +82,16 @@ export async function POST(request: Request) {
    * utm_term / utm_content 這五個標準鍵（`apps/admin/.../site/leads/page.tsx`），
    * 其餘鍵會被存下來但畫面上看不到。所以：
    *   - 標準五鍵照原樣傳（後台看得到）
-   *   - landing_page / referrer / gclid 之類另外傳（畫面看不到，但存得住，
-   *     日後要回答「哪一頁帶來詢問」靠的就是它）
-   *   - **同時**把來源頁寫進 message 尾巴，確保後台第一眼就看得到
+   *   - landing_page / referrer / gclid 之類另外傳（畫面看不到，但存得住）
+   *   - **同時**把來源摘要寫進 message 尾巴，確保後台第一眼就看得到
+   *
+   * ⚠️ **那五個標準鍵只給站外來源用，站內按鈕不可以冒充。**
+   * 站內 CTA 帶的是 site_src / site_pos（來源 lib/site-source.ts 的 src / pos，
+   * 刻意不叫 utm_* 是因為 GA4 看到 utm_source 就會開新 session 並覆寫原本的流量來源）。
+   * 如果這裡把 site_src 抄進 utm_campaign，等於在 CRM 這一側重演同一個錯誤：
+   * 一張其實來自 Google 自然搜尋的名單，utm 欄位會寫著「site」。
+   * 所以站內來源只走 message 摘要那條路；utm_source 空著就是它該有的樣子
+   * —— 那本身就是答案：這個人不是被別的地方送過來的。
    */
   const utm: Record<string, string> = {};
   if (body?.utm && typeof body.utm === 'object') {
@@ -108,10 +115,16 @@ export async function POST(request: Request) {
    * 硬塞進 source_page_id 會汙染那個欄位的語意（它是給 site_pages 的 id 用的）。
    * 放進 message 尾巴是唯一「後台一定看得到」的位置。
    */
+  const siteSrc = utm.site_src;
+  const sitePos = utm.site_pos;
+
   const metaLines: string[] = [];
   if (industry) metaLines.push(`產業：${industry}`);
   if (storeCount) metaLines.push(`分店數：${storeCount}`);
   if (sourcePath) metaLines.push(`來源頁：${sourcePath}`);
+  // 站內來源：他是從哪一頁、按了哪一顆按鈕走到表單的（沒有＝直接開 /contact）
+  if (siteSrc) metaLines.push(`站內來源：${siteSrc}${sitePos ? `（${sitePos}）` : ''}`);
+  // 站外來源：只有真的被別的地方送過來才有值
   if (utmSummary) metaLines.push(`UTM：${utmSummary}`);
 
   const message = [userMessage, metaLines.length ? `— 來自 ugomk.com 官網表單 —\n${metaLines.join('\n')}` : '']

@@ -27,7 +27,7 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 /**
  * ## 這一頁為什麼存在
@@ -189,7 +189,7 @@ const relatedModules = [
 ];
 
 export default function MarketingAutomationPage() {
-  const campaign = 'solutions_marketing_automation';
+  const source = 'solutions_marketing_automation';
 
   return (
     <>
@@ -233,7 +233,7 @@ export default function MarketingAutomationPage() {
             你設定的是「什麼情況發生，系統就做什麼」，之後不用再記得誰該收到什麼。
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={ctaHref(site.cta.primary.href, campaign, 'hero')} className="btn-brand">
+            <Link href={ctaHref(site.cta.primary.href, source, 'hero')} className="btn-brand">
               預約需求討論
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -584,7 +584,7 @@ export default function MarketingAutomationPage() {
               </>
             }
             description="把現在靠人記的跟進講一遍，我們幫你判斷哪幾條設起來最有感，以及設完之後訊息費會怎麼變。"
-            campaign={campaign}
+            source={source}
             secondary={{ label: '看導航六步法', href: '/services/line-marketing' }}
           />
         </div>

@@ -11,7 +11,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/custom-modules',
@@ -182,7 +182,7 @@ export default function CustomModulesPage() {
           <CtaBlock
             title="先講你的流程，再談要不要客製"
             description="把現在的做法講一遍，我們判斷用現成模組能解決多少、真正缺的是哪一塊。"
-            campaign="services_custom_modules"
+            source="services_custom_modules"
             secondary={{ label: '查看費用方案', href: '/pricing' }}
           />
         </div>

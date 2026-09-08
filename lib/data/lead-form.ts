@@ -41,7 +41,12 @@ export type LeadFormPayload = {
   sourcePath?: string;
   /** document.referrer —— 判斷是搜尋、社群還是站內導流過來的 */
   referrer?: string;
-  /** 網址上的 utm_* 參數（沒有就是空物件） */
+  /**
+   * 網址上的來源參數（沒有就是空物件）。兩種東西共用這一個 bag：
+   *  - `utm_*` / gclid 等：**站外**真實流量來源，原樣保留
+   *  - `site_src` / `site_pos`：**站內**按鈕來源，由 LeadForm 從 src / pos 轉名
+   * 兩者不可混用，理由見 lib/site-source.ts 檔頭。
+   */
   utm?: Record<string, string>;
   /** 表單「開始填」的時間戳（ms epoch）—— CRM 端用來擋 0ms 送出的機器人 */
   formStartedAt?: number;

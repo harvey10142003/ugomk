@@ -16,7 +16,7 @@ import { site } from '@/lib/data/site';
 import { productLd } from '@/lib/jsonld';
 import { CtaBlock } from '@/components/CtaBlock';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
   path: '/solutions',
@@ -382,7 +382,7 @@ export default function SolutionsPage() {
             eyebrow="客製開發與系統串接"
             title="想要的功能不在上面？"
             description="現有模組滿足不了的欄位、流程或第三方服務，可以依實際需求評估串接與客製開發。先聊聊你的情況。"
-            campaign="solutions"
+            source="solutions"
             secondary={{ label: '查看費用方案', href: '/pricing' }}
           />
         </div>

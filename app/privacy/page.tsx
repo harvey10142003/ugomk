@@ -4,7 +4,7 @@ import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { site } from '@/lib/data/site';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
   path: '/privacy',

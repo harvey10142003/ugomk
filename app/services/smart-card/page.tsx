@@ -8,7 +8,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { serviceLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
   path: '/services/smart-card',
@@ -298,7 +298,7 @@ export default function SmartCardPage() {
               <MessageCircle className="h-4 w-4" />
               加 LINE 看範例
             </a>
-            {/* children 自己畫按鈕，CtaBlock 的 campaign prop 管不到這裡，自己標 */}
+            {/* children 自己畫按鈕，CtaBlock 的 source prop 管不到這裡，自己標 */}
             <Link
               href={ctaHref(site.cta.primary.href, 'services_smart_card', 'cta_block')}
               className="btn-outline"

@@ -138,7 +138,7 @@ export default function CasesPage() {
             size="lg"
             title="你的產業沒有現成範本，也可以先談"
             description="我們可以先了解目前的工作流程，再判斷適合使用既有模組、調整設定，或進行客製整合。"
-            campaign="cases"
+            source="cases"
             secondary={site.cta.secondary}
           />
         </div>

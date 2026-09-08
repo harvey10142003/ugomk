@@ -31,7 +31,7 @@ import { LogoBar } from '@/components/LogoBar';
 import { StatsBar } from '@/components/StatsBar';
 import { Testimonial } from '@/components/Testimonial';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 import { cn } from '@/lib/utils';
 
 // 首頁自己宣告 canonical，不靠繼承 —— 見 lib/seo.ts 開頭的說明

@@ -25,7 +25,7 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 /**
  * ## 這一頁為什麼存在
@@ -202,7 +202,7 @@ const relatedModules = [
 ];
 
 export default function LoyaltyPage() {
-  const campaign = 'solutions_loyalty';
+  const source = 'solutions_loyalty';
 
   return (
     <>
@@ -246,7 +246,7 @@ export default function LoyaltyPage() {
             你看得到每一位客人集了多少、換了什麼、多久沒來，而不是只拿到一張平台給的月報表。
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={ctaHref(site.cta.primary.href, campaign, 'hero')} className="btn-brand">
+            <Link href={ctaHref(site.cta.primary.href, source, 'hero')} className="btn-brand">
               預約需求討論
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -521,7 +521,7 @@ export default function LoyaltyPage() {
               </>
             }
             description="不用先想好點數要怎麼設。把現在的做法、客人多久回來一次、卡在哪裡講一遍，我們幫你算這套換過來划不划算。"
-            campaign={campaign}
+            source={source}
             secondary={{ label: '看實際案例', href: '/cases' }}
           />
         </div>

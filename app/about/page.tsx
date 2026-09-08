@@ -165,7 +165,7 @@ export default function AboutPage() {
           <CtaBlock
             title="想知道你的營運流程能怎麼接？"
             description="先聊聊現在的流程卡在哪裡，我們再判斷要開哪些模組。"
-            campaign="about"
+            source="about"
             secondary={{ label: '查看解決方案', href: '/solutions' }}
           />
         </div>

@@ -25,7 +25,7 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 /**
  * ## 這一頁為什麼存在
@@ -182,7 +182,7 @@ const relatedModules = [
 ];
 
 export default function ReferralPage() {
-  const campaign = 'solutions_referral';
+  const source = 'solutions_referral';
 
   return (
     <>
@@ -226,7 +226,7 @@ export default function ReferralPage() {
             朋友從他的連結進來，推薦關係就跟著建檔 —— 兩邊各自拿到獎勵，你也知道這個月的新客是誰帶進來的。
           </p>
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={ctaHref(site.cta.primary.href, campaign, 'hero')} className="btn-brand">
+            <Link href={ctaHref(site.cta.primary.href, source, 'hero')} className="btn-brand">
               預約需求討論
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -476,7 +476,7 @@ export default function ReferralPage() {
                 不用等出事了才回頭補。
               </p>
               <Link
-                href={ctaHref(site.cta.primary.href, campaign, 'fair_play')}
+                href={ctaHref(site.cta.primary.href, source, 'fair_play')}
                 className="btn-outline mt-6"
               >
                 討論你的獎勵設計
@@ -604,7 +604,7 @@ export default function ReferralPage() {
               </>
             }
             description="先聊聊你現在的新客大多從哪裡來、老客戶願不願意開口，我們再一起決定獎勵怎麼設、什麼時候發。"
-            campaign={campaign}
+            source={source}
             secondary={{ label: '看實際案例', href: '/cases' }}
           />
         </div>

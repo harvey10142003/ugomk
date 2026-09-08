@@ -8,7 +8,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { plans, billingNote, pricingFaqs } from '@/lib/data/pricing';
 import { faqPageLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = pageMeta({
@@ -246,7 +246,7 @@ export default function PricingPage() {
             <CtaBlock
               title="還是不確定要選哪一個？"
               description="把你的分店數量、目前的 LINE 好友數與最想解決的問題講一遍，我們直接說哪個方案夠用、哪些模組先不用開。"
-              campaign="pricing"
+              source="pricing"
               secondary={{ label: '看實際案例', href: '/cases' }}
             />
           </div>

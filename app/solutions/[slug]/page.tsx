@@ -11,7 +11,7 @@ import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 
 type Props = { params: { slug: string } };
 
@@ -68,8 +68,8 @@ export default function ModulePage({ params }: Props) {
   const demo = moduleDemos[params.slug];
   const group = siteModuleGroups.find((g) => g.key === mod.site);
   const siblings = (group?.modules ?? []).filter((m) => m.id !== mod.id).slice(0, 6);
-  /* 19 個模組頁共用這支模板，campaign 帶上 slug 才知道是哪個模組產出的詢問 */
-  const campaign = `solutions_${params.slug}`;
+  /* 19 個模組頁共用這支模板，source 帶上 slug 才知道是哪個模組產出的詢問 */
+  const source = `solutions_${params.slug}`;
 
   return (
     <>
@@ -109,7 +109,7 @@ export default function ModulePage({ params }: Props) {
           <p className="body-lg mt-4">{detail.intro}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href={ctaHref(site.cta.primary.href, campaign, 'hero')} className="btn-brand">
+            <Link href={ctaHref(site.cta.primary.href, source, 'hero')} className="btn-brand">
               詢問這個模組
               <ArrowRight className="h-4 w-4" />
             </Link>
@@ -179,7 +179,7 @@ export default function ModulePage({ params }: Props) {
             <p className="body-base mt-4">
               不確定自己適不適合？把現在的流程講一遍，我們幫你判斷要不要開這個模組。
             </p>
-            <Link href={ctaHref(site.cta.primary.href, campaign, 'for_who')} className="btn-outline mt-6">
+            <Link href={ctaHref(site.cta.primary.href, source, 'for_who')} className="btn-outline mt-6">
               預約需求討論
             </Link>
           </div>
@@ -242,7 +242,7 @@ export default function ModulePage({ params }: Props) {
           <CtaBlock
             title={`想知道${mod.title}接進你的流程會長怎樣？`}
             description="先聊聊現在怎麼做、卡在哪裡，我們再判斷這個模組要不要開、怎麼設定。"
-            campaign={campaign}
+            source={source}
             secondary={{ label: '看實際案例', href: '/cases' }}
           />
         </div>

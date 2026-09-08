@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { site } from '@/lib/data/site';
-import { ctaHref } from '@/lib/utm';
+import { ctaHref } from '@/lib/site-source';
 import { cn } from '@/lib/utils';
 
 type CtaLink = { label: string; href: string };
@@ -26,7 +26,7 @@ export function CtaBlock({
   description,
   primary = site.cta.primary,
   secondary,
-  campaign,
+  source,
   size = 'md',
   className,
   children
@@ -38,11 +38,13 @@ export function CtaBlock({
   primary?: CtaLink | null;
   secondary?: CtaLink;
   /**
-   * 這張卡所在的頁面（utm_campaign 值）。有傳才會在指向 /contact 的按鈕上標來源；
-   * 沒傳就完全維持原本的乾淨網址 —— 漏傳的頁面壞的是統計，不是連結。
+   * 這張卡所在的頁面（`src` 參數的值，見 lib/site-source.ts —— 刻意不是 utm_*，
+   * 站內連結加 UTM 會被 GA4 當成新流量來源而洗掉原本的歸因）。有傳才會在指向
+   * /contact、/solutions、/pricing 的按鈕上標來源；沒傳就完全維持原本的乾淨網址
+   * —— 漏傳的頁面壞的是統計，不是連結。
    * children 自己畫按鈕的呼叫端要自己標，這裡管不到。
    */
-  campaign?: string;
+  source?: string;
   size?: 'md' | 'lg';
   className?: string;
   /** 有值時整排按鈕改由呼叫端提供（外部連結、非站內導向等） */
@@ -64,7 +66,7 @@ export function CtaBlock({
           <>
             {primary ? (
               <Link
-                href={campaign ? ctaHref(primary.href, campaign, 'cta_block') : primary.href}
+                href={source ? ctaHref(primary.href, source, 'cta_block') : primary.href}
                 className="btn-brand"
               >
                 {primary.label}
@@ -73,7 +75,7 @@ export function CtaBlock({
             ) : null}
             {secondary ? (
               <Link
-                href={campaign ? ctaHref(secondary.href, campaign, 'cta_block') : secondary.href}
+                href={source ? ctaHref(secondary.href, source, 'cta_block') : secondary.href}
                 className="btn-outline"
               >
                 {secondary.label}

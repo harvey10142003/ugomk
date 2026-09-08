@@ -9,7 +9,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta, OG_IMAGE } from '@/lib/seo';
-import { campaignFromPath, ctaHref } from '@/lib/utm';
+import { sourceFromPath, ctaHref } from '@/lib/site-source';
 
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
@@ -40,8 +40,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   const a = articleBySlug(params.slug);
   if (!a) return notFound();
   const related = relatedArticles(a.slug, 2);
-  // campaign 帶到單篇 —— 「部落格有效」與「哪一篇有效」是兩個問題
-  const campaign = campaignFromPath(`/blog/${a.slug}`);
+  // source 帶到單篇 —— 「部落格有效」與「哪一篇有效」是兩個問題
+  const source = sourceFromPath(`/blog/${a.slug}`);
   const date = new Date(a.publishedAt).toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: 'long',
@@ -122,9 +122,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             文末的題目出口。
             作者區塊那顆固定指向 /contact，回答的是「要不要聯絡我們」；這一塊回答的是
             「這個題目的下一頁在哪」—— 買方視角的文章讀完，下一步通常不是留資料，
-            是去看那件事實際長什麼樣。兩顆按鈕都走 ctaHref，campaign 用文章 slug，
-            所以名單進來時看得出是哪一篇帶來的（utm 實際會被加在 /contact 那顆上，
-            站內能力頁沒有表單會讀它，這是 lib/utm.ts 既有的邊界）。
+            是去看那件事實際長什麼樣。兩顆按鈕都走 ctaHref，source 用文章 slug，
+            所以名單進來時看得出是哪一篇帶來的。
+            兩顆都會被標記：指向 /contact 那顆的答案落在 CRM 名單上，指向能力頁
+            （/solutions/*、/pricing）那顆的答案落在 GA4 的 page_location 上 ——
+            回答「哪一篇文章把人送去哪一個能力頁」。能標是因為參數不是 utm_*，
+            不會污染 GA4 歸因，理由見 lib/site-source.ts 檔頭。
           */}
           {a.cta ? (
             <aside className="mt-14 rounded-2xl border border-brand-200 bg-brand-50 p-6 md:p-8">
@@ -139,14 +142,14 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link
-                  href={ctaHref(a.cta.href, campaign, 'article_cta')}
+                  href={ctaHref(a.cta.href, source, 'article_cta')}
                   className="btn-brand"
                 >
                   {a.cta.label}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link
-                  href={ctaHref(site.cta.primary.href, campaign, 'article_cta_contact')}
+                  href={ctaHref(site.cta.primary.href, source, 'article_cta_contact')}
                   className="btn-outline"
                 >
                   {site.cta.primary.label}
@@ -187,7 +190,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                   加 LINE 聊
                 </a>
                 <Link
-                  href={ctaHref(site.cta.primary.href, campaign, 'article_footer')}
+                  href={ctaHref(site.cta.primary.href, source, 'article_footer')}
                   className="btn-outline"
                 >
                   {site.cta.primary.label}
