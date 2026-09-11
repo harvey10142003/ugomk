@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="googlebot" content="noindex,nofollow">
+<title>全通路整合ERP簡報 - 宇果國際行銷</title>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;700&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #F1F4F5;
+    --surface: #FFFFFF;
+    --surface-2: #E7EDEF;
+    --rule: #D0D9DC;
+    --ink: #142024;
+    --ink-2: #39494F;
+    --muted: #647981;
+    --accent: #176A7E;
+    --accent-soft: #D8E8EC;
+    --warn: #976A09;
+    --warn-soft: #F3E7CC;
+    --crit: #97302C;
+    --shadow: 0 1px 2px rgba(20, 32, 36, .06), 0 8px 24px -16px rgba(20, 32, 36, .24);
+
+    --serif: "Noto Serif TC", "Songti TC", serif;
+    --sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --mono: "IBM Plex Mono", "Consolas", monospace;
+
+    --max: 1120px;
+    --pad: clamp(20px, 4vw, 56px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0B1316;
+      --surface: #121E22;
+      --surface-2: #19272C;
+      --rule: #2A3A40;
+      --ink: #E6EDEF;
+      --ink-2: #B9C7CC;
+      --muted: #82969D;
+      --accent: #5FB3C6;
+      --accent-soft: #143038;
+      --warn: #D6A43F;
+      --warn-soft: #352B14;
+      --crit: #D98078;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px -24px rgba(0, 0, 0, .7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper: #0B1316;
+    --surface: #121E22;
+    --surface-2: #19272C;
+    --rule: #2A3A40;
+    --ink: #E6EDEF;
+    --ink-2: #B9C7CC;
+    --muted: #82969D;
+    --accent: #5FB3C6;
+    --accent-soft: #143038;
+    --warn: #D6A43F;
+    --warn-soft: #352B14;
+    --crit: #D98078;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px -24px rgba(0, 0, 0, .7);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.25; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(32px, 5.4vw, 56px); letter-spacing: -.01em; }
+  h2 { font-size: clamp(24px, 3.2vw, 34px); }
+  h3 { font-size: 19px; }
+  p { margin: 0; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+  /* ── top bar ─────────────────────────────────── */
+  header.bar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar-in { display: flex; align-items: center; gap: 24px; height: 60px; }
+  .brand { display: flex; align-items: center; }
+  .brand img { height: 28px; width: auto; display: block; }
+  .ft-logo img { height: 30px; width: auto; display: block; opacity: .85; }
+  img.logo-w { display: none; }
+  img.logo-c { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) img.logo-c { display: none; }
+    :root:not([data-theme="light"]) img.logo-w { display: block; }
+  }
+  :root[data-theme="dark"] img.logo-c { display: none; }
+  :root[data-theme="dark"] img.logo-w { display: block; }
+  .bar nav { display: flex; gap: 20px; margin-left: auto; font-size: 14px; }
+  .bar nav a { color: var(--ink-2); text-decoration: none; padding: 4px 0; border-bottom: 1px solid transparent; }
+  .bar nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  @media (max-width: 860px) { .bar nav { display: none; } }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 500 14px/1 var(--sans);
+    padding: 11px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  :root[data-theme="dark"] .btn, :root:not([data-theme="light"]) .btn { color: #071115; }
+  .btn:hover { filter: brightness(1.08); }
+  .btn.ghost { background: transparent; color: var(--accent); }
+  .btn.ghost:hover { background: var(--accent-soft); filter: none; }
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 3px;
+  }
+
+  /* ── hero ────────────────────────────────────── */
+  .hero { padding: clamp(48px, 7vw, 88px) 0 clamp(36px, 5vw, 64px); }
+  .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; } }
+  .hero p.lede { font-size: 18px; color: var(--ink-2); margin-top: 18px; max-width: 34em; }
+  .hero-cta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+
+  /* ledger card */
+  .ledger {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow);
+  }
+  .ledger-head {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 14px 18px; border-bottom: 1px solid var(--rule);
+  }
+  .ledger-head .t { font-family: var(--serif); font-weight: 700; font-size: 15px; }
+  .tag {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em;
+    padding: 3px 7px; border: 1px solid var(--rule); color: var(--muted);
+    margin-left: auto; text-transform: uppercase;
+  }
+  table.lg { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.lg th {
+    text-align: left; font: 500 11.5px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); padding: 10px 18px; border-bottom: 1px solid var(--rule);
+  }
+  table.lg td { padding: 9px 18px; border-bottom: 1px solid var(--rule); vertical-align: baseline; }
+  table.lg tr:last-child td { border-bottom: 0; }
+  table.lg td.r, table.lg th.r { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .plus { color: var(--accent); }
+  .minus { color: var(--ink-2); }
+  .lg-row { animation: slide .45s ease both; }
+  @keyframes slide { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  .ledger-foot {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; border-top: 1px solid var(--rule); background: var(--surface-2);
+  }
+  .ledger-foot .lbl { font-size: 13px; color: var(--muted); }
+  .ledger-foot .bal { margin-left: auto; font-family: var(--mono); font-size: 22px; font-variant-numeric: tabular-nums; }
+  .caption { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+
+  /* ── sections ────────────────────────────────── */
+  section { padding: clamp(44px, 6vw, 80px) 0; border-top: 1px solid var(--rule); }
+  .sec-head { max-width: 46em; }
+  .sec-head h2 { margin-top: 10px; }
+  .sec-head p { color: var(--ink-2); margin-top: 14px; }
+
+  /* pain rows */
+  .pains { margin-top: 32px; border-top: 1px solid var(--rule); }
+  .pain {
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 24px;
+    padding: 18px 0; border-bottom: 1px solid var(--rule); align-items: baseline;
+  }
+  .pain b { font-weight: 500; font-size: 17px; }
+  .pain span { color: var(--muted); font-size: 14.5px; }
+  .pain .cost {
+    font-family: var(--mono); font-size: 12px; letter-spacing: .08em;
+    color: var(--crit); white-space: nowrap;
+  }
+  @media (max-width: 620px) { .pain { grid-template-columns: 1fr; } }
+
+  /* architecture */
+  .arch { margin-top: 34px; display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: center; }
+  @media (max-width: 940px) { .arch { grid-template-columns: 1fr; } }
+  .arch svg { width: 100%; height: auto; display: block; }
+  .chan {
+    cursor: pointer;
+  }
+  .chan rect { transition: fill .2s, stroke .2s; }
+  .chan text { font: 500 13px var(--sans); }
+  .arch-note { border-left: 2px solid var(--accent); padding-left: 18px; }
+  .arch-note h3 { font-family: var(--sans); font-weight: 700; font-size: 15px; }
+  .arch-note p { color: var(--ink-2); font-size: 14.5px; margin-top: 8px; }
+
+  /* feature grid */
+  .feats { margin-top: 34px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (max-width: 900px) { .feats { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .feats { grid-template-columns: 1fr; } }
+  .feat { background: var(--surface); padding: 24px 22px; }
+  .feat .k { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: var(--accent); text-transform: uppercase; }
+  .feat h3 { margin-top: 10px; }
+  .feat ul { margin: 12px 0 0; padding-left: 0; list-style: none; display: grid; gap: 8px; }
+  .feat li { font-size: 14.5px; color: var(--ink-2); padding-left: 16px; position: relative; }
+  .feat li::before {
+    content: ""; position: absolute; left: 0; top: .65em;
+    width: 6px; height: 1px; background: var(--accent);
+  }
+
+  /* FEFO demo */
+  .fefo { margin-top: 30px; display: grid; grid-template-columns: 1fr 320px; gap: 28px; align-items: start; }
+  @media (max-width: 940px) { .fefo { grid-template-columns: 1fr; } }
+  .batches { display: grid; gap: 10px; }
+  .batch {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 6px 16px; align-items: center;
+    border: 1px solid var(--rule); background: var(--surface); padding: 14px 16px;
+    transition: border-color .25s, background .25s;
+  }
+  .batch.hit { border-color: var(--accent); background: var(--accent-soft); }
+  .batch .bno { font-family: var(--mono); font-size: 13px; letter-spacing: .04em; }
+  .batch .exp { font-size: 13px; color: var(--muted); }
+  .batch .qty { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 15px; }
+  .batch .take { grid-column: 1 / -1; font-size: 13px; color: var(--accent); min-height: 0; }
+  .fefo-panel { border: 1px solid var(--rule); background: var(--surface); padding: 20px; }
+  .fefo-panel p { font-size: 14.5px; color: var(--ink-2); }
+  .fefo-ctrl { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+
+  /* report tabs */
+  .tabs { margin-top: 30px; border: 1px solid var(--rule); background: var(--surface); }
+  .tablist { display: flex; overflow-x: auto; border-bottom: 1px solid var(--rule); }
+  .tablist button {
+    flex: 0 0 auto; background: none; border: 0; border-bottom: 2px solid transparent;
+    font: 500 14px var(--sans); color: var(--muted); padding: 14px 18px; cursor: pointer; white-space: nowrap;
+  }
+  .tablist button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+  .panel { padding: 22px; }
+  .panel p.why { font-size: 14.5px; color: var(--ink-2); margin-bottom: 16px; }
+  .panel .scroll { overflow-x: auto; }
+  .bars { display: grid; gap: 10px; }
+  .bar-row { display: grid; grid-template-columns: 140px 1fr 72px; gap: 12px; align-items: center; font-size: 14px; }
+  .bar-track { background: var(--surface-2); height: 12px; }
+  .bar-fill { height: 12px; background: var(--accent); }
+  .bar-fill.warn { background: var(--warn); }
+  .bar-row .v { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; font-size: 13.5px; }
+  @media (max-width: 600px) { .bar-row { grid-template-columns: 96px 1fr 64px; } }
+
+  /* channels */
+  .chans { margin-top: 32px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  @media (max-width: 860px) { .chans { grid-template-columns: 1fr; } }
+  .chan-card { border: 1px solid var(--rule); background: var(--surface); padding: 22px; display: grid; gap: 10px; align-content: start; }
+  .chan-card .when {
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent); padding: 3px 7px; justify-self: start;
+  }
+  .chan-card p { font-size: 14.5px; color: var(--ink-2); }
+
+  /* stages */
+  .stages { margin-top: 32px; display: grid; gap: 0; }
+  .stage {
+    display: grid; grid-template-columns: 72px 1fr; gap: 24px;
+    padding: 24px 0; border-top: 1px solid var(--rule);
+  }
+  .stage:last-child { border-bottom: 1px solid var(--rule); }
+  .stage .no { font-family: var(--serif); font-size: 30px; color: var(--accent); line-height: 1; }
+  .stage h3 { font-family: var(--sans); font-size: 16px; }
+  .stage p { color: var(--ink-2); font-size: 14.5px; margin-top: 8px; }
+  .stage .reads {
+    margin-top: 12px; font-family: var(--mono); font-size: 12.5px;
+    background: var(--surface-2); border-left: 2px solid var(--rule); padding: 8px 12px;
+  }
+  @media (max-width: 620px) { .stage { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* scope */
+  .scope { margin-top: 28px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (max-width: 760px) { .scope { grid-template-columns: 1fr; } }
+  .scope div { background: var(--surface); padding: 20px 22px; }
+  .scope h3 { font-family: var(--sans); font-size: 14.5px; font-weight: 700; }
+  .scope p { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+
+  /* cta */
+  .cta { border-top: 1px solid var(--rule); background: var(--surface); }
+  .cta-in { padding: clamp(44px, 6vw, 76px) 0; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+  @media (max-width: 860px) { .cta-in { grid-template-columns: 1fr; } }
+  .cta p { color: var(--ink-2); margin-top: 12px; max-width: 38em; }
+
+  footer.ft { border-top: 1px solid var(--rule); padding: 26px 0 40px; font-size: 13px; color: var(--muted); }
+  .ft-in { display: flex; gap: 16px; flex-wrap: wrap; align-items: baseline; }
+
+  .reveal { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { animation: rise .6s ease both; animation-timeline: view(); animation-range: entry 5% cover 22%; }
+    @keyframes rise { from { opacity: .25; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lg-row { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <span class="brand">
+      <img class="logo-c" src="/ugo-logo.png" alt="宇果國際行銷">
+      <img class="logo-w" src="/ugo-logo-white.png" alt="宇果國際行銷">
+    </span>
+    <nav>
+      <a href="#why">為什麼</a>
+      <a href="#how">一本帳</a>
+      <a href="#features">功能</a>
+      <a href="#channels">通路</a>
+      <a href="#rollout">導入</a>
+    </nav>
+    <a class="btn" href="#contact">預約導覽</a>
+  </div>
+</header>
+
+<div class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">零售批發 進銷存核心</span>
+      <h1>一本庫存帳，<br>管住所有通路</h1>
+      <p class="lede">門市賣出、商城下單、倉庫進貨、倉間調撥，每一筆都記進同一本帳。餘額是這些紀錄的加總，所以任何一個數字都能往回追它是怎麼變成這樣的。</p>
+      <div class="hero-cta">
+        <a class="btn" href="#contact">預約三十分鐘導覽</a>
+        <a class="btn ghost" href="#features">先看功能</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="ledger">
+        <div class="ledger-head">
+          <span class="t">中央進銷存帳</span>
+          <span class="num" style="font-size:12.5px;color:var(--muted)">品項 A-1042　麵粉 25kg</span>
+          <span class="tag">示範資料</span>
+        </div>
+        <table class="lg">
+          <thead>
+            <tr><th>來源</th><th>事由</th><th class="r">異動</th><th class="r">餘額</th></tr>
+          </thead>
+          <tbody id="lgBody"></tbody>
+        </table>
+        <div class="ledger-foot">
+          <span class="lbl">目前結存</span>
+          <span class="bal" id="lgBal">0</span>
+        </div>
+      </div>
+      <p class="caption">紀錄一旦寫入就不修改。盤點差異也是一筆紀錄，查得到是哪一天差的。</p>
+    </div>
+  </div>
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">問題</span>
+      <h2>你的庫存其實有好幾本</h2>
+      <p>門市櫃台一本，線上商城一本，倉庫的 Excel 又一本。三本帳誰是對的，要等盤點那天才知道。不是員工不認真，是系統本來就沒有一本共同的帳。</p>
+    </div>
+
+    <div class="pains">
+      <div class="pain reveal">
+        <div>
+          <b>線上賣掉最後一箱，門市還在跟客人說有貨</b>
+          <span>兩邊各扣各的，誰都沒有錯，客人卻等了三天。</span>
+        </div>
+        <span class="cost">退款與補償</span>
+      </div>
+      <div class="pain reveal">
+        <div>
+          <b>熱賣的斷貨，壓倉的不動，而且同時發生</b>
+          <span>沒有人在看還剩幾天會用完，都是等店員說沒了才下單。</span>
+        </div>
+        <span class="cost">缺貨三天的生意</span>
+      </div>
+      <div class="pain reveal">
+        <div>
+          <b>毛利只能用營收減進貨總額粗抓</b>
+          <span>抓不出是哪一個品項在賠錢，那個賣最好的可能賣了半年才被發現。</span>
+        </div>
+        <span class="cost">看不見的賠錢品項</span>
+      </div>
+      <div class="pain reveal">
+        <div>
+          <b>盤點差了十二箱，沒有人知道是哪一天差的</b>
+          <span>系統只說現在有三十八箱，不說昨天有五十箱、中間發生了什麼。</span>
+        </div>
+        <span class="cost">認賠，然後不盤了</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">做法</span>
+      <h2>把庫存抽出來，做成一本中央帳</h2>
+      <p>各通路照自己的流程營運，異動在背後自動記進中央帳。點下方任一個入口，看它記進帳的路徑。</p>
+    </div>
+
+    <div class="arch">
+      <svg viewBox="0 0 640 330" role="img" aria-label="四個通路的庫存異動流入中央進銷存帳，中央帳再輸出成本、報表、補貨建議與結帳">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"></path>
+          </marker>
+        </defs>
+
+        <g id="channels" color="var(--rule)">
+          <g class="chan" data-k="pos" tabindex="0" role="button" aria-label="實體門市">
+            <rect x="8" y="14" width="140" height="44" fill="var(--surface)" stroke="var(--rule)"></rect>
+            <text x="78" y="41" text-anchor="middle" fill="var(--ink)">實體門市 POS</text>
+          </g>
+          <g class="chan" data-k="shop" tabindex="0" role="button" aria-label="線上商城">
+            <rect x="166" y="14" width="140" height="44" fill="var(--surface)" stroke="var(--rule)"></rect>
+            <text x="236" y="41" text-anchor="middle" fill="var(--ink)">線上商城</text>
+          </g>
+          <g class="chan" data-k="line" tabindex="0" role="button" aria-label="LINE 官方帳號">
+            <rect x="324" y="14" width="152" height="44" fill="var(--surface)" stroke="var(--rule)"></rect>
+            <text x="400" y="41" text-anchor="middle" fill="var(--ink)">LINE 官方帳號</text>
+          </g>
+          <g class="chan" data-k="po" tabindex="0" role="button" aria-label="倉庫與採購">
+            <rect x="494" y="14" width="138" height="44" fill="var(--surface)" stroke="var(--rule)"></rect>
+            <text x="563" y="41" text-anchor="middle" fill="var(--ink)">倉庫與採購</text>
+          </g>
+        </g>
+
+        <g stroke-width="1.4" fill="none" color="var(--rule)">
+          <path class="flow" data-k="pos" d="M78 58 L78 98 L190 98 L190 130" stroke="currentColor" marker-end="url(#ar)"></path>
+          <path class="flow" data-k="shop" d="M236 58 L236 114 L270 114 L270 130" stroke="currentColor" marker-end="url(#ar)"></path>
+          <path class="flow" data-k="line" d="M400 58 L400 114 L370 114 L370 130" stroke="currentColor" marker-end="url(#ar)"></path>
+          <path class="flow" data-k="po" d="M563 58 L563 98 L450 98 L450 130" stroke="currentColor" marker-end="url(#ar)"></path>
+        </g>
+
+        <rect x="120" y="134" width="400" height="78" fill="var(--accent-soft)" stroke="var(--accent)"></rect>
+        <text x="320" y="166" text-anchor="middle" fill="var(--ink)" style="font:700 16px var(--serif)">中央進銷存帳</text>
+        <text x="320" y="192" text-anchor="middle" fill="var(--ink-2)" style="font:400 12.5px var(--mono)">品項主檔・倉別・異動紀錄・餘額</text>
+
+        <g stroke="var(--rule)" stroke-width="1.4" fill="none">
+          <path d="M167 212 L167 250" marker-end="url(#ar)" color="var(--rule)"></path>
+          <path d="M269 212 L269 250" marker-end="url(#ar)" color="var(--rule)"></path>
+          <path d="M371 212 L371 250" marker-end="url(#ar)" color="var(--rule)"></path>
+          <path d="M473 212 L473 250" marker-end="url(#ar)" color="var(--rule)"></path>
+        </g>
+
+        <g style="font:400 12px var(--sans)" fill="var(--ink-2)" text-anchor="middle">
+          <rect x="120" y="254" width="94" height="38" fill="var(--surface)" stroke="var(--rule)"></rect>
+          <text x="167" y="278">成本與估值</text>
+          <rect x="222" y="254" width="94" height="38" fill="var(--surface)" stroke="var(--rule)"></rect>
+          <text x="269" y="278">五張報表</text>
+          <rect x="324" y="254" width="94" height="38" fill="var(--surface)" stroke="var(--rule)"></rect>
+          <text x="371" y="278">補貨建議</text>
+          <rect x="426" y="254" width="94" height="38" fill="var(--surface)" stroke="var(--rule)"></rect>
+          <text x="473" y="278">期末結帳</text>
+        </g>
+      </svg>
+
+      <div class="arch-note">
+        <h3 id="archTitle">四個入口，一本帳</h3>
+        <p id="archBody">門市、商城、LINE 官方帳號與倉庫採購各自照原本的流程走，異動同步記進中央帳。選一個入口看它的路徑。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">功能</span>
+      <h2>從採購、收貨、成本到出貨</h2>
+      <p>批發與零售每天在做的事，都有對應的單據與帳。</p>
+    </div>
+
+    <div class="feats">
+      <div class="feat reveal">
+        <span class="k">採購</span>
+        <h3>一張單走完進貨</h3>
+        <ul>
+          <li>供應商主檔，採購單開單、下單、收貨</li>
+          <li>分批收貨：訂一百箱先到六十箱，剩下掛在單上</li>
+          <li>重複按收貨不會重複入庫</li>
+        </ul>
+      </div>
+      <div class="feat reveal">
+        <span class="k">成本</span>
+        <h3>進貨成本自動算</h3>
+        <ul>
+          <li>收貨即入帳，採移動加權平均更新單位成本</li>
+          <li>切換成本法前先試算並告知影響筆數，確認才套用</li>
+          <li>也可以選擇手動維護均價</li>
+        </ul>
+      </div>
+      <div class="feat reveal">
+        <span class="k">倉別</span>
+        <h3>多倉與倉間調撥</h3>
+        <ul>
+          <li>中央倉、門市倉、線上倉各自分開看</li>
+          <li>調撥留紀錄，可逐倉對帳</li>
+          <li>知道貨在哪個倉，不只有一個總數</li>
+        </ul>
+      </div>
+      <div class="feat reveal">
+        <span class="k">組合品</span>
+        <h3>組裝入庫與拆裝</h3>
+        <ul>
+          <li>組合包、分裝、加工品的用料表設定一次</li>
+          <li>賣出成品自動扣成分</li>
+          <li>原料不足當場擋下，不放行</li>
+        </ul>
+      </div>
+      <div class="feat reveal">
+        <span class="k">補貨</span>
+        <h3>安全庫存與補貨建議</h3>
+        <ul>
+          <li>設定每個品項每個倉的最低水位與前置天數</li>
+          <li>算出該補什麼、補多少，並扣掉在途數量</li>
+          <li>建議可一鍵產生採購單草稿</li>
+        </ul>
+      </div>
+      <div class="feat reveal">
+        <span class="k">結帳</span>
+        <h3>期末結帳與三方對帳</h3>
+        <ul>
+          <li>關帳凍結當期數量與成本，可試算後再正式關帳</li>
+          <li>中央帳、模組庫存、門市倉三邊差異逐品項列出</li>
+          <li>盤點差異記進帳之後查得回去</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fefo">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">批號與效期</span>
+      <h2>最早到期的先出去</h2>
+      <p>進貨登批號與到期日，出貨時系統自己挑批：先到期先出，同效期再按先進先出。按下出貨看它怎麼挑。</p>
+    </div>
+
+    <div class="fefo">
+      <div class="batches" id="batches"></div>
+      <div class="fefo-panel">
+        <h3 style="font-family:var(--sans);font-size:15px">出貨 60 箱</h3>
+        <p id="fefoMsg">三個批號在倉，到期日不同。按下出貨，系統依最早到期的批先扣。</p>
+        <div class="fefo-ctrl">
+          <button class="btn" id="fefoGo" type="button">出貨 60 箱</button>
+          <button class="btn ghost" id="fefoReset" type="button">重設</button>
+        </div>
+        <p class="caption">逐品項決定哪些要追批號，在後台自己設定。效期預警報表把即將到期與已過期列在一頁。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reports">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">報表</span>
+      <h2>五張報表，五個決定</h2>
+      <p>每一張都回答一個老闆今天要做的決定。以下為示範資料。</p>
+    </div>
+
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="報表"></div>
+      <div class="panel" id="panel" role="tabpanel"></div>
+    </div>
+  </div>
+</section>
+
+<section id="channels">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">通路</span>
+      <h2>不是外部串接，是同一套系統的三個模組</h2>
+      <p>POS、線上商城與 LINE 官方帳號天生共用會員與訂單資料，所以沒有「要不要串得起來」的問題。下面是三個通路扣庫存的時點。</p>
+    </div>
+
+    <div class="chans">
+      <div class="chan-card reveal">
+        <span class="when">下單當下扣</span>
+        <h3>線上商城</h3>
+        <p>會員在電商網站下單，訂單直接進系統，庫存在下單當下扣減，賣超會被當場擋下。</p>
+      </div>
+      <div class="chan-card reveal">
+        <span class="when">送單當下扣</span>
+        <h3>LINE@ 表單下單</h3>
+        <p>顧客在 LINE 官方帳號上填表單就能送單，不必另外安裝任何東西。庫存在送單當下扣減。</p>
+      </div>
+      <div class="chan-card reveal">
+        <span class="when">結帳時扣</span>
+        <h3>門市 POS</h3>
+        <p>櫃台結帳時扣庫存。掛單與預購在結清時才扣，所以帳面不會被還沒成立的單佔住。</p>
+      </div>
+    </div>
+
+    <div class="ledger" style="margin-top:24px">
+      <div class="ledger-head">
+        <span class="t">低於安全庫存時</span>
+        <span class="tag">LINE 通知</span>
+      </div>
+      <div class="panel" style="padding:20px 18px">
+        <p style="font-size:14.5px;color:var(--ink-2)">系統在結帳當下用 LINE 通知負責人，連鎖版通知該店店長。三個通路的每一筆異動都同步記進同一本中央帳。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="rollout">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">導入</span>
+      <h2>分階段導入，門市不停機</h2>
+      <p>這是一個真正的先後順序，不是可以跳著做的選項。</p>
+    </div>
+
+    <div class="stages">
+      <div class="stage">
+        <span class="no num">01</span>
+        <div>
+          <h3>平行記帳</h3>
+          <p>你原本的收銀與扣庫存流程完全不變，中央帳在背後同步記下每一筆異動。中央帳若出任何問題會自動略過，不會擋住結帳。</p>
+          <div class="reads">畫面讀的是：各通路原本的庫存數字</div>
+        </div>
+      </div>
+      <div class="stage">
+        <span class="no num">02</span>
+        <div>
+          <h3>對帳</h3>
+          <p>用三方對帳逐品項比對中央帳與各通路的差異，確認數字對得上。第一次對帳由我方協助執行。</p>
+          <div class="reads">畫面讀的是：各通路原本的庫存數字，並在商品頁多顯示全通路合計供對照</div>
+        </div>
+      </div>
+      <div class="stage">
+        <span class="no num">03</span>
+        <div>
+          <h3>逐通路切換</h3>
+          <p>確認無誤後再逐一通路切換顯示來源，一次切一個，隨時可以切回去。所以導入不必選一個週日晚上停業轉換。</p>
+          <div class="reads">畫面讀的是：中央帳</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta" id="contact">
+  <div class="wrap cta-in">
+    <div>
+      <span class="eyebrow">下一步</span>
+      <h2 style="margin-top:10px">預約線上導覽</h2>
+      <p>三十分鐘，從收貨、成本、出貨一路走到報表，完整看過一輪再決定要不要導入。</p>
+      <p style="margin-top:10px;font-size:14px">宇果國際行銷</p>
+    </div>
+    <a class="btn" href="#contact">與我們聯絡</a>
+  </div>
+</div>
+
+<footer class="ft">
+  <div class="wrap ft-in">
+    <span class="ft-logo">
+      <img class="logo-c" src="/ugo-logo.png" alt="宇果國際行銷">
+      <img class="logo-w" src="/ugo-logo-white.png" alt="宇果國際行銷">
+    </span>
+    <span>進銷存中央帳　說明頁</span>
+    <span style="margin-left:auto" class="num">2026</span>
+  </div>
+</footer>
+
+<script>
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── hero ledger ───────────────────────────── */
+  var rows = [
+    { src: '採購收貨', why: '供應商 進貨', d: 240 },
+    { src: '門市 POS', why: '結帳售出', d: -18 },
+    { src: '線上商城', why: '會員下單', d: -36 },
+    { src: '倉間調撥', why: '中央倉轉門市倉', d: -60 },
+    { src: '組裝入庫', why: '禮盒用料', d: -24 },
+    { src: '盤點', why: '實盤差異', d: -4 }
+  ];
+  var body = document.getElementById('lgBody');
+  var balEl = document.getElementById('lgBal');
+  var bal = 0;
+
+  function addRow(r, animate) {
+    bal += r.d;
+    var tr = document.createElement('tr');
+    if (animate) tr.className = 'lg-row';
+    var sign = r.d > 0 ? '+' : '';
+    tr.innerHTML = '<td>' + r.src + '</td><td style="color:var(--muted)">' + r.why + '</td>' +
+      '<td class="r ' + (r.d > 0 ? 'plus' : 'minus') + '">' + sign + r.d + '</td>' +
+      '<td class="r">' + bal + '</td>';
+    body.appendChild(tr);
+    balEl.textContent = bal;
+  }
+
+  if (reduce) {
+    rows.forEach(function (r) { addRow(r, false); });
+  } else {
+    addRow(rows[0], false);
+    addRow(rows[1], false);
+    addRow(rows[2], false);
+    var i = 3;
+    var t = setInterval(function () {
+      if (i >= rows.length) { clearInterval(t); return; }
+      addRow(rows[i], true);
+      i++;
+    }, 1100);
+  }
+
+  /* ── architecture diagram ──────────────────── */
+  var archCopy = {
+    pos: ['實體門市 POS', '櫃台結帳時扣庫存，掛單與預購在結清時才扣。每一筆都記進中央帳，事後查得到是哪一張單動的。'],
+    shop: ['線上商城', '會員在電商網站下單，下單當下扣庫存。取消與退貨會回沖，並在帳上留下對應的一筆。'],
+    line: ['LINE 官方帳號', '顧客在 LINE 官方帳號填表單下單，送單當下扣庫存。低於安全庫存時，系統用 LINE 通知負責人。'],
+    po: ['倉庫與採購', '採購單收貨即入帳並更新移動加權成本。倉間調撥、報廢與組裝拆裝也都是帳上的一筆。']
+  };
+  var chans = document.querySelectorAll('.chan');
+  var flows = document.querySelectorAll('.flow');
+  var archTitle = document.getElementById('archTitle');
+  var archBody = document.getElementById('archBody');
+
+  function focusChan(k) {
+    chans.forEach(function (g) {
+      var on = g.dataset.k === k;
+      g.querySelector('rect').setAttribute('fill', on ? 'var(--accent-soft)' : 'var(--surface)');
+      g.querySelector('rect').setAttribute('stroke', on ? 'var(--accent)' : 'var(--rule)');
+    });
+    flows.forEach(function (p) {
+      var on = p.dataset.k === k;
+      p.setAttribute('color', on ? 'var(--accent)' : 'var(--rule)');
+      p.setAttribute('stroke-width', on ? '2' : '1.4');
+    });
+    archTitle.textContent = archCopy[k][0];
+    archBody.textContent = archCopy[k][1];
+  }
+  chans.forEach(function (g) {
+    g.addEventListener('mouseenter', function () { focusChan(g.dataset.k); });
+    g.addEventListener('focus', function () { focusChan(g.dataset.k); });
+    g.addEventListener('click', function () { focusChan(g.dataset.k); });
+    g.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); focusChan(g.dataset.k); }
+    });
+  });
+
+  /* ── FEFO demo ─────────────────────────────── */
+  var baseBatches = [
+    { no: 'LOT-2609A', exp: '到期 2026-10-02', qty: 24 },
+    { no: 'LOT-2609B', exp: '到期 2026-11-18', qty: 48 },
+    { no: 'LOT-2610A', exp: '到期 2027-01-05', qty: 60 }
+  ];
+  var state = JSON.parse(JSON.stringify(baseBatches));
+  var wrapB = document.getElementById('batches');
+  var msg = document.getElementById('fefoMsg');
+
+  function renderBatches(takes) {
+    wrapB.innerHTML = '';
+    state.forEach(function (b, idx) {
+      var took = takes ? takes[idx] : 0;
+      var el = document.createElement('div');
+      el.className = 'batch' + (took ? ' hit' : '');
+      el.innerHTML = '<span class="bno">' + b.no + '</span>' +
+        '<span class="exp">' + b.exp + '</span>' +
+        '<span class="qty">' + b.qty + ' 箱</span>' +
+        '<span class="take">' + (took ? '本次出貨扣 ' + took + ' 箱' : '') + '</span>';
+      wrapB.appendChild(el);
+    });
+  }
+  renderBatches(null);
+
+  document.getElementById('fefoGo').addEventListener('click', function () {
+    var need = 60;
+    var takes = [0, 0, 0];
+    for (var i = 0; i < state.length && need > 0; i++) {
+      var take = Math.min(state[i].qty, need);
+      takes[i] = take;
+      state[i].qty -= take;
+      need -= take;
+    }
+    renderBatches(takes);
+    var parts = [];
+    takes.forEach(function (t, i) { if (t) parts.push(baseBatches[i].no + ' 扣 ' + t + ' 箱'); });
+    msg.textContent = parts.join('，') + '。最早到期的先清空，剩下的往下一批拿，所以後面進的不會先被賣掉。';
+  });
+  document.getElementById('fefoReset').addEventListener('click', function () {
+    state = JSON.parse(JSON.stringify(baseBatches));
+    renderBatches(null);
+    msg.textContent = '三個批號在倉，到期日不同。按下出貨，系統依最早到期的批先扣。';
+  });
+
+  /* ── report tabs ───────────────────────────── */
+  var reports = [
+    {
+      name: '進出明細',
+      why: '任一品項的每一筆進出，含時間、來源單據、數量與前後餘額。盤點差異可以逐筆回溯。',
+      table: {
+        head: ['日期', '來源單據', '事由', '異動', '餘額'],
+        rows: [
+          ['09-02', 'PO-26090012', '採購收貨', '+240', '240'],
+          ['09-04', 'R-0912', '門市售出', '-18', '222'],
+          ['09-05', 'EC-11873', '商城售出', '-36', '186'],
+          ['09-06', 'TR-0031', '調撥至門市倉', '-60', '126'],
+          ['09-08', 'AS-0044', '禮盒組裝用料', '-24', '102']
+        ]
+      }
+    },
+    {
+      name: '庫存估值',
+      why: '現在有多少現金卡在貨上，可依倉庫或品項拆解。有量沒有成本的品項會被單獨列出，不會混進金額裡。',
+      bars: [
+        ['中央倉', 62, '412,800'],
+        ['門市倉 信義', 22, '146,400'],
+        ['門市倉 左營', 11, '73,200'],
+        ['線上倉', 5, '33,600']
+      ],
+      unit: '元'
+    },
+    {
+      name: '補貨建議',
+      why: '依安全庫存、前置天數與在途數量算出該補什麼。建議可一鍵產生採購單草稿。',
+      table: {
+        head: ['品項', '可用量', '安全庫存', '在途', '建議採購'],
+        rows: [
+          ['麵粉 25kg', '102', '180', '0', '120'],
+          ['砂糖 50kg', '38', '60', '20', '20'],
+          ['紙箱 中', '410', '300', '0', '—'],
+          ['封口膠帶', '12', '48', '0', '48']
+        ]
+      }
+    },
+    {
+      name: '效期預警',
+      why: '哪些批號要先出、哪些已經過期。出貨本來就會挑最早到期的批，這張表是讓你提前處理。',
+      table: {
+        head: ['品項', '批號', '到期日', '剩餘天數', '數量'],
+        rows: [
+          ['鮮奶油 1L', 'LOT-2609A', '2026-10-02', '21', '24'],
+          ['奶油 454g', 'LOT-2608C', '2026-09-19', '8', '16'],
+          ['酵母 500g', 'LOT-2607B', '2026-09-08', '已過期', '6']
+        ]
+      }
+    },
+    {
+      name: '損耗率',
+      why: '損耗量佔期初加進貨的比例，並依原因分類。綁定門市的帳號看不到金額欄。',
+      bars: [
+        ['過期報廢', 46, '2.1%'],
+        ['破損', 30, '1.4%'],
+        ['試吃與樣品', 16, '0.7%'],
+        ['盤點差異', 8, '0.4%']
+      ],
+      unit: '佔比'
+    }
+  ];
+
+  var tablist = document.querySelector('.tablist');
+  var panel = document.getElementById('panel');
+
+  function renderPanel(idx) {
+    var r = reports[idx];
+    var html = '<p class="why">' + r.why + '</p>';
+    if (r.table) {
+      html += '<div class="scroll"><table class="lg"><thead><tr>';
+      r.table.head.forEach(function (h, i) {
+        html += '<th class="' + (i >= 2 ? 'r' : '') + '">' + h + '</th>';
+      });
+      html += '</tr></thead><tbody>';
+      r.table.rows.forEach(function (row) {
+        html += '<tr>';
+        row.forEach(function (c, i) {
+          html += '<td class="' + (i >= 2 ? 'r' : '') + '">' + c + '</td>';
+        });
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+    }
+    if (r.bars) {
+      html += '<div class="bars">';
+      r.bars.forEach(function (b) {
+        var warn = r.unit === '佔比' && b[1] >= 40;
+        html += '<div class="bar-row"><span>' + b[0] + '</span>' +
+          '<span class="bar-track"><span class="bar-fill' + (warn ? ' warn' : '') + '" style="width:' + b[1] + '%"></span></span>' +
+          '<span class="v">' + b[2] + '</span></div>';
+      });
+      html += '</div>';
+    }
+    panel.innerHTML = html;
+  }
+
+  reports.forEach(function (r, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    b.textContent = r.name;
+    b.addEventListener('click', function () {
+      tablist.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+      b.setAttribute('aria-selected', 'true');
+      renderPanel(i);
+    });
+    tablist.appendChild(b);
+  });
+  renderPanel(0);
+</script>
+
+</body>
+</html>
