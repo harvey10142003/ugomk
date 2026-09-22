@@ -1,0 +1,859 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet"><meta name="googlebot" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>草影示範 Runbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+  :root{
+    --ground:#F5F7F6; --surface:#FFFFFF; --surface-2:#EDF1F0;
+    --ink:#14201E; --ink-2:#465653; --ink-3:#6C7C78;
+    --line:#D8E0DE; --line-strong:#B9C6C3;
+    --accent:#0F6E66; --accent-soft:#E2F0ED;
+    --warn:#9A5B12; --warn-soft:#FBF0DF;
+    --danger:#A3392F; --danger-soft:#FBE9E6;
+    --good:#2F6B44; --good-soft:#E6F1E9;
+    --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+    --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    --serif:"Noto Serif TC","Songti TC",serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0E1514; --surface:#151F1D; --surface-2:#1C2724;
+      --ink:#E7EDEB; --ink-2:#AFBFBB; --ink-3:#849691;
+      --line:#27332F; --line-strong:#3A4A45;
+      --accent:#5FBDB0; --accent-soft:#12302C;
+      --warn:#D9A254; --warn-soft:#2E2413;
+      --danger:#E0857A; --danger-soft:#331A17;
+      --good:#7FC195; --good-soft:#14261B;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0E1514; --surface:#151F1D; --surface-2:#1C2724;
+    --ink:#E7EDEB; --ink-2:#AFBFBB; --ink-3:#849691;
+    --line:#27332F; --line-strong:#3A4A45;
+    --accent:#5FBDB0; --accent-soft:#12302C;
+    --warn:#D9A254; --warn-soft:#2E2413;
+    --danger:#E0857A; --danger-soft:#331A17;
+    --good:#7FC195; --good-soft:#14261B;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--ground);color:var(--ink);font-family:var(--sans);line-height:1.75;margin:0}
+  .wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 72px}
+  header.masthead{border-bottom:1px solid var(--line);padding-block:40px 28px;margin-bottom:8px}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-family:var(--serif);font-size:clamp(28px,5vw,42px);line-height:1.25;margin:10px 0 12px;text-wrap:balance}
+  .lede{color:var(--ink-2);max-width:62ch;margin:0}
+  .facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .fact{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:13px;color:var(--ink-2)}
+  .fact b{color:var(--ink);font-weight:700}
+  nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--ground) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-bottom:28px}
+  nav.toc ul{display:flex;gap:4px;list-style:none;margin:0;padding:8px 0;overflow-x:auto}
+  nav.toc a{display:block;white-space:nowrap;font-size:13px;font-weight:500;color:var(--ink-2);text-decoration:none;padding:6px 11px;border-radius:8px}
+  nav.toc a:hover{background:var(--surface-2);color:var(--ink)}
+  nav.toc a.on{background:var(--accent);color:#fff}
+  :root[data-theme="dark"] nav.toc a.on,:root:not([data-theme="light"]) nav.toc a.on{color:#08201D}
+  section{margin-block:52px;scroll-margin-top:72px}
+  h2{font-family:var(--serif);font-size:clamp(21px,3.4vw,27px);margin:0 0 6px;text-wrap:balance}
+  h2 .num{color:var(--accent);font-family:var(--mono);font-size:.7em;margin-right:8px}
+  h3{font-size:18px;margin:34px 0 8px;text-wrap:balance}
+  h4{font-size:15px;margin:22px 0 6px;color:var(--ink)}
+  p{margin:10px 0;max-width:68ch}
+  .sub{color:var(--ink-3);font-size:14px;margin-top:2px}
+  code,kbd{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:5px}
+  kbd{border:1px solid var(--line-strong)}
+  .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:min(560px,100%)}
+  th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--surface-2);font-weight:700;font-size:13px;color:var(--ink-2);white-space:nowrap}
+  tr:last-child td{border-bottom:0}
+  td b{font-weight:700}
+  .steps{display:grid;gap:14px;margin:16px 0}
+  .step{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .step > .hd{display:flex;gap:10px;align-items:baseline;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+  .step .tag{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:700}
+  .step .ttl{font-weight:700;font-size:15px}
+  .step .bd{display:grid;grid-template-columns:104px 1fr;gap:0}
+  .step .bd > dt{padding:11px 0 11px 16px;font-size:13px;font-weight:700;color:var(--ink-2);border-bottom:1px solid var(--line)}
+  .step .bd > dd{margin:0;padding:11px 16px;border-bottom:1px solid var(--line);font-size:14px}
+  .step .bd > dt:last-of-type,.step .bd > dd:last-of-type{border-bottom:0}
+  .step ol,.step ul{margin:4px 0;padding-left:20px}
+  .step li{margin:3px 0}
+  @media (max-width:560px){.step .bd{grid-template-columns:1fr}.step .bd > dt{border-bottom:0;padding:11px 16px 0}}
+  .note{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 15px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+  .note.warn{border-color:var(--warn);background:var(--warn-soft)}
+  .note.danger{border-color:var(--danger);background:var(--danger-soft)}
+  .note p:first-child{margin-top:0}.note p:last-child{margin-bottom:0}
+  .ledgers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin:18px 0}
+  .ledger{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;position:relative}
+  .ledger .mark{font-family:var(--serif);font-size:30px;line-height:1;color:var(--accent);font-weight:700}
+  .ledger h4{margin:6px 0 4px}
+  .ledger p{font-size:13.5px;color:var(--ink-2);margin:4px 0}
+  .check{margin:14px 0;display:grid;gap:8px}
+  .check label{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:11px 14px;font-size:14px;cursor:pointer}
+  .check input{margin-top:5px;accent-color:var(--accent);flex:none;width:16px;height:16px}
+  .check label:has(input:checked){background:var(--good-soft);border-color:var(--good);color:var(--ink-2);text-decoration:line-through;text-decoration-color:var(--ink-3)}
+  .check .why{display:block;color:var(--ink-3);font-size:13px;text-decoration:none}
+  details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 15px;margin:14px 0}
+  details[open]{padding-bottom:10px}
+  summary{cursor:pointer;padding:12px 0;font-weight:700;font-size:14.5px;list-style-position:inside}
+  summary::marker{color:var(--accent)}
+  details ol{margin:2px 0 4px;padding-left:22px}
+  details li{margin:6px 0;font-size:14px;color:var(--ink-2)}
+  .timeline{display:grid;gap:12px;margin:18px 0}
+  .seg{display:grid;grid-template-columns:76px 1fr;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .seg .mins{background:var(--accent-soft);color:var(--accent);font-family:var(--mono);font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px;padding:12px 6px;text-align:center}
+  .seg .mins small{font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);font-family:var(--sans)}
+  .seg .body{padding:14px 16px}
+  .seg h4{margin:0 0 6px;font-size:16px}
+  .say{border-left:2px solid var(--line-strong);padding-left:12px;margin:8px 0;color:var(--ink-2);font-size:14px}
+  .say b{color:var(--ink)}
+  @media (max-width:520px){.seg{grid-template-columns:1fr}.seg .mins{flex-direction:row;gap:6px;justify-content:flex-start;padding:8px 14px}}
+  .redline{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--danger);border-radius:0 12px 12px 0;padding:14px 16px;margin:14px 0}
+  .redline h4{margin:0 0 6px;font-size:15.5px;color:var(--danger)}
+  .redline .ask{font-weight:700;font-size:14px;margin:10px 0 4px}
+  .redline blockquote{margin:0;padding:11px 14px;background:var(--surface-2);border-radius:9px;font-size:14px;color:var(--ink-2)}
+  .safe{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin:14px 0}
+  .safe div{background:var(--good-soft);border:1px solid var(--good);border-radius:10px;padding:11px 14px;font-size:13.5px}
+  footer{border-top:1px solid var(--line);margin-top:56px;padding-top:20px;color:var(--ink-3);font-size:13px}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<nav class="toc" aria-label="章節導覽">
+  <div class="wrap" style="padding-block:0">
+    <ul>
+      <li><a href="#ledgers">三本帳</a></li>
+      <li><a href="#learn">第一部分　自己先學會</a></li>
+      <li><a href="#retail">零售</a></li>
+      <li><a href="#erp">ERP</a></li>
+      <li><a href="#ec">電商</a></li>
+      <li><a href="#join">三者接點</a></li>
+      <li><a href="#script">第二部分　示範腳本</a></li>
+      <li><a href="#prep">示範前準備</a></li>
+      <li><a href="#risk">第三部分　風險</a></li>
+      <li><a href="#redline">紅線</a></li>
+      <li><a href="#todo">待實機確認</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="masthead">
+  <div class="eyebrow">示範 Runbook · 查證基準日 2026-09-19 · 2026-09-22 修訂</div>
+  <h1>AC 草影水族：零售 POS × ERP × 電商</h1>
+  <p class="lede">第一部分是你自己練到會的操作手冊，第二、三部分才是上台用的。示範環境是 ugomk 測試站，不是草影自己的後台。09-22 修訂了進銷存側欄收斂（23 → 11 項）、單位換算與價目表上線、實機走過一輪的差異，以及零售收銀台的新版面。</p>
+  <div class="facts">
+    <span class="fact">後台 <b>admin.ugomk.com</b></span>
+    <span class="fact">商城 <b>ugomk.ugomkcrm.com/shop</b></span>
+    <span class="fact">示範長度 <b>35 分鐘</b></span>
+    <span class="fact">帳號 <b>admin@ugomk.com</b>（租戶管理員）</span>
+  </div>
+  <div class="note warn">
+    <p><b>09-22 有兩處修正正在進行中，本文刻意不描述它們的行為：</b>① 進銷存報表「切頁籤後篩選器與資料不同步」；② 出貨單頁把內部規格貼在畫面上的文案清理。文中凡標「待確認（修正進行中）」的就是這兩處。</p>
+  </div>
+</header>
+
+<section id="why">
+  <h2><span class="num">00</span>為什麼不用草影自己的後台</h2>
+  <p>草影那邊空到沒有東西可演，而且<b>在客戶自己的正式後台建測試資料會留在他的帳上</b>。一律在 ugomk 演，這是紀律不是偷懶。</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>acharming（草影）</th><th>ugomk（本次示範用）</th></tr></thead>
+      <tbody>
+        <tr><td>零售商品</td><td>10 品 / 10 規格</td><td><b>70 品 / 77 規格</b>（27 上架），分類就是水族：器材 / 水質用品 / 飼料 / 耗材 / 造景</td></tr>
+        <tr><td>分店</td><td>1 家（總店 HQ）</td><td><b>2 家</b>（連鎖測試總店 HQ-TEST、測試分店 B），可演切店</td></tr>
+        <tr><td>會計總帳</td><td><b>未啟用</b></td><td>已啟用</td></tr>
+        <tr><td>ERP 進銷存</td><td>模組開著，只有 3 個品項被鏡射、0 張採購單</td><td><b>40 品項、5 個倉、8 張採購單</b>（含草稿 / 部分到貨 / 已收齊）</td></tr>
+        <tr><td>電商</td><td>模組開著，<b>0 商品 0 訂單</b></td><td>4 商品 / 7 規格 / <b>6 張訂單</b>（涵蓋已付款、已出貨、已送達、已完成、已取消、已退款）</td></tr>
+        <tr><td>LINE 官方帳號</td><td>完全未串接</td><td>已串宇果正式 LINE@</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="ledgers">
+  <h2><span class="num">01</span>開場前先對齊：系統裡有三本庫存帳</h2>
+  <p>它們不是同一個數字。講錯會當場被水族老闆問倒。<b>這三本帳目前沒有互相自動搬數字</b>——第三部分的紅線有一半是從這裡長出來的。</p>
+  <div class="ledgers">
+    <div class="ledger">
+      <div class="mark">A</div>
+      <h4>通路可售帳</h4>
+      <p><b>誰在記：</b>零售 POS 自己的規格庫存（多分店獨立庫存時是門市店倉）</p>
+      <p><b>誰在扣：</b>收銀台結帳、退貨、後台「調整庫存」</p>
+      <p><b>在哪看：</b>零售 POS → 商品管理 / 收銀檯商品卡</p>
+    </div>
+    <div class="ledger">
+      <div class="mark">B</div>
+      <h4>中央帳（ERP）</h4>
+      <p><b>誰在記：</b>進銷存模組的「倉別 × 品項」餘額</p>
+      <p><b>誰在扣：</b>採購收貨、跨倉調撥、批號報廢、估值頁的盤盈虧調整</p>
+      <p><b>在哪看：</b>進銷存 → 報表與結帳 → 進銷存報表</p>
+    </div>
+    <div class="ledger">
+      <div class="mark">C</div>
+      <h4>電商庫存</h4>
+      <p><b>誰在記：</b>電商商品規格的庫存</p>
+      <p><b>誰在扣：</b>前台結帳、後台手動建單、取消 / 退款回補</p>
+      <p><b>在哪看：</b>電商商城 → 商品管理</p>
+    </div>
+  </div>
+</section>
+
+<section id="learn">
+  <h2><span class="num">02</span>第一部分　你自己先學會</h2>
+  <p class="sub">每一步的格式都是：在哪裡 → 按什麼 → 會看到什麼 → 沒看到代表什麼。照順序做完一遍，每段結尾的三個問題答得出來，才算會了。</p>
+
+  <h3>1. 登入與切換門市</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="hd"><span class="tag">1-1</span><span class="ttl">登入</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>後台網址對外只講一條：<code>https://admin.ugomk.com</code>。平台預設格式 <code>ugomk.admin.ugomkcrm.com</code> 也開得起來，但不要給客戶兩個網址。</dd>
+        <dt>按什麼</dt><dd>用租戶管理員帳號 <code>admin@ugomk.com</code> 登入，路徑 <code>/tenant-login?subdomain=ugomk</code>。密碼去密碼管理拿。</dd>
+        <dt>會看到</dt><dd>左側深色側欄 + 中間儀表板。側欄由上到下：租戶名稱 → <b>當前門市</b>下拉 → 各功能群組。</dd>
+        <dt>沒看到</dt><dd>停在登入頁反覆跳回 = 帳密錯或用錯入口（不要用超管帳號，那是平台視角看不到租戶側欄）。側欄只有兩三項 = 登入的是店長 / 店員角色，示範一定要用租戶管理員。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">1-2</span><span class="ttl">切換門市</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>側欄上方標籤「<b>當前門市</b>」的下拉（有地點圖示）。</dd>
+        <dt>按什麼</dt><dd>兩個選項：<code>連鎖測試總店 (HQ-TEST)</code>、<code>測試分店 B (TB)</code>。</dd>
+        <dt>會看到</dt><dd>選完頁面重載，總部管理員下方會出現「進入此分店後台 →」連結。</dd>
+        <dt>沒看到</dt><dd>完全沒有這一區 = 該租戶只有 1 家分店（分店數 ≥ 2 才出現），或登入角色不對。<b>草影就是單店</b>，示範時要主動說「你現在一家店所以沒有這格，開第二家它就自己出現」。</dd>
+      </dl>
+    </div>
+  </div>
+
+  <h4>1-3　兩家店的差別（後面所有庫存數字的前提）</h4>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>連鎖測試總店 HQ-TEST</th><th>測試分店 B (TB)</th></tr></thead>
+      <tbody>
+        <tr><td>庫存模式</td><td><b>獨立（店倉）</b></td><td><b>共用</b></td></tr>
+        <tr><td>結帳扣哪一本</td><td>該門市自己的店倉</td><td>商品規格本身的共用庫存</td></tr>
+        <tr><td>收銀台商品卡寫</td><td>「店倉 N」</td><td>「庫存 N」</td></tr>
+        <tr><td>電子發票</td><td>已設定 Amego，<b>但填的是光貿公開測試帳號</b></td><td>未設定</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>HQ-TEST 目前店倉有 37 筆規格、合計 596 件。</p>
+  <div class="note">
+    <p><b>發票這件事先記住：</b>在 HQ-TEST 結帳<b>一定會開出一張發票</b>（收銀台的發票類型只有二聯 / 三聯 / 捐贈，結帳時的發票彈窗也<b>沒有「不開發票」</b>），但那組憑證是光貿公開測試帳號，<b>開出來的不是真發票</b>，財政部端沒有這張。<b>現場放心按下結帳，不需要事先切換任何設定。</b>客戶問起那個號碼時怎麼回，見第三部分「風險一」。</p>
+  </div>
+  <details>
+    <summary>你要能回答的三個問題（第 1 段）</summary>
+    <ol>
+      <li>客戶問「我要怎麼知道現在在哪一家店操作？」你指哪裡？</li>
+      <li>同一個商品，為什麼在 HQ-TEST 和分店 B 的收銀台可能顯示不同的庫存數字？</li>
+      <li>草影是單店，他的後台為什麼看不到門市下拉？這是壞掉還是正常？</li>
+    </ol>
+  </details>
+</section>
+
+<section id="retail">
+  <h3>2. 零售：從建商品到看訂單</h3>
+  <p class="sub">後台側欄群組「零售 POS」：收銀檯 / 商品管理 / 訂單管理 / 退換貨處理 / 庫存管理 / 日結對帳 / 模組設定 / 收銀版面設定 / 收據出單機設定。「商品匯入」與「商品分類」已不在側欄，入口在商品管理右上的「批次匯入」「商品分類」。報表掛在「報表中心」群組：零售：儀表板 / 零售：統計報表 / 零售：損耗報表。店員端另有「POS 介面 → 零售」七項：結帳 / 查價 / 訂單 / 退換貨 / 日結 / 交班 / 銷售報表。</p>
+  <div class="steps">
+    <div class="step">
+      <div class="hd"><span class="tag">2-1</span><span class="ttl">建一個商品（含規格、售價、成本、條碼）</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>零售 POS → 商品管理 <code>/dashboard/modules/pos-retail/products</code> → 右上「新增商品」</dd>
+        <dt>按什麼</dt><dd>
+          <ol>
+            <li><b>基本資料</b>：名稱（必填）、分類、品牌、單位（預設「個」，水族可改支 / 包 / 罐 / 尾）、圖片、描述、標籤、上架中</li>
+            <li><b>變體（SKU）</b>：規格名稱 / SKU（必填，可自動產生）/ 條碼 / 售價 / 成本 / 庫存 / 安全庫存</li>
+            <li>沒有廠商條碼：按該列「<b>產生店內條碼</b>」，依店家設定格式自動產一組，預設是 EAN-13 店內碼、以數字 <code>2</code> 開頭（國際保留前綴，保證不撞廠商條碼）</li>
+            <li>要一次建很多規格：用「批量產生變體（笛卡兒積）」</li>
+            <li>存檔：新增時按「建立商品」，編輯時按「更新商品」</li>
+          </ol>
+        </dd>
+        <dt>會看到</dt><dd>列表該列顯示商品、分類、變體數、<b>總庫存</b>、狀態；操作欄有調整庫存 / 編輯 / 下架 / 條碼標籤。</dd>
+        <dt>沒看到</dt><dd>跳「條碼重複」= 條碼有唯一性。按「產生變體」後原規格不見 = <b>預期行為</b>，批量產生會清空重建（已存檔的規格按「更新商品」時會被一併停用，庫存與歷史訂單保留），編輯既有商品時不要按。列表出現小字「本通路可售 · 另有全通路合計」= 中央帳有對應品項且兩數不同，不是錯誤，見第 5 段。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">2-2</span><span class="ttl">開收銀台、掃碼或選商品、結帳</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>零售 POS → 收銀檯 <code>/dashboard/modules/pos-retail/pos</code>（店員端「POS 介面 → 零售 → 結帳」版面與算法相同，只是深色、沒有快捷鍵）</dd>
+        <dt>版面</dt><dd>最上方<b>掃描列</b>（掃碼框 +「會員」「發票」兩顆鈕）→ 中間<b>購物車常駐</b> → 下方「<b>選商品</b>」與掛單 / 預購清單 → 最下方<b>功能列 8 顆</b>（折扣 / 集點折抵 / 用票券 / 用儲值 / 掛帳（月結）/ 備註 / 掛單 / 預購，會動錢的是土色）→ <b>右側固定結帳區</b>（總計 → 付款方式 → 收現找零 → 結帳鈕）。</dd>
+        <dt>按什麼</dt><dd>
+          <ol>
+            <li><b>加入商品</b>：掃碼（游標預設在「掃描條碼按 Enter」欄）；沒條碼按「選商品」，商品面板由下往上展開，可搜名稱 / 品牌 / SKU / 條碼，<b>點商品後面板不會自己關</b>，挑完按「收起商品」</li>
+            <li><b>數量</b>：− / + 或點數量格跳數字鍵盤，<b>第一個數字取代原本的數量</b>（目前 2 按 3 就是 3，不是 23）</li>
+            <li><b>快捷鍵（僅後台）</b>：<kbd>F1</kbd> 跳搜尋、<kbd>F8</kbd> 送出結帳、<kbd>ESC</kbd> 面板開著時關面板、關著時清空購物車（會確認）</li>
+            <li><b>會員</b>：按掃描列「會員」開「會員與顧客」視窗，輸入手機按「查會員」，找到會顯示姓名、等級、點數、累計消費（整個品牌合計，不分店）。綁錯人按「換人」，按「完成」關窗</li>
+            <li><b>折扣</b>：功能列「折扣」給整單折扣；點購物車裡的商品名稱可「改單價」或「單品折扣」。<b>兩者原因都必填</b></li>
+            <li><b>付款</b>：右側 2×2「現金 / 信用卡 / LINE Pay / 匯款」加一條「其他付款方式」。選現金才有收現區：輸入收現即顯示找零，<b>收不夠寫「不足 NT$ x」並翻紅</b>，「+100 / +500 / +1000」累加，「剛好」＝找零 0</li>
+            <li><b>發票</b>：按掃描列「發票」開「發票設定」視窗，類型只有二聯 / 三聯 / 捐贈；二聯可再選載具（無載具 / 手機條碼 / 會員載具）。切換類型時舊欄位會被清掉。若發票參數開了「結帳後跳出發票視窗」，按結帳時會先跳「開立發票」視窗確認</li>
+            <li>按「結帳 NT$xxx」（或 <kbd>F8</kbd>）</li>
+          </ol>
+        </dd>
+        <dt>會看到</dt><dd>「結帳成功」對話框（訂單編號與金額）、購物車清空、庫存即時扣減。對話框的「列印收據」送到本店收據出單機，「繼續結帳」接下一位。</dd>
+        <dt>沒看到</dt><dd>商品卡變灰點不下去 = 該規格庫存 ≤ 0（店員端）。庫存顯示「—」= 暫時讀不到，<b>不擋</b>，以結帳當下檢查為準。集點折抵鎖住 = <b>還沒選會員</b>，點數要從某個人身上扣。手機條碼載具格式錯 = <b>直接擋住結帳</b>（刻意的：不擋的話訂單成立、發票卡草稿，客人走了才發現）。掃碼跳「找不到此條碼商品」= 條碼沒建檔，或該規格已被停用。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">2-3</span><span class="ttl">看訂單</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>零售 POS → 訂單管理 <code>/dashboard/modules/pos-retail/orders</code>，點任一列進明細頁</dd>
+        <dt>會看到</dt><dd>訂單編號、時間、金額、付款方式、操作者、品項明細；<b>折扣列會顯示原因與是誰給的</b>。</dd>
+        <dt>沒看到</dt><dd>找不到剛結的單 = 側欄「當前門市」切到別家了。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">2-4</span><span class="ttl">庫存管理（零售自己那一本）</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>零售 POS → 庫存管理 <code>/dashboard/modules/pos-retail/stock</code>，頂端三顆按鈕切分頁</dd>
+        <dt>三個分頁</dt><dd><b>異動明細</b>（預設）列出進貨 / 銷售 / 退貨 / 手動 / 盤點 / 調入 / 調出，正數綠負數紅。<b>進貨單</b>填供應商、備註，逐列加變體、數量與單位成本，按「送出進貨單」即增加庫存。<b>盤點</b>在「實際庫存」填數，「差異」即時算出，按「提交盤點結果」。</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="note warn">
+    <p><b>最容易搞混的一組名詞：</b>零售「庫存管理 → 進貨單 / 盤點」動的是 <b>A 通路可售帳</b>；ERP「採購單」與「期末估值 → 調整」動的是 <b>B 中央帳</b>。兩個都叫進貨、都叫盤點，<b>但不是同一本帳</b>。示範時不要兩個都演，會把客戶講暈。</p>
+  </div>
+  <p><b>示範用現成商品：</b><code>AQ-FD-001-R</code> 孔雀魚薄片飼料（售 180 / 成本 95）、<code>AQ-CS-001</code> 過濾棉單片（60 / 25）、<code>AQ-FD-005</code> 冷凍紅蟲磚 100g（120 / 60）、<code>AQ-CS-005</code> 撈網中號。分類：器材 / 水質用品 / 飼料 / 耗材 / 造景 / 飲料 / E2E test。</p>
+  <details>
+    <summary>你要能回答的三個問題（第 2 段）</summary>
+    <ol>
+      <li>一個沒有廠商條碼的水草種子包，怎麼讓它能被掃碼結帳？產出來的條碼為什麼一定是 <code>2</code> 開頭？</li>
+      <li>客人說「我有點數要折」，收銀員發現折抵欄鎖住，第一件要做的事是什麼？</li>
+      <li>零售「庫存管理 → 進貨單」和 ERP「採購單 → 收貨」，動到的是同一個數字嗎？</li>
+    </ol>
+  </details>
+</section>
+
+<section id="erp">
+  <h3>3. ERP：廠商 → 採購單 → 收貨 → 庫存異動 → 盤點 → 估值</h3>
+  <p class="sub">側欄群組「進銷存」（付費加購模組）。看不到這個群組 = 該租戶沒買這個模組。側欄的閘只管看不看得到入口，底層資料表是對全部租戶建的，所以表存在不等於有權使用。</p>
+  <div class="note danger">
+    <p><b>09-22 這一組被收斂過了（23 → 11 項），示範前務必照新的結構走位。</b>舊腳本裡「在側欄找供應商 / 進銷存報表」現在會<b>找不到</b>——它們沒有被刪掉，是被收進兩個導覽頁裡。<b>所有 URL 一個都沒變</b>。</p>
+  </div>
+  <p><b>今天側欄實際看到的 11 項</b>（由上到下）：進銷存中央帳 / 採購單 / 價目表 / 銷貨訂單 / 出貨單 / 銷貨退回 / 銷貨發票 / 組裝入庫 / 拆裝 / 批號效期 / <b>基本設定</b> / <b>報表與結帳</b>。</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>宿主頁</th><th>收了哪些（點進去是卡片清單，再點一次才到目標頁）</th><th>性質</th></tr></thead>
+      <tbody>
+        <tr><td><b>基本設定</b><br><code>/dashboard/inventory-core/setup</code></td><td>品項設定、<b>單位主檔</b>、組合品 / BOM、倉庫管理、安全庫存、<b>供應商</b>、品項批次匯入</td><td>開帳時設一次、之後半年不動的主檔</td></tr>
+        <tr><td><b>報表與結帳</b><br><code>/dashboard/inventory-core/report-center</code></td><td><b>進銷存報表</b>、銷售報表、損耗率報表、<b>三方對帳</b>、期末結帳</td><td>前四張唯讀；<b>期末結帳會寫入，而且關帳後那一期就凍住了——示範時不要點</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>「價目表」自己是側欄項目，底下用分頁列橫跳三頁：價目表 / 客戶專屬價 / 商品價格別。進到被收走的頁，頁面頂端會出現「進銷存 / 基本設定 / 供應商」這種麵包屑（側欄不會再有一行亮起來）；現場找不到路時看麵包屑第二節，就知道該回哪一個宿主頁。</p>
+  <div class="steps">
+    <div class="step">
+      <div class="hd"><span class="tag">3-1</span><span class="ttl">建廠商</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>進銷存 → <b>基本設定</b> → 供應商 <code>/dashboard/inventory-core/suppliers</code> → 右上「新增供應商」（在「庫存與進貨來源」那一區）</dd>
+        <dt>欄位</dt><dd>只有七個：名稱（必填）、聯絡人、電話、統一編號、付款條件（自由文字，例「月結 30 天」）、啟用中（預設勾）、備註。</dd>
+        <dt>沒看到</dt><dd>開採購單時下拉選不到某家 = 那家「啟用中」沒勾。按刪除卻變成停用 = <b>正常</b>，被採購單引用過就自動轉停用，保住歷史單據來源。</dd>
+        <dt>現況警告</dt><dd><b>ugomk 只有 1 家供應商「展新水族貿易」</b>（聯絡人 林先生 / 07-3312988 / 統編 54318762 / 月結 30 天），<b>「啟用中」是關的</b>，09-22 實機再確認一次仍是關的 → 現在開採購單選不到它。示範前必開，或另建一家（準備清單第 1 項）。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">3-2</span><span class="ttl">開採購單</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>進銷存 → 採購單 <code>/dashboard/inventory-core/purchase-orders</code> → 右上「新增採購單」（展開區塊，不是彈窗）</dd>
+        <dt>按什麼</dt><dd>選供應商（可留「未指定」）→ 選入庫倉（預設中央倉）→ 備註（選填）→ 在「加入採購品項」用名稱 / SKU / 條碼搜尋加入 → 每項設數量與單價成本（預帶目前平均成本，可覆寫）→「建立採購單」產生<b>草稿</b>。</dd>
+        <dt>五種狀態</dt><dd><b>草稿</b>（只有這個狀態能改）→ <b>已下單</b>（人工按「下單」）→ <b>部分到貨</b> / <b>已收齊</b>（系統依收貨進度自動推導）→ <b>已結案</b>（人工按「結案」，終態，不可再收貨）。<b>系統不提供刪除採購單</b>，不要的按結案，要改內容就另開一張。</dd>
+        <dt>沒看到</dt><dd>按不下建立 = 至少要一個品項。搜尋不到品項 = 它還沒進中央帳的品項主檔，見 3-6。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">3-3</span><span class="ttl">下單與收貨（可分批）</span></div>
+      <dl class="bd">
+        <dt>按什麼</dt><dd>採購單列表「檢視 / 收貨」→ 草稿狀態按「下單」→ 每列出現「本次收貨」欄（顯示「剩 N」）→ 填數量 →「確認收貨」。</dd>
+        <dt>會看到</dt><dd>收貨數量寫入中央帳、狀態自動變部分到貨或已收齊。有開批號 / 序號追蹤的品項會多出對應欄位（批號必填、序號必填、效期選填）。</dd>
+        <dt>沒看到</dt><dd>提示「已收貨，但有 N 件沒有入庫」且明細下方出現一塊常駐說明 = 你收的比訂的多。<b>系統不會替你判斷原因</b>，因為它分不出「供應商多送」和「重複送出」——這兩件事在資料上長得一模一樣。真的多送就另開一張採購單（已下單的單不能再改品項），重複送出就忽略。被擋下說要先編輯採購單補上單價 = 該品項成本法是移動加權平均，空單價會靜默稀釋平均成本（10 件 @100 再用 0 元收 10 件會算成 50 元）。連點兩次只認第一次。</dd>
+        <dt>會計</dt><dd>一句話帶過就好，<b>這次不點進會計頁面</b>：採購收貨、盤點、調整、報廢、跨倉調撥、組裝入庫在租戶啟用會計總帳時會同步產生分錄（進貨 / 存貨 / 應付帳款）。ugomk 會計已啟用，所以這件事在這裡是真的會發生。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">3-4</span><span class="ttl">進銷存報表四頁籤</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>進銷存 → <b>報表與結帳</b> → 進銷存報表 <code>/dashboard/inventory-core/reports</code></dd>
+        <dt>四頁籤</dt><dd><b>進銷存彙總</b>（起訖日）、<b>期末估值</b>、<b>補貨建議</b>（統計天數預設 30、只看需要補貨的；可直接開成採購單）、<b>效期預警</b>（幾天內到期，預設 30，<b>ugomk 要改成 400 才有東西</b>）。上方有共用「倉別」篩選（預設「全部倉」），改完按「套用」。</dd>
+        <dt>待確認</dt><dd>「切頁籤之後篩選器與資料的同步行為」正在修（修正進行中），本文不描述。現場的安全作法：<b>每切一次頁籤就重按一次「套用」</b>。</dd>
+        <dt>會看到</dt><dd>彙總是一條加得起來的算式：<b>期初 ＋ 進貨 − 銷售 ＋ 調整 ＋ 其他 ＝ 期末庫存</b>，六張卡片下方印出驗算式，相符時標示「與期末庫存相符」。<b>ugomk 實測就是六張而且相符</b>：期初 0 ＋進貨 515 −銷售 45 ＋調整 704 ＋其他 719 ＝ 1893，現場可以放心唸。</dd>
+        <dt>沒看到</dt><dd>只有四張卡片（第四格是「目前庫存」）= 別的租戶的舊版本，那一格不會跟著日期變；<b>ugomk 不會長這樣</b>，真的只有四張代表你看的不是 ugomk。算出來對不上 = 畫面會直接講出差額並提示聯繫客服，代表有異動沒被歸進任何一格。選「全部倉」看不到調撥影響 = 一出一入互相抵銷，<b>這件事今天用講的，不要用切的</b>：「調撥是一邊出、一邊進，看全店合計當然是零。要追某一個倉搬進搬出多少，倉別在這裡切一下就有。」</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="note danger">
+    <p><b>整份腳本最大的地雷：這一頁的倉別篩選，現場不要切到「中央倉」。</b>ugomk「中央倉」期末估值第一列就是示範主角孔雀魚薄片飼料 <code>AQ-FD-001</code>，<b>−2 件 / −190.55 元</b>，下面還有水質穩定劑 −2、石英管加熱棒 −2（未估值）。負數庫存在客戶面前非常難看。成因是已知舊問題、不是新 bug：進貨掛在總倉、銷售掛在中央倉，同一個品項被兩個共用倉切開了。<b>預設的「全部倉」看不到這件事</b>（全部倉的 AQ-FD-001 是 218，正常）。</p>
+    <p>⇒ <b>這一頁從頭到尾停在「全部倉」，不要為了任何理由切倉別。</b>客戶問「可以只看某個倉嗎」——切給他看<b>總倉</b>（不是中央倉），或回「可以，倉別在這裡切，不過今天我們看全店合計比較快」。</p>
+    <p><b>補貨建議也要留在「全部倉」</b>：選總倉時全部品項日均銷量 0、可撐天數「無銷量」，公式只剩「安全庫存 − 現有庫存」演不出來；停在全部倉有 <b>2 列</b>、日均 0.1667、可撐天數 1307，每一項都有值。全部倉的「現有庫存」是各倉相加，但<b>安全庫存取各倉的最大值而不是相加</b>（頁面自己有寫），客戶追問照這句回。</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="hd"><span class="tag">3-5</span><span class="ttl">盤點：兩個不同入口</span></div>
+      <dl class="bd">
+        <dt>入口一</dt><dd>零售 POS → 庫存管理 → 盤點，動 <b>A 通路可售帳</b>：「實際庫存」填數 → 差異即時顯示 →「提交盤點結果」。</dd>
+        <dt>入口二</dt><dd>進銷存 → 報表與結帳 → 進銷存報表 → 期末估值 → 每列右側「調整」，動 <b>B 中央帳</b>。<b>要先選單一倉別按鈕才會啟用</b>。</dd>
+        <dt>調整三欄</dt><dd><b>調整量</b>（正盤盈負盤虧，<b>不可填 0</b>，填了會顯示「目前 10 件 → 調整後 13 件」）、<b>調整原因</b>（必選：盤點差異 = 實地盤的結果；人工修正 = 帳記錯了）、<b>單位成本</b>（選填，填了才算得出這次調整值多少錢；留空不會被當成 0 元）。</dd>
+        <dt>沒看到</dt><dd>「調整」是灰的 = 倉別停在「全部倉」，系統不會替你猜落在哪個倉。扣到負數被擋 = 正常，庫存增加沒有上限。</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="note danger">
+    <p><b>所以「中央帳調整」這一段在客戶面前不要演</b>——要按那顆鈕就得先切單一倉別，一切下去就會撞到上面那個負數地雷。這一格是你自己要懂（會被問），不是上台的動線。第二部分的腳本已經把它拿掉了，現場只演「批號效期 → 全數報廢」與「期末估值的兩張卡片」。</p>
+  </div>
+  <div class="note warn">
+    <p><b>調整不是報廢。</b>東西死掉、破損、過期要走「進銷存 → 批號效期 → 全數報廢」，那裡<b>必須選一個損耗原因</b>（死亡 / 損耗 / 報廢 / 試養 / 其他）才送得出去，而<b>損耗報表只看報廢那一類</b>。記成調整的話，那批損失在損耗報表上完全看不到。對水族客戶特別有感：<b>「死亡」就是為活體商品留的</b>。</p>
+  </div>
+  <h4>3-6　品項主檔與倉別（示範前要懂，現場不一定要演）</h4>
+  <p class="sub">品項在「進銷存 → 基本設定 → 品項設定」，倉別在「進銷存 → 基本設定 → 倉庫管理」（兩個頁籤：倉別清單 / 跨倉調撥）。</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>品項來源</th><th>怎麼進到名冊</th></tr></thead>
+      <tbody>
+        <tr><td>POS / 電商上架的販售商品</td><td><b>自動</b>：第一次有出入庫發生時系統自動建</td></tr>
+        <tr><td>原物料、包材、耗材、藥品、飼料、藥水</td><td><b>要手動建</b>：它們不會在 POS 上架，沒有人會替它們產生第一筆異動</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>判準一句話：<b>「這東西會不會出現在收銀台？」</b>會 → 交給系統；不會但你想管它的進出與成本 → 自己建。水族店的水質藥劑、缸內造景底沙、外掛過濾耗材正是後者。</p>
+  <p><b>品項不能刪除也沒有停用開關</b>——它是整本帳的名冊，移掉會讓歷史帳列指向不存在的東西。建錯了就改名（加「（勿用）」前綴）並且不要再選到它。供應商與倉別規則不同：被引用過會自動轉停用。</p>
+  <p>倉別三種類型，<b>新增時只能選前兩種</b>：總倉 / 中央倉、線上專用倉；<b>門市倉只由系統自動建立</b>（某門市第一次產生庫存異動時自動生出來，名稱是「門市 + 該門市的內部編號」）。ugomk 目前 5 個倉：中央倉、總倉、線上專用倉，以及兩個系統自動建的門市倉——<b>名稱還是一長串 uuid（「門市 d1ed3ed2-…」），09-22 再確認仍沒改</b>。自動建的倉可以改名（系統認的是看不見的代碼）。</p>
+  <div class="note warn">
+    <p><b>但改名只救得了一半：</b>救得到倉庫管理列表的「名稱」欄、採購單「入庫倉」下拉、調撥來源 / 目的倉下拉；<b>救不到</b>倉庫管理列表的「代碼」欄——它是 <code>store:&lt;uuid&gt;</code> 這個形狀，編輯對話框裡代碼欄寫著「建立後不可改」。⇒ 倉庫管理這一頁本來就不在腳本動線上，<b>不要點進去</b>；真要點，先說一句「代碼是系統自己的編號，你不用管它，你看名稱就好」。</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>進銷存「跨倉調撥」</th><th>連鎖「跨店調撥」</th></tr></thead>
+      <tbody>
+        <tr><td>位置</td><td>進銷存 → 基本設定 → 倉庫管理 → 跨倉調撥</td><td>連鎖運營 → 跨店調撥</td></tr>
+        <tr><td>搬的單位</td><td><b>倉別</b></td><td><b>門市</b></td></tr>
+        <tr><td>流程</td><td><b>一步到位</b>，送出即完成出入庫</td><td><b>多段簽核</b>：待核准 → 已核准 → 運送中 → 已入庫</td></tr>
+        <tr><td>進不進進銷存報表</td><td><b>會</b>（記在「其他」欄）</td><td><b>不會</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sub">停用一個倉目前只是清單上的灰色標記：它仍出現在採購入庫倉與調撥下拉裡，POS 與收貨仍會寫庫存進去。不要把停用當封存用。</p>
+
+  <h4>3-7　單位換算與價目表（09 月新上線，舊腳本把它們講成「沒有」）</h4>
+  <p>這兩塊過去是紅線，<b>現在做得到了</b>。第三部分的紅線 3、紅線 4 已經照實改寫。</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th></th><th>單位換算</th><th>價目表</th></tr></thead>
+      <tbody>
+        <tr><td>在哪裡</td><td>進銷存 → 基本設定 → <b>單位主檔</b>（<code>/dashboard/inventory-core/uoms</code>，「箱 / 包 / 瓶」清單本身）＋ <b>品項設定</b></td><td>進銷存 → <b>價目表</b>（<code>/dashboard/inventory-core/pricing</code>，側欄直接點得到），三個分頁：價目表 / 客戶專屬價 / 商品價格別</td></tr>
+        <tr><td>怎麼設</td><td>換算率設在品項：列表有「庫存單位」「採購／銷售換算」兩欄，每列右側「<b>單位與換算</b>」按鈕開對話框；沒設過的顯示「同庫存單位」</td><td>取價順序：<b>客戶專屬價 → 客戶價目表 → 商品價格別 → 商品售價</b>，前面命中就停。商品價格別六種：零售價、優惠價、定價一～四；客戶沒指定時用零售價</td></tr>
+        <tr><td>可以照唸</td><td>「庫存單位是基準，庫存帳只認它。採購／銷售單位只影響輸入：下單填『3 箱』，系統換算成庫存單位再進帳。」「1 箱 = 12 包就填 1 和 12。」</td><td>「一張價目表＝一組商品價格，客戶掛上去之後開單就會帶出這裡的價。」</td></tr>
+        <tr><td>做不到 / 沒驗過</td><td><b>小數 / 秤重仍做不到</b>：庫存帳以整數計量，1 箱 = 12 包時 0.5 箱＝6 包可以、0.3 箱＝3.6 包會被擋。這句話要原封不動講出去</td><td><b>數量級距</b>：兩頁都有「級距」欄、試算會提示「命中級距」，但<b>沒有實機驗過取價結果</b>——沒驗過之前只講「有這個欄位」，不要保證行為（附錄 A13）</td></tr>
+        <tr><td>ugomk 現況</td><td><b>0 筆單位資料</b>，要演必須事先建（準備清單第 3 項）</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <details>
+    <summary>你要能回答的三個問題（第 3 段）</summary>
+    <ol>
+      <li>收到 12 件但採購單上只剩 10 件未收，按下確認收貨會發生什麼？系統會不會告訴你原因？</li>
+      <li>一缸孔雀魚到貨第三天死了 5 尾，你要走「調整」還是「報廢」？為什麼選錯的代價是報表上看不到？</li>
+      <li>客戶做了一筆跨倉調撥，回到進銷存報表卻什麼都沒看到，第一個要檢查的是哪一個篩選？</li>
+    </ol>
+  </details>
+</section>
+
+<section id="ec">
+  <h3>4. 電商：上架 → 前台 → 建單 → 出貨</h3>
+  <p class="sub">側欄群組「電商商城」15 項：儀表板 / 商品管理 / 商品分類 / 訂單管理 / 折扣碼 / 限時搶購 / 預購商品 / 數位商品序號 / 棄單追蹤 / 退換貨處理 / 配送方式 / 金流設定 / 商城基本資料 / 訂單參數 / 通知設定。報表在「報表中心」群組：電商：銷售報表 / 商品排行 / 退換貨率 / 低庫存預警。</p>
+  <div class="steps">
+    <div class="step">
+      <div class="hd"><span class="tag">4-1</span><span class="ttl">商品上架</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>電商商城 → 商品管理 <code>/dashboard/modules/ecommerce/products</code></dd>
+        <dt>必填三格</dt><dd>商品名稱、<b>slug</b>（網址用英文識別字串，例 <code>aq-fd-001</code>）、基本售價。編輯頁三分頁：基本資訊 / SEO / 規格變體。其餘：分類、商品摘要、商品描述（支援 HTML）、主圖網址、其他圖片、配送類型（實體 / 數位）、重量（克）、<b>上架販售</b>、<b>精選商品</b>（在首頁推薦區顯示）。</dd>
+        <dt>會看到</dt><dd>列表有縮圖、名稱、分類、售價、變體、總庫存、狀態；狀態欄可直接切上下架。右上有「匯出」（可選 CSV 或 Excel）。</dd>
+        <dt>沒看到</dt><dd>前台看不到剛上架的商品 = 「上架販售」沒勾，或它不是「精選商品」而你在看首頁推薦區。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">4-2</span><span class="ttl">看前台</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd><code>https://ugomk.ugomkcrm.com/shop</code>（2026-09-19 實測 200）</dd>
+        <dt>會看到</dt><dd>Banner、精選商品（最多 8 個）、商品分類。其他路徑：<code>/shop/products</code>、<code>/shop/products/{slug}</code>、<code>/shop/category/{slug}</code>、<code>/shop/cart</code>、<code>/shop/checkout</code>、<code>/shop/orders</code>、<code>/shop/search</code>。</dd>
+        <dt>沒看到</dt><dd>首頁商品區空的 = 沒有商品被勾「精選商品」（首頁抓的是精選，不是全部商品）。要下單卡在登入 = 前台結帳需要會員身分（LINE 登入），<b>現場不要演前台下單</b>，改走後台建單。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">4-3</span><span class="ttl">下一張測試訂單（後台手動建單，不要現場登入 LINE）</span></div>
+      <dl class="bd">
+        <dt>在哪裡</dt><dd>電商商城 → 訂單管理 → 右上「<b>+ 新增訂單</b>」（在「匯出」旁）→ 「新增訂單」頁 <code>/dashboard/modules/ecommerce/orders/new</code></dd>
+        <dt>六個步驟</dt><dd>① 選擇會員（可搜姓名 / 手機 / 會員 ID，非會員可直接填姓名電話）② 商品（<b>庫存在送出時才檢查</b>，不足會跳「庫存不足（剩 N）」而且<b>整張單不建立</b>）③ 配送資訊 ④ 折扣與點數 ⑤ 發票資訊 ⑥ 付款方式與備註</dd>
+        <dt>按哪顆</dt><dd>底部兩顆：「儲存為待付款」會發 LINE 付款連結（顧客需綁 LINE）；「<b>直接標已收款</b>」跳過金流、立即建為已付款，會先跳「確認直接標已收款？」視窗，上面寫著它會觸發會員成長值 / 點數累計、若已設定電商發票會自動開立發票、無法輕易撤銷。<b>示範按後者</b>，現場不等金流也不需要顧客手機。</dd>
+        <dt>沒看到</dt><dd>第三 / 第六步的選項是空的 = 沒有啟用中的配送 / 付款方式，送不出去。ugomk 現況：配送 1 筆「7-11 取貨」、付款 1 筆「LINE Pay (mock)」，都啟用中，夠用。手動標記已付款被拒絕 = 正式環境要先在「訂單參數」開「允許後台手動標記已付款」，ugomk 已開。</dd>
+      </dl>
+    </div>
+    <div class="step">
+      <div class="hd"><span class="tag">4-4</span><span class="ttl">後台出貨</span></div>
+      <dl class="bd">
+        <dt>按什麼</dt><dd>已付款 / 處理中 / 部分出貨的訂單，詳情頂部有「建立出貨單」→ 選物流（黑貓 / 新竹 / 中華郵政 / 7-11 / 全家 / 自取 / 其他）、填追蹤碼、指定本次出貨數量。<b>一筆訂單可拆多張出貨單。</b></dd>
+        <dt>會看到</dt><dd>訂單狀態依進度變「部分出貨」或「已出貨」。訂單列表上方可切：全部 / 待付款 / 已付款 / 待出貨 / 已出貨 / 已完成 / 已取消。</dd>
+        <dt>沒看到</dt><dd>看不到「退款」= 這顆只出現在已付款 / 部分出貨 / 已出貨 / 已送達 / 已完成 / 部分退款的訂單上，處理中的單也看不到。「取消訂單」只出現在待付款，取消會一次做四件事：釋放庫存、退回折抵點數、還原折扣碼次數、寫操作紀錄。</dd>
+      </dl>
+    </div>
+  </div>
+  <p><b>ugomk 現成 4 個商品</b>：新手養魚套組 <code>aq-kit-01</code>、孔雀魚薄片飼料 <code>aq-fd-001</code>、電子書 <code>ebook-line-nav</code>、涼感 T-shirt <code>cool-tee</code>。<b>示範只點前兩個</b>，後兩個與水族無關會岔題。<b>前兩個目前基本售價都是 0、新手養魚套組總庫存 0</b>，示範前必補（準備清單第 11、12 項）。</p>
+  <details>
+    <summary>你要能回答的三個問題（第 4 段）</summary>
+    <ol>
+      <li>客戶問「客人打電話來訂貨怎麼辦？」你演哪一條路徑？為什麼不是叫客人去前台下單？</li>
+      <li>「儲存為待付款」與「直接標已收款」差在哪？哪一種會跳過金流驗證、要負什麼責任？</li>
+      <li>一張已付款的電商訂單要整單退，庫存會不會自動補回來？系統憑什麼決定？</li>
+    </ol>
+  </details>
+</section>
+
+<section id="join">
+  <h3>5. 三者的接點：數字從哪來、到哪去</h3>
+  <p><b>這張表就是整份示範的核心，背下來。</b></p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>動作</th><th>動哪本帳</th><th>具體寫到哪</th><th>另外兩本會不會跟著動</th></tr></thead>
+      <tbody>
+        <tr><td>HQ-TEST 收銀台賣出 1 包</td><td><b>A</b></td><td>獨立庫存 → 扣該門市<b>店倉</b>，零售異動明細記一筆「銷售」</td><td>中央帳收到一筆銷售異動（品項是自動鏡射建的）；電商<b>不動</b></td></tr>
+        <tr><td>分店 B 收銀台賣出 1 包</td><td><b>A</b></td><td>共用庫存 → 扣<b>商品規格本身</b></td><td>同上</td></tr>
+        <tr><td>ERP 採購收貨 20 包進中央倉</td><td><b>B</b></td><td>倉別 × 品項餘額 +20，寫一筆庫存異動</td><td><b>零售收銀台能賣的數字不會變</b>，電商也不會</td></tr>
+        <tr><td>電商前台或後台建單賣出 2 包</td><td><b>C</b></td><td>扣電商規格庫存（門市庫存模式是獨立 / 混合時扣該門市店倉）</td><td>零售可售<b>不動</b></td></tr>
+        <tr><td>期末估值「調整」盤盈 3 包</td><td><b>B</b></td><td>中央帳 +3，出現在彙總的「調整」欄</td><td>零售可售<b>不動</b></td></tr>
+        <tr><td>零售「庫存管理 → 盤點」改成 50 包</td><td><b>A</b></td><td>零售規格庫存改 50，記一筆「盤點」</td><td>中央帳<b>不動</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h4>5-2　「切讀」到底做了什麼（最容易被誤解的一格）</h4>
+  <p>位置：進銷存 → 進銷存中央帳 <code>/dashboard/inventory-core</code> 的「切讀設定（依模組）」，四個對象（預設 / 零售 POS / 電商 / 餐飲 POS）各有 ON / OFF。<b>ugomk 現況：零售 POS 是 ON。</b></p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>切讀開了會怎樣</th><th>切讀不會怎樣</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>這個通路<b>實際能賣的數字完全不變</b>；畫面上多附一個「全通路合計」給你參考。</td>
+          <td><b>不會</b>讓收銀台改用中央帳的數字去賣。結帳時擋你的、實際被扣的，<b>永遠是這個通路自己那一份</b>。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>在零售 POS → 商品管理看得到差異的地方：列表「總庫存」下方小字「本通路可售 · 另有全通路合計」（兩數相同時不出現）；「調整庫存」對話框預覽寫「→ 調整後：Y」，並提示這次調整只會動本通路的數字。兩種「合計看不到數字」都<b>不代表庫存是 0</b>：組合品母品項（銷售時扣的是成分）、以及「中央帳合計暫時查不到（不是 0）」——系統寧可不給數字，也不拿 0 冒充。</p>
+  <h4>5-3　要讓兩邊真的共用同一份庫存</h4>
+  <p>進銷存 → 進銷存中央帳 → 商品對應：填零售 variant ID 與電商 variant ID 按「連結」，之後兩通路共用同一個中央帳品項，連結當下的庫存量是兩邊餘額之和。<b>限制要現場講</b>：填的是內部識別碼不是商品名稱，實務上要我方協助；<b>連結錯了不能自己反覆連結</b>，要聯繫客服並以盤點調整回正確數量；需同時啟用零售與電商兩個模組，否則欄位不會出現。</p>
+  <h4>5-4　三本帳差多少，有一頁直接告訴你</h4>
+  <p>進銷存 → 報表與結帳 → 三方對帳 <code>/dashboard/inventory-core/reconcile</code>。<b>它比的是三邊，不是兩邊。</b>頁面副標逐字是：</p>
+  <div class="say">「中央帳、模組庫存與店倉三邊的數量比對。相符不列出但數得出來；讀不到的獨立成「無法判定」，不會被畫成沒有差異。」</div>
+  <p>（舊版腳本寫「中央帳 vs 零售規格庫存」兩邊，那是錯的——名字叫「三方」就是因為有三邊。）這一頁是講「誠實」最好的道具：與其宣稱三邊永遠一致，不如直接讓客戶看到系統自己知道差在哪，而且<b>讀不到的那些它不會畫成「沒有差異」</b>。這一句比差異數字本身更值錢。</p>
+  <details>
+    <summary>你要能回答的三個問題（第 5 段）</summary>
+    <ol>
+      <li>客戶說「我用你們的 ERP 進了 20 箱硝化菌，門市為什麼還是賣不出去？」——這是 bug 嗎？你怎麼回？</li>
+      <li>「切讀」開了之後收銀台會用中央帳的數字擋結帳嗎？那它到底改變了什麼？</li>
+      <li>同一包飼料要在門市和網路商城共用一份庫存，需要做什麼？有什麼是客戶自己做不到的？</li>
+    </ol>
+  </details>
+</section>
+
+<section id="script">
+  <h2><span class="num">03</span>第二部分　示範腳本（35 分鐘，含 5 分鐘緩衝 / 提問）</h2>
+  <div class="timeline">
+    <div class="seg">
+      <div class="mins">2<small>分鐘</small></div>
+      <div class="body">
+        <h4>0　開場定錨（不開畫面）</h4>
+        <p class="say">「今天不講功能清單，講<b>一包飼料的一生</b>：從你跟廠商叫貨、進倉、上架、門市賣掉、網路賣掉，到月底你想知道倉庫裡還有多少錢。我們就跟著這包飼料走一遍。」</p>
+        <p class="say">收尾：「過程中你會看到三個地方在記帳。我等一下會明白告訴你哪些是自動接起來的、哪些<b>現在還沒有</b>，因為你要拿這套系統做生意，不能靠我今天講得漂亮。」</p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">4<small>分鐘</small></div>
+      <div class="body">
+        <h4>1　門市與商品：先讓他看到自己的貨</h4>
+        <p class="say">「先看你的貨長什麼樣子。你現在一家店，這個系統是照多家店做的——所以你開第二家的時候，不用換系統。」</p>
+        <p><b>演什麼：</b>側欄「當前門市」切一次 HQ-TEST ↔ 測試分店 B → 零售 POS → 商品管理，篩分類「飼料」，點開一個商品看<b>規格 / SKU / 條碼 / 售價 / 成本 / 庫存 / 安全庫存</b>七個欄位 → 停在「產生店內條碼」一秒：「你自己分裝的水草、散裝的底沙，沒有廠商條碼，按這裡系統給你一組店內碼，印成標籤貼上去就能掃。」</p>
+        <p class="say">收尾：「成本這一格等一下會再出現一次——月底算你倉庫值多少錢，算的就是它。」</p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">6<small>分鐘</small></div>
+      <div class="body">
+        <h4>2　門市賣一單</h4>
+        <p class="say">「現在有客人進來買魚飼料跟一支撈網。」</p>
+        <p><b>演什麼：</b>零售 POS → 收銀檯，掃碼加入孔雀魚飼料 + 撈網（沒有條碼就按「選商品」點商品，點完按「收起商品」）→ 按掃描列「會員」查一次現成測試會員，讓他看到姓名 / 等級 / 點數 / <b>累計消費</b> → 點商品名稱展開單品折扣，填「近效期」當原因：「每一筆折扣都會記<b>原因跟是誰給的</b>，月底你看得到為什麼少收這 20 塊。」→ 現金結帳（收現輸入客人給的錢，找零當場算好）。放心按下去，開出來的是測試帳號的票；客戶注意到那個號碼時的回法見風險一。→ 訂單管理開剛剛那筆，指折扣列上的原因與操作者。</p>
+        <p class="say">收尾：<b>「這一筆賣掉的當下，庫存就扣掉了，不用再手動記一次。」</b></p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">9<small>分鐘</small></div>
+      <div class="body">
+        <h4>3　缺貨 → 叫貨 → 到貨（全場重點）</h4>
+        <p class="say">開場：「賣久了會缺貨。多數老闆靠記憶跟走一趟倉庫。我們讓系統先算給你看。」</p>
+        <p><b>演什麼：</b>進銷存 → 報表與結帳 → 進銷存報表 → 補貨建議（<b>倉別維持預設的「全部倉」，一個字都不要動</b>——切總倉日均銷量變 0、可撐天數變「無銷量」；切中央倉會露出負數庫存）。把算式唸出來——<b>補貨點 ＝ 日均銷量 × 前置期天數 ＋ 安全庫存；建議補貨量 ＝ 補貨點 −（現有庫存 ＋ 在途量）</b>。指「在途」欄：「已經訂了還沒到的量，系統自己扣掉，不會叫你重複訂。」勾兩個品項，「這次要訂」欄直接改數字：「系統算的是<b>建議不是命令</b>，供應商有沒有最低訂購量、要不要整箱叫，你比系統清楚。」→ 選供應商「展新水族貿易」→「建立採購單草稿」→「前往採購單」→ 明細按「下單」→ 某一列只收一部分按「確認收貨」（狀態變<b>部分到貨</b>）→ 再收齊（自動變已收齊）。</p>
+        <p class="say">可選（氣氛好時）演超收：故意在「本次收貨」填超過剩餘量——<b>「它不會替你判斷是供應商多送還是你按了兩次——因為這兩件事在系統裡長得一模一樣。它只告訴你有幾件沒進系統，剩下的你去核對紙箱。會亂猜的系統比不猜的危險。」</b></p>
+        <p class="say">收尾：「叫貨、到貨、入庫，這條線走完了。這些動作在你啟用會計之後會自動產生對應的分錄，今天不展開。」</p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">5<small>分鐘</small></div>
+      <div class="body">
+        <h4>4　盤點與損耗（水族客戶最有感）</h4>
+        <p class="say">開場：<b>「你這行有一件別人沒有的事：貨會死。」</b></p>
+        <p><b>演什麼：</b>進銷存 → 批號效期 → <b>「豐年蝦冷凍磚」那一列</b>按「全數報廢」，讓他看到五個損耗原因（死亡 / 損耗 / 報廢 / 試養 / 其他）：「『死亡』這格就是為活體留的。破損、過期、內部試養要做的改善完全不一樣，全混在一格等於沒記。」→ 報表與結帳 → 進銷存報表 → 期末估值（<b>倉別停在「全部倉」</b>）兩張卡片：期末庫存總估值、<b>未估值品項數</b>——「沒設過成本的品項系統不會算成 0 元，它明確標『未估值』叫你回去補。寧可承認不知道，不給你假數字。」</p>
+        <div class="note danger"><p><b>不要用 <code>AQ-FD-005</code> 冷凍紅蟲磚演這一段，它演不了。</b>批號效期整頁目前只有 4 批：魚病治療藥水 <code>LOT-2612B</code>、外置圓桶過濾器 <code>B-1</code>、豐年蝦冷凍磚 ×2。冷凍紅蟲磚沒有批、點不到；豐年蝦冷凍磚有兩批，報廢掉一批還留一批，不怕演完沒東西。</p></div>
+        <p class="say">收尾：「月底你想知道倉庫裡壓了多少錢，看這一頁。想知道錢是怎麼漏掉的，看損耗率報表。」</p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">6<small>分鐘</small></div>
+      <div class="body">
+        <h4>5　線上那一條</h4>
+        <p class="say">開場：「你說未來想開網路。那條線在同一套系統裡，不是另外買一套。」</p>
+        <p><b>演什麼：</b>開商城前台滑一下首頁與商品頁 → 回後台 電商商城 → 訂單管理 →「+ 新增訂單」：「最常發生的其實不是客人自己上網下單，是<b>他打電話或傳 LINE 給你</b>。這一頁就是給這種情況用的。」六步走完按「直接標已收款」（確認視窗再按一次）→ 進訂單詳情「建立出貨單」選物流填追蹤碼 → 狀態變已出貨：「一張訂單可以拆多張出貨單，這箱先出、那箱等到貨再出。」</p>
+        <p class="say">收尾：<b>「同一批商品、同一群會員、同一個後台。你不用管兩套帳號。」</b></p>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="mins">3<small>分鐘</small></div>
+      <div class="body">
+        <h4>6　收束：三本帳（誠實收尾，這段別省）</h4>
+        <p class="say">開場：「最後講一件多數業務不會主動講的事。」</p>
+        <p><b>演什麼：</b>進銷存 → 報表與結帳 → 三方對帳，指著差異清單說：</p>
+        <p class="say">「這一頁在比<b>三邊</b>：ERP 的中央帳、各個模組自己的庫存、還有門市的店倉。它們<b>現在還沒有自動互相搬數字</b>——我在 ERP 收貨 20 箱，門市收銀台能賣的數字不會自己變多。我們沒有假裝它們是同一本，反而做了這一頁讓你<b>隨時看得到差多少</b>。而且讀不到的那幾列它會獨立標成『<b>無法判定</b>』，不會混進『沒有差異』裡騙你。要讓某個商品兩邊共用一份庫存，我們可以幫你把它連結起來，那是要設定的，不是預設就通。」</p>
+        <p class="say">收尾：「你今天看到的每個數字都是真的在動的。接下來我想跟你確認三件事：<b>你大概幾個品號、要不要管批號效期、線上這條你想什麼時候開。</b>」</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>現場就用這一組例子，不要臨場想</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>場景</th><th>用哪個商品</th><th>演哪一段</th></tr></thead>
+      <tbody>
+        <tr><td>一批飼料進貨</td><td><code>AQ-FD-001-R</code> 孔雀魚薄片飼料（售 180 / 成本 95）</td><td>第 3 段補貨建議 → 採購單 → 收貨</td></tr>
+        <tr><td>門市賣出</td><td><code>AQ-FD-001-R</code> ＋ <code>AQ-CS-005</code> 撈網中號</td><td>第 2 段收銀台</td></tr>
+        <tr><td>器材類</td><td><code>AQ-EQ-006</code> 吸盤式溫度計、LED 燈具 30cm、加溫棒 100W、外掛過濾器 小型</td><td>第 1 段商品管理篩分類</td></tr>
+        <tr><td>活體 / 冷凍品損耗</td><td><b>「豐年蝦冷凍磚」</b>（批號效期頁有兩批）。<b>不要用 <code>AQ-FD-005</code> 冷凍紅蟲磚，它沒有批、點不到</b></td><td>第 4 段報廢選「死亡 / 損耗」</td></tr>
+        <tr><td>線上訂單</td><td>電商「新手養魚套組」<code>aq-kit-01</code>。<b>庫存與售價目前都是 0，要先補</b>（準備清單第 11、12 項）</td><td>第 5 段手動建單</td></tr>
+        <tr><td>補貨建議跑得出東西</td><td><code>AQ-FD-001</code>（總倉安全存量 300 / 現量 160）、<code>AQ-WT-500</code> 水質穩定劑（100 / 65）、<code>AQ-CS-001</code> 過濾棉（80 / 87）</td><td>第 3 段（<b>倉別停在「全部倉」</b>：2 列、日均 0.1667、可撐天數 1307）</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note danger">
+    <p><b>容易踩到的坑：</b>中央帳裡有<b>兩個都叫「孔雀魚薄片飼料」的品項</b>——<code>AQ-FD-001</code>（手動建的 ERP 品項，在總倉，有安全存量）與 <code>AQ-FD-001-R</code>（零售自動鏡射，在中央倉 / 門市倉）。<b>補貨建議用前者，零售銷售用後者</b>，搞混會在台上對不上數字。</p>
+  </div>
+</section>
+
+<section id="prep">
+  <h3>示範前準備清單</h3>
+  <p class="sub">這些不要現場做，全部前一天做完並實際點過一遍。本文件作者未執行任何寫入操作，以下每一項都待執行；09-22 實機走過一輪後確認：第 1、2 項到現在都還沒做，而且兩件都是真的要做。勾選狀態只存在你這台瀏覽器。</p>
+  <h4>必做（不做會當場卡住）</h4>
+  <div class="check">
+    <label><input type="checkbox" id="p1"><span>1　把供應商「展新水族貿易」的「啟用中」打開<span class="why">進銷存 → 基本設定 → 供應商 → 編輯。09-22 再驗一次仍是停用，採購單的供應商下拉真的選不到它，第 3 段會卡死</span></span></label>
+    <label><input type="checkbox" id="p2"><span>2　把兩個門市倉改名（現在還是「門市 d1ed3ed2-…」「門市 257779e4-…」）<span class="why">進銷存 → 基本設定 → 倉庫管理 → 編輯。改名只救一半：名稱欄與採購單入庫倉下拉會正常，但倉庫管理的「代碼」欄仍會印 store:&lt;uuid&gt;（建立後不可改）。改完之後倉庫管理這一頁乾脆不要點進去</span></span></label>
+    <label><input type="checkbox" id="p11"><span>3　建單位資料並設一個品項的換算率（例：包 / 箱，孔雀魚薄片飼料 1 箱 = 12 包）<span class="why">進銷存 → 基本設定 → 單位主檔，再到品項設定按該列的「單位與換算」。ugomk 目前 0 筆單位資料，不建的話紅線 3 那段「我們做得到」現場拿不出畫面，等於自打嘴巴</span></span></label>
+    <label><input type="checkbox" id="p3"><span>4　確認補貨建議頁真的跑得出列（倉別＝全部倉、統計天數 30）<span class="why">進銷存 → 報表與結帳 → 進銷存報表 → 補貨建議。09-22 實測全部倉 2 列（日均 0.1667、可撐天數 1307）；切到總倉會全部變日均 0 / 「無銷量」，公式演不出來</span></span></label>
+    <label><input type="checkbox" id="p4"><span>5　前一天跑一次完整流程：收銀台結帳 → 採購收貨 → 手動建單 → 出貨，確認沒有任何一頁報錯<span class="why">這是唯一能提前發現「某一頁壞了」的方法</span></span></label>
+  </div>
+  <div class="note">
+    <p><b>發票不需要事先處理。</b>HQ-TEST 的 Amego 設定填的是光貿公開測試帳號，結帳會開票但不是真發票，<b>不用切換設定、不用改到分店 B、不用事後作廢</b>。唯一要準備的是知道畫面上那個號碼是怎麼回事，客戶問起答得出來（風險一）。</p>
+  </div>
+  <h4>建議做（讓現場更乾淨）</h4>
+  <div class="check">
+    <label><input type="checkbox" id="p5"><span>6　把商品分類「E2E test」「飲料」隱藏或不要點到<span class="why">水族客戶看到「飲料」會問，那是測試殘留</span></span></label>
+    <label><input type="checkbox" id="p6"><span>7　避開名稱像 <code>可口可樂-1778…</code>、<code>Test Product - Black Tea</code>、<code>QA會計-測試商品A</code> 的測試品（篩分類即可避開，多數沒有分類）<span class="why">70 筆商品裡有一大堆時間戳命名的測試品，滑到會很尷尬</span></span></label>
+    <label><input type="checkbox" id="p7"><span>8　電商只點「新手養魚套組」與「孔雀魚薄片飼料」，不要點開「涼感 T-shirt」「電子書」<span class="why">與水族無關，會岔題到數位商品序號</span></span></label>
+    <label><input type="checkbox" id="p8"><span>9　把 <code>PO-00005</code>（草稿）與 <code>PO-00007</code>（部分到貨）留著不要動<span class="why">正好現成展示兩種狀態，不用現場等</span></span></label>
+    <label><input type="checkbox" id="p9"><span>10　事先在電商準備一位測試會員（姓名 / 電話）<span class="why">第 5 段建單直接搜得到，現場臨時建會員會打斷節奏</span></span></label>
+    <label><input type="checkbox" id="p12"><span>11　把電商「新手養魚套組」與「孔雀魚薄片飼料」的基本售價填上（兩個目前都是 0）<span class="why">商城前台與訂單金額會整排顯示 0 元。投影出來的第一眼就是 0 元的商品，比任何紅線都傷</span></span></label>
+    <label><input type="checkbox" id="p13"><span>12　把電商「新手養魚套組」的庫存補上（總庫存目前 0）<span class="why">第 5 段的手動建單指名用它。庫存不足會跳「庫存不足（剩 N）」而且整張單根本不會建立——這是後端擋下，不是警告，當場救不回來</span></span></label>
+    <label><input type="checkbox" id="p10"><span>13　瀏覽器先開好五個分頁：後台首頁、收銀檯、進銷存中央帳、進銷存報表（補貨建議）、商城前台<span class="why">「進銷存中央帳」一定要算進去：09-22 實測有一次冷載入白畫面轉圈約 40 秒（其他次 3 秒內），現場冷開這一頁＝全場乾等 40 秒</span></span></label>
+    <label><input type="checkbox" id="p14"><span>14　確認網路 / 投影；商城前台先開一次讓它熱起來<span class="why">冷啟動第一次載入會慢</span></span></label>
+  </div>
+  <h4>不要做</h4>
+  <div class="note danger">
+    <p>不要在草影自己的後台建任何測試資料。不要刪 ugomk 的既有測試資料（QA 推薦加成測試抽獎、QA會計 系列、F253 測試會員都是刻意保留的）。<b>不要為了發票去動任何開關</b>——現況已經是安全的（測試帳號），動它反而要記得還原、多一個出錯點。進銷存報表的倉別<b>不要切到中央倉</b>；「報表與結帳」裡的<b>期末結帳不要點</b>（會寫入，關帳後那一期就凍住）。<b>不要演客顯</b>——客顯的櫃台登記目前掛在餐飲 POS 模組後面，草影是純零售租戶，演了會讓客戶以為他買得到。<b>不要在任何租戶重存「進銷存 ERP」的模組啟用</b>——重存會當場建起 ERP 銷售的整組資料表、出貨立刻可以過帳，而 ERP 出貨不會扣收銀台的庫存；第 5 段講的「三方對帳」是誠實說明這個邊界，地雷是那顆啟用按鈕，不是這段話術。</p>
+  </div>
+</section>
+
+<section id="risk">
+  <h2><span class="num">04</span>第三部分　現場風險與備案</h2>
+  <h3>風險一：在 HQ-TEST 結帳一定會開出一張發票（但不是真發票，不需要備案）</h3>
+  <p>零售結帳<b>一定會嘗試開票</b>，而且<b>不受「自動開立」開關管</b>（結帳後以背景任務開票）；收銀台的發票類型只有二聯 / 三聯 / 捐贈，結帳時的發票彈窗也沒有「不開發票」。HQ-TEST 分店層設定：服務商 Amego、啟用中、發票參數啟用。<b>但那組憑證是光貿公開測試帳號</b>：<code>app_id = 12345678</code>、app_key 與程式裡的測試常數<b>逐字相同</b>，且賣方統編與字軌都是空字串、自動配號開著——正是「測試帳號沒有店家申請的字軌，讓光貿自己配號」的形狀。<b>開出來的憑證財政部端沒有這張，也不消耗客戶的真字軌。</b></p>
+  <p><b>所以現場放心按下結帳，不需要任何備案</b>：不用取消勾選「啟用發票模組」、不用改到分店 B、不用事後作廢。畫面會出現看起來非常真的號碼（最近一張 <code>EL00040416</code>，2026-09-17、$300；再往前是 <code>ZA100677xx</code> 那批——<b>前綴會跳，因為字軌是測試帳號當場配的</b>）。</p>
+  <div class="redline" style="border-left-color:var(--accent)">
+    <div class="ask">客戶問起時這樣回</div>
+    <blockquote>「這個號碼是<b>測試帳號</b>取的，財政部那邊沒有這張，所以你今天看到的流程是真的、票是假的。你自己上線時會用你公司的統編跟你申請到的字軌，那時候開出來才是真的。」</blockquote>
+  </div>
+  <div class="note warn">
+    <p><b>一條會坑到自己人的判準：</b>要判斷某家店會不會開出真發票，<b>光看 is_test 不夠，必須比對 app_id / app_key 是不是光貿公開測試帳號</b>。光貿沒有獨立 sandbox（測試與正式同一個 URL），「測試模式」的實作是讀取時把憑證<b>換成</b>公開測試帳號——那是程式的自動替換路徑。有人手動把同一組帳號填進設定時，is_test 會是 false，但開出來的東西完全一樣是假的。is_test:false 只代表「沒走替換路徑」，不代表「走正式帳號」。（併記：發票資料表的 is_test 欄目前全是 NULL，也不能拿來判斷。）</p>
+  </div>
+
+  <h3>風險二：某一頁載入慢或空白</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>症狀</th><th>多半是什麼</th><th>現場怎麼辦</th></tr></thead>
+      <tbody>
+        <tr><td>進銷存頁面寫「尚未安裝」或相關操作被停用</td><td>該租戶庫存核心資料表沒建齊</td><td>ugomk 不該發生；真發生就跳過該頁改用截圖</td></tr>
+        <tr><td>效期預警「暫無資料」</td><td><b>在 ugomk 這不是壞掉</b>：唯一有效期的那一批要到 281 天後才到期，而「幾天內到期」預設 30</td><td><b>把「幾天內到期」改成 400 再按「套用」</b>，就會跑出 1 列（魚病治療藥水 <code>LOT-2612B</code>、總倉、2027/6/30、剩 281 天、35）。<b>不要跳過這一格</b></td></tr>
+        <tr><td>補貨建議一列都沒有</td><td>倉別切到了總倉（銷售都在中央倉 / 門市倉 → 日均 0）；或近 30 天沒有銷售；或「只看需要補貨的」把全部濾掉</td><td><b>先把倉別切回「全部倉」</b>；再不行就取消「只看需要補貨的」再套用</td></tr>
+        <tr><td>品項清單找不到某品項</td><td><b>清單一次最多顯示 200 筆且沒有分頁</b></td><td>用上方搜尋框（支援品名 / 品號 / 條碼）</td></tr>
+        <tr><td>「進銷存中央帳」白畫面轉圈</td><td>冷載入，09-22 實測有一次約 40 秒</td><td>準備清單第 13 項：事先開好分頁預熱</td></tr>
+        <tr><td>側欄整個「進銷存」群組不見了</td><td>模組沒啟用</td><td>ugomk 不該發生；真發生代表模組被關掉，改演零售 + 電商兩段</td></tr>
+        <tr><td>側欄顯示「模組清單載入失敗」</td><td>後端沒回模組清單，前端顯示完整選單</td><td>重新整理；點進未啟用的模組會提示</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>風險三：講到一半切了門市，數字對不上</h3>
+  <p>多分店的設定頁上方會有黃色提示「全店共用設定」——<b>電商商城模組目前沒有任何一個子頁支援分店各自獨立設定</b>，切分店不會改變電商設定頁內容，那是提醒不是切換。若現場數字突然對不上，<b>第一個檢查的一律是側欄「當前門市」</b>。</p>
+
+  <h3>風險四：客戶當場要求「你現在幫我在我的後台建一個」</h3>
+  <div class="redline" style="border-left-color:var(--warn)">
+    <div class="ask">不要答應。標準回法</div>
+    <blockquote>「你的後台是正式的，今天建的示範資料會留在你的帳上，之後你自己看報表會被它干擾。我回去幫你開一份<b>乾淨的</b>，照你真實的商品結構設，比現在隨手建的有用。」</blockquote>
+  </div>
+</section>
+
+<section id="redline">
+  <h2><span class="num">05</span>不可答應的事（背起來，一字不改）</h2>
+  <div class="note danger">
+    <p><b>09-22：原本的紅線 3 / 4 / 5 已經被程式追過去了，三條全部改寫。</b>那份缺口分析文件比程式碼舊——<b>以畫面為準</b>。照舊版講會把我們講得比實際能力還弱，而且紅線 5 會直接跟側欄上看得到的四張單據打架。</p>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 1　不可宣稱能匯入鼎新 A1 的資料</h4>
+    <p>期初遷移格式是照<b>凌越</b>做的。凌越是凌越資訊的獨立產品，<b>不是鼎新系列</b>。這條同時適用會計、商品、客戶、庫存期初。</p>
+    <div class="ask">客戶問「我現在用鼎新，資料搬得過來嗎？」</div>
+    <blockquote>「我們做過期初匯入，但我要先看你<b>實際匯得出來的檔案長什麼樣</b>再回答你搬不搬得過來，不然我現在講的都是猜的。你先匯一份商品跟庫存的檔給我，我兩天內告訴你哪些欄位對得起來、哪些要人工補。」</blockquote>
+    <p class="sub">加分點：這個回答比「可以」更讓內行客戶信任，因為做過遷移的人都知道沒有人能不看檔就答。</p>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 2　不可說「以後開電商，資料不用搬」</h4>
+    <p>現況商品資料流是<b>單向</b>的：通路（零售 / 電商）的品項會反向長出 ERP 品項，但 ERP 匯入的品項<b>不會自動出現在電商或零售</b>。</p>
+    <div class="ask">客戶問「我先做門市，以後開網路，商品要重建一次嗎？」</div>
+    <blockquote>「目前這兩邊的商品主檔還沒有完全統一——門市建的會自動進 ERP，但反過來 ERP 進的不會自動長到網路商城去。實務上不是重打一次，是<b>我們幫你做一次對應</b>，這件事我會排進上線流程，不會讓你自己弄。主檔統一是我們正在做的事，做完之後這個問題就不存在了。」</blockquote>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 3　只剩「小數 / 秤重」不可答應——箱進個出做得到，不要再講成沒有</h4>
+    <p><b>做得到的</b>：進銷存 → 基本設定 → 單位主檔（箱 / 包 / 瓶清單）＋ 品項設定每列的「單位與換算」。頁面自述：「下單填『3 箱』，系統換算成庫存單位再進帳」「1 箱 = 12 包就填 1 和 12」。<b>仍然做不到的（這才是紅線）</b>：庫存帳以整數計量，換算後不是整數的數量會被擋。1 箱 = 12 包時，0.5 箱＝6 包可以，0.3 箱＝3.6 包不行 ⇒ <b>論斤秤重、賣 0.5 公斤、活魚論兩，還是做不到</b>。</p>
+    <div class="ask">客戶問「我飼料整箱進、單罐賣」（可以答應）</div>
+    <blockquote>「這個可以。你在單位主檔把『箱』跟『包』建起來，在品項上填『1 箱 = 12 包』，之後下採購單你填 3 箱，系統自己換成 36 包進帳。庫存帳永遠用你設的庫存單位在記。」</blockquote>
+    <div class="ask">客戶問「我底沙是秤重賣的 / 活魚論兩」（不可以答應）</div>
+    <blockquote>「秤重那一塊我<b>現在沒有</b>，我不騙你。庫存數量目前是整數，換算之後不是整數的它會直接擋下來——比方 1 箱 12 包，你填 0.3 箱它不讓你過。你如果一定要秤重，我們得先把它排進開發，我可以給你時間表，但我不會今天答應你下個月就有。」</blockquote>
+    <p class="sub">上台前提醒：ugomk 目前 0 筆單位資料，準備清單第 3 項沒做的話，這段有話術沒畫面。</p>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 4　價目表有了——不可答應的只剩「沒驗過的那一塊」</h4>
+    <p><b>做得到的</b>：進銷存 → 價目表（側欄直接點得到），三個分頁 價目表 / 客戶專屬價 / 商品價格別。取價順序：客戶專屬價 → 客戶價目表 → 商品價格別 → 商品售價，前面命中就停。商品價格別六種：零售價、優惠價、定價一～四；客戶沒指定時用零售價。<b>還不可以拍胸脯的</b>：<b>數量級距價</b>。欄位確實在（兩頁都有「級距」欄、試算會提示「命中級距」），但沒有實機驗過取價結果 ⇒ 沒有自己驗過之前，只講「有這個欄位」，不要保證行為（附錄 A13）。</p>
+    <div class="ask">客戶問「我有大盤價、零售價、老客戶價，可以設嗎？」</div>
+    <blockquote>「可以。我們有價目表：你可以建好幾張價目表，把客戶掛上去，他開單就帶出他那一張的價；要更細的話還可以針對某一個客戶、某一個商品指定專屬價，那一層是最優先的。至於『買 10 個以上再便宜』這種量的級距，欄位在，但我想先跟你的實際規則對過一次再回答你，不然我現在講的是猜的。」</blockquote>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 5　銷售單據已經有了——只能說「還沒開始用」，不能說「還沒有」</h4>
+    <p>側欄上就看得到 <b>銷貨訂單 / 出貨單 / 銷貨退回 / 銷貨發票</b> 四項，客戶自己就讀得到。銷貨訂單頁完整可用，狀態有草稿 / 已確認 / 部分出貨 / 出貨完成 / 已結案 / 已作廢六種；出貨單、銷貨退回、銷貨發票也都各自有頁。（出貨單頁的文案清理正在進行中，<b>現場不要停在那一頁逐字唸</b>。）分界線是「有沒有人在用」，不是「有沒有做」。</p>
+    <div class="ask">客戶問「我接到訂單要先開銷貨單、出貨再開出貨單」</div>
+    <blockquote>「這條線<b>已經在系統裡了</b>——銷貨訂單、出貨單、銷貨退回、銷貨發票，側欄你看得到，訂單走草稿、確認、部分出貨、出貨完成、結案這幾個狀態。我要誠實跟你講的是：<b>這幾張單我們還沒有客戶正式在用</b>，所以我不會說它久經考驗。你如果是賣給下游店家、要開銷貨單月結，我建議我們挑一個月先跑一輪真單，我陪著你跑，有問題當場修。這比我今天跟你保證它完美有用。」</blockquote>
+    <p class="sub">絕對不要說的：「ERP 沒有銷貨訂單」「銷售那條線還沒做」——客戶一看側欄就知道你在亂講。</p>
+  </div>
+
+  <div class="redline">
+    <h4>紅線 6　不要拿別人的規模當案例</h4>
+    <p>不要拿 ugomk（測試站 70 品）或 gaulish（餐飲 772 品項，不同分母）當零售規模案例。講競品時要區分鼎新的產品線：<b>A1 的結論不可外推到 SmartERP / Workflow GP / Cosmos</b>。</p>
+  </div>
+
+  <h3>可以放心講的（用來平衡上面的紅線）</h3>
+  <p class="sub">紅線講完不要冷場。以下每一條都查證過。</p>
+  <div class="safe">
+    <div><b>單位換算有</b>：箱進、包出，下單填箱系統換成包進帳（只有小數 / 秤重擋著）</div>
+    <div><b>價目表有</b>：多張價目表、客戶掛表帶價、客戶 × 商品的專屬價、六種價格別</div>
+    <div><b>ERP 銷售單據有</b>：銷貨訂單 / 出貨單 / 銷貨退回 / 銷貨發票，六種狀態（誠實說法是做好了但還沒有客戶正式在用）</div>
+    <div>三方對帳會把「讀不到」獨立成<b>「無法判定」</b>，不會畫成沒有差異</div>
+    <div>成本方法可以逐品項設，<b>切換前有預覽</b>會先算出會改幾筆</div>
+    <div>切換成本法<b>不回溯、隨時可關回去</b>，關了既有成本不會被清成 0</div>
+    <div>批號、序號、效期、<b>先進先出（FEFO）是標配</b></div>
+    <div>安全存量是<b>「品項 × 倉別」各自一個值</b></div>
+    <div>匯入前有<b>預檢（dry-run）</b>，品項還可<b>整批沖回</b></div>
+    <div>統編有格式檢查；月結用<b>「結帳日 + 收款日」</b>兩欄做，跟台灣實務一致</div>
+    <div><b>信用額度與超額預警</b>有，還有額度查詢</div>
+    <div>多幣別與匯率有，還有<b>台銀自動匯入</b></div>
+    <div><b>系統不拿 0 冒充不知道</b>：未估值、合計查不到、庫存讀不到都會明講</div>
+    <div>每一筆<b>折扣、報廢、調整都要填原因</b></div>
+  </div>
+</section>
+
+<section id="todo">
+  <h2><span class="num">06</span>附錄 A　上台前要實機確認的項目</h2>
+  <p class="sub">所有路由與文字都對照過程式碼與說明書，但以下項目<b>沒有實際在畫面上點過</b>（已確認的標明）。</p>
+  <div class="check">
+    <label><input type="checkbox" id="a1"><span>A1　HQ-TEST 結帳後，發票明細的賣方統編是 <code>12345678</code><span class="why">結一筆單，開發票明細 / 補印看賣方統編。是 12345678 ＝確認走測試帳號（設定裡賣方統編是空的，會改用 app_id）</span></span></label>
+    <label><input type="checkbox" id="a2"><span>A2　補貨建議頁跑得出列：<b>已實機確認（09-22）</b><span class="why">倉別「全部倉」＋統計天數 30 → 2 列（日均 0.1667、可撐天數 1307）。切總倉會全部變 0 /「無銷量」</span></span></label>
+    <label><input type="checkbox" id="a3"><span>A3　效期預警頁籤有沒有資料：<b>已實機確認（09-22）：沒壞，是篩選器太短</b><span class="why">把「幾天內到期」改成 400 就會出 1 列（魚病治療藥水 LOT-2612B、總倉、2027/6/30、剩 281 天、35）。這一格要演，不要跳過</span></span></label>
+    <label><input type="checkbox" id="a4"><span>A4　三方對帳頁實際長什麼樣、差異列數多少<span class="why">側欄路徑：報表與結帳 → 三方對帳。注意它比的是三邊：中央帳 / 模組庫存 / 店倉</span></span></label>
+    <label><input type="checkbox" id="a5"><span>A5　電商「新增訂單」頁六個步驟的實際欄位與按鈕文字<span class="why">開 /dashboard/modules/ecommerce/orders/new 走一遍</span></span></label>
+    <label><input type="checkbox" id="a6"><span>A6　商城前台首頁精選商品區是否有東西</span></label>
+    <label><input type="checkbox" id="a7"><span>A7　零售商品列表是否出現「本通路可售 · 另有全通路合計」小字<span class="why">找有中央帳對應的品項（切讀已是 ON）</span></span></label>
+    <label><input type="checkbox" id="a8"><span>A8　「當前門市」下拉的實際選項文字<span class="why">本文寫「連鎖測試總店 (HQ-TEST)」是依程式「名稱 (代碼)」推得</span></span></label>
+    <label><input type="checkbox" id="a9"><span>A9　採購單「檢視 / 收貨」按鈕的實際文字</span></label>
+    <label><input type="checkbox" id="a10"><span>A10　安全庫存頁能不能設值<span class="why">進銷存報表的說明書寫「後台目前還沒有設定它的畫面」，但這一頁確實存在（09-22 起入口在基本設定 → 安全庫存）——兩者有一邊過時，見附錄 B 的 D2</span></span></label>
+    <label><input type="checkbox" id="a11"><span>A11　結帳後畫面與收據上的發票號碼實際長什麼樣<span class="why">先看過一次，客戶問起才答得順（號碼前綴會跳，因為是光貿測試帳號當場配號）</span></span></label>
+    <label><input type="checkbox" id="a12"><span>A12　各頁載入速度（品項清單 200 筆、商品列表 70 筆）<span class="why">09-22 部分實測：進銷存中央帳冷載入曾經約 40 秒，其餘頁面仍待測</span></span></label>
+    <label><input type="checkbox" id="a13"><span>A13　數量級距價是否真的會在開單時套用<span class="why">價目表 → 客戶專屬價 / 商品價格別建一段級距（例：買 10 個以上 X 元），用試算看會不會提示「命中級距」，再開一張銷貨訂單看帶不帶得出來。沒驗過之前，紅線 4 只講「有這個欄位」</span></span></label>
+    <label><input type="checkbox" id="a14"><span>A14　單位換算實際走一遍（建單位 → 設 1 箱 = 12 包 → 採購單填 3 箱看是不是進 36 包）<span class="why">準備清單第 3 項建完之後順手驗，順便驗一次「填 0.3 箱會被擋」</span></span></label>
+    <label><input type="checkbox" id="a15"><span>A15　HQ-TEST 的發票參數有沒有開「結帳後跳出發票視窗」<span class="why">09-22 起零售結帳可能先跳「開立發票」視窗（選項：手機載具 / 統一編號 / 索取紙本 / 會員載具，有捐贈碼時多「捐贈發票」），要按「確認」才送出。先知道會不會跳，現場才不會愣住</span></span></label>
+    <label><input type="checkbox" id="a16"><span>A16　ugomk 門市的收銀版面是「掃描優先」還是「格子優先」<span class="why">零售 POS → 收銀版面設定。掃描優先時商品收在「選商品」面板，格子優先時商品格子佔主畫面；第 2 段的點法依此不同</span></span></label>
+  </div>
+
+  <h3>附錄 B　順手發現的文件落差（另案處理）</h3>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>#</th><th>落差</th><th>說明書怎麼寫</th><th>實際</th></tr></thead>
+      <tbody>
+        <tr><td>D1</td><td>零售商品匯入</td><td>「目前後台尚未提供 Excel 匯入／匯出功能」</td><td>商品管理右上有「批次匯入」，頁面存在</td></tr>
+        <tr><td>D2</td><td>安全庫存設定畫面</td><td>「後台目前還沒有設定它的畫面……需要請聯繫客服」</td><td>頁面存在，入口在基本設定 → 安全庫存；DB 也確有非 0 的值（總倉 AQ-FD-001 = 300）</td></tr>
+        <tr><td>D3</td><td>ERP 缺口分析的三條缺口</td><td>「沒有單位換算」「沒有價格表」「銷售線是空的」</td><td>三條全部已經做出來了：單位主檔＋品項換算率、價目表三頁、銷貨訂單 / 出貨單 / 銷貨退回 / 銷貨發票。那份文件需要整節重寫（本文紅線 3 / 4 / 5 已先改寫）</td></tr>
+        <tr><td>D4</td><td>進銷存說明書裡的側欄路徑</td><td>多處寫「側欄 進銷存 → 供應商 / 進銷存報表 / 倉庫管理 …」</td><td>09-22 側欄收斂後，這些項目都在基本設定 / 報表與結帳底下。URL 沒變，但「在側欄找得到」這句話全部過期</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sub">四條都是「說明書比程式碼舊」的形狀。在客戶面前照說明書講「這個沒有」、結果側欄就有那一頁，比單純寫錯更傷。D3、D4 兩條尤其急：它們會讓業務在台上講出跟畫面矛盾的話。</p>
+</section>
+
+<footer>
+  <p>資料來源：<code>docs/demo/acharming-retail-erp-ecommerce-runbook.md</code>（commit <code>860f3991</code>，2026-09-22 修訂）。路由與選單對照 <code>sidebar-nav.ts</code>、<code>inventory-core/nav-hubs.ts</code> 與各頁面；零售收銀台版面依 09-22 改版後的兩條結帳頁面程式碼改寫（與 md 描述的舊版面不同處以程式碼為準）。資料量測走唯讀資料庫純 SELECT。</p>
+</footer>
+</div>
+
+<script>
+  (function(){
+    var boxes = document.querySelectorAll('.check input[type=checkbox]');
+    try{
+      boxes.forEach(function(b){
+        var v = localStorage.getItem('demo-prep-' + b.id);
+        if (v === '1') b.checked = true;
+        b.addEventListener('change', function(){
+          try{ localStorage.setItem('demo-prep-' + b.id, b.checked ? '1' : '0'); }catch(e){}
+        });
+      });
+    }catch(e){}
+
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+    var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if (!en.isIntersecting) return;
+          var i = targets.indexOf(en.target);
+          if (i < 0) return;
+          links.forEach(function(l){ l.classList.remove('on'); });
+          links[i].classList.add('on');
+        });
+      }, { rootMargin: '-72px 0px -70% 0px' });
+      targets.forEach(function(t){ if (t) io.observe(t); });
+    }
+  })();
+</script>
+
+</body></html>

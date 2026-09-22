@@ -1,0 +1,400 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet"><meta name="googlebot" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>水族店練習劇本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ink:#16201c; --ink-2:#3c4a44; --ink-3:#6a7a73;
+  --paper:#f4f2ec; --surface:#fffdf8; --surface-2:#ebe7dd; --line:#d8d2c6;
+  --accent:#0f6b52; --accent-soft:#e2efe9;
+  --warn:#8a5a10; --warn-soft:#f7ecd8;
+  --stop:#992c22; --stop-soft:#f8e4e1;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Noto Serif TC",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8e6df; --ink-2:#bcc4bf; --ink-3:#8b968f;
+    --paper:#121715; --surface:#1a201d; --surface-2:#232b27; --line:#333d38;
+    --accent:#6fd6ae; --accent-soft:#17302a;
+    --warn:#e0b467; --warn-soft:#2e2517;
+    --stop:#f08a7c; --stop-soft:#341f1c;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e8e6df; --ink-2:#bcc4bf; --ink-3:#8b968f;
+  --paper:#121715; --surface:#1a201d; --surface-2:#232b27; --line:#333d38;
+  --accent:#6fd6ae; --accent-soft:#17302a;
+  --warn:#e0b467; --warn-soft:#2e2517;
+  --stop:#f08a7c; --stop-soft:#341f1c;
+}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.72;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.wrap{max-width:860px;margin:0 auto;padding-inline:16px;padding-block:0}
+header.top{padding-block:44px 24px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 12px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(28px,5vw,42px);line-height:1.2;margin:0 0 12px;text-wrap:balance}
+.lede{font-size:17px;color:var(--ink-2);margin:0;max-width:62ch}
+.lede strong{color:var(--ink);font-weight:500}
+
+.sticky{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);
+  border-bottom:1px solid var(--line);padding-block:9px;margin-bottom:26px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sticky .bar{flex:1;min-width:120px;height:6px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.sticky .bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.sticky .lab{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+.sticky button{font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);background:var(--surface);
+  color:var(--ink-2);border-radius:6px;padding:4px 10px;cursor:pointer}
+.sticky button:hover{border-color:var(--accent);color:var(--accent)}
+
+h2{font-family:var(--serif);font-size:clamp(21px,3.2vw,26px);margin:44px 0 6px;font-weight:700}
+h2 .ph{font-family:var(--mono);font-size:12px;color:var(--accent);display:block;letter-spacing:.1em;margin-bottom:3px;font-weight:500}
+h3{font-family:var(--serif);font-size:18px;margin:28px 0 8px;font-weight:600}
+p{margin:0 0 14px;max-width:66ch}
+section{scroll-margin-top:70px}
+
+.dataset{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:20px 0 28px}
+.dataset h3{margin:0 0 4px}
+.dataset p.sub{font-size:14px;color:var(--ink-3);margin:0 0 14px}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 18px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:430px}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--surface-2)}
+tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+tfoot td{font-weight:700;background:var(--surface-2)}
+
+.step{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:0 0 14px;overflow:hidden}
+.step>.hd{display:flex;gap:12px;align-items:flex-start;padding:13px 16px;cursor:pointer;user-select:none}
+.step>.hd input{margin:3px 0 0;width:18px;height:18px;accent-color:var(--accent);flex:none;cursor:pointer}
+.step>.hd .no{font-family:var(--mono);font-size:12px;color:var(--ink-3);min-width:2.6em;padding-top:2px}
+.step>.hd .ti{font-weight:500;flex:1;min-width:0}
+.step.is-done{border-color:var(--accent);background:var(--accent-soft)}
+.step.is-done .ti{color:var(--accent)}
+.step .bd{padding:0 16px 15px 62px}
+@media (max-width:520px){.step .bd{padding-left:16px}}
+.step .bd p{font-size:14.5px;margin:0 0 10px}
+.step .bd p:last-child{margin-bottom:0}
+
+.expect{background:var(--accent-soft);border-radius:8px;padding:11px 14px;margin:10px 0 0}
+.expect .t{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 6px;font-weight:600}
+.expect ul{margin:0;padding-left:17px}
+.expect li{font-size:14.5px;color:var(--ink-2);margin-bottom:4px}
+.expect li::marker{color:var(--accent)}
+.expect b{font-family:var(--mono);color:var(--ink);font-weight:600}
+
+.miss{border-left:3px solid var(--warn);background:var(--warn-soft);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0 0;font-size:14px}
+.miss .t{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--warn);margin:0 0 5px;font-weight:600}
+.miss p{margin:0;color:var(--ink-2)}
+
+.trap-step{border:1px solid var(--warn);background:var(--warn-soft)}
+.trap-step .ti::after{content:"故意做錯";font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  background:var(--warn);color:var(--warn-soft);border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:2px}
+.trap-step.is-done{border-color:var(--warn);background:var(--warn-soft)}
+.trap-step.is-done .ti{color:var(--warn)}
+
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.foot{border-top:1px solid var(--line);padding-block:24px 44px;margin-top:40px;color:var(--ink-3);font-size:13.5px}
+.foot p{max-width:66ch}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">練習劇本 · 一家虛構的水族店</p>
+    <h1>水族店練習劇本</h1>
+    <p class="lede">用一組<strong>算得出答案的假資料</strong>，從建單位一路做到三方對帳。每一步都附「你應該看到什麼」，數字對不上就停下來查——<strong>不要連做五步才發現第一步就錯了</strong>。中間夾了三個「故意做錯」，讓你先在沒人看的時候撞一次系統的擋門。</p>
+  </header>
+
+  <div class="sticky">
+    <span class="lab" id="cnt">0 / 23</span>
+    <span class="bar"><i id="bar"></i></span>
+    <button type="button" id="reset">全部重來</button>
+  </div>
+
+  <section id="data">
+    <div class="dataset">
+      <h3>這次要建的資料</h3>
+      <p class="sub">全部自己編的，可以放心在測試環境建。建議店名用「練習水族」開頭，事後好清。</p>
+
+      <div class="tbl"><table>
+        <thead><tr><th>品項</th><th>庫存單位</th><th>採購單位</th><th class="num">成本</th><th class="num">售價</th></tr></thead>
+        <tbody>
+          <tr><td>孔雀魚薄片飼料</td><td>包</td><td>箱（1 箱 = 12 包）</td><td class="num">45</td><td class="num">89</td></tr>
+          <tr><td>水質穩定劑 500ml</td><td>瓶</td><td>瓶（不換算）</td><td class="num">120</td><td class="num">220</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="tbl"><table>
+        <thead><tr><th>其他主檔</th><th>值</th></tr></thead>
+        <tbody>
+          <tr><td>倉庫</td><td>門市倉</td></tr>
+          <tr><td>供應商</td><td>練習水族用品行</td></tr>
+          <tr><td>安全庫存</td><td>飼料 24 包</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section id="p1">
+    <h2><span class="ph">階段一</span>主檔：先把地基鋪好</h2>
+    <p>順序有意義：單位要先有，品項才選得到；倉庫要先有，收貨才知道收去哪。</p>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="1"><span class="no">01</span><span class="ti">建三個單位：包、箱、瓶</span></label>
+      <div class="bd">
+        <p>進銷存 › 單位主檔。每個單位給一個代號（例如 <code>PKG</code>／<code>CTN</code>／<code>BTL</code>）和名稱。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul><li>清單上三筆，狀態都是啟用。</li><li>試著改其中一個的<b>代號</b>——改不了，只有名稱能改。</li></ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="2"><span class="no">02</span><span class="ti">建品項「孔雀魚薄片飼料」，設好換算率</span></label>
+      <div class="bd">
+        <p>進銷存 › 品項設定。庫存單位選<b>包</b>，採購單位選<b>箱</b>，換算率填「<code>1</code> 箱 = <code>12</code> 包」。成本填 <code>45</code>。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul><li>品項上顯示得出換算關係：<b>1 箱 = 12 包</b>。</li></ul></div>
+        <div class="miss"><p class="t">對不上的話</p><p>如果兩個數字填反了（12 箱 = 1 包），後面叫 3 箱只會進 0.25 包。現在就回頭改。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="3"><span class="no">03</span><span class="ti">建品項「水質穩定劑 500ml」</span></label>
+      <div class="bd"><p>庫存單位<b>瓶</b>，不設採購單位（進出都是瓶）。成本 <code>120</code>。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul><li>沒設採購單位的品項，開採購單時數量旁邊<b>不會有單位下拉</b>——這是正常的。</li></ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="4"><span class="no">04</span><span class="ti">建倉庫「門市倉」與供應商「練習水族用品行」</span></label>
+      <div class="bd"><p>進銷存 › 倉庫管理、供應商。各建一筆就好。</p></div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="5"><span class="no">05</span><span class="ti">設安全庫存：飼料 24 包</span></label>
+      <div class="bd"><p>進銷存 › 安全庫存。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul><li>現在庫存是 <b>0</b>，低於 24 ⇒ 補貨建議裡應該出現這一筆。</li></ul></div>
+      </div></div>
+  </section>
+
+  <section id="p2">
+    <h2><span class="ph">階段二</span>採購：叫貨、分批到貨</h2>
+
+    <div class="step trap-step"><label class="hd"><input type="checkbox" data-k="6"><span class="no">06</span><span class="ti">先故意填 0.3 箱</span></label>
+      <div class="bd">
+        <p>開一張採購單，飼料的數量填 <code>0.3</code>，單位選<b>箱</b>。送出。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>被擋下，而且訊息會告訴你 0.3 箱 = <b>3.6 包</b>，不是整數。</li>
+          <li>它還會<b>建議你改填什麼</b>（例如 0.25 箱＝3 包）。把那句話讀完。</li>
+        </ul></div>
+        <div class="miss"><p class="t">這一步的用意</p><p>你現在知道系統會擋、也知道擋的時候長什麼樣。客戶現場填錯時，你不會慌。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="7"><span class="no">07</span><span class="ti">改成正式的採購單：飼料 3 箱、穩定劑 10 瓶</span></label>
+      <div class="bd">
+        <p>供應商選「練習水族用品行」，倉庫選「門市倉」。</p>
+        <div class="tbl"><table>
+          <thead><tr><th>品項</th><th class="num">數量</th><th class="num">單價</th><th class="num">金額</th></tr></thead>
+          <tbody>
+            <tr><td>孔雀魚薄片飼料</td><td class="num">3 箱</td><td class="num">540</td><td class="num">1,620</td></tr>
+            <tr><td>水質穩定劑</td><td class="num">10 瓶</td><td class="num">120</td><td class="num">1,200</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="3">採購總額</td><td class="num">2,820</td></tr></tfoot>
+        </table></div>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>飼料那一列換算成 <b>36 包</b>。</li>
+          <li>總額 <b>2,820</b>。</li>
+          <li>此時<b>庫存還是 0</b>。下單不等於到貨——這句話要記牢。</li>
+        </ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="8"><span class="no">08</span><span class="ti">第一批到貨：飼料收 24 包、穩定劑收 10 瓶</span></label>
+      <div class="bd">
+        <p>回到那張採購單按收貨。<b>收貨要用庫存單位填</b>，所以飼料填 <code>24</code>（不是 2 箱）。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>庫存：飼料 <b>24</b> 包、穩定劑 <b>10</b> 瓶。</li>
+          <li>採購單狀態變成<b>部分收貨</b>。</li>
+          <li>庫存異動多兩筆，各自指得出是這張採購單。</li>
+          <li>飼料 24 包已達安全庫存 24 ⇒ 補貨建議裡<b>不該再出現</b>它。</li>
+        </ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="9"><span class="no">09</span><span class="ti">第二批到貨：飼料再收 12 包</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>飼料庫存 <b>36</b> 包。</li>
+          <li>採購單狀態變成<b>已收貨</b>。</li>
+        </ul></div>
+        <div class="miss"><p class="t">對不上的話</p><p>如果庫存是 48，代表你第一批填成 2「箱」被當成 2 箱＝24 包之外又算了一次。回頭看庫存異動那兩筆各是多少。</p></div>
+      </div></div>
+  </section>
+
+  <section id="p3">
+    <h2><span class="ph">階段三</span>零售：把東西賣出去</h2>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="10"><span class="no">10</span><span class="ti">在零售建兩個商品，對應剛剛那兩個品項</span></label>
+      <div class="bd">
+        <p>零售 POS › 商品管理。飼料售價 <code>89</code>、穩定劑 <code>220</code>，成本照抄 45 / 120。</p>
+        <div class="miss"><p class="t">這一步最容易被誤會</p><p>你是在建<b>另一筆資料</b>，不是把 ERP 的品項拉過來。這正是「商品 vs 品項」那一課的實際樣子。</p></div>
+      </div></div>
+
+    <div class="step trap-step"><label class="hd"><input type="checkbox" data-k="11"><span class="no">11</span><span class="ti">先不填成本，去看一眼銷售報表</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul><li>毛利是 <b>0</b>，而且不會有任何錯誤訊息。</li></ul></div>
+        <div class="miss"><p class="t">這一步的用意</p><p>示範前若忘了填成本，打開報表會很尷尬。看過一次，你以後會記得先檢查。看完把成本補回去再繼續。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="12"><span class="no">12</span><span class="ti">收銀結帳：飼料 2 包 + 穩定劑 1 瓶</span></label>
+      <div class="bd">
+        <p>後台 <code>零售 POS › 收銀檯</code>，或店員端 <code>POS 介面 › 零售 › 結帳</code>（兩邊版面與算法相同）。</p>
+        <p>用掃描槍掃兩個商品的條碼；沒有條碼就按購物車下方的「選商品」，在面板裡點商品（面板不會自己關），點完按「收起商品」。飼料那一列點中間的數量格，按 <code>2</code> 再按「確定」——<b>第一個數字會取代原本的 1</b>，不會變成 12。</p>
+        <div class="tbl"><table>
+          <thead><tr><th>品項</th><th class="num">數量</th><th class="num">單價</th><th class="num">小計</th></tr></thead>
+          <tbody>
+            <tr><td>飼料</td><td class="num">2</td><td class="num">89</td><td class="num">178</td></tr>
+            <tr><td>穩定劑</td><td class="num">1</td><td class="num">220</td><td class="num">220</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="3">應收</td><td class="num">398</td></tr></tfoot>
+        </table></div>
+        <p>右側付款方式選「現金」。先<b>故意收不夠</b>：點「收現」輸入 <code>300</code> 按「確定」。看完之後按兩次「+100」補成 500（快捷鈕是累加的；若要在鍵盤上重打，先按「清」，否則數字會接在 300 後面）。最後按「結帳 NT$ 398」，結帳成功對話框按「繼續結帳」。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>收現 300 時，找零寫 <b>不足 NT$ 98</b>，整塊變紅。</li>
+          <li>收現 500 時，找零 <b>NT$ 102</b>。</li>
+          <li>訂單管理出現一筆 <b>398</b>。</li>
+          <li>毛利：飼料 (89−45)×2 = <b>88</b>，穩定劑 220−120 = <b>100</b>，合計 <b>188</b>。</li>
+          <li><b>零售那本帳</b>的飼料少了 2。</li>
+        </ul></div>
+        <div class="miss"><p class="t">對不上的話</p><p>訂單是 12 包或 23 包：數量鍵盤先按了「清」或「⌫」之後會改成接在後面輸入。回購物車把數量改回 2 再結。找零區不見了：付款方式不是現金，切到信用卡時收現區會收起來。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="12b"><span class="no">12b</span><span class="ti">發票設定：切換類型，確認舊欄位被清掉</span></label>
+      <div class="bd">
+        <p>不用結帳。按掃描列的「發票」開「發票設定」視窗：類型選「三聯」、統編填 <code>12345678</code>，按「完成」。再開一次，類型切到「捐贈」，然後切回「三聯」。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>第一次按完成後，掃描列那顆鈕寫 <b>三聯・12345678</b>。</li>
+          <li>從捐贈切回三聯之後，<b>統編欄是空的</b>——舊欄位不會留下來給下一位客人。</li>
+          <li>練完把類型切回「二聯」、載具選「無載具」，下一單才不會帶著三聯。</li>
+        </ul></div>
+        <div class="miss"><p class="t">這一步的用意</p><p>若這家店的發票參數開了「結帳後跳出發票視窗」，結帳時跳出的「開立發票」視窗也是同一個規則：在視窗裡切換手機載具 / 統一編號 / 捐贈發票，不屬於新選項的欄位會被清掉。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="13"><span class="no">13</span><span class="ti">去看 ERP 的庫存還是不是 36</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>如果這家店<b>沒有</b>設定共用庫存：ERP 還是 <b>36</b>，零售是 <b>34</b>。兩本帳。</li>
+          <li>如果<b>有</b>設共用：兩邊都是 34。</li>
+        </ul></div>
+        <div class="miss"><p class="t">這一步是整份練習的重點</p><p>不管你看到哪一種，<b>你都要說得出是哪一種、為什麼</b>。客戶現場一定會問這題。</p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="14"><span class="no">14</span><span class="ti">退貨：把 1 包飼料退掉</span></label>
+      <div class="bd">
+        <p>店員端 <code>POS 介面 › 零售 › 退換貨</code>（後台是 <code>零售 POS › 退換貨處理</code>）。按右上「新增退換貨」，輸入第 12 步那張單的訂單編號（PR 開頭）按「查詢」，飼料數量選 1、填原因，按「建立退換貨單」。點開那張單按「核准」，同一個視窗裡按鈕會換成「完成退款」，再按一次。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>跳出「<b>退貨完成：請照下列金額退給客人</b>」，寫著本次退款合計 <b>NT$89</b>、從抽屜付現金 <b>NT$89</b>。照這個金額付。</li>
+          <li>零售庫存回到 <b>35</b>。</li>
+          <li>當日營收 398 − 89 = <b>309</b>，毛利 188 − 44 = <b>144</b>。</li>
+        </ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="15"><span class="no">15</span><span class="ti">跑一次日結對帳</span></label>
+      <div class="bd">
+        <p>店員端 <code>POS 介面 › 零售 › 日結</code>（頁面標題「日結（關店對帳）」），或後台 <code>零售 POS › 日結對帳</code>。日期停在今天。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>收款摘要：訂單金額 <b>398</b>、退款 <b>− 89</b>。</li>
+          <li>「實收合計（抽屜口徑）」<b>309</b>；下方「各付款方式」的現金那一列實收 <b>309</b>，跟你心算的一致。</li>
+        </ul></div>
+        <div class="miss"><p class="t">不要跟交班搞混</p><p>日結是整個營業日的帳；「交班」是當班那個人點自己收的現金，是另一頁。這一步只看日結。</p></div>
+      </div></div>
+  </section>
+
+  <section id="p4">
+    <h2><span class="ph">階段四</span>盤點與損耗</h2>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="16"><span class="no">16</span><span class="ti">盤點：實際數出來只有 34 包</span></label>
+      <div class="bd">
+        <p>假設有 1 包破損。帳上 35（36 進 − 2 賣 + 1 退，若未共用庫存則以零售那本為準），實際 34。</p>
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>盤點單顯示差異 <b>−1</b>。</li>
+          <li>調整之後，庫存變成 <b>34</b>，而且<b>庫存異動多一筆盤盈虧</b>，查得到原因。</li>
+        </ul></div>
+        <div class="miss"><p class="t">不要這樣做</p><p>不要直接去把庫存數字改成 34。那樣沒有任何紀錄，之後沒人知道東西少去哪了。<b>盤點是唯一合法的校正手段。</b></p></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="17"><span class="no">17</span><span class="ti">看損耗率報表</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul><li>損耗 1 包，成本 <b>45</b> 元。對 36 包進貨 ⇒ 損耗率約 <b>2.8%</b>。</li></ul></div>
+        <div class="miss"><p class="t">話術</p><p>對生鮮、食品、飼料客戶，這一頁直接是錢。「一年下來這 2.8% 是多少」比任何功能介紹都有效。</p></div>
+      </div></div>
+  </section>
+
+  <section id="p5">
+    <h2><span class="ph">階段五</span>價目表：賣給不同客人不同價</h2>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="18"><span class="no">18</span><span class="ti">建一張「經銷價」價目表，飼料 75</span></label>
+      <div class="bd"><p>進銷存 › 價目表。同一個飼料，零售 89、經銷 75。</p></div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="19"><span class="no">19</span><span class="ti">給某個客戶一個專屬價 70，然後開一張銷貨訂單</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>取到的價是 <b>70</b>，不是 75，也不是 89。</li>
+          <li>畫面說得出這個價<b>來自哪一層</b>（客戶專屬價）。</li>
+        </ul></div>
+        <div class="miss"><p class="t">記住這句</p><p>順序是<b>由細到粗、找到就停</b>，不是自動挑最便宜的。客戶問「為什麼不是給我最低價」，答案就是這句。</p></div>
+      </div></div>
+
+    <div class="step trap-step"><label class="hd"><input type="checkbox" data-k="20"><span class="no">20</span><span class="ti">切到另一家分店，去找剛剛那張價目表</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul><li><b>找不到</b>。</li></ul></div>
+        <div class="miss"><p class="t">這是刻意的，不是 bug</p><p>分店取不到價時會明白說「這一層沒有設」，你當場看得見。如果讓它自動去拿總部的價，分店會用一個你不知道的價出貨，要到對帳那天才發現。要共用就<b>複製一份到那家分店</b>。</p></div>
+      </div></div>
+  </section>
+
+  <section id="p6">
+    <h2><span class="ph">階段六</span>收尾：對帳</h2>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="21"><span class="no">21</span><span class="ti">開進銷存報表，核對最終庫存</span></label>
+      <div class="bd">
+        <div class="expect"><p class="t">你應該看到</p><ul>
+          <li>飼料 <b>34</b> 包、穩定劑 <b>9</b> 瓶（進 10 賣 1）。</li>
+          <li>每一筆異動都追得回來源單據：採購單、零售訂單、退貨、盤點。</li>
+        </ul></div>
+      </div></div>
+
+    <div class="step"><label class="hd"><input type="checkbox" data-k="22"><span class="no">22</span><span class="ti">開三方對帳，看零售、ERP、發票對不對得起來</span></label>
+      <div class="bd">
+        <p>如果這家店沒設共用庫存，這一頁會告訴你兩本帳差多少——<b>差異本身不是錯，看不出差異才是</b>。</p>
+        <div class="expect"><p class="t">你應該能回答</p><ul>
+          <li>差的那幾個是哪來的？（零售賣掉但 ERP 沒扣）</li>
+          <li>要讓它們一致，該改哪裡？（門市的庫存模式）</li>
+        </ul></div>
+      </div></div>
+  </section>
+
+  <footer class="foot">
+    <p>做完這 23 步，你已經走過一次完整的進銷存循環：<strong>叫貨 → 到貨 → 賣出 → 退貨 → 盤點 → 對帳</strong>，而且每一步都自己驗過數字。示範前一天再跑一次，手會記得。</p>
+    <p>練習資料建議事後清掉，或固定用一個測試門市。<strong>不要在客戶的正式門市做這套練習</strong>——盤點與退貨都會留下真實紀錄。</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var KEY='retail-erp-drill-v1';
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return{}}}
+  function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+  var state=load();
+  var boxes=[].slice.call(document.querySelectorAll('.step input'));
+  var bar=document.getElementById('bar'), cnt=document.getElementById('cnt');
+  function paint(){
+    var n=0;
+    boxes.forEach(function(b){
+      var on=!!state[b.dataset.k];
+      b.checked=on; b.closest('.step').classList.toggle('is-done',on);
+      if(on)n++;
+    });
+    bar.style.width=Math.round(n/boxes.length*100)+'%';
+    cnt.textContent=n+' / '+boxes.length;
+  }
+  boxes.forEach(function(b){b.addEventListener('change',function(){state[b.dataset.k]=b.checked;save(state);paint();});});
+  document.getElementById('reset').addEventListener('click',function(){state={};save(state);paint();});
+  paint();
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,643 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet"><meta name="googlebot" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>零售與進銷存操作手冊</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --ink:#16201c;
+  --ink-2:#3c4a44;
+  --ink-3:#6a7a73;
+  --paper:#f4f2ec;
+  --surface:#fffdf8;
+  --surface-2:#ebe7dd;
+  --line:#d8d2c6;
+  --accent:#0f6b52;
+  --accent-soft:#e2efe9;
+  --warn:#8a5a10;
+  --warn-soft:#f7ecd8;
+  --stop:#992c22;
+  --stop-soft:#f8e4e1;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Noto Sans TC",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --serif:"Noto Serif TC",Georgia,"Times New Roman",serif;
+  --shadow:0 1px 2px rgba(22,32,28,.06),0 8px 24px rgba(22,32,28,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8e6df; --ink-2:#bcc4bf; --ink-3:#8b968f;
+    --paper:#121715; --surface:#1a201d; --surface-2:#232b27; --line:#333d38;
+    --accent:#6fd6ae; --accent-soft:#17302a;
+    --warn:#e0b467; --warn-soft:#2e2517;
+    --stop:#f08a7c; --stop-soft:#341f1c;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e8e6df; --ink-2:#bcc4bf; --ink-3:#8b968f;
+  --paper:#121715; --surface:#1a201d; --surface-2:#232b27; --line:#333d38;
+  --accent:#6fd6ae; --accent-soft:#17302a;
+  --warn:#e0b467; --warn-soft:#2e2517;
+  --stop:#f08a7c; --stop-soft:#341f1c;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+}
+
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+*{box-sizing:border-box}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0}
+.masthead{padding-block:44px 28px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(30px,5.2vw,46px);line-height:1.2;margin:0 0 14px;text-wrap:balance;letter-spacing:-.01em}
+.lede{font-size:17px;color:var(--ink-2);max-width:62ch;margin:0}
+.lede strong{color:var(--ink);font-weight:500}
+
+.cols{display:grid;grid-template-columns:238px minmax(0,1fr);gap:44px;align-items:start;padding-block:28px 72px}
+@media (max-width:900px){.cols{grid-template-columns:1fr;gap:20px}}
+
+/* ---------- map / toc ---------- */
+.map{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);max-height:calc(100vh - 48px);overflow:auto;font-size:14px}
+@media (max-width:900px){.map{position:static;max-height:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}}
+.map h2{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px;font-weight:500}
+.map ol{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:2px}
+.map a{display:flex;gap:9px;align-items:baseline;text-decoration:none;color:var(--ink-2);padding:4px 8px;border-radius:6px;line-height:1.45}
+.map a:hover{background:var(--surface-2);color:var(--ink)}
+.map a.on{background:var(--accent-soft);color:var(--accent);font-weight:500}
+.map .n{font-family:var(--mono);font-size:11px;color:var(--ink-3);min-width:1.4em}
+.map a.on .n{color:var(--accent)}
+.progress{border-top:1px solid var(--line);padding-top:14px;font-size:13px;color:var(--ink-3)}
+.bar{height:5px;background:var(--surface-2);border-radius:99px;overflow:hidden;margin:8px 0 6px}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s ease}
+
+/* ---------- sections ---------- */
+section{scroll-margin-top:20px;margin-bottom:56px}
+.sec-head{display:flex;gap:14px;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:22px}
+.sec-n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:500}
+h2.sec-t{font-family:var(--serif);font-size:clamp(22px,3.4vw,28px);margin:0;font-weight:700;letter-spacing:-.01em}
+h3{font-family:var(--serif);font-size:19px;margin:34px 0 10px;font-weight:600}
+h4{font-size:15px;margin:22px 0 6px;font-weight:700;color:var(--ink)}
+p{margin:0 0 14px;max-width:68ch}
+ul,ol.steps{max-width:68ch}
+li{margin-bottom:6px}
+
+/* ---------- pieces ---------- */
+.where{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--mono);font-size:12.5px;
+  background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:9px 12px;margin:0 0 16px}
+.where .lbl{color:var(--ink-3);letter-spacing:.06em}
+.where .crumb{color:var(--ink)}
+.where .sep{color:var(--ink-3)}
+
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0 0 16px}
+ol.steps>li{counter-increment:s;position:relative;padding-left:34px;margin-bottom:11px}
+ol.steps>li::before{content:counter(s);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;
+  background:var(--surface-2);color:var(--ink-2);font-family:var(--mono);font-size:12px;display:grid;place-items:center;font-weight:500}
+
+.check{background:var(--accent-soft);border-radius:10px;padding:14px 16px;margin:0 0 16px}
+.check .t{font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--accent);margin:0 0 6px;display:flex;align-items:center;gap:7px}
+.check ul{margin:0;padding-left:18px}
+.check li{color:var(--ink-2)}
+.check li::marker{color:var(--accent)}
+
+.trap{border-left:3px solid var(--warn);background:var(--warn-soft);border-radius:0 8px 8px 0;padding:13px 16px;margin:0 0 16px}
+.trap .t{font-weight:700;font-size:13px;color:var(--warn);margin:0 0 5px;display:flex;align-items:center;gap:7px}
+.trap p:last-child{margin-bottom:0}
+.stop{border-left:3px solid var(--stop);background:var(--stop-soft);border-radius:0 8px 8px 0;padding:13px 16px;margin:0 0 16px}
+.stop .t{font-weight:700;font-size:13px;color:var(--stop);margin:0 0 5px;display:flex;align-items:center;gap:7px}
+.stop p:last-child{margin-bottom:0}
+
+code{font-family:var(--mono);font-size:.88em;background:var(--surface-2);padding:1px 5px;border-radius:4px}
+kbd{font-family:var(--mono);font-size:.85em;border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;background:var(--surface)}
+
+.tbl{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:440px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500;background:var(--surface-2)}
+tr:last-child td{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;text-align:right;font-family:var(--mono)}
+
+.ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin:0 0 18px}
+.ledger article{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.ledger h5{margin:0 0 4px;font-size:15px;font-weight:700}
+.ledger .src{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:0 0 8px}
+.ledger p{font-size:14px;color:var(--ink-2);margin:0}
+
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 18px;font-size:14px}
+.flow .node{background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:6px 11px;white-space:nowrap}
+.flow .node.key{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);font-weight:500}
+.flow .arr{color:var(--ink-3);font-family:var(--mono)}
+
+.done{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+  border-radius:10px;padding:12px 15px;margin:18px 0 0;cursor:pointer;user-select:none}
+.done input{margin:4px 0 0;width:17px;height:17px;accent-color:var(--accent);flex:none;cursor:pointer}
+.done span{font-size:14px;color:var(--ink-2)}
+.done.is-done{border-color:var(--accent);background:var(--accent-soft)}
+.done.is-done span{color:var(--accent)}
+
+.foot{border-top:1px solid var(--line);padding-block:26px 40px;color:var(--ink-3);font-size:13.5px}
+.foot p{max-width:68ch}
+svg.i{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <p class="eyebrow">從零開始 · 零售 POS 與進銷存 ERP</p>
+    <h1>零售與進銷存操作手冊</h1>
+    <p class="lede">這份手冊假設你<strong>從來沒有用過任何 POS 或 ERP</strong>。每一節都照同一個順序講：這件事在哪裡做、一步一步怎麼做、<strong>做完要去哪裡確認它真的成功了</strong>、以及新手在這裡最常卡住的地方。照順序讀完，你會有能力自己操作，也有能力在客戶面前解釋每個數字從哪裡來。</p>
+  </header>
+
+  <div class="cols">
+    <nav class="map" aria-label="章節導覽">
+      <h2>學習地圖</h2>
+      <ol id="toc"></ol>
+      <div class="progress">
+        <div class="bar"><i id="bar"></i></div>
+        <span id="pct">尚未開始</span>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- 0 -->
+      <section id="s0">
+        <div class="sec-head"><span class="sec-n">00</span><h2 class="sec-t">先搞懂三件事，不然後面每個數字都會看不懂</h2></div>
+        <p>絕大多數人學 ERP 卡住，不是因為介面難，是因為<strong>沒有分清楚「同一個東西」在系統裡有三個身分</strong>。這一節只有觀念，沒有操作，但它決定你後面能不能自己排錯。</p>
+
+        <h3>一、商品、品項，是兩件事</h3>
+        <div class="ledger">
+          <article>
+            <h5>商品</h5>
+            <p class="src">零售 POS ／ 電商</p>
+            <p>「拿去賣」的那個東西。有售價、有圖片、有分類，客人看得到。</p>
+          </article>
+          <article>
+            <h5>品項</h5>
+            <p class="src">進銷存 ERP</p>
+            <p>「管數量」的那個東西。有成本、有單位、有倉別、有安全庫存，客人看不到。</p>
+          </article>
+        </div>
+        <p>同一罐飼料，在收銀台是「商品」，在倉庫是「品項」。<strong>兩邊是各自獨立的資料</strong>，要靠人把它們對起來。這就是為什麼你會在兩個地方看到很像的清單，卻不是同一張表。</p>
+
+        <h3>二、庫存有好幾本帳，不是一本</h3>
+        <div class="ledger">
+          <article>
+            <h5>零售自己的庫存</h5>
+            <p class="src">零售 POS → 庫存管理</p>
+            <p>收銀台賣掉就扣。它只知道「賣出去幾個」。</p>
+          </article>
+          <article>
+            <h5>進銷存中央帳</h5>
+            <p class="src">進銷存 → 進銷存中央帳</p>
+            <p>叫貨、收貨、調撥、盤點、損耗都記在這裡。這是「真正的庫存」。</p>
+          </article>
+          <article>
+            <h5>電商庫存</h5>
+            <p class="src">電商模組</p>
+            <p>網路訂單扣的那一本。</p>
+          </article>
+        </div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>最常見的誤解</p>
+          <p>「我在 ERP 收了 100 罐，為什麼收銀台還是顯示缺貨？」——因為那是兩本帳。<strong>要不要共用同一本，是每一家門市各自的設定</strong>（門市設定裡的庫存模式）。示範時若沒先講這句，客戶一定會當場抓到你。</p>
+        </div>
+
+        <h3>三、單位：你叫貨的單位，和你賣的單位，常常不一樣</h3>
+        <p>你跟廠商叫「1 箱」，但你賣給客人是「1 包」。系統要知道 <code>1 箱 = 12 包</code>，才能把叫貨的數量換算成庫存的數量。所以有三個單位欄位：</p>
+        <div class="tbl"><table>
+          <thead><tr><th>單位角色</th><th>用在哪裡</th><th>例子</th></tr></thead>
+          <tbody>
+            <tr><td>庫存單位</td><td>帳上永遠用它記數量</td><td>包</td></tr>
+            <tr><td>採購單位</td><td>開採購單時可以用它填</td><td>箱（1 箱 = 12 包）</td></tr>
+            <tr><td>銷售單位</td><td>出貨時可以用它填</td><td>包</td></tr>
+          </tbody>
+        </table></div>
+        <div class="stop">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>換算完必須是整數</p>
+          <p>1 箱 = 12 包時，你填 <code>0.3 箱</code> 會被擋下，因為換算成 3.6 包不是整數，帳上記不了。系統會直接告訴你可以改填什麼（例如 0.25 箱＝3 包）。<strong>散裝秤重、論斤賣，目前還做不到</strong>——這句話要記住，客戶問起不要答應。</p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s0"><span>我能用自己的話解釋「商品 vs 品項」和「庫存有好幾本帳」</span></label>
+      </section>
+
+      <!-- 1 -->
+      <section id="s1">
+        <div class="sec-head"><span class="sec-n">01</span><h2 class="sec-t">登入與切換門市</h2></div>
+        <p>所有操作之前，先確認一件事：<strong>你現在正在操作哪一家店</strong>。多門市的系統裡，九成的「奇怪數字」都是因為站錯店。</p>
+        <ol class="steps">
+          <li>用後台網址登入，輸入帳號密碼。</li>
+          <li>登入後看側欄上方「當前門市」那一格——那就是你現在所在的店。</li>
+          <li>要換店，從「當前門市」下拉選另一家（只有一家店的公司不會出現這一格）。切換後<strong>整個後台的數字都會跟著換</strong>，包含庫存、訂單、報表。</li>
+        </ol>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>畫面上顯示的門市，就是你以為的那一家。</li><li>換店之後，隨便開一張訂單列表，筆數應該跟著變。沒變就是沒切到。</li></ul>
+        </div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>總部與分店看到的東西不一樣</p>
+          <p>總部看得到全部門市；分店只看得到自己那一家。這不是權限壞掉，是刻意的。所以「我這裡查不到那張單」的第一個問題永遠是：<strong>你在哪一家店？</strong></p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s1"><span>我會切換門市，也知道怎麼確認自己切對了</span></label>
+      </section>
+
+      <!-- 2 -->
+      <section id="s2">
+        <div class="sec-head"><span class="sec-n">02</span><h2 class="sec-t">零售 POS：把東西賣出去</h2></div>
+        <p>零售這條線最短，先學它建立信心。整條路是：</p>
+        <div class="flow">
+          <span class="node">商品管理</span><span class="arr">→</span>
+          <span class="node key">收銀檯（結帳）</span><span class="arr">→</span>
+          <span class="node">訂單管理</span><span class="arr">→</span>
+          <span class="node">退換貨</span><span class="arr">→</span>
+          <span class="node">日結</span>
+        </div>
+        <p>零售有<strong>兩個入口</strong>，看到的是同一批訂單：</p>
+        <div class="tbl"><table>
+          <thead><tr><th>入口</th><th>怎麼進去</th><th>裡面有什麼</th></tr></thead>
+          <tbody>
+            <tr><td>後台（坐著用）</td><td>後台側欄的「零售 POS」群組</td><td>收銀檯 / 商品管理 / 訂單管理 / 退換貨處理 / 庫存管理 / 日結對帳 / 模組設定 / 收銀版面設定 / 收據出單機設定</td></tr>
+            <tr><td>店員端 POS（站著用觸控）</td><td>後台側欄最上方「POS 介面」（另開分頁）；POS 員工登入後直接進入</td><td>「零售」七項：結帳 / 查價 / 訂單 / 退換貨 / 日結 / 交班 / 銷售報表</td></tr>
+          </tbody>
+        </table></div>
+        <p>「商品匯入」與「商品分類」已經不在側欄上，入口改在 <code>商品管理</code> 頁右上的「批次匯入」「商品分類」兩顆鈕。</p>
+
+        <h3>2-1　建一個商品</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">零售 POS</span><span class="sep">›</span><span class="crumb">商品管理</span><span class="sep">›</span><span class="crumb">新增商品</span></div>
+        <ol class="steps">
+          <li>按右上「新增商品」，填商品名稱。</li>
+          <li>在變體（規格）那一列填<strong>售價</strong>（賣多少）和<strong>成本</strong>（進多少）。成本沒填，之後的毛利報表就是空的。</li>
+          <li>選<strong>分類</strong>。分類要先從商品管理右上的「商品分類」建好，這裡才選得到。</li>
+          <li>有廠商條碼就填條碼；沒有就按該列的「產生店內條碼」，系統依店家設定的格式自動產一組（預設是 2 開頭的店內碼，不會撞到廠商條碼）。</li>
+          <li>按「建立商品」存檔（編輯既有商品時這顆鈕叫「更新商品」）。</li>
+        </ol>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>回商品列表找得到它。</li><li>開收銀檯掃它的條碼，會進購物車（掃不進去多半是規格被停用、或商品沒上架）。</li></ul>
+        </div>
+
+        <h4>規格可以單獨停用、單獨啟用</h4>
+        <p>一個商品底下有好幾個規格時，編輯頁的變體清單每一列右邊有一顆按鈕：</p>
+        <ul>
+          <li><strong>已經存檔過的規格</strong>：按鈕寫「停用」或「啟用」，<strong>沒有刪除</strong>。停用後收銀台掃不到、也賣不了；庫存數字與歷史訂單都會留著，之後在同一頁按「啟用」就能還原。這個動作會立刻生效，不用再按「更新商品」。</li>
+          <li><strong>還沒存檔的新列</strong>：按鈕寫「刪除這列」，刪掉不會留下任何紀錄。</li>
+          <li>清單標題會寫「共 N 個，其中 M 個已停用」，每一列也標「上架中」或「已停用」，看得出哪幾個是停用的。</li>
+        </ul>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>兩種停用會被擋下</p>
+          <p>商品本身已下架時，不能單獨啟用某個規格（啟用了收銀台也看不到，要先把商品上架）；也不能停用一個商品<strong>最後一個上架中的規格</strong>（要收起整個商品，請改用商品列表的「下架」）。</p>
+        </div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>商品很多的時候</p>
+          <p>不要一筆一筆建。用商品管理右上的「批次匯入」上傳表格，一次幾千筆。匯入前系統會先讓你看「這次會新增幾筆、更新幾筆」，確認了才真的寫進去。</p>
+        </div>
+
+        <h3>2-2　收銀結帳</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">後台側欄</span><span class="sep">›</span><span class="crumb">零售 POS</span><span class="sep">›</span><span class="crumb">收銀檯</span><span class="sep">·</span><span class="crumb">店員端 POS</span><span class="sep">›</span><span class="crumb">零售</span><span class="sep">›</span><span class="crumb">結帳</span></div>
+        <p>兩個入口的版面與算法一模一樣，差在配色（店員端是深色）與鍵盤快捷鍵（只有後台有 <kbd>F1</kbd> 搜尋、<kbd>F8</kbd> 結帳、<kbd>ESC</kbd> 關商品面板或清空）。畫面分五塊：</p>
+        <div class="tbl"><table>
+          <thead><tr><th>位置</th><th>是什麼</th></tr></thead>
+          <tbody>
+            <tr><td>最上方</td><td><strong>掃描列</strong>：「掃描條碼按 Enter」掃碼框，旁邊「會員」「發票」兩顆鈕，鈕上直接寫出目前的會員姓名與發票開立方式</td></tr>
+            <tr><td>中間</td><td><strong>購物車</strong>：常駐，不會被商品區擋住，每列有列號</td></tr>
+            <tr><td>購物車下方</td><td><strong>「選商品」</strong>，以及「掛單清單」「預購清單」兩個入口</td></tr>
+            <tr><td>最下方</td><td><strong>功能列 8 顆</strong>：折扣 / 集點折抵 / 用票券 / 用儲值 / 掛帳（月結）/ 備註 / 掛單 / 預購。會動到金額的是土色，不會的是灰色</td></tr>
+            <tr><td>右側</td><td><strong>固定結帳區</strong>：總計 → 付款方式 → 收現與找零 → 結帳鈕</td></tr>
+          </tbody>
+        </table></div>
+        <ol class="steps">
+          <li><strong>加商品</strong>：直接用掃描槍掃，掃完自動進購物車。沒有條碼時按「選商品」，商品面板會由下往上展開（面板頂端可搜尋名稱、品牌、SKU、條碼），點商品就加入；<strong>點完面板不會自己關</strong>，可以連點好幾樣，挑完按面板上的「收起商品」。</li>
+          <li><strong>改數量</strong>：按 − / +，或點中間的數量格跳出數字鍵盤。<strong>第一個按下的數字會取代原本的數量</strong>：目前 2 件、按 3 再按「確定」就是 3 件，不會變成 23。</li>
+          <li><strong>綁會員</strong>：按掃描列的「會員」，開「會員與顧客」視窗，輸入手機按「查會員」，按「完成」關窗。查到後那顆鈕會改寫會員姓名。沒有會員也能結帳，只是不累積消費與點數。</li>
+          <li><strong>打折</strong>：功能列「折扣」給整單折扣；點購物車裡的商品名稱可以改單價或單品折扣。兩種都要填<strong>原因</strong>，會記下是誰給的。</li>
+          <li><strong>發票</strong>：按掃描列的「發票」開「發票設定」視窗，選二聯（可選無載具 / 手機條碼 / 會員載具）、三聯（填統編）或捐贈（填愛心碼），按「完成」。<strong>切換類型時，舊類型的欄位會被清掉</strong>，上一位客人的統編不會留在畫面上。</li>
+          <li><strong>選付款方式</strong>：右側 2×2 四顆「現金 / 信用卡 / LINE Pay / 匯款」，下面另一條「其他付款方式」。</li>
+          <li><strong>收現（僅現金）</strong>：選現金時才出現收現區，切到信用卡就收起來。點「收現」輸入客人給的錢，「找零」立刻算出來；<strong>收不夠時找零寫「不足 NT$ x」，整塊變紅</strong>。快捷鈕「+100 / +500 / +1000」是累加，「剛好」＝客人給的剛好等於應收，找零 0。</li>
+          <li><strong>結帳</strong>：按右側最底下的「結帳 NT$xxx」。若「發票參數」有開「結帳後跳出發票視窗」，這時會先跳出「開立發票」視窗（與餐飲 POS 同一個），把「發票設定」選好的內容帶進來，按「確認」才真的送出、按「取消」什麼都不會送；沒開這個設定就直接送出。</li>
+          <li><strong>收據</strong>：「結帳成功」對話框按「列印收據」，送到本店的收據出單機（印過之後改寫「再印一張」）；按「繼續結帳」接下一位。</li>
+        </ol>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>訂單管理裡出現這一筆，金額正確。</li><li>零售的庫存管理裡，那個商品的數量少了。</li><li>有綁會員的話，會員的累積消費增加了。</li></ul>
+        </div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>掛帳不在付款方式裡</p>
+          <p>企業客戶月底一起請款時用的「掛帳（月結）」，放在<strong>功能列</strong>，不在右側付款方式那一區——它回答的不是「客人用什麼付」，而是「這一單先不收錢」。只有啟用會計總帳、並在應收帳款開了「零售 POS 掛帳」的公司才看得到。按了之後右側會出現客戶清單，結帳鈕變成「掛帳 NT$xxx」；改按任一付款方式就取消掛帳。</p>
+        </div>
+        <div class="stop">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>付款方式按錯，系統不會提醒你</p>
+          <p>零售的付款方式是固定五種，不能自己新增。收銀員若把刷卡的單按成「現金」，結帳照樣成功、<strong>不會有任何錯誤訊息</strong>，要到日結看「各付款方式」那張表跟機台對不起來才會發現。結帳前看一眼右側哪一顆是亮的。</p>
+        </div>
+
+        <h3>2-3　查價（店員端）</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">店員端 POS</span><span class="sep">›</span><span class="crumb">零售</span><span class="sep">›</span><span class="crumb">查價</span></div>
+        <p>客人拿著商品問「這個多少錢、還有沒有貨」時用。掃條碼會跳出一張卡片（品名、規格、SKU、條碼、售價、庫存）；也可以在搜尋框打品名或 SKU，每個商品下面列出各規格的庫存與售價。只會搜到上架中的商品。</p>
+        <ul>
+          <li><strong>這一頁不能結帳</strong>，沒有購物車，也不會改任何資料。要賣就回「結帳」重掃一次。</li>
+          <li>庫存數字與收銀台商品卡逐字相同：寫「店倉 N」或「庫存 N」，是<strong>這家店結帳時真正會扣的那一本</strong>。</li>
+          <li><strong>刻意不顯示「全通路合計」</strong>：別家店、網路商城倉的數量不會加進來。報一個比較大的數字給客人，結帳當下就是賣不出去。</li>
+          <li>查不到時會說「查無此條碼」，不會印成售價 0、庫存 0；庫存讀不到時顯示「—」並註明「庫存暫時讀不到，不是 0」。</li>
+        </ul>
+
+        <h3>2-4　退換貨</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">後台側欄</span><span class="sep">›</span><span class="crumb">零售 POS</span><span class="sep">›</span><span class="crumb">退換貨處理</span><span class="sep">·</span><span class="crumb">店員端 POS</span><span class="sep">›</span><span class="crumb">零售</span><span class="sep">›</span><span class="crumb">退換貨</span></div>
+        <p>找到原訂單，選要退的品項與數量。退款會<strong>把庫存加回來、把會員的累積消費扣回去</strong>。如果那張單有用點數折抵，點數也會還回去；如果有送點數，會扣回來——但<strong>不會把餘額扣成負數</strong>，扣不足時會照實記錄差額。</p>
+        <p>店員端的流程：按右上「新增退換貨」→ 輸入訂單編號（PR 開頭）按「查詢」→ 選數量、填原因 → 「建立退換貨單」→ 詳情裡「核准」→「完成退款」。完成後會跳出「退貨完成：請照下列金額退給客人」，<strong>照那個金額付</strong>，不要照訂單總額付。</p>
+
+        <h3>2-5　日結與交班</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">後台側欄</span><span class="sep">›</span><span class="crumb">零售 POS</span><span class="sep">›</span><span class="crumb">日結對帳</span><span class="sep">·</span><span class="crumb">店員端 POS</span><span class="sep">›</span><span class="crumb">零售</span><span class="sep">›</span><span class="crumb">日結 / 交班</span></div>
+        <p><strong>日結</strong>是一整個營業日關店時跑一次。它把今天的收款按付款方式加總（「實收合計（抽屜口徑）」＝訂單金額 − 儲值金抵用 − 退款 ＋ 換貨補差價），讓你跟抽屜與刷卡機核對。<strong>這是發現「有人按錯付款方式」最快的地方。</strong>日結只讀資料與列印，按幾次都不會改到數字。</p>
+        <p><strong>交班</strong>是另一件事：早班換晚班時，<strong>當班那個人</strong>點自己收的現金、把責任交出去。一個營業日可以有很多班。</p>
+        <ol class="steps">
+          <li>沒有開著的班時，把抽屜裡的「備用金」點一次填進去，按「開班」。同一家店同時只能有一個開著的班。</li>
+          <li>班內的現金進出（換零錢、買清潔用品、老闆提領）用「現金收付」選「現金收入」或「現金支出」，填金額與原因，按「記一筆」。</li>
+          <li>不結帳也要打開抽屜時，用「開錢箱」填原因再「確認開啟」，每一次都會記下是誰、什麼時候、為什麼。</li>
+          <li>下班時把抽屜現金點一次填進「實點現金」，按「結班」再按「確認結班」。系統算出短溢（實點 − 應有），<strong>結班後不可以再修改</strong>，要更正只能另記一筆現金收付。</li>
+        </ol>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>應有現金只算抽屜</p>
+          <p>交班的「應有現金」不含刷卡、LINE Pay、儲值金——那些錢根本沒進抽屜。和日結的「實收合計」本來就不會相等。</p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s2"><span>我能從建商品一路做到結帳、查價、退貨、日結與交班</span></label>
+      </section>
+
+      <!-- 3 -->
+      <section id="s3">
+        <div class="sec-head"><span class="sec-n">03</span><h2 class="sec-t">ERP 主檔：開始叫貨之前要先設好的東西</h2></div>
+        <p>主檔就是「基本資料」。這一段很無聊，但<strong>主檔沒設好，後面每一張單都會卡住</strong>。順序有意義，照這個順序做。</p>
+        <p>這幾頁都收在側欄「進銷存 › <strong>基本設定</strong>」裡：點進去是一張卡片清單，再點一次才到目標頁。進到目標頁後，頁面頂端的麵包屑（例如「進銷存 / 基本設定 / 供應商」）會告訴你它掛在哪裡。</p>
+        <div class="flow">
+          <span class="node">單位主檔</span><span class="arr">→</span>
+          <span class="node">品項設定</span><span class="arr">→</span>
+          <span class="node">倉庫管理</span><span class="arr">→</span>
+          <span class="node">供應商</span><span class="arr">→</span>
+          <span class="node">價目表</span>
+        </div>
+
+        <h3>3-1　單位主檔</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">單位主檔</span></div>
+        <p>先把你會用到的單位建起來：包、箱、瓶、公斤。每個單位有一個<strong>代號</strong>和一個<strong>名稱</strong>。</p>
+        <div class="stop">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg>代號建立後不能改</p>
+          <p>品項記住的是代號不是名稱。名稱可以改（「箱」改成「大箱」沒問題），代號不行。要停用一個單位，系統會先告訴你還有幾個品項在用它，用中的停不掉。</p>
+        </div>
+
+        <h3>3-2　品項設定與換算率</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">品項設定</span></div>
+        <ol class="steps">
+          <li>新增品項，填名稱與編號。</li>
+          <li>設<strong>庫存單位</strong>（帳上用哪個單位記）。</li>
+          <li>需要的話設採購單位與換算率：「<strong>幾個採購單位 = 幾個庫存單位</strong>」。1 箱 = 12 包，就填 1 和 12。</li>
+          <li>銷售單位同理。</li>
+          <li>填成本。沒有成本，之後所有毛利數字都是零。</li>
+        </ol>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>為什麼換算率要填兩個數字</p>
+          <p>因為「1 箱 = 12 包」用一個小數表達不了。如果只存 1÷12 ＝ 0.083333，賣 12 包換算回來會變成 0.999996 箱，一筆正常的整箱出貨反而會被擋掉。填兩個數字（12 和 1）就永遠精確。</p>
+        </div>
+
+        <h3>3-3　倉庫管理</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">倉庫管理</span></div>
+        <p>庫存是記在「某個倉庫裡有幾個」。至少要有一個倉。有前場後場、有多個門市，就各自建。</p>
+
+        <h3>3-4　供應商</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">供應商</span></div>
+        <p>你跟誰叫貨。開採購單時要選它，所以先建。</p>
+
+        <h3>3-5　價目表（賣給不同客戶不同價）</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">價目表</span><span class="sep">›</span><span class="crumb">分頁：價目表 / 客戶專屬價 / 商品價格別</span></div>
+        <p>這是批發生意的核心。系統找價格的順序是<strong>由細到粗，找到就停，不會自動挑最便宜的</strong>：</p>
+        <div class="tbl"><table>
+          <thead><tr><th>順序</th><th>這一層是什麼</th><th>什麼時候用</th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td>客戶專屬價</td><td>這一個客戶、這一個商品，就是這個價</td></tr>
+            <tr><td class="num">2</td><td>客戶掛的價目表</td><td>這個客戶屬於「經銷價」這一組</td></tr>
+            <tr><td class="num">3</td><td>商品價格別</td><td>這個商品的零售價／經銷價／會員價</td></tr>
+            <tr><td class="num">4</td><td>商品本身的售價</td><td>前面都沒有，就用它</td></tr>
+          </tbody>
+        </table></div>
+        <p>開單時畫面會告訴你「這個價是從第幾層來的」。客戶問「為什麼不是給我專屬價」，你當場答得出來。</p>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>總部建的價目表，分店拿不到</p>
+          <p>這是刻意的。分店取不到價時會明白告訴你「這一層沒有設」，你當場看得見；如果讓它自動去拿總部的價，分店會用一個你不知道的價出貨，要到對帳那天才發現。要讓分店共用，正確做法是<strong>把價目表複製一份到那家分店</strong>。</p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s3"><span>我能依序設好單位、品項、倉庫、供應商、價目表</span></label>
+      </section>
+
+      <!-- 4 -->
+      <section id="s4">
+        <div class="sec-head"><span class="sec-n">04</span><h2 class="sec-t">採購線：從缺貨到貨進來</h2></div>
+        <p>這是 ERP 最核心的一條線，也是客戶最有感的一段。</p>
+        <div class="flow">
+          <span class="node">安全庫存</span><span class="arr">→</span>
+          <span class="node key">採購單</span><span class="arr">→</span>
+          <span class="node">收貨</span><span class="arr">→</span>
+          <span class="node">庫存增加</span>
+        </div>
+
+        <h3>4-1　安全庫存：讓系統提醒你該叫貨了</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">安全庫存</span></div>
+        <p>替品項設一個「低於幾個就該補」的數字。設了之後，補貨建議才有東西可以算。</p>
+
+        <h3>4-2　開採購單</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">採購單</span></div>
+        <ol class="steps">
+          <li>新增採購單，選<strong>供應商</strong>與<strong>進貨倉庫</strong>。</li>
+          <li>加明細：選品項、填數量。<strong>數量旁邊可以切採購單位</strong>（填 3 箱，系統換算成 36 包）。</li>
+          <li>填單價，系統算金額。</li>
+          <li>存成草稿，或直接送出。</li>
+        </ol>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>明細上顯示的換算結果是你要的（3 箱 = 36 包）。</li><li><strong>此時庫存還沒有變</strong>——下單不等於到貨，這點要跟客戶講清楚。</li></ul>
+        </div>
+
+        <h3>4-3　收貨（可以分批）</h3>
+        <ol class="steps">
+          <li>貨到了，回到那張採購單，按收貨。</li>
+          <li>填<strong>實際收到多少</strong>。叫 36 包只到 24 包，就填 24，這張單會變成「部分收貨」。</li>
+          <li>剩下的 12 包之後再到，再收一次。</li>
+        </ol>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>進銷存中央帳的庫存，數量增加了。</li><li>庫存異動紀錄多一筆，寫得出是哪張採購單造成的。</li><li>採購單的狀態變成部分收貨或已收貨。</li></ul>
+        </div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>收貨目前只能用庫存單位填</p>
+          <p>下單那一端可以切箱，<strong>收貨這一端還不行</strong>，要用庫存單位（包）填。知道這個邊界，現場才不會當著客戶的面找不到那個下拉選單。</p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s4"><span>我能開採購單、分批收貨，並說出庫存是在哪一步才變的</span></label>
+      </section>
+
+      <!-- 5 -->
+      <section id="s5">
+        <div class="sec-head"><span class="sec-n">05</span><h2 class="sec-t">銷售線：報價、出貨、開發票、退回</h2></div>
+        <p>這條線是採購線的鏡子。採購是「單 → 收貨 → 庫存加」，銷售是「單 → 出貨 → 庫存減」。看得出對稱，就不會記錯。</p>
+        <div class="flow">
+          <span class="node">銷貨訂單</span><span class="arr">→</span>
+          <span class="node key">出貨單</span><span class="arr">→</span>
+          <span class="node">銷貨發票</span><span class="arr">→</span>
+          <span class="node">銷貨退回</span>
+        </div>
+
+        <h3>5-1　銷貨訂單</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">銷貨訂單</span></div>
+        <p>客戶下單，還沒出貨。選客戶、加品項、填數量，價格會依前面那個四層順序自動帶出來。<strong>此時庫存不動。</strong></p>
+
+        <h3>5-2　出貨單</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">出貨單</span></div>
+        <p>從銷貨訂單產生出貨單，可以分批出。<strong>過帳的那一刻庫存才真的扣。</strong></p>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>做完要確認</p>
+          <ul><li>庫存減少的數量，等於這次出貨的數量。</li><li>原訂單的狀態變成部分出貨或已出貨。</li><li>出貨明細的單價是從訂單抄下來的，<strong>不會重新算一次價</strong>——所以中途改價目表不影響已開的單。</li></ul>
+        </div>
+
+        <h3>5-3　銷貨發票</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">銷貨發票</span></div>
+        <p>出貨之後開發票。一張發票可以涵蓋多張出貨單，但<strong>不能混不同分店</strong>（賣方統編是各分店自己設的）。</p>
+
+        <h3>5-4　銷貨退回</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">銷貨退回</span></div>
+        <p>出貨的反面：貨退回來、庫存加回去。退回單是從出貨單產生的，所以<strong>退不回你沒出過的東西</strong>，也退不超過出貨量。</p>
+        <label class="done"><input type="checkbox" data-k="s5"><span>我說得出訂單、出貨、發票、退回各自在哪一步動到庫存</span></label>
+      </section>
+
+      <!-- 6 -->
+      <section id="s6">
+        <div class="sec-head"><span class="sec-n">06</span><h2 class="sec-t">盤點、批號、組合品、損耗</h2></div>
+
+        <h3>6-1　盤點</h3>
+        <p>實際去數，跟帳上比對，差多少就調整。<strong>盤點是唯一合法的「讓帳跟實際一致」的手段</strong>——不要直接改庫存數字，那樣就查不出東西少去哪了。</p>
+
+        <h3>6-2　批號效期</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">批號效期</span></div>
+        <p>食品、飼料、藥品要追批號。設了之後，收貨要填批號與效期，出貨要指定出哪一批。<strong>追批號的品項，沒填批號會直接被擋下</strong>，不會讓你含糊帶過。</p>
+
+        <h3>6-3　組合品 BOM 與組裝</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">基本設定</span><span class="sep">›</span><span class="crumb">組合品 / BOM</span><span class="sep">·</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">組裝入庫 / 拆裝</span></div>
+        <p>「禮盒 = 3 罐飼料 + 1 個盒子」這種。先在 BOM 設定成分，再用組裝入庫把成分變成成品（成分減少、成品增加），拆裝就是反過來。</p>
+
+        <h3>6-4　損耗率報表</h3>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">報表與結帳</span><span class="sep">›</span><span class="crumb">損耗率報表</span></div>
+        <p>破損、過期、試吃的比例。生鮮與食品客戶對這一頁最有感——它直接是錢。</p>
+        <label class="done"><input type="checkbox" data-k="s6"><span>我知道盤點、批號、組合品、損耗各自解決什麼問題</span></label>
+      </section>
+
+      <!-- 7 -->
+      <section id="s7">
+        <div class="sec-head"><span class="sec-n">07</span><h2 class="sec-t">報表與對帳：確認數字沒有跑掉</h2></div>
+        <div class="where"><span class="lbl">位置</span><span class="crumb">側欄</span><span class="sep">›</span><span class="crumb">進銷存</span><span class="sep">›</span><span class="crumb">報表與結帳</span></div>
+        <div class="tbl"><table>
+          <thead><tr><th>這一頁</th><th>回答什麼問題</th></tr></thead>
+          <tbody>
+            <tr><td>進銷存報表</td><td>現在每個品項還有幾個、在哪個倉</td></tr>
+            <tr><td>銷售報表</td><td>賣了多少錢、賺多少毛利（要有成本才算得出來）</td></tr>
+            <tr><td>三方對帳</td><td>零售賣出、ERP 扣帳、發票開立，三邊對不對得起來</td></tr>
+            <tr><td>期末結帳</td><td>把一個月封起來，之後不能再偷改那個月的數字</td></tr>
+          </tbody>
+        </table></div>
+        <div class="trap">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>毛利是 0 通常不是 bug</p>
+          <p>是商品沒填成本。系統只能用你給它的成本算毛利，沒給就是 0。示範前先確認有幾個商品有成本，不然打開銷售報表會很尷尬。</p>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s7"><span>我知道四張報表各自回答什麼問題</span></label>
+      </section>
+
+      <!-- 8 -->
+      <section id="s8">
+        <div class="sec-head"><span class="sec-n">08</span><h2 class="sec-t">卡住的時候，照這個順序查</h2></div>
+        <div class="tbl"><table>
+          <thead><tr><th>症狀</th><th>先查這個</th><th>為什麼</th></tr></thead>
+          <tbody>
+            <tr><td>查不到那張單</td><td>你在哪一家店</td><td>分店只看得到自己的單</td></tr>
+            <tr><td>ERP 收了貨，收銀台還是缺貨</td><td>那家店的庫存模式</td><td>兩本帳，沒設共用就不會同步</td></tr>
+            <tr><td>數量填不進去、被擋下</td><td>換算後是不是整數</td><td>0.3 箱 = 3.6 包，帳上記不了</td></tr>
+            <tr><td>毛利是 0</td><td>商品有沒有填成本</td><td>沒成本就算不出毛利</td></tr>
+            <tr><td>現金對不起來</td><td>日結「各付款方式」那張表</td><td>收銀時按錯付款方式不會報錯，只有在這裡對得出來</td></tr>
+            <tr><td>分店取不到價</td><td>價目表建在誰底下</td><td>總部的價分店拿不到，要複製過去</td></tr>
+            <tr><td>側欄找不到某一頁</td><td>模組有沒有開通；進銷存的主檔與報表在「基本設定」「報表與結帳」裡</td><td>付費模組沒開就不顯示；供應商、倉庫管理、進銷存報表這些頁不在側欄上，要先點這兩個導覽頁</td></tr>
+            <tr><td>掃碼進不了購物車（跳「找不到此條碼的商品」或「找不到此條碼商品」）</td><td>那個規格是不是被停用了</td><td>停用的規格收銀台掃不到也賣不了；到商品管理編輯頁看該列是不是「已停用」，按「啟用」即可</td></tr>
+            <tr><td>凌晨看銷售報表，日期寫昨天、筆數跟訂單或日結對不起來</td><td>營業日 vs 日曆日</td><td>店員端「銷售報表」用營業日（預設凌晨 05:00 換日，之前的交易算前一天，畫面會標「營業日口徑」）；「訂單」與「日結」用日曆日。換日點可在 <code>餐飲 POS › 商家設定 › 營業日換日</code> 或 <code>美業預約 › 預約參數 › 營業日換日時間</code> 調整；只開零售的公司目前沒有這個入口，請聯繫客服</td></tr>
+          </tbody>
+        </table></div>
+        <div class="check">
+          <p class="t"><svg class="i" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>萬用心法</p>
+          <ul>
+            <li><strong>先問「這個數字是哪一本帳的」</strong>，再問它對不對。</li>
+            <li><strong>每做完一步就去下游確認一次</strong>，不要連做五步才發現第一步就錯了。</li>
+            <li><strong>系統擋你的時候，它通常會說要怎麼改</strong>。把那句話讀完再動作。</li>
+          </ul>
+        </div>
+        <label class="done"><input type="checkbox" data-k="s8"><span>我會用症狀對照表自己排查</span></label>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="foot">
+    <p>本手冊的頁面名稱與側欄路徑，取自系統實際的選單設定，不是示意名稱。若你在畫面上看到的字與這裡不同，<strong>以畫面為準</strong>並回報，代表這份手冊需要更新。</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var SECTIONS = [
+    ["s0","三個必懂的觀念"],["s1","登入與切換門市"],["s2","零售 POS"],
+    ["s3","ERP 主檔"],["s4","採購線"],["s5","銷售線"],
+    ["s6","盤點與批號"],["s7","報表與對帳"],["s8","卡住怎麼查"]
+  ];
+  var toc = document.getElementById('toc');
+  SECTIONS.forEach(function(s,i){
+    var li=document.createElement('li');
+    var a=document.createElement('a');
+    a.href='#'+s[0]; a.id='toc-'+s[0];
+    a.innerHTML='<span class="n">'+String(i).padStart(2,'0')+'</span><span>'+s[1]+'</span>';
+    li.appendChild(a); toc.appendChild(li);
+  });
+
+  var KEY='retail-erp-handbook-progress';
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY)||'{}'); }catch(e){ return {}; } }
+  function save(o){ try{ localStorage.setItem(KEY,JSON.stringify(o)); }catch(e){} }
+
+  var state=load();
+  var boxes=[].slice.call(document.querySelectorAll('.done input'));
+  var bar=document.getElementById('bar'), pct=document.getElementById('pct');
+
+  function paint(){
+    var n=0;
+    boxes.forEach(function(b){
+      var on=!!state[b.dataset.k];
+      b.checked=on; b.closest('.done').classList.toggle('is-done',on);
+      if(on) n++;
+    });
+    var p=Math.round(n/boxes.length*100);
+    bar.style.width=p+'%';
+    pct.textContent = n===0 ? '尚未開始' : (n===boxes.length ? '九個段落都完成了' : '已完成 '+n+' / '+boxes.length+' 段');
+  }
+  boxes.forEach(function(b){
+    b.addEventListener('change',function(){ state[b.dataset.k]=b.checked; save(state); paint(); });
+  });
+  paint();
+
+  var links={};
+  SECTIONS.forEach(function(s){ links[s[0]]=document.getElementById('toc-'+s[0]); });
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){
+          Object.keys(links).forEach(function(k){ links[k].classList.remove('on'); });
+          if(links[e.target.id]) links[e.target.id].classList.add('on');
+        }
+      });
+    },{rootMargin:'-10% 0px -70% 0px'});
+    SECTIONS.forEach(function(s){ var el=document.getElementById(s[0]); if(el) io.observe(el); });
+  }
+})();
+</script>
+
+</body></html>
