@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Noto_Sans_TC } from 'next/font/google';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { JsonLd } from '@/components/JsonLd';
@@ -7,21 +6,8 @@ import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleT
 import { OutboundClickTracker } from '@/components/OutboundClickTracker';
 import { organizationLd, websiteLd } from '@/lib/jsonld';
 import { site } from '@/lib/data/site';
+import './fonts.css';
 import './globals.css';
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-inter',
-  display: 'swap'
-});
-
-const notoSansTC = Noto_Sans_TC({
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '900'],
-  variable: '--font-noto-sans-tc',
-  display: 'swap'
-});
 
 export const viewport: Viewport = {
   themeColor: '#04566B',
@@ -70,7 +56,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-Hant-TW" className={`${inter.variable} ${notoSansTC.variable}`}>
+    <html lang="zh-Hant-TW" className="font-vars">
       <body className="min-h-screen flex flex-col">
         {/* GTM 的 noscript 備援要在 body 的最前面（官方要求）；未設容器 ID 時不渲染 */}
         <GoogleTagManagerNoScript />
