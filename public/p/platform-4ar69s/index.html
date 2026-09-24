@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="color-scheme" content="light dark">
+<title>系統功能與串接說明 - 宇果國際行銷</title>
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+  :root {
+    --paper: #F4F7F9;
+    --surface: #FFFFFF;
+    --surface-2: #EAF1F4;
+    --rule: #D3DFE5;
+    --ink: #0B1A22;
+    --ink-2: #34464F;
+    --muted: #566B75;
+    --teal: #04566B;
+    --teal-2: #0A6178;
+    --teal-soft: #D6E9F0;
+    --line-green: #06C755;
+    --line-ink: #038638;
+    --hand: #8A5200;
+    --hand-soft: #F5E7D0;
+    --on-teal: #FFFFFF;
+    --shadow: 0 1px 2px rgba(3, 61, 77, .06), 0 14px 34px -18px rgba(3, 61, 77, .28);
+
+    --sans: "Noto Sans TC", "Inter", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    --num: "Inter", "Noto Sans TC", sans-serif;
+    --code: "JetBrains Mono", "Consolas", monospace;
+
+    --max: 1160px;
+    --pad: clamp(16px, 4vw, 48px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #071419; --surface: #0D1F26; --surface-2: #13303A; --rule: #21414C;
+      --ink: #E4EEF1; --ink-2: #B6C8CE; --muted: #8AA3AC;
+      --teal: #7CB6C6; --teal-2: #9BCEDD; --teal-soft: #0F3642;
+      --line-ink: #4BD886; --hand: #E6AA55; --hand-soft: #3A2A12; --on-teal: #041E26;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 40px -24px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #071419; --surface: #0D1F26; --surface-2: #13303A; --rule: #21414C;
+    --ink: #E4EEF1; --ink-2: #B6C8CE; --muted: #8AA3AC;
+    --teal: #7CB6C6; --teal-2: #9BCEDD; --teal-soft: #0F3642;
+    --line-ink: #4BD886; --hand: #E6AA55; --hand-soft: #3A2A12; --on-teal: #041E26;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 18px 40px -24px rgba(0,0,0,.8);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 118px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.75;
+    -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  img { max-width: 100%; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
+  h1, h2, h3, h4 { margin: 0; line-height: 1.3; text-wrap: balance; }
+  h1 { font-weight: 900; font-size: clamp(30px, 5.2vw, 58px); letter-spacing: -.03em; line-height: 1.16; }
+  h2 { font-weight: 900; font-size: clamp(24px, 3.3vw, 36px); letter-spacing: -.02em; }
+  h3 { font-weight: 700; font-size: 18px; }
+  p { margin: 0; }
+  a { color: var(--teal); }
+  .eyebrow { font: 600 12.5px/1.4 var(--num); letter-spacing: .14em; color: var(--teal); }
+  .code { font-family: var(--code); font-size: .86em; letter-spacing: .01em; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 4px;
+  }
+
+  /* ── buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; padding: 10px 18px; border-radius: 10px;
+    font: 700 15px/1.2 var(--sans); text-decoration: none; cursor: pointer;
+    border: 1px solid var(--teal); background: var(--teal); color: var(--on-teal);
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .btn:hover { background: var(--teal-2); border-color: var(--teal-2); }
+  .btn.ghost { background: transparent; color: var(--teal); }
+  .btn.ghost:hover { background: var(--teal-soft); }
+  .btn.line { background: #038638; border-color: #038638; color: #fff; }
+  .btn.line:hover { background: #026B2D; border-color: #026B2D; }
+  .btn.sm { min-height: 38px; padding: 7px 14px; font-size: 14px; }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+
+  /* ── header ── */
+  header.bar {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .bar-top { display: flex; align-items: center; gap: 16px; height: 60px; }
+  .brand img { height: 28px; width: auto; display: block; }
+  img.logo-w { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) img.logo-c { display: none; }
+    :root:not([data-theme="light"]) img.logo-w { display: block; }
+  }
+  :root[data-theme="dark"] img.logo-c { display: none; }
+  :root[data-theme="dark"] img.logo-w { display: block; }
+  .bar-top .btn { margin-left: auto; }
+  .hdr-d { display: none !important; }
+  nav.anchors { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-bottom: 8px; margin-top: -2px; }
+  nav.anchors::-webkit-scrollbar { display: none; }
+  nav.anchors a {
+    flex: none; font-size: 14px; color: var(--ink-2); text-decoration: none;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid transparent;
+  }
+  nav.anchors a:hover { color: var(--teal); }
+  nav.anchors a.on { color: var(--teal); background: var(--teal-soft); border-color: color-mix(in srgb, var(--teal) 30%, transparent); font-weight: 700; }
+  @media (min-width: 900px) {
+    .bar-in { display: flex; align-items: center; gap: 20px; height: 64px; }
+    .bar-top { height: auto; flex: none; }
+    nav.anchors { padding: 0; margin: 0 0 0 auto; }
+    .bar-top .btn.hdr-m { display: none; }
+    .hdr-d { display: inline-flex !important; }
+    html { scroll-padding-top: 80px; }
+  }
+
+  /* ── hero ── */
+  .hero { padding-top: clamp(36px, 6vw, 80px); padding-bottom: clamp(40px, 6vw, 72px); }
+  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center; }
+  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.02fr .98fr; gap: 56px; } }
+  .hero .lede { font-size: clamp(16px, 1.6vw, 18.5px); color: var(--ink-2); margin-top: 20px; max-width: 34em; }
+  .hero-cta { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+  .hero-mods { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; padding: 0; list-style: none; }
+  .hero-mods li { font-size: 13px; color: var(--ink-2); border: 1px solid var(--rule); background: var(--surface); padding: 4px 10px; border-radius: 999px; }
+  h1 .hl { color: var(--teal); }
+
+  /* relay card (signature) */
+  .relay { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+  .relay-head { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+  .relay-head .t { font-weight: 700; font-size: 15px; }
+  .tag { font: 600 11.5px/1 var(--num); letter-spacing: .06em; color: var(--muted); border: 1px solid var(--rule); padding: 4px 8px; border-radius: 999px; }
+  .relay-head .ctl { margin-left: auto; }
+  .baton {
+    display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; align-items: center;
+    padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--rule); font-size: 14px;
+  }
+  .baton .who { color: var(--muted); font-size: 13px; }
+  .baton .amt { font: 700 20px/1 var(--num); font-variant-numeric: tabular-nums; }
+  .baton .amt small { font-size: 12px; font-weight: 500; color: var(--muted); margin-left: 4px; }
+  ol.relay-steps { list-style: none; margin: 0; padding: 8px 0; position: relative; }
+  ol.relay-steps li {
+    display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 10px 18px; position: relative;
+    opacity: .45; transition: opacity .35s, background .35s;
+  }
+  ol.relay-steps li.done { opacity: .85; }
+  ol.relay-steps li.cur { opacity: 1; background: var(--teal-soft); }
+  .dot {
+    width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--rule); background: var(--surface);
+    display: grid; place-items: center; font: 700 12px/1 var(--num); color: var(--muted); position: relative; z-index: 1;
+  }
+  li.done .dot, li.cur .dot { border-color: var(--teal); color: var(--teal); }
+  li.cur .dot { background: var(--teal); color: var(--on-teal); }
+  li.line-step .dot { border-color: var(--line-green); }
+  ol.relay-steps li:not(:last-child)::after {
+    content: ""; position: absolute; left: 32px; top: 40px; bottom: -10px; width: 1.5px; background: var(--rule);
+  }
+  .rs-title { font-weight: 700; font-size: 15px; display: flex; gap: 8px; flex-wrap: wrap; align-items: baseline; }
+  .rs-title .code { color: var(--teal); font-weight: 500; }
+  .rs-body { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; }
+  .rs-extra { display: inline-block; margin-top: 4px; font-size: 12.5px; color: var(--hand); background: var(--hand-soft); padding: 1px 8px; border-radius: 6px; }
+  .relay-foot { padding: 12px 18px; border-top: 1px solid var(--rule); font-size: 12.5px; color: var(--muted); }
+
+  /* ── sections ── */
+  section.blk { padding: clamp(52px, 7vw, 96px) 0; border-top: 1px solid var(--rule); }
+  .sec-head { max-width: 48em; }
+  .sec-head h2 { margin-top: 10px; }
+  .sec-head p { color: var(--ink-2); margin-top: 14px; font-size: 16.5px; }
+
+  /* compare */
+  .cmp { margin-top: 34px; border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; background: var(--surface); }
+  .cmp-row { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--rule); }
+  .cmp-row:first-child { border-top: 0; }
+  .cmp-row > div { padding: 18px 20px; }
+  .cmp-row .before { color: var(--ink-2); background: var(--surface-2); }
+  .cmp-row .k { display: block; font: 600 12px/1.4 var(--num); letter-spacing: .08em; color: var(--muted); margin-bottom: 6px; }
+  .cmp-row .after .k { color: var(--teal); }
+  .cmp-row b { font-weight: 700; }
+  .cmp-head { display: none; }
+  @media (min-width: 760px) {
+    .cmp-row { grid-template-columns: 1fr 1fr; }
+    .cmp-row .k { display: none; }
+    .cmp-head { display: grid; }
+    .cmp-head > div { padding: 12px 20px; font: 700 13px/1.4 var(--sans); letter-spacing: .04em; }
+    .cmp-head .after { color: var(--teal); }
+  }
+
+  /* module tabs */
+  .mods { margin-top: 34px; }
+  .mod-tabs { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: thin; padding: 2px 2px 10px; }
+  .mod-tabs button {
+    flex: none; font: 700 14.5px/1.2 var(--sans); color: var(--ink-2); background: var(--surface);
+    border: 1px solid var(--rule); border-radius: 10px; padding: 11px 16px; cursor: pointer; min-height: 44px;
+  }
+  .mod-tabs button:hover { border-color: var(--teal); color: var(--teal); }
+  .mod-tabs button[aria-selected="true"] { background: var(--teal); border-color: var(--teal); color: var(--on-teal); }
+  .mod-panel { margin-top: 12px; background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: clamp(20px, 3vw, 34px); }
+  .mod-intro { display: grid; gap: 14px; }
+  @media (min-width: 900px) { .mod-intro { grid-template-columns: 1fr 1fr; gap: 32px; align-items: end; } }
+  .mod-intro h3 { font-size: clamp(20px, 2.4vw, 26px); font-weight: 900; letter-spacing: -.01em; }
+  .mod-intro p { color: var(--ink-2); }
+  .groups { margin-top: 26px; display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 700px) { .groups { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1040px) { .groups { grid-template-columns: repeat(3, 1fr); } }
+  .grp { border: 1px solid var(--rule); border-radius: 12px; padding: 16px 18px; background: var(--paper); }
+  .grp h4 { font-size: 15.5px; font-weight: 700; }
+  .grp ul { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+  .grp li { font-size: 14.5px; color: var(--ink-2); padding-left: 16px; position: relative; line-height: 1.6; }
+  .grp li::before { content: ""; position: absolute; left: 0; top: .72em; width: 7px; height: 1.5px; background: var(--teal); }
+  .handoff { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .handoff .lbl { font-size: 13px; color: var(--muted); margin-right: 4px; }
+  .chip-link {
+    font: 500 13.5px/1.3 var(--sans); color: var(--hand); background: var(--hand-soft);
+    border: 1px solid transparent; border-radius: 999px; padding: 6px 12px; cursor: pointer; min-height: 32px;
+  }
+  .chip-link:hover { border-color: var(--hand); }
+  .note { margin-top: 18px; font-size: 13.5px; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 12px; }
+
+  /* flow map */
+  .flow { margin-top: 34px; display: grid; grid-template-columns: 1fr; gap: 20px; }
+  @media (min-width: 1000px) { .flow { grid-template-columns: 1.45fr 1fr; align-items: start; } }
+  .flow-map { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 14px; }
+  .flow-map svg { width: 100%; height: auto; display: none; }
+  .legend { display: none; }
+  @media (min-width: 760px) { .flow-map svg { display: block; } .node-chips { display: none !important; } .legend { display: flex; } }
+  .node-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .node-chips button {
+    font: 700 14px/1.2 var(--sans); padding: 10px 14px; border-radius: 10px; min-height: 44px;
+    border: 1px solid var(--rule); background: var(--paper); color: var(--ink); cursor: pointer;
+  }
+  .node-chips button[aria-pressed="true"] { background: var(--teal); color: var(--on-teal); border-color: var(--teal); }
+  .node-chips button.rel { border-color: var(--hand); }
+  svg .nd { cursor: pointer; }
+  svg .nd rect { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; transition: fill .2s, stroke .2s; }
+  svg .nd text { fill: var(--ink); font: 700 14px var(--sans); pointer-events: none; }
+  svg .nd.line-node rect { stroke: var(--line-green); }
+  svg .nd.rel rect { stroke: var(--hand); fill: var(--hand-soft); }
+  svg .nd.on rect { fill: var(--teal); stroke: var(--teal); }
+  svg .nd.on text { fill: var(--on-teal); }
+  svg .nd:focus-visible { outline: none; }
+  svg .nd:focus-visible rect { stroke: var(--teal); stroke-width: 3; }
+  svg .ed { stroke: var(--rule); stroke-width: 1.4; fill: none; transition: stroke .2s, opacity .2s; }
+  svg.focus .ed { opacity: .25; }
+  svg.focus .ed.out, svg.focus .ed.in { opacity: 1; stroke-width: 2.2; }
+  svg .ed.out { stroke: var(--teal); }
+  svg .ed.in { stroke: var(--hand); }
+  .flow-panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; padding: 22px; min-height: 200px; }
+  .flow-panel h3 { font-size: 20px; font-weight: 900; }
+  .flow-panel .what { color: var(--ink-2); margin-top: 6px; font-size: 15px; }
+  .flow-panel h4 { margin-top: 18px; font: 700 12.5px/1.4 var(--num); letter-spacing: .08em; }
+  .flow-panel h4.o { color: var(--teal); }
+  .flow-panel h4.i { color: var(--hand); }
+  .flow-panel ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 10px; }
+  .flow-panel li { font-size: 14.5px; color: var(--ink-2); line-height: 1.6; }
+  .flow-panel li b { color: var(--ink); }
+  .flow-map .legend { gap: 16px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); margin-top: 10px; padding: 0 4px; }
+  .legend i { display: inline-block; width: 18px; height: 2px; vertical-align: middle; margin-right: 6px; }
+
+  /* scenarios */
+  .scn { margin-top: 34px; background: var(--surface); border: 1px solid var(--rule); border-radius: 16px; overflow: hidden; }
+  .scn-tabs { display: flex; overflow-x: auto; border-bottom: 1px solid var(--rule); }
+  .scn-tabs button {
+    flex: none; background: none; border: 0; border-bottom: 3px solid transparent; cursor: pointer;
+    font: 700 14.5px/1.3 var(--sans); color: var(--muted); padding: 16px 18px; min-height: 48px;
+  }
+  .scn-tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--teal); }
+  .scn-body { display: grid; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .scn-body { grid-template-columns: 1fr 1.1fr; } }
+  .scn-steps { list-style: none; margin: 0; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  @media (min-width: 900px) { .scn-steps { border-bottom: 0; border-right: 1px solid var(--rule); } }
+  .scn-steps button {
+    width: 100%; text-align: left; display: grid; grid-template-columns: 28px 1fr; gap: 12px; align-items: center;
+    background: none; border: 0; padding: 9px 20px; cursor: pointer; font: 500 14.5px/1.45 var(--sans); color: var(--ink-2);
+  }
+  .scn-steps button .n { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--rule); display: grid; place-items: center; font: 700 12px/1 var(--num); color: var(--muted); }
+  .scn-steps button.done .n { border-color: var(--teal); color: var(--teal); }
+  .scn-steps button[aria-current="step"] { background: var(--teal-soft); color: var(--ink); font-weight: 700; }
+  .scn-steps button[aria-current="step"] .n { background: var(--teal); border-color: var(--teal); color: var(--on-teal); }
+  .scn-detail { padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+  .scn-detail .mod { font: 600 12.5px/1.4 var(--num); letter-spacing: .08em; color: var(--teal); }
+  .scn-detail h3 { font-size: 21px; font-weight: 900; }
+  .scn-detail p { color: var(--ink-2); }
+  .scn-detail .auto { font-size: 14px; color: var(--hand); background: var(--hand-soft); border-radius: 10px; padding: 10px 14px; }
+  .scn-ctl { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 8px; }
+  .progress { height: 3px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .progress i { display: block; height: 100%; width: 0; background: var(--teal); }
+
+  /* rollout */
+  .roll { margin-top: 32px; display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 860px) { .roll { grid-template-columns: repeat(3, 1fr); } }
+  .roll div { background: var(--surface); border: 1px solid var(--rule); border-radius: 14px; padding: 22px; }
+  .roll h3 { font-size: 17px; }
+  .roll p { color: var(--ink-2); font-size: 14.5px; margin-top: 8px; }
+
+  /* faq */
+  .faq { margin-top: 30px; border-top: 1px solid var(--rule); }
+  .faq details { border-bottom: 1px solid var(--rule); }
+  .faq summary {
+    list-style: none; cursor: pointer; padding: 18px 40px 18px 0; position: relative;
+    font-weight: 700; font-size: 16px; min-height: 44px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: ""; position: absolute; right: 8px; top: 50%; width: 10px; height: 10px; margin-top: -7px;
+    border-right: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(45deg); transition: transform .2s;
+  }
+  .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+  .faq .ans { padding: 0 0 20px; color: var(--ink-2); max-width: 52em; }
+  .faq .ans p + p { margin-top: 8px; }
+
+  /* cta */
+  .cta { background: var(--teal); color: var(--on-teal); }
+  :root[data-theme="dark"] .cta { background: #0F3642; color: var(--ink); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cta { background: #0F3642; color: var(--ink); } }
+  .cta-in { padding-top: clamp(52px, 7vw, 88px); padding-bottom: clamp(52px, 7vw, 88px); display: grid; gap: 26px; }
+  @media (min-width: 900px) { .cta-in { grid-template-columns: 1.3fr auto; align-items: center; } }
+  .cta h2 { color: inherit; }
+  .cta p { margin-top: 12px; opacity: .92; max-width: 36em; }
+  .cta .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .cta .btn.inv { background: #fff; border-color: #fff; color: #04566B; }
+  .cta .btn.inv:hover { background: #EEF6F9; }
+  .cta a:focus-visible { outline-color: #fff; }
+
+  footer.ft { padding: 24px 0 40px; font-size: 13px; color: var(--muted); }
+  .ft-in { display: flex; gap: 10px 20px; flex-wrap: wrap; align-items: center; }
+  .ft-in img { height: 24px; width: auto; opacity: .85; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <div class="bar-top">
+      <a class="brand" href="#top" aria-label="回到頁首">
+        <img class="logo-c" src="/ugo-logo.png" alt="宇果國際行銷">
+        <img class="logo-w" src="/ugo-logo-white.png" alt="宇果國際行銷">
+      </a>
+      <a class="btn sm hdr-m" href="/contact?src=p_platform-4ar69s&amp;pos=header">預約諮詢</a>
+    </div>
+    <nav class="anchors" aria-label="本頁段落">
+      <a href="#why">為什麼要同一套</a>
+      <a href="#modules">功能模組</a>
+      <a href="#flow">資料怎麼流</a>
+      <a href="#scenarios">實際情境</a>
+      <a href="#rollout">導入方式</a>
+      <a href="#faq">常見問題</a>
+    </nav>
+    <a class="btn sm hdr-d" href="/contact?src=p_platform-4ar69s&amp;pos=header">預約諮詢</a>
+  </div>
+</header>
+
+<main id="top">
+<div class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow">LINE 會員經營 × 門市 × 進銷存 × 會計</span>
+      <h1 style="margin-top:14px">一筆資料，<br><span class="hl">從 LINE 一路走到帳上</span></h1>
+      <p class="lede">會員、門市收銀、進銷存、LINE 訂購、業務獎金、人事出勤與會計，在同一套系統裡互相交接。客戶在 LINE 上按一下確認，後面的訂單、出貨、應收與傳票接著自動產生，不用有人再打一次。</p>
+      <div class="hero-cta">
+        <a class="btn" href="/contact?src=p_platform-4ar69s&amp;pos=hero">預約需求討論</a>
+        <a class="btn ghost" href="#flow">看資料怎麼流</a>
+      </div>
+      <ul class="hero-mods" aria-label="涵蓋的模組">
+        <li>會員 CRM</li><li>POS 收銀</li><li>進銷存</li><li>LINE 訂購</li><li>業務獎金</li><li>人事出勤</li><li>會計總帳</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="relay" aria-labelledby="relayTitle">
+        <div class="relay-head">
+          <span class="t" id="relayTitle">一張批發訂單的接力</span>
+          <span class="tag">示範資料</span>
+          <button class="btn ghost sm ctl" id="relayToggle" type="button" aria-pressed="false">暫停</button>
+        </div>
+        <div class="baton">
+          <span class="who">客戶　大安烘焙坊（示範）</span>
+          <span></span>
+          <span class="amt">48,000<small>元 未稅</small></span>
+        </div>
+        <ol class="relay-steps" id="relaySteps">
+          <li class="line-step"><span class="dot">1</span><div>
+            <div class="rs-title">客戶在 LINE 送出詢價</div>
+            <div class="rs-body">看到的是給他們公司的價格，取不到價的品項寫「請洽業務報價」。</div>
+          </div></li>
+          <li><span class="dot">2</span><div>
+            <div class="rs-title">報價單 <span class="code">QT-0924-003</span></div>
+            <div class="rs-body">業務確認後送回客戶的 LINE，價格就此凍結，有效期起算。</div>
+          </div></li>
+          <li class="line-step"><span class="dot">3</span><div>
+            <div class="rs-title">客戶在 LINE 按「確認訂購」</div>
+            <div class="rs-body">連按兩次、網路重送，都只會有一張訂單。</div>
+          </div></li>
+          <li><span class="dot">4</span><div>
+            <div class="rs-title">銷貨訂單 <span class="code">SO-0924-011</span></div>
+            <div class="rs-body">照報價的價格成立，同時檢查客戶的信用額度。</div>
+            <span class="rs-extra">同一刻替負責業務記一筆獎金 1,440 元（比例 3%）</span>
+          </div></li>
+          <li><span class="dot">5</span><div>
+            <div class="rs-title">出貨單 <span class="code">SH-0925-004</span> 過帳</div>
+            <div class="rs-body">按下過帳才真的扣庫存；有追批號的品項，每一列記下出自哪一批。</div>
+          </div></li>
+          <li><span class="dot">6</span><div>
+            <div class="rs-title">應收帳款與會計傳票</div>
+            <div class="rs-body">以出貨日立應收，傳票借貸平衡、自動開立。</div>
+          </div></li>
+          <li class="line-step"><span class="dot">7</span><div>
+            <div class="rs-title">出貨通知回到 LINE</div>
+            <div class="rs-body">送到客戶綁定的聯絡人與公司群組。</div>
+          </div></li>
+        </ol>
+        <div class="relay-foot">從第 1 步到第 7 步，沒有人重新輸入客戶、品項或金額。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="blk" id="why" aria-labelledby="whyH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">為什麼要同一套</span>
+      <h2 id="whyH">多套系統的成本，藏在「交接」上</h2>
+      <p>每一套系統單獨看都沒問題。麻煩出在系統之間：有人要匯出、有人要重打、月底有人要對兩份數字。資料在同一套系統裡，交接這一步就由系統自己做。</p>
+    </div>
+
+    <div class="cmp" role="table" aria-label="各自為政與同一套系統的比較">
+      <div class="cmp-row cmp-head" role="row">
+        <div class="before" role="columnheader">各用各的系統</div>
+        <div class="after" role="columnheader">在同一套系統裡</div>
+      </div>
+      <div class="cmp-row" role="row">
+        <div class="before" role="cell"><span class="k">各用各的系統</span>客戶在 LINE 傳訊息訂貨，業務抄進 Excel，再打進進銷存。</div>
+        <div class="after" role="cell"><span class="k">在同一套系統裡</span>客戶在 LINE 目錄送出詢價，直接變成後台的報價單；客戶按確認，<b>銷貨訂單自動成立</b>。</div>
+      </div>
+      <div class="cmp-row" role="row">
+        <div class="before" role="cell"><span class="k">各用各的系統</span>出貨之後，會計照著出貨單另外立應收、做傳票。</div>
+        <div class="after" role="cell"><span class="k">在同一套系統裡</span>出貨單一過帳，<b>扣庫存、立應收、開傳票</b>在同一個動作裡完成；退貨則反向沖回。</div>
+      </div>
+      <div class="cmp-row" role="row">
+        <div class="before" role="cell"><span class="k">各用各的系統</span>業務獎金月底拿訂單表手算，退貨要記得回頭扣。</div>
+        <div class="after" role="cell"><span class="k">在同一套系統裡</span>訂單確認就記一筆獎金，<b>作廢、退貨在發生的月份自動扣回</b>，業務在自己的 LINE 上看得到。</div>
+      </div>
+      <div class="cmp-row" role="row">
+        <div class="before" role="cell"><span class="k">各用各的系統</span>門市收銀和會員系統分開，點數要另外補登，行銷名單要另外整理。</div>
+        <div class="after" role="cell"><span class="k">在同一套系統裡</span>會員結帳時，<b>累計消費與點數同步寫進會員資料</b>，符合條件的自動行銷劇本接著啟動。</div>
+      </div>
+      <div class="cmp-row" role="row">
+        <div class="before" role="cell"><span class="k">各用各的系統</span>打卡機的紀錄匯出給會計，加班費再用試算表算一遍。</div>
+        <div class="after" role="cell"><span class="k">在同一套系統裡</span>薪資試算直接讀取<b>核准過的加班與請假</b>，過帳後產生薪資傳票。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="modules" aria-labelledby="modH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">功能模組</span>
+      <h2 id="modH">七個模組，依需求開啟</h2>
+      <p>每個模組獨立啟用，後台只會出現已經開通的功能。先從現在最卡的地方開始，之後再加，資料不用搬家。</p>
+    </div>
+    <div class="mods">
+      <div class="mod-tabs" role="tablist" aria-label="功能模組" id="modTabs"></div>
+      <div class="mod-panel" role="tabpanel" id="modPanel" tabindex="0"></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="flow" aria-labelledby="flowH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">資料怎麼流</span>
+      <h2 id="flowH">點一個模組，看它把資料交給誰</h2>
+      <p>每條線都是一個實際的自動動作，不是「可以串接」的承諾。沒有開通的模組，那條線就不會出現。</p>
+    </div>
+    <div class="flow">
+      <div class="flow-map">
+        <div class="node-chips" id="nodeChips" role="group" aria-label="選擇模組"></div>
+        <svg id="flowSvg" viewBox="0 0 800 500" role="group" aria-label="模組之間的資料交接圖，可用 Tab 鍵選擇模組">
+          <defs>
+            <marker id="arO" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--teal)"></path></marker>
+            <marker id="arI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--hand)"></path></marker>
+            <marker id="arN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--rule)"></path></marker>
+          </defs>
+          <g id="edges"></g>
+          <g id="nodes"></g>
+        </svg>
+        <div class="legend" aria-hidden="true">
+          <span><i style="background:var(--teal)"></i>交出去</span>
+          <span><i style="background:var(--hand)"></i>收進來</span>
+          <span><i style="background:var(--line-green)"></i>LINE 相關</span>
+        </div>
+      </div>
+      <div class="flow-panel" id="flowPanel" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="scenarios" aria-labelledby="scnH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">實際情境</span>
+      <h2 id="scnH">三條常見的路線，一步一步走一次</h2>
+      <p>選一個情境，按播放會自動往下走，也可以點任一步直接看。</p>
+    </div>
+    <div class="scn">
+      <div class="scn-tabs" role="tablist" aria-label="情境" id="scnTabs"></div>
+      <div class="scn-body" role="tabpanel" id="scnPanel">
+        <ol class="scn-steps" id="scnSteps"></ol>
+        <div class="scn-detail">
+          <div class="progress" aria-hidden="true"><i id="scnProg"></i></div>
+          <span class="mod" id="scnMod"></span>
+          <h3 id="scnTitle"></h3>
+          <p id="scnText"></p>
+          <div class="auto" id="scnAuto"></div>
+          <div class="scn-ctl">
+            <button class="btn ghost sm" type="button" id="scnPrev">上一步</button>
+            <button class="btn sm" type="button" id="scnPlay" aria-pressed="false">播放</button>
+            <button class="btn ghost sm" type="button" id="scnNext">下一步</button>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" id="scnLive" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="rollout" aria-labelledby="rollH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">導入方式</span>
+      <h2 id="rollH">不必一次全換</h2>
+      <p>我們先了解您的客戶從哪裡來、怎麼下單、帳怎麼記，再決定先開哪幾個模組。</p>
+    </div>
+    <div class="roll">
+      <div>
+        <h3>先釐清流程，再開功能</h3>
+        <p>顧問協助把接單、出貨、收款、會員跟進的實際流程畫出來，只開真正用得到的模組，員工要學的東西也比較少。</p>
+      </div>
+      <div>
+        <h3>庫存可以先平行記帳</h3>
+        <p>進銷存中央帳可以先在背後同步記錄，各通路原本的收銀與扣庫存流程不變；對帳確認沒問題，再逐一通路切換。</p>
+      </div>
+      <div>
+        <h3>記帳口徑由您的會計師拍板</h3>
+        <p>需要專業判斷的科目與口徑，系統集中列成一頁。會計師確認之前，相關的自動入帳會先擋住，不會先記了再說。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="faq" aria-labelledby="faqH">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">常見問題</span>
+      <h2 id="faqH">導入前最常被問到的事</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>一定要七個模組全部導入嗎？</summary>
+        <div class="ans"><p>不用。每個模組獨立開通，例如只用會員 CRM 加門市 POS，或只用進銷存加 LINE 訂購都可以。之後要加會計或人事，已經在系統裡的會員、客戶與品項資料直接沿用。</p></div>
+      </details>
+      <details>
+        <summary>我的客戶或會員需要下載 App 嗎？</summary>
+        <div class="ans"><p>不需要。會員中心、點數票券、預約、批發客戶的線上訂購與報價確認，都在 LINE 裡打開。業務看獎金與客戶、員工打卡，也是用 LINE。</p></div>
+      </details>
+      <details>
+        <summary>多分店的資料會不會混在一起？</summary>
+        <div class="ans"><p>各分店的訂單、業績與設定分開管理，會員資料、點數、票券與等級由總店共用，會員可以到任何一家分店消費。進銷存的分店店長只能管理自己那一家的客戶與業務；會計總帳只開放給總部，但每一筆分錄都記著分店，總部可以照分店篩選報表。</p></div>
+      </details>
+      <details>
+        <summary>我們原本用凌越記帳，可以轉過來嗎？</summary>
+        <div class="ans"><p>可以。會計模組支援從凌越匯出檔做期初匯入，並提供平行跑帳報告，把同一期間兩邊的數字並排比對，客戶簽認後再正式切換。</p></div>
+      </details>
+      <details>
+        <summary>LINE 訂購可以線上付款嗎？</summary>
+        <div class="ans"><p>目前不含線上付款。客戶在 LINE 確認報價後成立的是一般銷貨訂單，收款照原本的方式（例如月結、匯款）。應收與收款由會計模組管理。</p></div>
+      </details>
+      <details>
+        <summary>業務獎金會自動進薪資嗎？</summary>
+        <div class="ans"><p>獎金每月結算後可匯出 CSV（含員工編號、應付淨額），交給會計或薪資使用。獎金費用的傳票目前由會計依結算單製作，不會自動產生。</p><p>某月扣回比計入多時，當月應付記 0，差額結轉到下個月抵扣，系統不會自動從薪資扣。</p></div>
+      </details>
+      <details>
+        <summary>資料被改過，查得到是誰改的嗎？</summary>
+        <div class="ans"><p>查得到。品項、倉庫、供應商、客戶等主檔的每一次修改，都記下操作人與改了哪些欄位的前後值。已過帳的傳票不能修改，只能以反沖傳票更正，原傳票保留。出貨單、退回單的作廢也是一輪一筆、只增不改。</p></div>
+      </details>
+      <details>
+        <summary>電子發票怎麼開？</summary>
+        <div class="ans"><p>開通發票模組並設定好發票服務商後，門市 POS 結帳可以自動開立電子發票；批發則在出貨過帳後，把同一個客戶的多張出貨單合併開成一張銷貨發票。</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="cta" id="contact">
+  <div class="wrap cta-in">
+    <div>
+      <h2>從您現在卡住的那一段開始談</h2>
+      <p>接單靠人工轉打、月底對不起帳、會員資料散在不同地方，都可以。我們先聽您的流程，再建議要開哪些模組。</p>
+    </div>
+    <div class="btns">
+      <a class="btn inv" href="/contact?src=p_platform-4ar69s&amp;pos=final_cta">預約需求討論</a>
+      <a class="btn line" href="https://line.me/R/ti/p/%40ugomk" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.3 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.8c0 .2-.2.9.8.5s5.6-3.3 7.6-5.6C20.9 14.6 22 12.9 22 11c0-4.4-4.5-8-10-8Z"/></svg>
+        加 LINE 詢問 @ugomk
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer class="ft">
+  <div class="wrap ft-in">
+    <img class="logo-c" src="/ugo-logo.png" alt="宇果國際行銷">
+    <img class="logo-w" src="/ugo-logo-white.png" alt="宇果國際行銷">
+    <span>宇果國際行銷有限公司</span>
+    <span>系統功能與串接說明</span>
+    <span style="margin-left:auto">頁面中的客戶名稱、單號與金額皆為示範資料</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── hero relay ─────────────────────────────── */
+  var steps = document.querySelectorAll('#relaySteps li');
+  var relayBtn = document.getElementById('relayToggle');
+  var ri = 0, rt = null;
+  function paintRelay(n) {
+    steps.forEach(function (li, k) {
+      li.classList.toggle('done', k < n);
+      li.classList.toggle('cur', k === n);
+    });
+  }
+  function relayTick() { ri = (ri + 1) % (steps.length + 1); paintRelay(ri === steps.length ? steps.length : ri); }
+  function relayPlay() { if (rt) return; rt = setInterval(relayTick, 1800); relayBtn.textContent = '暫停'; relayBtn.setAttribute('aria-pressed', 'false'); }
+  function relayStop() { clearInterval(rt); rt = null; relayBtn.textContent = '播放'; relayBtn.setAttribute('aria-pressed', 'true'); }
+  if (reduce) { paintRelay(steps.length); relayBtn.textContent = '播放'; relayBtn.setAttribute('aria-pressed', 'true'); }
+  else { paintRelay(0); relayPlay(); }
+  relayBtn.addEventListener('click', function () { if (rt) relayStop(); else relayPlay(); });
+
+  /* ── data: nodes & edges ───────────────────── */
+  var NODES = {
+    line:  { name: 'LINE 官方帳號', x: 95,  y: 250, line: true, what: '客戶、會員、業務與員工共同的入口。不用下載 App，打開 LINE 就能操作。' },
+    crm:   { name: '會員 CRM',     x: 290, y: 70,  what: '會員資料、標籤、等級、點數、票券與推薦關係都在這裡。' },
+    ma:    { name: '自動行銷',     x: 290, y: 185, what: '事件一發生就對那位會員執行劇本：發點數、發票券、推訊息、貼標籤。' },
+    order: { name: 'LINE 訂購',    x: 290, y: 330, line: true, what: '批發客戶在 LINE 看專屬價目錄、送詢價、確認報價。' },
+    pos:   { name: '門市 POS',     x: 500, y: 125, what: '餐飲、零售、美業的現場收銀，含訂位、預約與儲值金。' },
+    erp:   { name: '進銷存',       x: 500, y: 330, what: '品項、倉庫、採購、銷貨訂單、出貨、退回與價目表。' },
+    hr:    { name: '人事出勤',     x: 500, y: 450, what: '打卡、排班、請假與加班審核。' },
+    inv:   { name: '電子發票',     x: 705, y: 70,  what: '門市結帳自動開票，批發出貨合併開票。需開通發票模組並設好服務商。' },
+    acct:  { name: '會計總帳',     x: 705, y: 250, what: '傳票、應收應付、票據、出納、薪資、營業稅與財務報表。', note: '只開放給總部帳號；每筆分錄都記著分店，可照分店看報表。' },
+    rep:   { name: '業務獎金',     x: 705, y: 420, what: '每個客戶指定一位負責業務，訂單確認即記獎金，每月結算。', note: '獎金費用的傳票目前不會自動產生，月結後匯出 CSV 給會計或薪資。' }
+  };
+  var EDGES = [
+    ['line', 'crm',  '加入好友就是會員，之後的每一次互動都記在同一位會員身上。'],
+    ['crm', 'line',  '會員升到某個等級，LINE 圖文選單自動換成該等級專屬的版本。'],
+    ['pos', 'crm',   '會員結帳時寫入累計消費、點數與成長值，達到門檻自動升等（只升不降）。'],
+    ['crm', 'ma',    '首次消費、訂單完成、升等、生日、票券快到期、多久沒來消費等事件，觸發對應的劇本。'],
+    ['ma', 'line',   '劇本自動把點數、票券或訊息送到會員的 LINE。'],
+    ['pos', 'inv',   '結帳後自動開立電子發票。'],
+    ['pos', 'acct',  '結帳自動產生傳票；掛帳（月結）的單直接立應收。'],
+    ['pos', 'erp',   '零售結帳的庫存異動，同步記進進銷存的中央帳。'],
+    ['line', 'order','客戶的聯絡人在 LINE 打開線上訂購，看到的是給他們公司的價格。'],
+    ['order', 'erp', '客戶在 LINE 確認報價，照報價的價格自動成立銷貨訂單，並檢查信用額度。'],
+    ['erp', 'acct',  '出貨單過帳同時立應收、開傳票；銷貨退回過帳則沖回應收、開反向傳票。首次使用前需由會計師確認入帳口徑。'],
+    ['erp', 'rep',   '訂單確認即替負責業務記獎金；作廢、結案未出完、退貨，在發生的月份扣回。'],
+    ['erp', 'line',  '報價送出、訂單成立、已出貨，都會通知客戶的聯絡人，可選擇也送公司群組。'],
+    ['erp', 'inv',   '同一個客戶的多張出貨單，可以合併開成一張銷貨發票。'],
+    ['hr', 'acct',   '薪資試算讀取核准過的加班與請假；過帳產生薪資傳票，發放再產生沖銷應付薪資的傳票。']
+  ];
+
+  /* ── flow map ─────────────────────────────── */
+  var svg = document.getElementById('flowSvg');
+  var gE = document.getElementById('edges');
+  var gN = document.getElementById('nodes');
+  var chips = document.getElementById('nodeChips');
+  var panel = document.getElementById('flowPanel');
+  var NS = 'http://www.w3.org/2000/svg';
+  var W = 150, H = 46;
+  var hasReverse = {};
+  EDGES.forEach(function (e) { hasReverse[e[0] + '>' + e[1]] = true; });
+
+  function clip(a, b) {
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var sx = dx === 0 ? Infinity : (W / 2 + 6) / Math.abs(dx);
+    var sy = dy === 0 ? Infinity : (H / 2 + 6) / Math.abs(dy);
+    var s = Math.min(sx, sy);
+    return { x: a.x + dx * s, y: a.y + dy * s };
+  }
+  var edgeEls = [];
+  EDGES.forEach(function (e) {
+    var A = NODES[e[0]], B = NODES[e[1]];
+    var p1 = clip(A, B), p2 = clip(B, A);
+    if (hasReverse[e[1] + '>' + e[0]]) {
+      var dx = p2.x - p1.x, dy = p2.y - p1.y, len = Math.sqrt(dx * dx + dy * dy) || 1;
+      var ox = -dy / len * 6, oy = dx / len * 6;
+      p1 = { x: p1.x + ox, y: p1.y + oy }; p2 = { x: p2.x + ox, y: p2.y + oy };
+    }
+    var l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', p1.x.toFixed(1)); l.setAttribute('y1', p1.y.toFixed(1));
+    l.setAttribute('x2', p2.x.toFixed(1)); l.setAttribute('y2', p2.y.toFixed(1));
+    l.setAttribute('class', 'ed');
+    l.setAttribute('marker-end', 'url(#arN)');
+    gE.appendChild(l);
+    edgeEls.push({ el: l, from: e[0], to: e[1] });
+  });
+
+  var nodeEls = {}, chipEls = {};
+  Object.keys(NODES).forEach(function (k) {
+    var n = NODES[k];
+    var g = document.createElementNS(NS, 'g');
+    g.setAttribute('class', 'nd' + (n.line ? ' line-node' : ''));
+    g.setAttribute('tabindex', '0');
+    g.setAttribute('role', 'button');
+    g.setAttribute('aria-label', n.name);
+    var r = document.createElementNS(NS, 'rect');
+    r.setAttribute('x', n.x - W / 2); r.setAttribute('y', n.y - H / 2);
+    r.setAttribute('width', W); r.setAttribute('height', H); r.setAttribute('rx', 10);
+    var t = document.createElementNS(NS, 'text');
+    t.setAttribute('x', n.x); t.setAttribute('y', n.y + 5); t.setAttribute('text-anchor', 'middle');
+    t.textContent = n.name;
+    g.appendChild(r); g.appendChild(t); gN.appendChild(g);
+    nodeEls[k] = g;
+    g.addEventListener('click', function () { selectNode(k); });
+    g.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); selectNode(k); } });
+
+    var b = document.createElement('button');
+    b.type = 'button'; b.textContent = n.name; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function () { selectNode(k); });
+    chips.appendChild(b); chipEls[k] = b;
+  });
+
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function selectNode(k) {
+    var n = NODES[k];
+    svg.classList.add('focus');
+    var related = {};
+    edgeEls.forEach(function (e) {
+      var out = e.from === k, inn = e.to === k;
+      e.el.classList.toggle('out', out);
+      e.el.classList.toggle('in', inn && !out);
+      e.el.setAttribute('marker-end', out ? 'url(#arO)' : inn ? 'url(#arI)' : 'url(#arN)');
+      if (out) related[e.to] = true;
+      if (inn) related[e.from] = true;
+    });
+    Object.keys(nodeEls).forEach(function (j) {
+      nodeEls[j].classList.toggle('on', j === k);
+      nodeEls[j].classList.toggle('rel', !!related[j] && j !== k);
+      chipEls[j].setAttribute('aria-pressed', j === k ? 'true' : 'false');
+      chipEls[j].classList.toggle('rel', !!related[j] && j !== k);
+    });
+    panel.innerHTML = '';
+    panel.appendChild(el('h3', null, n.name));
+    panel.appendChild(el('p', 'what', n.what));
+    var outs = EDGES.filter(function (e) { return e[0] === k; });
+    var ins = EDGES.filter(function (e) { return e[1] === k; });
+    function list(title, cls, arr, key) {
+      if (!arr.length) return;
+      panel.appendChild(el('h4', cls, title));
+      var ul = el('ul');
+      arr.forEach(function (e) {
+        var li = el('li');
+        li.appendChild(el('b', null, (cls === 'o' ? '交給 ' : '來自 ') + NODES[e[key]].name + '：'));
+        li.appendChild(document.createTextNode(e[2]));
+        ul.appendChild(li);
+      });
+      panel.appendChild(ul);
+    }
+    list('交出去', 'o', outs, 1);
+    list('收進來', 'i', ins, 0);
+    if (n.note) panel.appendChild(el('p', 'note', n.note));
+  }
+  selectNode('erp');
+
+  /* ── modules ──────────────────────────────── */
+  var MODS = [
+    { id: 'crm', tab: '會員 CRM', title: '把 LINE 好友變成認得出來的會員',
+      intro: '會員資料、標籤、等級、點數與票券放在同一個地方，推播與活動都能依條件挑對象，而不是每次發給所有人。',
+      groups: [
+        ['會員與分群', ['會員資料、標籤、群組，可依姓名、LINE 暱稱或手機搜尋', '會員等級依累計消費、點數或成長值自動升等，只升不降', '會員分群與回購率報表，直接列出只來過一次的會員名單']],
+        ['點數、票券與推薦', ['消費自動累積點數，也可手動加點、活動贈點', '票券兌換、線上付費購買、門市核銷', '推薦好友專屬連結，可設定被推薦人首次消費才發獎勵，另有階梯任務']],
+        ['自動行銷劇本', ['加入、生日、首次消費、升等、累積消費滿額、多久沒來、票券快到期等觸發', '同一條劇本可串多個動作：發點數、發票券、推訊息', '每種觸發都有去重規則，不會重複發給同一個人']],
+        ['LINE 互動', ['圖文選單，並可依等級、標籤自動切換不同選單', '問卷 18 種題型，依答案自動貼標籤', '抽獎 9 種樣式，例如轉盤、刮刮樂、拉霸；群發可排程、可贈券贈點']],
+        ['客服與管理', ['關鍵字自動回覆，一組回覆可綁多個關鍵字', '會員留言收件匣，後台與門市平板看到同一批對話', '黑名單兩種模式：只擋推播，或完全禁止互動']],
+        ['多分店', ['各分店的訂單、業績與設定分開', '會員資料、點數、票券與等級總店共用，到任何分店都能用', '連鎖儀表板一頁看各門市營運指標']]
+      ],
+      handoff: ['ma', 'line'] },
+    { id: 'pos', tab: 'POS 收銀', title: '餐飲、零售、美業的現場收銀',
+      intro: '以平板觸控操作為主。每一筆會員結帳都會回到會員資料，成為之後分眾與回購行銷的依據。',
+      groups: [
+        ['餐飲', ['桌位、點餐、送單到廚房看板，可依廚房站分流', '出單站集中列印到各廚房出單機', '分帳各付各的、顧客掃桌上 QR 碼自己點餐', '結帳後可自動開立電子發票']],
+        ['訂位與候位', ['LINE 線上、電話、現場訂位在同一個列表', '額滿時段先排候補，有空位再遞補', '現場取號、叫號、選桌入座']],
+        ['零售', ['條碼掃描收銀、識別會員', '掛單與預購：結清那一刻才扣庫存、才計入營收', '退換貨、日結對帳與交班']],
+        ['美業', ['設計師班表，可用 Excel 匯入', '依設計師職稱自動加價，顧客在 LINE 預約時可指定設計師', '預約看板與日曆、門市開單結帳']],
+        ['儲值金', ['顧客預先儲值，消費時從儲值金扣款', '扣款前先推 LINE 請會員確認，按下確認才實際扣款']]
+      ],
+      handoff: ['crm', 'acct', 'inv', 'erp'] },
+    { id: 'erp', tab: '進銷存', title: '從採購、倉庫到出貨，一本庫存帳',
+      intro: '門市、倉庫與批發的每一筆進出都記進中央帳，任何一個數字都能往回追是哪一張單動的。',
+      groups: [
+        ['品項與倉庫', ['品項主檔，庫存、採購、銷售三種單位換算', '多倉庫與倉間調撥', '批號與效期：系統自動挑批時最早到期的先出，另有效期預警報表', '組合品用料表，組裝入庫與拆裝']],
+        ['採購與成本', ['供應商、採購單，可分批收貨', '收貨時以移動加權平均更新成本，也可手動維護', '安全庫存與補貨建議，一鍵產生採購單草稿']],
+        ['銷售', ['銷貨訂單、出貨單、銷貨退回', '銷貨發票：同一客戶的多張出貨單合併開一張', '銷售報表、損耗率報表']],
+        ['價格', ['價目表，每一列可設生效期間與數量級距', '取價由細到粗：客戶專屬價、客戶價目表、商品價格別、商品售價', '查不到價的品項不會被當成 0 元存進訂單']],
+        ['信用額度', ['已用額度＝應收未收＋已確認未出貨', '超額時依客戶設定三選一：只警告、擋單、主管核可', '需同時開通會計模組才能控管']],
+        ['稽核與結帳', ['品項、倉庫、供應商、客戶的每次修改，都記下誰改了哪些欄位', '期末結帳凍結當期數量與成本', '三方對帳逐品項列出差異', '品項、客戶、供應商、價格批次匯入']]
+      ],
+      handoff: ['acct', 'rep', 'inv', 'line'] },
+    { id: 'order', tab: 'LINE 訂購', title: '批發客戶在 LINE 詢價、確認、收出貨通知',
+      intro: '客戶公司的老闆、採購、會計各用自己的 LINE 綁定成訂購聯絡人。報價、確認、出貨通知都在 LINE 裡往返，後台同步成立單據。',
+      groups: [
+        ['客戶看到的', ['專屬價目錄：價格依客戶的價目表計算，不顯示庫存', '取不到價的品項顯示「請洽業務報價」，不能加入', '最少訂購量、訂購倍數照目錄設定', '我的報價：查看給自己公司的報價與狀態']],
+        ['報價單', ['送出後價格凍結，價目表之後怎麼改都不影響這張報價', '有效期預設 7 天，送出時可逐張調整', '已送出的報價要改，會產生新版次，客戶只能確認最新版', '分享連結免登入即可列印或存 PDF，但不能確認訂購']],
+        ['成立訂單', ['客戶在 LINE 按確認，自動成立銷貨訂單，或改成先建草稿由後台確認', '依客戶的信用額度設定檢查，客戶看到的訊息不會提到額度', '價格都設好的長期客戶，可設定詢價一送出就自動回報價']],
+        ['聯絡人與群組', ['一個客戶可綁多位聯絡人與多個 LINE 群組', '群組只收通知、不能下單，避免被拉進群組的人用公司名義下單', '新聯絡人綁定成功，同一客戶的其他聯絡人都會收到通知', '每則通知的送達結果都有紀錄，失敗可重送']]
+      ],
+      handoff: ['erp', 'line'],
+      note: '目前不含線上付款：確認後成立的是一般銷貨訂單，收款照月結、匯款等原本方式。' },
+    { id: 'rep', tab: '業務獎金', title: '業務用 LINE 看自己的客戶與獎金',
+      intro: '業務不必登入後台。總部在後台管理業務名單與客戶指派，業務在 LINE 上看得到屬於自己的那一份。',
+      groups: [
+        ['業務的 LINE 頁面', ['業務首頁：本月獎金淨額、本月確認金額、待客戶確認的報價、待核可的訂單', '我的客戶：目前負責的客戶、最近一筆訂單、該客戶的訂單與報價', '看不到成本、毛利與客戶的信用額度']],
+        ['即時通知', ['負責的客戶送出新詢價、確認或婉拒報價', '負責客戶的訂單成立、訂單等主管核可', '每月獎金結算完成；業務可以逐項關閉不想收的通知']],
+        ['怎麼算', ['訂單確認即記一筆：未稅金額 × 比例', '作廢、結案時沒出完的部分、退貨，在發生的月份記負數扣回，且用當初的業務與比例', '比例優先順序：客戶專屬比例、業務自己的比例、全店預設', '可設定不計獎金的品項，例如運費、樣品']],
+        ['月結與業績', ['依月份順序結算，結算後不再更改', '匯出 CSV：員工編號、正負合計、結轉、應付淨額', '業務業績表：每位業務每月的確認、出貨、退貨金額與獎金', '換負責業務後，已確認訂單的獎金仍歸原業務']]
+      ],
+      handoff: ['line'],
+      note: '獎金費用的傳票目前不會自動產生，由會計依結算單製作。' },
+    { id: 'hr', tab: '人事出勤', title: '員工用 LINE 打卡，加班與請假線上審核',
+      intro: '排班、打卡、請假、加班放在同一個地方，月底的工時與加班資料直接交給薪資試算。',
+      groups: [
+        ['打卡', ['員工在 LINE 打卡', '可限制在分店 GPS 範圍內、掃店內 QR 碼，或限定公司網路', '打卡紀錄一日一列，標出遲到、早退與異常，可補卡']],
+        ['排班', ['班次模板：上下班時間、顏色與代碼', '排班月曆，一格一人一天，可批次排班']],
+        ['請假與加班', ['假別設定：有薪或無薪、年度配額、是否需附證明', '請假審核，並可查每位員工的假別餘額', '加班審核：依國定假日行事曆自動判斷加班類別，補班日也算進去']],
+        ['月結', ['每月彙總工時與出勤結果', '匯出 CSV']]
+      ],
+      handoff: ['acct'] },
+    { id: 'acct', tab: '會計總帳', title: '各模組的單據，自動變成傳票',
+      intro: '門市結帳、掛帳、出貨、退貨、薪資等業務事件，照設定好的科目自動入帳。報表只讀已過帳的傳票，數字點下去就能追到原始單據。',
+      groups: [
+        ['傳票與期間', ['借貸必須平衡才能過帳；過帳後不能修改，只能反沖更正', '常用傳票範本、分錄可掛專案', '會計期間關帳後不可回頭，另有調整期', '試算表與關帳前的對帳報告']],
+        ['報表', ['損益表、資產負債表、現金流量表', '總分類帳、明細分類帳、科目餘額表、日記帳，可下鑽到傳票', '財務儀表板：營收、成本、費用、淨利與近 12 個月趨勢', '專案別損益、預算差異分析']],
+        ['應收與應付', ['帳齡表、收款、付款、對帳單可直接寄 Email', '門市掛帳（月結）結帳直接立應收', '應收、應付票據：託收、兌現、退票、背書轉讓、到期提醒']],
+        ['出納與外幣', ['現金簿、銀行簿', '銀行對帳單匯入，自動配對並產生調節表', '匯率表可從台灣銀行匯入']],
+        ['薪資', ['試算、覆核、過帳、發放四個步驟，每一步都有傳票', '讀取人事出勤的加班與請假', '勞健保、勞退與扣繳的繳納登錄，年度扣繳彙總']],
+        ['營業稅與轉換', ['401 申報書預覽、與總帳對帳、下載媒體申報檔', '進項憑證登錄', '從凌越期初匯入，並產生平行跑帳報告']]
+      ],
+      handoff: [],
+      note: '需要會計師判斷的口徑集中列在同一頁，確認之前相關的自動入帳會擋住；會計總帳只開放給總部帳號。' }
+  ];
+
+  var tabs = document.getElementById('modTabs');
+  var mp = document.getElementById('modPanel');
+  var modBtns = [];
+  function renderMod(i, focus) {
+    var m = MODS[i];
+    modBtns.forEach(function (b, j) {
+      b.setAttribute('aria-selected', j === i ? 'true' : 'false');
+      b.tabIndex = j === i ? 0 : -1;
+    });
+    mp.setAttribute('aria-labelledby', 'modtab-' + m.id);
+    mp.innerHTML = '';
+    var intro = el('div', 'mod-intro');
+    intro.appendChild(el('h3', null, m.title));
+    intro.appendChild(el('p', null, m.intro));
+    mp.appendChild(intro);
+    var gs = el('div', 'groups');
+    m.groups.forEach(function (g) {
+      var box = el('div', 'grp');
+      box.appendChild(el('h4', null, g[0]));
+      var ul = el('ul');
+      g[1].forEach(function (t) { ul.appendChild(el('li', null, t)); });
+      box.appendChild(ul);
+      gs.appendChild(box);
+    });
+    mp.appendChild(gs);
+    var outs = EDGES.filter(function (e) { return e[0] === m.id; });
+    if (outs.length) {
+      var h = el('div', 'handoff');
+      h.appendChild(el('span', 'lbl', '這個模組會自動把資料交給'));
+      outs.forEach(function (e) {
+        var b = el('button', 'chip-link', NODES[e[1]].name);
+        b.type = 'button';
+        b.addEventListener('click', function () {
+          selectNode(m.id);
+          document.getElementById('flow').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+        });
+        h.appendChild(b);
+      });
+      mp.appendChild(h);
+    }
+    if (m.note) mp.appendChild(el('p', 'note', m.note));
+    if (focus) modBtns[i].focus();
+  }
+  MODS.forEach(function (m, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'modtab-' + m.id;
+    b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'modPanel');
+    b.textContent = m.tab;
+    b.addEventListener('click', function () { renderMod(i); });
+    b.addEventListener('keydown', function (ev) {
+      var j = null;
+      if (ev.key === 'ArrowRight') j = (i + 1) % MODS.length;
+      if (ev.key === 'ArrowLeft') j = (i - 1 + MODS.length) % MODS.length;
+      if (ev.key === 'Home') j = 0;
+      if (ev.key === 'End') j = MODS.length - 1;
+      if (j !== null) { ev.preventDefault(); renderMod(j, true); }
+    });
+    tabs.appendChild(b); modBtns.push(b);
+  });
+  renderMod(0);
+
+  /* ── scenarios ────────────────────────────── */
+  var SCN = [
+    { tab: '批發：LINE 接單到入帳', steps: [
+      ['LINE 訂購', '客戶在 LINE 送出詢價', '採購打開線上訂購，挑品項、填數量送出。畫面上的價格是給這家客戶的價，金額僅供參考。', '負責業務的 LINE 收到「新詢價」通知。'],
+      ['LINE 訂購', '業務調整後送出報價', '後台的報價單已經帶好客戶與品項。需要折扣就改，折扣一定要填原因；送出後價格凍結。', '報價送到客戶的聯絡人，可選擇也送公司群組。'],
+      ['LINE 訂購', '客戶在 LINE 按確認', '只有綁定為可下單的個人聯絡人能確認；群組成員只收通知。', '自動成立銷貨訂單，明細照報價凍結的價格。'],
+      ['進銷存', '訂單檢查信用額度', '已用額度＝應收未收＋已確認未出貨。超過時依客戶設定：只警告、擋單，或送主管核可。', '訂單真正成立的那一刻，替負責業務記一筆獎金。'],
+      ['進銷存', '出貨單過帳', '從已確認的訂單挑品項建立出貨單，按過帳才真的扣庫存。', '有追批號的品項，每一列記下出自哪一批，事後查得到。'],
+      ['會計總帳', '應收與傳票', '出貨日同時是應收的立帳日與傳票日期。首次使用前，由您的會計師確認出貨入帳口徑。', '應收帳款與傳票在同一個動作裡產生，不用另外做。'],
+      ['LINE 訂購', '出貨通知', '客戶的聯絡人與群組收到出貨通知；之後的收款在會計的應收帳款處理。', '若之後退貨，應收沖回、傳票反向，業務獎金在退貨當月扣回。']
+    ]},
+    { tab: '門市：一次消費帶動回購', steps: [
+      ['LINE 官方帳號', '顧客加入好友', '顧客加入官方帳號就成為會員，可在 LINE 的會員中心看點數與票券。', '若是透過朋友的推薦連結加入，推薦關係自動綁定。'],
+      ['門市 POS', '結帳時識別會員', '店員在收銀畫面帶出會員，照常結帳。', '結帳後可自動開立電子發票。'],
+      ['會員 CRM', '消費寫回會員資料', '累計消費、點數與成長值同步更新。', '達到等級門檻就自動升等，LINE 圖文選單換成新等級的版本。'],
+      ['自動行銷', '首次消費觸發劇本', '這是他第一次消費，對應的劇本啟動，例如送一張下次可用的回購券。', '票券直接送進會員的 LINE。若他是被推薦來的，推薦人的獎勵也在這時發放（設定為首次消費才發時）。'],
+      ['會計總帳', '結帳自動入帳', '有開通會計模組時，這筆結帳自動產生傳票。', '會計不用再從收銀報表手動彙總做傳票。'],
+      ['自動行銷', '一段時間沒回來', '例如設定 30 天沒有消費，劇本自動送一則關懷訊息或優惠。', '每位會員只提醒一次，不會天天重複發。']
+    ]},
+    { tab: '員工：打卡到薪資傳票', steps: [
+      ['人事出勤', '員工在 LINE 打卡', '可限制在分店 GPS 範圍內、掃店內 QR 碼，或限定公司網路。', '打卡紀錄自動標出遲到、早退與異常。'],
+      ['人事出勤', '加班與請假線上審核', '主管在後台核准加班單與請假單。', '加班類別依國定假日行事曆自動判斷，補班日也算進去。'],
+      ['會計總帳', '月底薪資試算', '選計薪月份按試算，系統依員工主檔、加班與請假、費率表算出每個人的薪資。', '缺資料的地方會列成缺口，紅色的要先處理才能送覆核。'],
+      ['會計總帳', '覆核與過帳', '送覆核、過帳後批次不可修改。', '過帳產生薪資傳票。'],
+      ['會計總帳', '發放與繳納', '填發放日與方式後確認；勞健保、勞退與扣繳稅款在繳納頁登錄。', '發放產生沖銷應付薪資的傳票；年底有扣繳彙總可查。']
+    ]}
+  ];
+  var sTabs = document.getElementById('scnTabs');
+  var sSteps = document.getElementById('scnSteps');
+  var sMod = document.getElementById('scnMod'), sTitle = document.getElementById('scnTitle'), sText = document.getElementById('scnText'), sAuto = document.getElementById('scnAuto');
+  var sProg = document.getElementById('scnProg'), sLive = document.getElementById('scnLive');
+  var sPlay = document.getElementById('scnPlay');
+  var cs = 0, cst = 0, stimer = null, sTabBtns = [], stepBtns = [];
+
+  function showStep(k, announce) {
+    var s = SCN[cs].steps;
+    cst = Math.max(0, Math.min(s.length - 1, k));
+    stepBtns.forEach(function (b, j) {
+      b.classList.toggle('done', j < cst);
+      if (j === cst) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    var st = s[cst];
+    sMod.textContent = '第 ' + (cst + 1) + ' 步，共 ' + s.length + ' 步｜' + st[0];
+    sTitle.textContent = st[1];
+    sText.textContent = st[2];
+    sAuto.textContent = '自動發生：' + st[3];
+    sProg.style.width = ((cst + 1) / s.length * 100) + '%';
+    if (announce) sLive.textContent = '第 ' + (cst + 1) + ' 步：' + st[1];
+  }
+  function renderScn(i) {
+    stopScn();
+    cs = i;
+    sTabBtns.forEach(function (b, j) { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); b.tabIndex = j === i ? 0 : -1; });
+    document.getElementById('scnPanel').setAttribute('aria-labelledby', 'scntab-' + i);
+    sSteps.innerHTML = ''; stepBtns = [];
+    SCN[i].steps.forEach(function (st, j) {
+      var li = el('li');
+      var b = el('button');
+      b.type = 'button';
+      b.appendChild(el('span', 'n', String(j + 1)));
+      b.appendChild(el('span', null, st[1]));
+      b.addEventListener('click', function () { stopScn(); showStep(j, true); });
+      li.appendChild(b); sSteps.appendChild(li); stepBtns.push(b);
+    });
+    showStep(0, false);
+  }
+  function stopScn() { clearInterval(stimer); stimer = null; sPlay.textContent = '播放'; sPlay.setAttribute('aria-pressed', 'false'); }
+  function playScn() {
+    if (cst >= SCN[cs].steps.length - 1) showStep(0, true);
+    sPlay.textContent = '暫停'; sPlay.setAttribute('aria-pressed', 'true');
+    stimer = setInterval(function () {
+      if (cst >= SCN[cs].steps.length - 1) { stopScn(); return; }
+      showStep(cst + 1, true);
+    }, 3400);
+  }
+  sPlay.addEventListener('click', function () { if (stimer) stopScn(); else playScn(); });
+  document.getElementById('scnPrev').addEventListener('click', function () { stopScn(); showStep(cst - 1, true); });
+  document.getElementById('scnNext').addEventListener('click', function () { stopScn(); showStep(cst + 1, true); });
+  SCN.forEach(function (s, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = 'scntab-' + i;
+    b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'scnPanel');
+    b.textContent = s.tab;
+    b.addEventListener('click', function () { renderScn(i); });
+    b.addEventListener('keydown', function (ev) {
+      var j = null;
+      if (ev.key === 'ArrowRight') j = (i + 1) % SCN.length;
+      if (ev.key === 'ArrowLeft') j = (i - 1 + SCN.length) % SCN.length;
+      if (j !== null) { ev.preventDefault(); renderScn(j); sTabBtns[j].focus(); }
+    });
+    sTabs.appendChild(b); sTabBtns.push(b);
+  });
+  renderScn(0);
+
+  /* ── scroll spy ───────────────────────────── */
+  var links = document.querySelectorAll('nav.anchors a');
+  if ('IntersectionObserver' in window) {
+    var map = {};
+    links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          links.forEach(function (a) { a.classList.remove('on'); a.removeAttribute('aria-current'); });
+          var a = map[en.target.id];
+          if (a) {
+            a.classList.add('on'); a.setAttribute('aria-current', 'true');
+            if (a.scrollIntoView && a.parentNode.scrollWidth > a.parentNode.clientWidth) {
+              a.parentNode.scrollLeft = a.offsetLeft - 16;
+            }
+          }
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>

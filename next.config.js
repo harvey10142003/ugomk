@@ -11,7 +11,8 @@ const nextConfig = {
     // 未對外公開的提案頁（進銷存 ERP 說明）。檔案放在 public/p/<slug>/index.html，
     // 這條只是讓網址不必帶 index.html；它不在 sitemap、站內沒有任何連結。
     // 2026-09-22 起另放三份內部教材（零售與進銷存操作手冊／練習劇本／示範 Runbook），同樣規則。
-    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0'].map((slug) => ({
+    // 2026-09-24 加一份給意向客戶看的產品功能與串接說明（platform-4ar69s），同樣規則。
+    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0', 'platform-4ar69s'].map((slug) => ({
       source: `/p/${slug}`,
       destination: `/p/${slug}/index.html`
     }));
