@@ -2,7 +2,8 @@
  * /insurcrm 落地頁專用樣式（只在這個路由載入，不影響其他頁）。
  *
  * 配色沿用 ugomk 品牌青（tailwind.config.ts 的 brand / mint），另加兩個頁面限定 token：
- *   --icrm-aqua    深色區塊上的發光強調（#3FB8C4，在 brand-950 上對比 7.4:1）
+ *   --icrm-aqua    深色區塊上的發光強調（#1AC6C8，取自保客+ logo 的青綠端，在 brand-950 上對比 7.2:1）
+ *   --icrm-sky     logo 漸層的藍端（#0199DA），只用在漸層與圖示
  *   --icrm-lantern 祝福／農曆的暖色點綴（#E9A23B，只做裝飾與圖示，不承載文字）
  * LINE 綠仍只用在「與 LINE 有關」的元件（對話氣泡、LINE 按鈕），與全站規則一致。
  *
@@ -16,7 +17,8 @@
 .icrm-page {
   --icrm-deep: #022a36;
   --icrm-teal: #04566b;
-  --icrm-aqua: #3fb8c4;
+  --icrm-aqua: #1ac6c8;
+  --icrm-sky: #0199da;
   --icrm-lantern: #e9a23b;
 }
 
@@ -109,7 +111,7 @@
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(63, 184, 196, 0.7), rgba(4, 86, 107, 0.15) 45%, rgba(233, 162, 59, 0.5));
+  background: linear-gradient(135deg, rgba(26, 198, 200, 0.7), rgba(4, 86, 107, 0.15) 45%, rgba(233, 162, 59, 0.5));
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -134,7 +136,7 @@
 /* ── 深色 AI 區塊背景 ─────────────────────── */
 .icrm-dark {
   background:
-    radial-gradient(at 12% 0%, rgba(63, 184, 196, 0.22) 0px, transparent 50%),
+    radial-gradient(at 12% 0%, rgba(26, 198, 200, 0.22) 0px, transparent 50%),
     radial-gradient(at 92% 100%, rgba(233, 162, 59, 0.12) 0px, transparent 45%),
     linear-gradient(160deg, #033d4d 0%, #022a36 70%);
 }
@@ -268,4 +270,12 @@
   to {
     transform: scaleX(1);
   }
+}
+
+/* 主標第二行：取 logo 的漸層（青綠 → 藍 → 品牌深青），最淺端 #0A93A3 在白底 3.67:1，符合大字 3:1 */
+.icrm-text-logo {
+  background-image: linear-gradient(100deg, #0a93a3 0%, #0a86b8 45%, #04566b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

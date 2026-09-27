@@ -41,7 +41,7 @@ export function PhoneFrame({
 export function ChatTopBar({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="relative z-10 flex items-center gap-2.5 bg-brand-900 px-4 pb-3 pt-9 text-white">
-      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3FB8C4] to-brand-600 text-[11px] font-bold">
+      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#1AC6C8] to-[#0B7DB4] text-[11px] font-bold">
         AI
       </span>
       <div className="min-w-0">

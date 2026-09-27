@@ -129,7 +129,7 @@ export function HeroChat() {
 
 function Avatar() {
   return (
-    <span className="mb-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3FB8C4] to-brand-700 text-[8px] font-bold text-white">
+    <span className="mb-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#1AC6C8] to-[#0B7DB4] text-[8px] font-bold text-white">
       AI
     </span>
   );

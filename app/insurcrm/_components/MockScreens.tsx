@@ -110,7 +110,7 @@ export function PolicyMock() {
       <div className="grid gap-4 sm:grid-cols-[120px_1fr]">
         <div className="relative flex h-32 items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-brand-300 bg-brand-50 sm:h-full">
           <Camera className="h-8 w-8 text-brand-600" aria-hidden />
-          <span className="icrm-scan absolute inset-x-3 top-1/2 h-0.5 rounded-full bg-[#3FB8C4] shadow-[0_0_12px_2px_rgba(63,184,196,0.6)]" aria-hidden />
+          <span className="icrm-scan absolute inset-x-3 top-1/2 h-0.5 rounded-full bg-[#1AC6C8] shadow-[0_0_12px_2px_rgba(26,198,200,0.6)]" aria-hidden />
         </div>
         <ul className="space-y-2">
           {fields.map((f) => (

@@ -2,8 +2,8 @@
  * /insurcrm 落地頁的全部文案與資料。
  *
  * ## 改名只改這裡
- * 產品名稱仍是暫定，頁面上、metadata、結構化資料一律讀 PRODUCT_NAME，
- * 正式名稱定案後改這一個常數即可。
+ * 品牌名稱（保客+）、副標、標語都在下方常數；頁面上、metadata、結構化資料一律讀常數，
+ * 日後改名或改副標只改這裡。
  *
  * ## 文案紅線（保險業招攬規範 + 公平交易法，改文案前先讀）
  *  - 不寫「保證」「穩賺」「最高」「第一」「唯一」這類絕對用語。
@@ -14,8 +14,19 @@
  *  - 功能與界線的來源是 line-crm-saas `docs/specs/insurance-agent-module.md`（§0、§5、§10、§12、§13、§14、§6）。
  */
 
-export const PRODUCT_NAME = '保險智慧 LINE CRM';
-export const PRODUCT_SHORT = '保險智慧 CRM';
+/** 品牌（2026-09-27 Shark 定案）。名稱、副標、標語各一個常數，改一處即全頁、metadata、結構化資料同步 */
+export const PRODUCT_NAME = '保客+';
+export const PRODUCT_SHORT = PRODUCT_NAME;
+/**
+ * 副標：與 Logo 上的字一致。Shark 打字時曾寫成「保經人的 LINE智慧管家」，兩者不同，待確認；
+ * 確認前以 Logo 為準（Logo 圖檔改不了，文字常數跟著圖走才不會畫面上兩種寫法並存）。
+ */
+export const PRODUCT_SUBTITLE = '保險人的 LINE 智慧管家';
+export const PRODUCT_TAGLINE = '把繁瑣交給系統，把關係留給你。';
+/** Logo 素材（由原始 PNG 以程式去白底／裁切，見 public/insurcrm/） */
+export const LOGO = { src: '/insurcrm/baoke-plus-logo.png', width: 671, height: 251 };
+export const LOGO_MARK = { src: '/insurcrm/baoke-plus-mark.png', width: 251, height: 251 };
+export const OG_IMAGE_PATH = '/insurcrm/og-baoke-plus.png';
 export const PAGE_PATH = '/insurcrm';
 
 /** 個人版月費（預計）。價格定案由 billing-ops 決定，改這裡會同步到方案卡、FAQ 與結構化資料 */

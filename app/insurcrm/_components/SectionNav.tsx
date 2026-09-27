@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -11,7 +12,18 @@ export type NavLink = { id: string; label: string };
  * 手機上可橫向滑動，作用中的項目會自動捲進可視範圍。
  * 錨點捲動靠 globals.css 的 `scroll-behavior: smooth`（減少動態時由瀏覽器自己處理）。
  */
-export function SectionNav({ links, ctaHref, ctaLabel }: { links: NavLink[]; ctaHref: string; ctaLabel: string }) {
+export function SectionNav({
+  links,
+  ctaHref,
+  ctaLabel,
+  mark
+}: {
+  links: NavLink[];
+  ctaHref: string;
+  ctaLabel: string;
+  /** 黏住後左側顯示的品牌圖示（盾牌），讓捲到頁中段仍認得這是哪個產品 */
+  mark?: { src: string; width: number; height: number; alt: string };
+}) {
   const [active, setActive] = useState<string | null>(null);
   const [stuck, setStuck] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
@@ -78,11 +90,26 @@ export function SectionNav({ links, ctaHref, ctaLabel }: { links: NavLink[]; cta
       <nav
         aria-label="本頁導覽"
         className={cn(
-          'sticky top-16 z-40 border-b transition-all duration-300 md:top-20',
-          stuck ? 'border-ink-100 bg-white/90 shadow-[0_8px_24px_-18px_rgba(3,61,77,0.35)] backdrop-blur-md' : 'border-transparent bg-transparent'
+          // 底色一律不透明：就算捲動事件沒送到（背景分頁、瀏覽器節流），黏住時也不會透出底下的內容
+          'sticky top-16 z-40 border-b border-ink-100 bg-white/90 backdrop-blur-md transition-shadow duration-300 md:top-20',
+          stuck && 'shadow-[0_8px_24px_-18px_rgba(3,61,77,0.35)]'
         )}
       >
         <div className="container-ug flex items-center gap-3">
+          {mark ? (
+            <a
+              href="#top"
+              className={cn(
+                'hidden shrink-0 transition-all duration-300 sm:block',
+                stuck ? 'w-8 opacity-100' : 'pointer-events-none w-0 opacity-0'
+              )}
+              tabIndex={stuck ? 0 : -1}
+              aria-hidden={!stuck}
+              aria-label="回到頁首"
+            >
+              <Image src={mark.src} width={mark.width} height={mark.height} alt={mark.alt} sizes="32px" className="h-8 w-8" />
+            </a>
+          ) : null}
           <div ref={barRef} className="icrm-scroll-x flex flex-1 items-center gap-1 overflow-x-auto py-2.5">
             {links.map((l) => (
               <a

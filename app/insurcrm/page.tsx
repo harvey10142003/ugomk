@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import {
   ArrowRight,
   Ban,
@@ -38,9 +39,14 @@ import { ctaHref, sourceFromPath } from '@/lib/site-source';
 import { site } from '@/lib/data/site';
 import { cn } from '@/lib/utils';
 import {
+  LOGO,
+  LOGO_MARK,
+  OG_IMAGE_PATH,
   PAGE_PATH,
   PHASE_LABEL,
   PRODUCT_NAME,
+  PRODUCT_SUBTITLE,
+  PRODUCT_TAGLINE,
   SOLO_PRICE,
   assistantAbilities,
   assistantPrinciples,
@@ -66,13 +72,15 @@ import { PhoneCarousel } from './_components/PhoneCarousel';
 import { Faq } from './_components/Faq';
 import './insurcrm.css';
 
-const DESCRIPTION = `${PRODUCT_NAME}：為保險業務、銀行理專與通訊處打造的 LINE 官方帳號客戶經營系統。客戶與家庭總覽、跨公司保單整理、生日與農曆節日祝福一鍵確認、每日早報與 AI 業務助理，客戶不用下載 App。現正開放搶先預約。`;
+const DESCRIPTION = `${PRODUCT_NAME}，${PRODUCT_SUBTITLE}。${PRODUCT_TAGLINE}為保險業務、銀行理專與通訊處打造的 LINE 官方帳號客戶經營系統：家庭與保單整理、生日與農曆節日祝福一鍵確認、每日早報與 AI 業務助理，客戶不用下載 App。現正開放搶先預約。`;
 
 export const metadata: Metadata = pageMeta({
   path: PAGE_PATH,
-  title: `${PRODUCT_NAME}｜保險業務的 LINE 客戶經營與 AI 助理`,
+  title: `${PRODUCT_NAME}｜${PRODUCT_SUBTITLE}`,
   description: DESCRIPTION,
-  keywords: ['保險業務 CRM', '保險 LINE 官方帳號', '保險客戶管理', '保單整理', '農曆生日祝福', '理專 客戶管理', 'AI 業務助理', '通訊處 管理系統']
+  // 分享圖：由 logo 原檔以程式合成（淺色底＋logo＋標語），不是全站共用的 og.jpg
+  ogImage: OG_IMAGE_PATH,
+  keywords: [PRODUCT_NAME, '保險業務 CRM', '保險 LINE 官方帳號', '保險客戶管理', '保單整理', '農曆生日祝福', '理專 客戶管理', 'AI 業務助理', '通訊處 管理系統']
 });
 
 /** 站內來源標記：src=insurcrm，pos=按鈕位置（見 lib/site-source.ts，刻意不用 utm_*） */
@@ -117,6 +125,8 @@ const softwareLd = {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: PRODUCT_NAME,
+  alternateName: `${PRODUCT_NAME} ${PRODUCT_SUBTITLE}`,
+  image: absoluteUrl(LOGO.src),
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web, LINE',
   url: absoluteUrl(PAGE_PATH),
@@ -139,7 +149,7 @@ function PhaseChip({ phase, dark = false }: { phase: 1 | 2 | 3; dark?: boolean }
       className={cn(
         'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold',
         dark
-          ? 'border border-[#3FB8C4]/40 bg-[#3FB8C4]/10 text-[#9FE3EA]'
+          ? 'border border-[#1AC6C8]/40 bg-[#1AC6C8]/10 text-[#9FE3EA]'
           : phase === 1
             ? 'border border-brand-200 bg-brand-50 text-brand-800'
             : phase === 2
@@ -189,14 +199,14 @@ export default function InsurCrmPage() {
       />
 
       {/* ── Hero ─────────────────────────────────────────── */}
-      <section className="hero-bg relative overflow-hidden pb-16 pt-28 md:pb-24 md:pt-36">
+      <section id="top" className="hero-bg relative overflow-hidden pb-16 pt-28 md:pb-24 md:pt-36">
         {/* 月相軌道：農曆與時間的識別圖形（裝飾） */}
         <div className="pointer-events-none absolute right-[-180px] top-10 hidden h-[760px] w-[760px] lg:block" aria-hidden>
           <div className="icrm-orbit icrm-orbit-spin inset-0">
             <span className="icrm-orbit-dot bg-[#E9A23B]" />
           </div>
           <div className="icrm-orbit icrm-orbit-spin-rev inset-[90px]">
-            <span className="icrm-orbit-dot bg-[#3FB8C4]" />
+            <span className="icrm-orbit-dot bg-[#1AC6C8]" />
           </div>
           <div className="icrm-orbit inset-[180px] border-solid border-brand-100" />
         </div>
@@ -206,21 +216,31 @@ export default function InsurCrmPage() {
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-white/80 px-3.5 py-1.5 text-xs font-semibold text-brand-800 backdrop-blur" data-reveal>
               <span className="relative inline-flex h-2 w-2">
-                <span className="icrm-pulse-ring absolute inset-0 rounded-full bg-[#3FB8C4]" aria-hidden />
+                <span className="icrm-pulse-ring absolute inset-0 rounded-full bg-[#1AC6C8]" aria-hidden />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1E97A6]" />
               </span>
               搶先預約中．功能分階段推出
             </span>
-            <p className="mt-6 text-sm font-bold tracking-wide text-brand-700" data-reveal style={{ '--d': '60ms' } as React.CSSProperties}>
-              {PRODUCT_NAME}
-            </p>
-            <h1 className="heading-display mt-3 text-balance" data-reveal style={{ '--d': '120ms' } as React.CSSProperties}>
-              每一位客戶的關係，
+            {/* Logo 原檔已含產品名與副標；背景是淺色 hero，去白底後的 PNG 直接放，不會有白框 */}
+            <div className="mt-7" data-reveal style={{ '--d': '60ms' } as React.CSSProperties}>
+              <Image
+                src={LOGO.src}
+                width={LOGO.width}
+                height={LOGO.height}
+                alt={`${PRODUCT_NAME} ${PRODUCT_SUBTITLE}`}
+                priority
+                sizes="(min-width: 640px) 240px, 200px"
+                className="h-auto w-[200px] sm:w-[240px]"
+              />
+            </div>
+            {/* 品牌標語就是主標：它同時回答「這是什麼、對我有什麼好處」，舊的暫定主標退到說明文字裡 */}
+            <h1 className="heading-display mt-6" data-reveal style={{ '--d': '120ms' } as React.CSSProperties}>
+              {PRODUCT_TAGLINE.split('，')[0]}，
               <br />
-              <span className="text-gradient-brand">都在 LINE 裡替你記得</span>
+              <span className="icrm-text-logo">{PRODUCT_TAGLINE.split('，')[1]}</span>
             </h1>
             <p className="body-lg mt-6 max-w-xl" data-reveal style={{ '--d': '200ms' } as React.CSSProperties}>
-              為保險業務與通訊處打造的客戶經營系統。家庭與保單整理、生日與農曆節日祝福一鍵確認、每天早上的早報，再加上一位在
+              每一位客戶的關係，都在 LINE 裡替你記得。家庭與保單整理、生日與農曆節日祝福一鍵確認、每天早上的早報，再加上一位在
               LINE 裡聽你說話的 AI 業務助理。
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3" data-reveal style={{ '--d': '280ms' } as React.CSSProperties}>
@@ -273,7 +293,12 @@ export default function InsurCrmPage() {
         </div>
       </section>
 
-      <SectionNav links={NAV} ctaHref={cta('section_nav')} ctaLabel="搶先試用" />
+      <SectionNav
+        links={NAV}
+        ctaHref={cta('section_nav')}
+        ctaLabel="搶先試用"
+        mark={{ ...LOGO_MARK, alt: PRODUCT_NAME }}
+      />
 
       {/* ── 一天的節奏 ───────────────────────────────────── */}
       <section id="workflow" className="section-tight scroll-mt-36">
@@ -286,7 +311,7 @@ export default function InsurCrmPage() {
           <div className="relative mt-14" data-reveal>
             {/* 進度線（桌機） */}
             <div className="absolute left-0 right-0 top-[22px] hidden h-0.5 bg-brand-100 md:block" aria-hidden>
-              <div className="icrm-progress h-full bg-gradient-to-r from-brand-700 via-[#3FB8C4] to-[#E9A23B]" />
+              <div className="icrm-progress h-full bg-gradient-to-r from-brand-700 via-[#1AC6C8] to-[#E9A23B]" />
             </div>
             <ol className="grid gap-6 md:grid-cols-4">
               {daySteps.map((s, k) => {
@@ -350,7 +375,7 @@ export default function InsurCrmPage() {
             <div className="icrm-grid-dark pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative">
               <div className="flex flex-col items-center text-center" data-reveal>
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#3FB8C4]/40 bg-[#3FB8C4]/10 px-3.5 py-1.5 text-xs font-semibold text-[#9FE3EA]">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#1AC6C8]/40 bg-[#1AC6C8]/10 px-3.5 py-1.5 text-xs font-semibold text-[#9FE3EA]">
                   <Sparkles className="h-3.5 w-3.5" aria-hidden />
                   AI 業務助理．{PHASE_LABEL[2]}推出
                 </span>
@@ -370,11 +395,11 @@ export default function InsurCrmPage() {
                   return (
                     <div
                       key={a.title}
-                      className="group rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#3FB8C4]/50 hover:bg-white/[0.07]"
+                      className="group rounded-3xl border border-white/10 bg-white/[0.04] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#1AC6C8]/50 hover:bg-white/[0.07]"
                       data-reveal
                       style={{ '--d': `${k * 100}ms` } as React.CSSProperties}
                     >
-                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#3FB8C4] to-brand-600 text-white transition-transform duration-300 group-hover:scale-110">
+                      <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1AC6C8] to-[#0B7DB4] text-white transition-transform duration-300 group-hover:scale-110">
                         <Icon className="h-5 w-5" aria-hidden />
                       </span>
                       <h3 className="mt-5 text-lg font-bold text-white">{a.title}</h3>
@@ -390,11 +415,11 @@ export default function InsurCrmPage() {
                 <ol className="mt-6 grid gap-6 md:grid-cols-3">
                   {assistantPrinciples.map((p, k) => (
                     <li key={p.title} className="relative flex gap-4 md:flex-col md:items-center md:text-center">
-                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#3FB8C4]/60 font-mono text-sm font-bold text-white">
+                      <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#1AC6C8]/60 font-mono text-sm font-bold text-white">
                         {k + 1}
                       </span>
                       {k < assistantPrinciples.length - 1 ? (
-                        <span className="absolute left-[calc(50%+32px)] right-[calc(-50%+32px)] top-5 hidden h-px bg-gradient-to-r from-[#3FB8C4]/60 to-transparent md:block" aria-hidden />
+                        <span className="absolute left-[calc(50%+32px)] right-[calc(-50%+32px)] top-5 hidden h-px bg-gradient-to-r from-[#1AC6C8]/60 to-transparent md:block" aria-hidden />
                       ) : null}
                       <div>
                         <div className="font-bold text-white">{p.title}</div>
@@ -731,14 +756,28 @@ export default function InsurCrmPage() {
           <div className="icrm-dark relative overflow-hidden rounded-[2.5rem] px-6 py-14 text-center sm:px-10 md:py-20" data-reveal="zoom">
             <div className="icrm-grid-dark pointer-events-none absolute inset-0" aria-hidden />
             <div className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2" aria-hidden>
-              <div className="icrm-orbit icrm-orbit-spin inset-0 border-[#3FB8C4]/30">
+              <div className="icrm-orbit icrm-orbit-spin inset-0 border-[#1AC6C8]/30">
                 <span className="icrm-orbit-dot bg-[#E9A23B]" />
               </div>
             </div>
             <div className="relative">
-              <h2 className="heading-1 mx-auto max-w-3xl text-balance text-white">讓關係經營，每天早上從一則早報開始</h2>
+              {/* 深色底只放去白底的盾牌圖示（完整 logo 的深色字在深底上看不清楚） */}
+              <Image
+                src={LOGO_MARK.src}
+                width={LOGO_MARK.width}
+                height={LOGO_MARK.height}
+                alt=""
+                aria-hidden
+                sizes="72px"
+                className="mx-auto h-16 w-16 drop-shadow-[0_10px_30px_rgba(26,198,200,0.35)] md:h-[72px] md:w-[72px]"
+              />
+              <h2 className="heading-1 mx-auto mt-6 max-w-3xl text-white">
+                {PRODUCT_TAGLINE.split('，')[0]}，
+                <br />
+                {PRODUCT_TAGLINE.split('，')[1]}
+              </h2>
               <p className="body-lg mx-auto mt-5 max-w-2xl text-balance text-brand-100">
-                {PRODUCT_NAME} 現正開放搶先預約。留下聯絡方式，上線時優先通知你並安排試用。
+                {PRODUCT_NAME}，{PRODUCT_SUBTITLE}，現正開放搶先預約。留下聯絡方式，上線時優先通知你並安排試用。
               </p>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
                 <a href={cta('final_cta')} className="btn bg-white px-7 py-3.5 text-base text-brand-900 hover:-translate-y-0.5 hover:bg-brand-50">
