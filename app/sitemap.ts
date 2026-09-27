@@ -17,9 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     '', '/solutions', '/about', '/pricing', '/cases', '/blog', '/contact',
     '/services/line-marketing', '/services/smart-card', '/services/custom-modules',
-    '/privacy',
-    // 保險業務 CRM 落地頁（2026-09-27 起，產品搶先預約中）
-    '/insurcrm'
+    '/privacy'
   ].map((p) => ({
     url: `${base}${p}`,
     lastModified: at(pageUpdatedAt[p]),

@@ -9,7 +9,8 @@
  *  - 不寫「保證」「穩賺」「最高」「第一」「唯一」這類絕對用語。
  *  - 不提及、不比較任何同業產品名稱。
  *  - 不暗示提供商品推薦或投資建議；缺口分析只說「規則式、不列商品」。
- *  - 2026-09 時點**所有功能都還沒上線**：每一項都要帶 phase，畫面以「搶先預約」為主，
+ *  - 2026-09 時點**所有功能都還沒上線、搶先預約也還沒開放**：每一項都要帶 phase；預約按鈕一律是
+ *    不可點的「搶先預約即將開放」（_components/ComingSoonCta），開放時把它換回連到 /contact 的連結，
  *    不可以寫成「已經有」。上線一項就把那一項的 phase 改成 'live'，再回頭改 FAQ 與 hero 的說法。
  *  - 功能與界線的來源是 line-crm-saas `docs/specs/insurance-agent-module.md`（§0、§5、§10、§12、§13、§14、§6）。
  */
@@ -17,10 +18,7 @@
 /** 品牌（2026-09-27 Shark 定案）。名稱、副標、標語各一個常數，改一處即全頁、metadata、結構化資料同步 */
 export const PRODUCT_NAME = '保客+';
 export const PRODUCT_SHORT = PRODUCT_NAME;
-/**
- * 副標：與 Logo 上的字一致。Shark 打字時曾寫成「保經人的 LINE智慧管家」，兩者不同，待確認；
- * 確認前以 Logo 為準（Logo 圖檔改不了，文字常數跟著圖走才不會畫面上兩種寫法並存）。
- */
+/** 副標：與 Logo 上的字一致 */
 export const PRODUCT_SUBTITLE = '保險人的 LINE 智慧管家';
 export const PRODUCT_TAGLINE = '把繁瑣交給系統，把關係留給你。';
 /** Logo 素材（由原始 PNG 以程式去白底／裁切，見 public/insurcrm/） */
@@ -29,7 +27,7 @@ export const LOGO_MARK = { src: '/insurcrm/baoke-plus-mark.png', width: 251, hei
 export const OG_IMAGE_PATH = '/insurcrm/og-baoke-plus.png';
 export const PAGE_PATH = '/insurcrm';
 
-/** 個人版月費（預計）。價格定案由 billing-ops 決定，改這裡會同步到方案卡、FAQ 與結構化資料 */
+/** 個人版月費（2026-09-27 Shark 定案為正式價格）。改這裡會同步到方案卡、數字區、FAQ 與結構化資料 */
 export const SOLO_PRICE = 900;
 
 export type Phase = 1 | 2 | 3;
@@ -79,7 +77,7 @@ export const facts: { value: number; prefix?: string; suffix?: string; label: st
   { value: 0, suffix: ' 個', label: '客戶要下載的 App', note: '保單總表、祝福、聯絡業務，都在 LINE 裡完成' },
   { value: 6, suffix: ' 個', label: '農曆節日自動換算', note: '春節、元宵、端午、七夕、中秋、重陽，另支援農曆生日' },
   { value: 3, suffix: ' 種', label: '職業別範本', note: '保險業務、銀行理專、獨立理財顧問各有祝福與提醒範本' },
-  { value: SOLO_PRICE, prefix: 'NT$', label: '個人版每月（預計）', note: '自助線上開通，價格以正式上線公告為準' }
+  { value: SOLO_PRICE, prefix: 'NT$', label: '個人版每月', note: '自助線上開通，一個人就能開始用' }
 ];
 
 /* ── 核心功能分頁 ─────────────────────────────────────── */
@@ -306,9 +304,9 @@ export const plans = [
     name: '個人版',
     audience: '保險業務員、銀行理專、獨立理財顧問本人',
     price: SOLO_PRICE,
-    priceNote: '每月（預計），價格以正式上線公告為準',
+    priceNote: '每月，線上自助開通',
     highlight: true,
-    cta: '預約個人版',
+    cta: '個人版',
     points: [
       '使用你自己的 LINE 官方帳號，既有好友直接保留',
       '線上自助開通，LINE 設定精靈一步步帶你完成',
@@ -324,7 +322,7 @@ export const plans = [
     price: null as number | null,
     priceNote: '依團隊規模與導入範圍報價',
     highlight: false,
-    cta: '洽詢團隊版',
+    cta: '團隊版',
     points: [
       '團隊共用一個官方帳號，訊息顯示業務本人名字與頭像',
       '業務、組長、區經理、處經理多層組織與資料可見範圍',
@@ -337,7 +335,7 @@ export const plans = [
 
 /* ── 三步開通 ───────────────────────────────────────── */
 export const onboardingSteps = [
-  { title: '申請搶先試用', body: '留下聯絡方式，我們在上線時優先通知你，並安排試用。' },
+  { title: '搶先預約', body: '預約即將開放。預約後，上線時我們會優先通知你並安排試用。' },
   { title: '接上你的 LINE 官方帳號', body: '設定精靈一步步帶你完成；已經在經營的官方帳號可以直接接，好友不用搬。' },
   { title: '匯入客戶，開始經營', body: '從 Excel 匯入客戶名單或手動建立，隔天早上就會收到早報。' }
 ];
@@ -380,7 +378,7 @@ export const complianceItems: { title: string; body: string; icon: 'heart-off' |
 export const faqs: { q: string; a: string }[] = [
   {
     q: '現在可以開始使用了嗎？',
-    a: `${PRODUCT_NAME} 目前開放搶先預約，功能會分階段推出。首波包含客戶與家庭、保單整理、保障總表、提醒與行事曆、每日早報、生日節日祝福與客戶在 LINE 看保單；AI 個人助理於第二階段加入。預約後我們會在上線時優先通知你並安排試用。`
+    a: `${PRODUCT_NAME} 尚未上線，功能會分階段推出。首波包含客戶與家庭、保單整理、保障總表、提醒與行事曆、每日早報、生日節日祝福與客戶在 LINE 看保單；AI 個人助理於第二階段加入。搶先預約即將開放，想先了解可以用 LINE 詢問我們。`
   },
   {
     q: '我的客戶需要下載 App 嗎？',
@@ -416,6 +414,6 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '費用怎麼計算？',
-    a: `個人版預計每月 NT$${SOLO_PRICE.toLocaleString('en-US')}，團隊版依團隊規模與導入範圍報價。價格以正式上線公告為準，目前不收任何預約費用。`
+    a: `個人版每月 NT$${SOLO_PRICE.toLocaleString('en-US')}；團隊版依規模報價。LINE 官方帳號的訊息費用依你的官方帳號方案由 LINE 計收，不含在月費內。`
   }
 ];

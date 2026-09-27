@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ComingSoonCta } from './ComingSoonCta';
 
 export type NavLink = { id: string; label: string };
 
@@ -14,13 +14,9 @@ export type NavLink = { id: string; label: string };
  */
 export function SectionNav({
   links,
-  ctaHref,
-  ctaLabel,
   mark
 }: {
   links: NavLink[];
-  ctaHref: string;
-  ctaLabel: string;
   /** 黏住後左側顯示的品牌圖示（盾牌），讓捲到頁中段仍認得這是哪個產品 */
   mark?: { src: string; width: number; height: number; alt: string };
 }) {
@@ -126,18 +122,10 @@ export function SectionNav({
               </a>
             ))}
           </div>
-          <a
-            href={ctaHref}
-            className={cn(
-              'hidden shrink-0 items-center gap-1.5 rounded-full bg-brand-800 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-brand-700 sm:inline-flex',
-              stuck ? 'opacity-100' : 'pointer-events-none opacity-0'
-            )}
-            tabIndex={stuck ? 0 : -1}
-            aria-hidden={!stuck}
-          >
-            {ctaLabel}
-            <ArrowRight className="h-4 w-4" aria-hidden />
-          </a>
+          {/* 預約未開放：不可點的狀態，只在黏住後出現，避免首屏重複 */}
+          <span className={cn('hidden shrink-0 transition-opacity duration-300 sm:inline-flex', stuck ? 'opacity-100' : 'opacity-0')} aria-hidden={!stuck}>
+            <ComingSoonCta size="sm" />
+          </span>
         </div>
       </nav>
     </>

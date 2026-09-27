@@ -35,7 +35,6 @@ import {
 import { JsonLd } from '@/components/JsonLd';
 import { pageMeta, absoluteUrl } from '@/lib/seo';
 import { breadcrumbLd, faqPageLd, ORGANIZATION_ID } from '@/lib/jsonld';
-import { ctaHref, sourceFromPath } from '@/lib/site-source';
 import { site } from '@/lib/data/site';
 import { cn } from '@/lib/utils';
 import {
@@ -70,22 +69,29 @@ import { FeatureTabs } from './_components/FeatureTabs';
 import { GreetingDemo } from './_components/GreetingDemo';
 import { PhoneCarousel } from './_components/PhoneCarousel';
 import { Faq } from './_components/Faq';
+import { ComingSoonCta } from './_components/ComingSoonCta';
 import './insurcrm.css';
 
-const DESCRIPTION = `${PRODUCT_NAME}，${PRODUCT_SUBTITLE}。${PRODUCT_TAGLINE}為保險業務、銀行理專與通訊處打造的 LINE 官方帳號客戶經營系統：家庭與保單整理、生日與農曆節日祝福一鍵確認、每日早報與 AI 業務助理，客戶不用下載 App。現正開放搶先預約。`;
+const DESCRIPTION = `${PRODUCT_NAME}，${PRODUCT_SUBTITLE}。${PRODUCT_TAGLINE}為保險業務、銀行理專與通訊處打造的 LINE 官方帳號客戶經營系統：家庭與保單整理、生日與農曆節日祝福一鍵確認、每日早報與 AI 業務助理，客戶不用下載 App。`;
 
-export const metadata: Metadata = pageMeta({
+export const metadata: Metadata = {
+  ...pageMeta({
   path: PAGE_PATH,
   title: `${PRODUCT_NAME}｜${PRODUCT_SUBTITLE}`,
   description: DESCRIPTION,
   // 分享圖：由 logo 原檔以程式合成（淺色底＋logo＋標語），不是全站共用的 og.jpg
   ogImage: OG_IMAGE_PATH,
   keywords: [PRODUCT_NAME, '保險業務 CRM', '保險 LINE 官方帳號', '保險客戶管理', '保單整理', '農曆生日祝福', '理專 客戶管理', 'AI 業務助理', '通訊處 管理系統']
-});
+}),
+  // 產品未上線、預約未開放：先不讓搜尋引擎收錄（也不在 sitemap）。上線時拿掉這一段並把 /insurcrm 加回 app/sitemap.ts
+  robots: { index: false, follow: false }
+};
 
-/** 站內來源標記：src=insurcrm，pos=按鈕位置（見 lib/site-source.ts，刻意不用 utm_*） */
-const SRC = sourceFromPath(PAGE_PATH);
-const cta = (pos: string) => ctaHref('/contact', SRC, pos);
+/*
+ * 搶先預約尚未開放（2026-09-27 Shark）：所有預約按鈕都是不可點的 ComingSoonCta。
+ * 開放時換回連結：ctaHref('/contact', sourceFromPath(PAGE_PATH), '<位置>')（lib/site-source.ts），
+ * 位置沿用 hero / section_nav / differentiators / plan_solo / plan_team / final_cta，名單會帶 src=insurcrm。
+ */
 
 const NAV = [
   { id: 'workflow', label: '一天的節奏' },
@@ -219,7 +225,7 @@ export default function InsurCrmPage() {
                 <span className="icrm-pulse-ring absolute inset-0 rounded-full bg-[#1AC6C8]" aria-hidden />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#1E97A6]" />
               </span>
-              搶先預約中．功能分階段推出
+              即將推出．功能分階段上線
             </span>
             {/* Logo 原檔已含產品名與副標；背景是淺色 hero，去白底後的 PNG 直接放，不會有白框 */}
             <div className="mt-7" data-reveal style={{ '--d': '60ms' } as React.CSSProperties}>
@@ -244,10 +250,7 @@ export default function InsurCrmPage() {
               LINE 裡聽你說話的 AI 業務助理。
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3" data-reveal style={{ '--d': '280ms' } as React.CSSProperties}>
-              <a href={cta('hero')} className="btn-brand px-7 py-3.5 text-base">
-                申請搶先試用
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </a>
+              <ComingSoonCta size="lg" />
               <a href="#features" className="btn-outline px-7 py-3.5 text-base">
                 看完整功能
               </a>
@@ -295,8 +298,6 @@ export default function InsurCrmPage() {
 
       <SectionNav
         links={NAV}
-        ctaHref={cta('section_nav')}
-        ctaLabel="搶先試用"
         mark={{ ...LOGO_MARK, alt: PRODUCT_NAME }}
       />
 
@@ -541,10 +542,7 @@ export default function InsurCrmPage() {
             <p className="body-lg mt-5">
               我們從台灣業務的日常出發：客戶不想多裝一個 App，長輩過農曆生日，而每一則訊息都代表你本人。
             </p>
-            <a href={cta('differentiators')} className="btn-brand mt-8">
-              申請搶先試用
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </a>
+            <ComingSoonCta className="mt-8" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             {differentiators.map((d, k) => {
@@ -649,18 +647,12 @@ export default function InsurCrmPage() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href={cta(`plan_${p.id}`)}
-                  className={cn('mt-8 w-full', p.highlight ? 'btn-brand' : 'btn-outline')}
-                >
-                  {p.cta}
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </a>
+                <ComingSoonCta label={p.cta} className="mt-8 w-full" />
               </div>
             ))}
           </div>
           <p className="mx-auto mt-6 max-w-3xl text-center text-xs leading-relaxed text-ink-500" data-reveal>
-            目前開放搶先預約，不收取任何預約費用。LINE 官方帳號的訊息費用依你的官方帳號方案由 LINE 計收，不含在月費內。
+            搶先預約即將開放。LINE 官方帳號的訊息費用依你的官方帳號方案由 LINE 計收，不含在月費內。
           </p>
         </div>
       </section>
@@ -777,13 +769,10 @@ export default function InsurCrmPage() {
                 {PRODUCT_TAGLINE.split('，')[1]}
               </h2>
               <p className="body-lg mx-auto mt-5 max-w-2xl text-balance text-brand-100">
-                {PRODUCT_NAME}，{PRODUCT_SUBTITLE}，現正開放搶先預約。留下聯絡方式，上線時優先通知你並安排試用。
+                {PRODUCT_NAME}，{PRODUCT_SUBTITLE}。搶先預約即將開放，想先了解可以直接用 LINE 問我們。
               </p>
               <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-                <a href={cta('final_cta')} className="btn bg-white px-7 py-3.5 text-base text-brand-900 hover:-translate-y-0.5 hover:bg-brand-50">
-                  申請搶先試用
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </a>
+                <ComingSoonCta tone="dark" size="lg" />
                 <a href={site.contact.lineUrl} target="_blank" rel="noopener" className="btn-line px-7 py-3.5 text-base">
                   <MessageCircle className="h-4 w-4" aria-hidden />
                   用 LINE 詢問
