@@ -14,6 +14,8 @@ export const INDUSTRY_OPTIONS = [
   { value: 'education', label: '教育 / 課程' },
   { value: 'event', label: '活動 / 展會' },
   { value: 'service', label: '服務業 / 專業顧問' },
+  // 2026-09-27 加：/insurcrm 落地頁導來的名單（保險業務、銀行理專、理財顧問）
+  { value: 'insurance', label: '保險 / 理專 / 理財顧問' },
   { value: 'other', label: '其他' }
 ] as const;
 

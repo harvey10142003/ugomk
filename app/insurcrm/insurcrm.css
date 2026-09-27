@@ -1,0 +1,271 @@
+/*
+ * /insurcrm 落地頁專用樣式（只在這個路由載入，不影響其他頁）。
+ *
+ * 配色沿用 ugomk 品牌青（tailwind.config.ts 的 brand / mint），另加兩個頁面限定 token：
+ *   --icrm-aqua    深色區塊上的發光強調（#3FB8C4，在 brand-950 上對比 7.4:1）
+ *   --icrm-lantern 祝福／農曆的暖色點綴（#E9A23B，只做裝飾與圖示，不承載文字）
+ * LINE 綠仍只用在「與 LINE 有關」的元件（對話氣泡、LINE 按鈕），與全站規則一致。
+ *
+ * 動畫原則：
+ *   - 進場動畫只在 .icrm-motion 存在時生效；這個 class 由 MotionRoot 在
+ *     「有 IntersectionObserver 且使用者沒開減少動態」時才加上。
+ *     沒有 JS、舊瀏覽器、減少動態 → 內容一律直接顯示，不會被藏住。
+ *   - 所有持續性動畫都包在 prefers-reduced-motion: no-preference 裡。
+ */
+
+.icrm-page {
+  --icrm-deep: #022a36;
+  --icrm-teal: #04566b;
+  --icrm-aqua: #3fb8c4;
+  --icrm-lantern: #e9a23b;
+}
+
+/* ── 捲動進場 ─────────────────────────────── */
+.icrm-motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--d, 0ms);
+  will-change: opacity, transform;
+}
+.icrm-motion [data-reveal='left'] {
+  transform: translate3d(-32px, 0, 0);
+}
+.icrm-motion [data-reveal='right'] {
+  transform: translate3d(32px, 0, 0);
+}
+.icrm-motion [data-reveal='zoom'] {
+  transform: scale(0.94);
+}
+.icrm-motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+@media print {
+  .icrm-motion [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ── Hero 背景：月相軌道（農曆＋時間的識別圖形） ─────────── */
+.icrm-orbit {
+  position: absolute;
+  border-radius: 9999px;
+  border: 1px dashed rgba(4, 86, 107, 0.16);
+}
+.icrm-orbit-dot {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  border-radius: 9999px;
+}
+
+/* ── 對話氣泡進場 ─────────────────────────── */
+.icrm-bubble {
+  animation: icrmBubble 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.icrm-typing span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+/* ── 時間軸進度線 ─────────────────────────── */
+.icrm-progress {
+  transform-origin: left center;
+  transform: scaleX(1);
+}
+.icrm-motion .icrm-progress {
+  transform: scaleX(0);
+  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
+}
+.icrm-motion .is-in .icrm-progress {
+  transform: scaleX(1);
+}
+
+/* ── 分頁內容切換 ─────────────────────────── */
+.icrm-panel-in {
+  animation: icrmPanel 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── 方案卡 hover 光暈 ────────────────────── */
+.icrm-plan {
+  position: relative;
+  isolation: isolate;
+}
+.icrm-plan::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(63, 184, 196, 0.7), rgba(4, 86, 107, 0.15) 45%, rgba(233, 162, 59, 0.5));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.icrm-plan:hover::before,
+.icrm-plan:focus-within::before {
+  opacity: 1;
+}
+
+/* ── 手風琴：grid-rows 過渡，內容一直留在 DOM（搜尋引擎讀得到） ── */
+.icrm-acc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.icrm-acc[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.icrm-acc > div {
+  overflow: hidden;
+}
+
+/* ── 深色 AI 區塊背景 ─────────────────────── */
+.icrm-dark {
+  background:
+    radial-gradient(at 12% 0%, rgba(63, 184, 196, 0.22) 0px, transparent 50%),
+    radial-gradient(at 92% 100%, rgba(233, 162, 59, 0.12) 0px, transparent 45%),
+    linear-gradient(160deg, #033d4d 0%, #022a36 70%);
+}
+.icrm-grid-dark {
+  background-image:
+    linear-gradient(rgba(124, 182, 198, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 182, 198, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 75%);
+}
+
+/* 橫向可捲動的區段導覽：隱藏捲軸但保留捲動 */
+.icrm-scroll-x {
+  scrollbar-width: none;
+}
+.icrm-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .icrm-orbit-spin {
+    animation: icrmSpin 60s linear infinite;
+  }
+  .icrm-orbit-spin-rev {
+    animation: icrmSpin 90s linear infinite reverse;
+  }
+  .icrm-float {
+    animation: icrmFloat 6s ease-in-out infinite;
+  }
+  .icrm-float-late {
+    animation: icrmFloat 7s ease-in-out 1.2s infinite;
+  }
+  .icrm-typing span {
+    animation: icrmTyping 1.2s ease-in-out infinite;
+  }
+  .icrm-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .icrm-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  .icrm-pulse-ring {
+    animation: icrmPulseRing 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+  .icrm-scan {
+    animation: icrmScan 2.6s ease-in-out infinite alternate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icrm-bubble,
+  .icrm-panel-in {
+    animation: none;
+  }
+  .icrm-acc {
+    transition: none;
+  }
+}
+
+@keyframes icrmBubble {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes icrmPanel {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes icrmSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes icrmFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes icrmTyping {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+@keyframes icrmPulseRing {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+/* 保單辨識的掃描線 */
+@keyframes icrmScan {
+  from {
+    top: 12%;
+  }
+  to {
+    top: 88%;
+  }
+}
+/* 輪播進度條（只有自動輪播中才會掛上） */
+@keyframes icrmBar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

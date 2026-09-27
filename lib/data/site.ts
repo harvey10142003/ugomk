@@ -97,7 +97,8 @@ export const pageUpdatedAt: Record<string, string> = {
   '/privacy': '2026-09-06',
   '/services/line-marketing': '2026-08-28',
   '/services/smart-card': '2026-08-28',
-  '/services/custom-modules': '2026-08-28'
+  '/services/custom-modules': '2026-08-28',
+  '/insurcrm': '2026-09-27'
 };
 
 export const externalSites = [
