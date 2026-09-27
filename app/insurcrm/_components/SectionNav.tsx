@@ -103,7 +103,7 @@ export function SectionNav({
               aria-hidden={!stuck}
               aria-label="回到頁首"
             >
-              <Image src={mark.src} width={mark.width} height={mark.height} alt={mark.alt} sizes="32px" className="h-8 w-8" />
+              <Image src={mark.src} width={mark.width} height={mark.height} alt={mark.alt} sizes="32px" className="h-8 w-8 object-contain" />
             </a>
           ) : null}
           <div ref={barRef} className="icrm-scroll-x flex flex-1 items-center gap-1 overflow-x-auto py-2.5">

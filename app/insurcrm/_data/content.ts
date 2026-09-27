@@ -21,9 +21,9 @@ export const PRODUCT_SHORT = PRODUCT_NAME;
 /** 副標：與 Logo 上的字一致 */
 export const PRODUCT_SUBTITLE = '保險人的 LINE 智慧管家';
 export const PRODUCT_TAGLINE = '把繁瑣交給系統，把關係留給你。';
-/** Logo 素材（由原始 PNG 以程式去白底／裁切，見 public/insurcrm/） */
-export const LOGO = { src: '/insurcrm/baoke-plus-logo.png', width: 671, height: 251 };
-export const LOGO_MARK = { src: '/insurcrm/baoke-plus-mark.png', width: 251, height: 251 };
+/** Logo 素材：由 Shark 提供的高解析透明 PNG 以程式裁切、縮放（logo 3x、盾牌 256px）；圖檔尺寸改了要同步這裡 */
+export const LOGO = { src: '/insurcrm/baoke-plus-logo.png', width: 720, height: 269 };
+export const LOGO_MARK = { src: '/insurcrm/baoke-plus-mark.png', width: 256, height: 257 };
 export const OG_IMAGE_PATH = '/insurcrm/og-baoke-plus.png';
 export const PAGE_PATH = '/insurcrm';
 
@@ -252,17 +252,29 @@ export type RoadmapIcon =
   | 'chat'
   | 'scan'
   | 'clipboard';
-export const roadmap: { title: string; body: string; phase: Phase; icon: RoadmapIcon; team?: boolean }[] = [
-  { title: '送件／照會進度', body: '記錄送件、照會、補件、承保狀態與期限；只記狀態，不記照會原因。', phase: 2, icon: 'file-check' },
-  { title: '停效與流失燈號', body: '繳費逾期、停效、封鎖、長期無互動等訊號亮燈，只給你本人看，不算分數。', phase: 2, icon: 'traffic' },
-  { title: '合規副駕', body: '訊息送出前提醒誇大或不當的招攬用語，並建議替代說法；只提醒、不代替公司核可。', phase: 2, icon: 'shield' },
-  { title: '年度檢視邀約', body: '保單週年前自動起草邀約，客戶在 LINE 選時段，行程自動建立。', phase: 2, icon: 'calendar-check' },
-  { title: '生命事件雷達', body: '從筆記與對話找出結婚、新生兒、買房、退休等事件，產生建議卡，確認後才寫入。', phase: 2, icon: 'radar' },
-  { title: '數位名片與轉介紹', body: '可分享的 LINE 名片與個人介紹頁，新朋友加好友會記下是誰介紹的。', phase: 2, icon: 'card' },
-  { title: '保單辨識 2.0', body: '多頁上傳、保險存摺截圖、繳費通知單，逐欄信心值，健康告知頁整張捨棄。', phase: 2, icon: 'scan' },
-  { title: '主管 AI 週報', body: '每週整理所轄業務的活動量變化與提醒完成率；只含統計，不含客戶個資，也不對組員打分數。', phase: 2, icon: 'gauge', team: true },
-  { title: '面談需求摘要', body: '面談後整理客戶提到的需求與顧慮，推給客戶確認內容是否正確。', phase: 3, icon: 'clipboard' },
-  { title: '客戶在 LINE 問保單', body: '客戶問「下次繳費是什麼時候」只回保單欄位，不解釋條款；涉及理賠直接轉給你。', phase: 3, icon: 'chat' }
+export type MoreFeatureId =
+  | 'submission'
+  | 'lapse'
+  | 'compliance'
+  | 'review'
+  | 'lifeevent'
+  | 'card'
+  | 'scan'
+  | 'weekly'
+  | 'summary'
+  | 'ask';
+export const roadmap: { id: MoreFeatureId; title: string; body: string; phase: Phase; icon: RoadmapIcon; team?: boolean }[] = [
+  // 畫面上只呈現功能介紹，不顯示推出階段（2026-09-27 Shark）；phase 保留在資料裡供內部排程對照
+  { id: 'submission', title: '送件／照會進度', body: '送出的每一件都知道走到哪。送件、照會、補件與承保狀態一目了然，期限前自動提醒；只記狀態，不記照會原因。', phase: 2, icon: 'file-check' },
+  { id: 'lapse', title: '停效與流失燈號', body: '誰需要你先關心，一眼就看到。繳費逾期、保單停效、長時間沒互動的客戶會亮燈，只給你本人看，不打分數。', phase: 2, icon: 'traffic' },
+  { id: 'compliance', title: '合規副駕', body: '訊息送出前先幫你檢查用語。遇到誇大或不當的招攬字句會提醒並建議替代說法；只提醒，不代替公司核可。', phase: 2, icon: 'shield' },
+  { id: 'review', title: '年度檢視邀約', body: '保單週年前自動擬好邀約，客戶在 LINE 裡選時段，行程直接排進你的行事曆。', phase: 2, icon: 'calendar-check' },
+  { id: 'lifeevent', title: '生命事件雷達', body: '從筆記與對話留意結婚、新生兒、買房、退休等人生大事，提醒你適時關心；你確認後才寫入客戶資料。', phase: 2, icon: 'radar' },
+  { id: 'card', title: '數位名片與轉介紹', body: '一張可分享的 LINE 名片與個人介紹頁，朋友加好友時自動記下是誰介紹的。', phase: 2, icon: 'card' },
+  { id: 'scan', title: '保單辨識進階版', body: '多頁保單、保險存摺截圖、繳費通知單都能辨識，逐欄顯示信心值；健康告知頁會整張捨棄。', phase: 2, icon: 'scan' },
+  { id: 'weekly', title: '主管 AI 週報', body: '每週把團隊活動量與提醒完成率整理給主管；只含統計，不含客戶個資，也不替組員打分數。', phase: 2, icon: 'gauge', team: true },
+  { id: 'summary', title: '面談需求摘要', body: '面談後整理客戶提到的需求與顧慮，傳給客戶確認，雙方對需求的理解一致。', phase: 3, icon: 'clipboard' },
+  { id: 'ask', title: '客戶在 LINE 問保單', body: '客戶問「下次什麼時候繳費」，系統依保單資料回覆；不解釋條款，涉及理賠直接轉給你。', phase: 3, icon: 'chat' }
 ];
 
 /* ── 差異化 ─────────────────────────────────────────── */

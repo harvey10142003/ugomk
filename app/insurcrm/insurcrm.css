@@ -279,3 +279,28 @@
   background-clip: text;
   color: transparent;
 }
+
+/* ── 數位名片翻面示範 ─────────────────────── */
+.icrm-flip {
+  perspective: 1000px;
+}
+.icrm-flip-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.icrm-flip-inner.is-flipped {
+  transform: rotateY(180deg);
+}
+.icrm-face {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.icrm-back {
+  transform: rotateY(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .icrm-flip-inner {
+    transition: none;
+  }
+}

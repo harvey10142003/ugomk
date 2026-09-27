@@ -6,13 +6,9 @@ import {
   Bot,
   BriefcaseBusiness,
   Building2,
-  CalendarCheck,
   CalendarDays,
   Check,
   ClipboardCheck,
-  Contact,
-  FileCheck,
-  Gauge,
   Gift,
   HeartOff,
   Landmark,
@@ -22,13 +18,10 @@ import {
   Mic,
   MoonStar,
   PenLine,
-  Radar,
-  ScanText,
   ShieldCheck,
   Sparkles,
   Sunrise,
   Trash2,
-  TrafficCone,
   UserRound,
   UserRoundCheck
 } from 'lucide-react';
@@ -57,9 +50,7 @@ import {
   heroPoints,
   onboardingSteps,
   personas,
-  plans,
-  roadmap,
-  type RoadmapIcon
+  plans
 } from './_data/content';
 import { MotionRoot } from './_components/MotionRoot';
 import { SectionNav } from './_components/SectionNav';
@@ -70,6 +61,7 @@ import { GreetingDemo } from './_components/GreetingDemo';
 import { PhoneCarousel } from './_components/PhoneCarousel';
 import { Faq } from './_components/Faq';
 import { ComingSoonCta } from './_components/ComingSoonCta';
+import { MoreFeatures } from './_components/MoreFeatures';
 import './insurcrm.css';
 
 const DESCRIPTION = `${PRODUCT_NAME}，${PRODUCT_SUBTITLE}。${PRODUCT_TAGLINE}為保險業務、銀行理專與通訊處打造的 LINE 官方帳號客戶經營系統：家庭與保單整理、生日與農曆節日祝福一鍵確認、每日早報與 AI 業務助理，客戶不用下載 App。`;
@@ -98,7 +90,7 @@ const NAV = [
   { id: 'features', label: '核心功能' },
   { id: 'assistant', label: 'AI 助理' },
   { id: 'greeting', label: '祝福示範' },
-  { id: 'roadmap', label: '更多功能' },
+  { id: 'more-features', label: '更多功能' },
   { id: 'plans', label: '方案' },
   { id: 'compliance', label: '合規與資料' },
   { id: 'faq', label: '常見問題' }
@@ -106,19 +98,6 @@ const NAV = [
 
 const DAY_ICONS = { sunrise: Sunrise, gift: Gift, mic: Mic, calendar: CalendarDays };
 const ASSIST_ICONS = { sunrise: Sunrise, pen: PenLine, mic: Mic, chat: MessagesSquare };
-const ROADMAP_ICONS: Record<RoadmapIcon, typeof Radar> = {
-  'file-check': FileCheck,
-  traffic: TrafficCone,
-  shield: ShieldCheck,
-  'calendar-check': CalendarCheck,
-  radar: Radar,
-  card: Contact,
-  share: Contact,
-  gauge: Gauge,
-  chat: MessagesSquare,
-  scan: ScanText,
-  clipboard: ClipboardCheck
-};
 const DIFF_ICONS = { line: MessageCircle, user: UserRoundCheck, moon: MoonStar, shield: ShieldCheck };
 const PERSONA_ICONS = { shield: ShieldCheck, landmark: Landmark, briefcase: BriefcaseBusiness, building: Building2 };
 const COMPLIANCE_ICONS = { 'heart-off': HeartOff, lock: LockKeyhole, check: ClipboardCheck, trash: Trash2, ai: Bot, ban: Ban };
@@ -148,25 +127,6 @@ const softwareLd = {
     url: absoluteUrl(PAGE_PATH)
   }
 };
-
-function PhaseChip({ phase, dark = false }: { phase: 1 | 2 | 3; dark?: boolean }) {
-  return (
-    <span
-      className={cn(
-        'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold',
-        dark
-          ? 'border border-[#1AC6C8]/40 bg-[#1AC6C8]/10 text-[#9FE3EA]'
-          : phase === 1
-            ? 'border border-brand-200 bg-brand-50 text-brand-800'
-            : phase === 2
-              ? 'border border-mint-300 bg-mint-50 text-brand-800'
-              : 'border border-ink-200 bg-mist-200 text-ink-600'
-      )}
-    >
-      {PHASE_LABEL[phase]}
-    </span>
-  );
-}
 
 function SectionHead({
   eyebrow,
@@ -227,7 +187,7 @@ export default function InsurCrmPage() {
               </span>
               即將推出．功能分階段上線
             </span>
-            {/* Logo 原檔已含產品名與副標；背景是淺色 hero，去白底後的 PNG 直接放，不會有白框 */}
+            {/* Logo 已含產品名與副標；透明背景 PNG，放在淺色 hero 上 */}
             <div className="mt-7" data-reveal style={{ '--d': '60ms' } as React.CSSProperties}>
               <Image
                 src={LOGO.src}
@@ -483,49 +443,15 @@ export default function InsurCrmPage() {
         </div>
       </section>
 
-      {/* ── 更多功能（分階段） ───────────────────────────── */}
-      <section id="roadmap" className="section-tight scroll-mt-36">
+      {/* ── 更多功能（功能介紹；不標示推出階段） ───────────────── */}
+      <section id="more-features" className="section-tight scroll-mt-36">
         <div className="container-ug">
           <SectionHead
-            eyebrow="分階段推出"
-            title="接下來還會加入的功能"
-            lead="以下功能依序於第二、第三階段推出。每一項都遵守同一個原則：AI 只給建議，由你確認，全程留痕。"
+            eyebrow="更多功能"
+            title="更多讓你事半功倍的功能"
+            lead="從送件追蹤、客戶關懷到團隊管理，把業務日常的細節照顧好。每一項都遵守同一個原則：AI 只給建議，由你確認，全程留痕。"
           />
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-xs" data-reveal>
-            <PhaseChip phase={1} />
-            <span className="text-ink-400">核心功能</span>
-            <span className="mx-2 h-3 w-px bg-ink-200" aria-hidden />
-            <PhaseChip phase={2} />
-            <span className="text-ink-400">AI 助理與進階經營</span>
-            <span className="mx-2 h-3 w-px bg-ink-200" aria-hidden />
-            <PhaseChip phase={3} />
-            <span className="text-ink-400">客戶端延伸</span>
-          </div>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {roadmap.map((r, k) => {
-              const Icon = ROADMAP_ICONS[r.icon];
-              return (
-                <li
-                  key={r.title}
-                  className="card-hover group p-6"
-                  data-reveal
-                  style={{ '--d': `${(k % 3) * 90}ms` } as React.CSSProperties}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-50 text-brand-700 transition-colors duration-300 group-hover:bg-brand-800 group-hover:text-white">
-                      <Icon className="h-5 w-5" aria-hidden />
-                    </span>
-                    <div className="flex flex-wrap justify-end gap-1.5">
-                      {r.team ? <span className="chip-ink">團隊版</span> : null}
-                      <PhaseChip phase={r.phase} />
-                    </div>
-                  </div>
-                  <h3 className="mt-5 text-base font-bold text-ink-900">{r.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-600">{r.body}</p>
-                </li>
-              );
-            })}
-          </ul>
+          <MoreFeatures />
         </div>
       </section>
 
@@ -753,7 +679,7 @@ export default function InsurCrmPage() {
               </div>
             </div>
             <div className="relative">
-              {/* 深色底只放去白底的盾牌圖示（完整 logo 的深色字在深底上看不清楚） */}
+              {/* 深色底只放盾牌圖示（完整 logo 的深色字在深底上看不清楚） */}
               <Image
                 src={LOGO_MARK.src}
                 width={LOGO_MARK.width}
@@ -761,7 +687,7 @@ export default function InsurCrmPage() {
                 alt=""
                 aria-hidden
                 sizes="72px"
-                className="mx-auto h-16 w-16 drop-shadow-[0_10px_30px_rgba(26,198,200,0.35)] md:h-[72px] md:w-[72px]"
+                className="mx-auto h-16 w-16 object-contain drop-shadow-[0_10px_30px_rgba(26,198,200,0.35)] md:h-[72px] md:w-[72px]"
               />
               <h2 className="heading-1 mx-auto mt-6 max-w-3xl text-white">
                 {PRODUCT_TAGLINE.split('，')[0]}，
