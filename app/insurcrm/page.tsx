@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     ogImage: OG_IMAGE_PATH,
     keywords: [PRODUCT_NAME, '保險業務 CRM', '保險 LINE 官方帳號', '保險客戶管理', '保單整理', '農曆生日祝福', '理專 客戶管理', 'AI 業務助理', '通訊處 管理系統']
   }),
-  // 產品未上線、預約未開放：先不讓搜尋引擎收錄（也不在 sitemap）。上線時拿掉這一段並把 /insurcrm 加回 app/sitemap.ts
+  // 預約未開放：先不讓搜尋引擎收錄（也不在 sitemap）。正式開放時拿掉這一段並把 /insurcrm 加回 app/sitemap.ts
   robots: { index: false, follow: false }
 };
 
@@ -57,7 +57,8 @@ export const metadata: Metadata = {
  */
 
 /**
- * SoftwareApplication：產品尚未上線，availability 用 PreOrder，價格只宣告個人版（團隊版是洽詢）。
+ * SoftwareApplication：價格只宣告個人版（團隊版是洽詢）。
+ * 不宣告 availability（2026-09-28 Shark：頁面不寫上線狀態；原本的 PreOrder 也是一種上線狀態宣告）。
  * 名稱讀 PRODUCT_NAME，改名時自動一致。
  */
 const softwareLd = {
@@ -77,7 +78,6 @@ const softwareLd = {
     name: '個人版',
     price: SOLO_PRICE,
     priceCurrency: 'TWD',
-    availability: 'https://schema.org/PreOrder',
     url: absoluteUrl(PAGE_PATH)
   }
 };
@@ -170,7 +170,7 @@ export default function InsurCrmPage() {
               </a>
             </div>
             <p className="icrm-small mt-6">
-              {hero.status}．個人版 <span className="icrm-num font-bold text-[color:var(--icrm-ink)]">NT${SOLO_PRICE.toLocaleString('en-US')}</span>／月
+              個人版 <span className="icrm-num font-bold text-[color:var(--icrm-ink)]">NT${SOLO_PRICE.toLocaleString('en-US')}</span>／月
             </p>
           </div>
           <div className="icrm-hero-visual">
