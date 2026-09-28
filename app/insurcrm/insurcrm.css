@@ -1,45 +1,1166 @@
 /*
  * /insurcrm 落地頁專用樣式（只在這個路由載入，不影響其他頁）。
  *
- * 配色沿用 ugomk 品牌青（tailwind.config.ts 的 brand / mint），另加兩個頁面限定 token：
- *   --icrm-aqua    深色區塊上的發光強調（#1AC6C8，取自保客+ logo 的青綠端，在 brand-950 上對比 7.2:1）
- *   --icrm-sky     logo 漸層的藍端（#0199DA），只用在漸層與圖示
- *   --icrm-lantern 祝福／農曆的暖色點綴（#E9A23B，只做裝飾與圖示，不承載文字）
- * LINE 綠仍只用在「與 LINE 有關」的元件（對話氣泡、LINE 按鈕），與全站規則一致。
+ * 設計方向「業務手帳的一天」（2026-09-28 改版）：
+ *   首屏是一張撕日曆（農民曆格式），往下是手帳的時間欄，一個時段一段產品畫面。
+ *
+ * 色票 —— 全部從保客+ logo 取色，另加一個曆朱：
+ *   --icrm-ink    #0F2A33  墨：文字與深色區塊（logo 深青壓暗）
+ *   --icrm-teal   #006E8C  保客青：logo 主色，連結、線條、介面框（白底對比 5.6:1）
+ *   --icrm-aqua   #00BFB3  浪綠：logo 綠端，只用在深色底或當填色，不當白底文字
+ *   --icrm-paper  #F3F6F5  紙：頁面底色（冷調，不用米黃）
+ *   --icrm-red    #B3342B  曆朱：只給農曆／節日／宜忌與「不做」的印記（白底對比 5.9:1）
+ * LINE 綠只出現在 LINE 介面示範裡。
+ *
+ * 字型：標題 Noto Serif TC 700、手寫註記 LXGW WenKai TC（兩者都是本頁用字子集，見 scripts/insurcrm-fonts.mjs），
+ * 內文沿用全站 Noto Sans TC，時間與數字用 Inter 等寬數字。
  *
  * 動畫原則：
- *   - 進場動畫只在 .icrm-motion 存在時生效；這個 class 由 MotionRoot 在
- *     「有 IntersectionObserver 且使用者沒開減少動態」時才加上。
- *     沒有 JS、舊瀏覽器、減少動態 → 內容一律直接顯示，不會被藏住。
- *   - 所有持續性動畫都包在 prefers-reduced-motion: no-preference 裡。
+ *   - 進場動畫只在 .icrm-motion 存在時生效（MotionRoot 在有 IntersectionObserver 且沒開減少動態時才加）。
+ *   - 首屏撕日曆只播一次；減少動態時前一天那張直接不顯示。
  */
 
-.icrm-page {
-  --icrm-deep: #022a36;
-  --icrm-teal: #04566b;
-  --icrm-aqua: #1ac6c8;
-  --icrm-sky: #0199da;
-  --icrm-lantern: #e9a23b;
+@font-face {
+  font-family: 'ICRM Serif';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(/insurcrm/fonts/serif-700.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'ICRM Hand';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(/insurcrm/fonts/hand-400.woff2) format('woff2');
 }
 
-/* ── 捲動進場 ─────────────────────────────── */
+.icrm-page {
+  --icrm-ink: #0f2a33;
+  --icrm-ink-2: #3c555d;
+  --icrm-ink-3: #5d7379;
+  --icrm-teal: #006e8c;
+  --icrm-teal-2: #005670;
+  --icrm-aqua: #00bfb3;
+  --icrm-paper: #f3f6f5;
+  --icrm-sheet: #ffffff;
+  --icrm-rule: #d6e0df;
+  --icrm-rule-2: #e6ecec;
+  --icrm-tint: #e5f2f3;
+  --icrm-red: #b3342b;
+  --icrm-line: #06c755;
+  --icrm-serif: 'ICRM Serif', 'Noto Serif TC', var(--font-noto-sans-tc), serif;
+  --icrm-hand: 'ICRM Hand', 'LXGW WenKai TC', 'Kaiti TC', 'DFKai-SB', serif;
+  --icrm-num: var(--font-inter), var(--font-noto-sans-tc), system-ui, sans-serif;
+
+  background: var(--icrm-paper);
+  color: var(--icrm-ink);
+  font-size: 17px;
+  line-height: 1.8;
+  letter-spacing: 0.02em;
+  /* 中英混排自動加間距、行首標點擠壓（支援的瀏覽器才生效，不支援就是原樣） */
+  text-autospace: normal;
+  text-spacing-trim: trim-start;
+}
+.icrm-page ::selection {
+  background: #bfe6e6;
+}
+.icrm-page :focus-visible {
+  outline: 2px solid var(--icrm-teal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.icrm-wrap {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+@media (min-width: 768px) {
+  .icrm-wrap {
+    padding: 0 40px;
+  }
+}
+
+/* ── 字 ─────────────────────────────── */
+.icrm-serif {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  font-feature-settings: 'palt';
+}
+.icrm-h1 {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: clamp(2.35rem, 1.5rem + 3.1vw, 4.1rem);
+  line-height: 1.22;
+  letter-spacing: 0.02em;
+  font-feature-settings: 'palt';
+}
+.icrm-h2 {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: clamp(1.85rem, 1.3rem + 2vw, 2.9rem);
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  font-feature-settings: 'palt';
+  text-wrap: balance;
+}
+.icrm-h3 {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.15rem + 0.9vw, 1.85rem);
+  line-height: 1.4;
+  font-feature-settings: 'palt';
+  text-wrap: balance;
+}
+.icrm-lead {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--icrm-ink-2);
+  max-width: 34em;
+  text-wrap: pretty;
+}
+.icrm-body {
+  color: var(--icrm-ink-2);
+  max-width: 32em;
+  text-wrap: pretty;
+}
+.icrm-small {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--icrm-ink-3);
+}
+.icrm-num {
+  font-family: var(--icrm-num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.icrm-hand {
+  font-family: var(--icrm-hand);
+  color: var(--icrm-teal-2);
+  letter-spacing: 0.04em;
+}
+.icrm-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--icrm-teal);
+}
+.icrm-kicker::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+}
+
+/* ── 階段標記：首波實心、第二階段外框、第三階段虛線框 ─── */
+.icrm-phase {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.icrm-phase[data-phase='1'] {
+  background: var(--icrm-teal);
+  color: #fff;
+}
+.icrm-phase[data-phase='2'] {
+  border: 1.5px solid var(--icrm-teal);
+  color: var(--icrm-teal-2);
+}
+.icrm-phase[data-phase='3'] {
+  border: 1.5px dashed var(--icrm-ink-3);
+  color: var(--icrm-ink-2);
+}
+.icrm-team {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--icrm-rule-2);
+  color: var(--icrm-ink-2);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── 按鈕 ───────────────────────────── */
+.icrm-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-weight: 700;
+  color: var(--icrm-teal);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: color 0.2s;
+}
+.icrm-link:hover {
+  color: var(--icrm-ink);
+}
+.icrm-btn-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 8px;
+  background: #067a3a;
+  color: #fff;
+  font-weight: 700;
+  transition: background 0.2s, transform 0.2s;
+}
+.icrm-btn-line:hover {
+  background: #05652f;
+  transform: translateY(-1px);
+}
+
+/* ── 首屏 ───────────────────────────── */
+.icrm-hero {
+  position: relative;
+  padding: 116px 0 72px;
+  overflow: hidden;
+}
+@media (min-width: 1024px) {
+  .icrm-hero {
+    padding: 148px 0 104px;
+  }
+}
+.icrm-hero-grid {
+  display: grid;
+  gap: 56px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .icrm-hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    gap: 48px;
+  }
+}
+
+/* 撕日曆 */
+.icrm-pad {
+  position: relative;
+  width: min(100%, 400px);
+  margin: 0 auto;
+  padding-top: 18px;
+}
+.icrm-pad-binding {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  right: 10px;
+  height: 26px;
+  border-radius: 6px 6px 2px 2px;
+  background: var(--icrm-ink);
+  z-index: 3;
+}
+.icrm-pad-binding::before,
+.icrm-pad-binding::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--icrm-paper);
+}
+.icrm-pad-binding::before {
+  left: 28%;
+}
+.icrm-pad-binding::after {
+  right: 28%;
+}
+.icrm-pad-stack {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: -6px;
+  top: 30px;
+  border-radius: 0 0 6px 6px;
+  background: var(--icrm-sheet);
+  box-shadow: 0 1px 0 var(--icrm-rule), 0 4px 0 -1px #fff, 0 5px 0 -1px var(--icrm-rule), 0 24px 48px -24px rgba(15, 42, 51, 0.35);
+}
+.icrm-sheet {
+  position: relative;
+  z-index: 2;
+  background: var(--icrm-sheet);
+  border-radius: 0 0 6px 6px;
+  padding: 30px 26px 0;
+  box-shadow: 0 1px 2px rgba(15, 42, 51, 0.06);
+}
+.icrm-sheet-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--icrm-rule);
+  font-weight: 700;
+  color: var(--icrm-ink-2);
+}
+.icrm-sheet-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 0 4px;
+}
+.icrm-sheet-day {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: clamp(8rem, 6rem + 8vw, 10.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--icrm-red);
+  text-align: center;
+  font-variant-numeric: lining-nums;
+}
+.icrm-sheet-lunar {
+  writing-mode: vertical-rl;
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.2em;
+  color: var(--icrm-ink);
+  border-left: 1px solid var(--icrm-rule);
+  padding-left: 12px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.icrm-sheet-lunar b {
+  color: var(--icrm-red);
+  margin-top: 0.6em;
+}
+.icrm-sheet-yiji {
+  display: grid;
+  gap: 8px;
+  padding: 14px 0 18px;
+  border-top: 1px solid var(--icrm-rule);
+}
+.icrm-sheet-yiji li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.icrm-seal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  font-family: var(--icrm-hand);
+  font-size: 15px;
+  line-height: 1;
+  color: #fff;
+  background: var(--icrm-red);
+}
+.icrm-seal[data-kind='ji'] {
+  background: var(--icrm-ink);
+}
+.icrm-sheet-perf {
+  position: relative;
+  height: 1px;
+  margin: 0 -26px;
+  background-image: linear-gradient(90deg, var(--icrm-rule) 50%, transparent 50%);
+  background-size: 8px 1px;
+}
+.icrm-sheet-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 -26px;
+  padding: 14px 20px;
+  background: var(--icrm-tint);
+  border-radius: 0 0 6px 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--icrm-teal-2);
+}
+.icrm-line-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--icrm-line);
+  color: #fff;
+  flex-shrink: 0;
+}
+/* 前一天那張：載入後撕掉 */
+.icrm-sheet-prev {
+  position: absolute;
+  z-index: 4;
+  top: 18px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--icrm-sheet);
+  border-radius: 0 0 6px 6px;
+  padding: 30px 26px 0;
+  transform-origin: 12% 0%;
+  pointer-events: none;
+  box-shadow: 0 10px 30px -12px rgba(15, 42, 51, 0.3);
+}
+.icrm-sheet-prev .icrm-sheet-day {
+  color: var(--icrm-ink);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .icrm-sheet-prev {
+    animation: icrmTear 1.1s cubic-bezier(0.55, 0, 0.3, 1) 0.9s both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .icrm-sheet-prev {
+    display: none;
+  }
+}
+@keyframes icrmTear {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  22% {
+    transform: rotate(-3deg) translate3d(-4px, 4px, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(-24deg) translate3d(-120px, 260px, 0);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* ── 一天的時間軸 ───────────────────── */
+.icrm-day-head {
+  display: grid;
+  gap: 16px;
+  padding: 88px 0 40px;
+  border-top: 1px solid var(--icrm-rule);
+}
+@media (min-width: 1024px) {
+  .icrm-day-head {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: end;
+    gap: 48px;
+    padding: 96px 0 40px;
+  }
+}
+.icrm-entry {
+  position: relative;
+  display: grid;
+  gap: 20px;
+  padding: 40px 0 56px 28px;
+}
+.icrm-entry::before {
+  /* 手帳的時間欄線 */
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--icrm-rule);
+}
+.icrm-entry::after {
+  /* 時間欄線上的時刻點（實心，與時間數字垂直置中） */
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 53px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--icrm-teal);
+  box-shadow: 0 0 0 4px var(--icrm-paper);
+}
+.icrm-entry:first-of-type::before {
+  top: 58px;
+}
+@media (min-width: 1024px) {
+  .icrm-entry {
+    grid-template-columns: 168px minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: 40px;
+    padding: 56px 0 88px;
+  }
+  .icrm-entry::before {
+    left: 150px;
+  }
+  .icrm-entry::after {
+    left: 146px;
+    top: 74px;
+  }
+  .icrm-entry:first-of-type::before {
+    top: 78px;
+  }
+}
+.icrm-time {
+  align-self: start;
+}
+@media (min-width: 1024px) {
+  .icrm-time {
+    position: sticky;
+    top: 104px;
+    text-align: right;
+    padding-right: 36px;
+  }
+}
+.icrm-time-num {
+  display: block;
+  font-family: var(--icrm-num);
+  font-variant-numeric: tabular-nums;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--icrm-teal);
+}
+@media (min-width: 1024px) {
+  .icrm-time-num {
+    font-size: 2.75rem;
+  }
+}
+.icrm-time-moment {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--icrm-ink-3);
+}
+.icrm-items {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+  border-top: 1px solid var(--icrm-rule);
+  padding-top: 18px;
+}
+.icrm-items li {
+  text-wrap: pretty;
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 12px;
+  align-items: start;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--icrm-ink-2);
+}
+.icrm-items li > span:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-top: 2px;
+}
+.icrm-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.2rem);
+  line-height: 1.4;
+  transform: rotate(-2deg);
+  transform-origin: left center;
+  margin: 0 0 14px 8px;
+}
+.icrm-note svg {
+  flex-shrink: 0;
+}
+
+/* ── 照片＋產品畫面疊放：照片給情境，畫面疊在前面當主角 ── */
+.icrm-stage-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+.icrm-stage {
+  position: relative;
+}
+.icrm-stage .icrm-stage-photo {
+  width: 88%;
+  aspect-ratio: 3 / 2;
+}
+.icrm-stage-over {
+  position: relative;
+  margin: -96px 0 0 12%;
+}
+@media (max-width: 639px) {
+  .icrm-stage .icrm-stage-photo {
+    width: 100%;
+  }
+  .icrm-stage-over {
+    margin: -48px 0 0 16px;
+  }
+}
+.icrm-client-stage {
+  position: relative;
+}
+.icrm-client-stage .icrm-stage-photo {
+  width: 84%;
+  aspect-ratio: 3 / 2;
+}
+/* 手機疊在照片右下（街道那一側），不遮住人物的臉 */
+.icrm-client-phone {
+  position: relative;
+  z-index: 1;
+  width: min(52%, 290px);
+  margin: -24% 0 0 auto;
+}
+@media (max-width: 639px) {
+  .icrm-client-stage .icrm-stage-photo {
+    width: 100%;
+  }
+  .icrm-client-phone {
+    width: min(80%, 290px);
+    margin: -22% auto 0;
+  }
+}
+
+/* ── 產品畫面共用 ───────────────────── */
+.icrm-screen {
+  background: var(--icrm-sheet);
+  border: 1px solid var(--icrm-rule);
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(15, 42, 51, 0.05), 0 18px 40px -28px rgba(15, 42, 51, 0.35);
+  overflow: hidden;
+}
+.icrm-mock-caption {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--icrm-ink-3);
+}
+/* LINE 對話 */
+.icrm-chat {
+  max-width: 400px;
+}
+.icrm-chat-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--icrm-rule-2);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.icrm-chat-bar img {
+  border-radius: 50%;
+  background: var(--icrm-tint);
+}
+.icrm-chat-body {
+  display: grid;
+  gap: 12px;
+  padding: 18px 14px 20px;
+  background: #e8eef2;
+}
+.icrm-bubble-in {
+  justify-self: start;
+  max-width: 88%;
+}
+.icrm-bubble-out {
+  justify-self: end;
+  max-width: 82%;
+  padding: 9px 13px;
+  border-radius: 16px 16px 4px 16px;
+  background: #c4efa4;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #13240c;
+}
+.icrm-flex {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  box-shadow: 0 1px 1px rgba(15, 42, 51, 0.06);
+}
+.icrm-flex-head {
+  padding: 12px 14px 10px;
+  background: var(--icrm-teal);
+  color: #fff;
+}
+.icrm-flex-head b {
+  display: block;
+  font-size: 0.95rem;
+}
+.icrm-flex-head span {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+.icrm-flex-row {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 8px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--icrm-rule-2);
+}
+.icrm-flex-row em {
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--icrm-teal);
+}
+.icrm-flex-btn {
+  display: block;
+  margin: 10px 12px 12px;
+  padding: 9px;
+  border-radius: 8px;
+  background: var(--icrm-tint);
+  text-align: center;
+  font-weight: 700;
+  color: var(--icrm-teal-2);
+}
+.icrm-flex-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 10px 12px 12px;
+}
+.icrm-flex-actions span {
+  padding: 8px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: var(--icrm-tint);
+  color: var(--icrm-teal-2);
+}
+.icrm-flex-actions span:first-child {
+  background: var(--icrm-teal);
+  color: #fff;
+}
+.icrm-draft-tag {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--icrm-rule);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--icrm-ink-3);
+}
+
+/* 家庭保障總表 */
+.icrm-family {
+  padding: 20px 20px 18px;
+}
+.icrm-family-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--icrm-ink);
+}
+.icrm-family table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+.icrm-family th,
+.icrm-family td {
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--icrm-rule-2);
+  text-align: left;
+  vertical-align: top;
+}
+.icrm-family thead th {
+  font-weight: 700;
+  color: var(--icrm-ink);
+}
+.icrm-family thead th small {
+  display: block;
+  font-weight: 500;
+  font-size: 11px;
+  color: var(--icrm-ink-3);
+}
+.icrm-family tbody th {
+  font-weight: 700;
+  color: var(--icrm-ink-2);
+  width: 56px;
+}
+.icrm-gap {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1.5px solid var(--icrm-red);
+  color: var(--icrm-red);
+  font-weight: 700;
+  font-size: 12px;
+}
+.icrm-family-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  padding-top: 12px;
+  font-size: 12px;
+  color: var(--icrm-ink-3);
+}
+
+/* 手機日曆（iCal） */
+.icrm-cal {
+  max-width: 380px;
+}
+.icrm-cal-head {
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--icrm-rule-2);
+}
+.icrm-cal-row {
+  display: grid;
+  grid-template-columns: 56px 4px 1fr;
+  gap: 12px;
+  align-items: stretch;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--icrm-rule-2);
+  font-size: 0.9rem;
+}
+.icrm-cal-row i {
+  border-radius: 2px;
+  background: var(--icrm-teal);
+}
+.icrm-cal-row[data-kind='greet'] i {
+  background: var(--icrm-red);
+}
+
+/* 通知 + 回覆被擋 */
+.icrm-toast {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--icrm-rule);
+  box-shadow: 0 12px 28px -18px rgba(15, 42, 51, 0.5);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.icrm-compose {
+  margin-top: 14px;
+  padding: 14px;
+}
+.icrm-compose-field {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--icrm-red);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  background: #fff;
+}
+.icrm-compose-field mark {
+  background: #f7dcd8;
+  color: var(--icrm-red);
+  border-radius: 3px;
+  padding: 0 2px;
+}
+.icrm-compose-alert {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--icrm-red);
+  font-weight: 700;
+}
+
+/* 客戶端手機 */
+.icrm-phone {
+  width: 100%;
+  border: 9px solid var(--icrm-ink);
+  border-radius: 40px;
+  background: var(--icrm-sheet);
+  overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(15, 42, 51, 0.5);
+}
+.icrm-phone-top {
+  padding: 18px 18px 14px;
+  background: var(--icrm-teal);
+  color: #fff;
+}
+.icrm-policy {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--icrm-rule-2);
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+/* ── 客戶那一端 ─────────────────────── */
+.icrm-client {
+  padding: 96px 0;
+  background: var(--icrm-sheet);
+  border-top: 1px solid var(--icrm-rule);
+  border-bottom: 1px solid var(--icrm-rule);
+}
+.icrm-client-grid {
+  display: grid;
+  gap: 48px;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .icrm-client-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 72px;
+  }
+}
+
+/* ── 合規（本頁唯一深色區） ─────────── */
+.icrm-dark {
+  background: var(--icrm-ink);
+  color: #e3ecec;
+  padding: 104px 0;
+}
+.icrm-dark .icrm-kicker {
+  color: var(--icrm-aqua);
+}
+.icrm-dark-muted {
+  color: #a9bfc1;
+}
+.icrm-rules {
+  display: grid;
+  gap: 0;
+  margin-top: 56px;
+  border-top: 1px solid rgba(227, 236, 236, 0.16);
+}
+@media (min-width: 768px) {
+  .icrm-rules {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+  }
+}
+@media (min-width: 1200px) {
+  .icrm-rules {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.icrm-rules li {
+  padding: 26px 0 30px;
+  border-bottom: 1px solid rgba(227, 236, 236, 0.16);
+}
+.icrm-rules h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+.icrm-rules p {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #a9bfc1;
+}
+.icrm-donts {
+  display: grid;
+  gap: 24px;
+  margin-top: 48px;
+  padding: 28px;
+  border: 1px solid rgba(227, 236, 236, 0.2);
+  border-radius: 10px;
+}
+@media (min-width: 1024px) {
+  .icrm-donts {
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+  }
+}
+.icrm-donts ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+}
+.icrm-donts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-weight: 500;
+}
+.icrm-dark .icrm-team {
+  background: rgba(227, 236, 236, 0.14);
+  color: #d5e3e3;
+}
+
+/* ── 功能 × 階段 ─────────────────────── */
+.icrm-roadmap {
+  padding: 104px 0;
+}
+.icrm-phases {
+  display: grid;
+  gap: 40px;
+  margin-top: 48px;
+}
+@media (min-width: 1024px) {
+  .icrm-phases {
+    grid-template-columns: 1.15fr 1.15fr 0.9fr;
+    gap: 40px;
+  }
+}
+.icrm-phase-col h3 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--icrm-ink);
+}
+.icrm-phase-col li {
+  display: grid;
+  grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr);
+  gap: 4px 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--icrm-rule);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.icrm-phase-col li b {
+  font-weight: 700;
+  color: var(--icrm-ink);
+}
+.icrm-phase-col li span {
+  color: var(--icrm-ink-3);
+}
+
+/* ── 方案 ───────────────────────────── */
+.icrm-plans {
+  padding: 104px 0;
+  background: var(--icrm-sheet);
+  border-top: 1px solid var(--icrm-rule);
+}
+.icrm-plan-table {
+  margin-top: 48px;
+  border-top: 2px solid var(--icrm-ink);
+}
+.icrm-plan-row {
+  display: grid;
+  gap: 6px 32px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--icrm-rule);
+}
+@media (min-width: 768px) {
+  .icrm-plan-row {
+    grid-template-columns: 170px 1fr 1fr;
+    align-items: start;
+  }
+}
+.icrm-plan-row > div:first-child {
+  font-weight: 700;
+  color: var(--icrm-ink-3);
+  font-size: 0.9rem;
+}
+.icrm-plan-cell {
+  display: grid;
+  grid-template-columns: 4em 1fr;
+  gap: 8px;
+  color: var(--icrm-ink-2);
+}
+.icrm-plan-cell > small {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--icrm-ink-3);
+  padding-top: 3px;
+}
+@media (min-width: 768px) {
+  .icrm-plan-cell {
+    display: block;
+  }
+  .icrm-plan-cell > small {
+    display: none;
+  }
+}
+.icrm-plan-head {
+  padding: 28px 0 24px;
+}
+@media (max-width: 767px) {
+  .icrm-plan-head > div:first-child {
+    display: none;
+  }
+  .icrm-plan-head {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}
+.icrm-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 6px;
+}
+.icrm-price b {
+  font-family: var(--icrm-serif);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 1.8rem + 1.6vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--icrm-ink);
+}
+
+/* ── FAQ ────────────────────────────── */
+.icrm-faq {
+  padding: 104px 0;
+  border-top: 1px solid var(--icrm-rule);
+}
+.icrm-faq-grid {
+  display: grid;
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+  .icrm-faq-grid {
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 72px;
+  }
+}
+.icrm-acc {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.icrm-acc[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+.icrm-acc > div {
+  overflow: hidden;
+}
+
+/* ── 結尾 ───────────────────────────── */
+.icrm-closing {
+  padding: 96px 0 112px;
+  background: var(--icrm-sheet);
+  border-top: 1px solid var(--icrm-rule);
+}
+
+/* ── 捲動進場 ─────────────────────────── */
 .icrm-motion [data-reveal] {
   opacity: 0;
-  transform: translate3d(0, 28px, 0);
+  transform: translate3d(0, 16px, 0);
   transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--d, 0ms);
-  will-change: opacity, transform;
-}
-.icrm-motion [data-reveal='left'] {
-  transform: translate3d(-32px, 0, 0);
-}
-.icrm-motion [data-reveal='right'] {
-  transform: translate3d(32px, 0, 0);
-}
-.icrm-motion [data-reveal='zoom'] {
-  transform: scale(0.94);
 }
 .icrm-motion [data-reveal].is-in {
   opacity: 1;
@@ -50,257 +1171,23 @@
     opacity: 1 !important;
     transform: none !important;
   }
-}
-
-/* ── Hero 背景：月相軌道（農曆＋時間的識別圖形） ─────────── */
-.icrm-orbit {
-  position: absolute;
-  border-radius: 9999px;
-  border: 1px dashed rgba(4, 86, 107, 0.16);
-}
-.icrm-orbit-dot {
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  width: 10px;
-  height: 10px;
-  margin-left: -5px;
-  border-radius: 9999px;
-}
-
-/* ── 對話氣泡進場 ─────────────────────────── */
-.icrm-bubble {
-  animation: icrmBubble 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.icrm-typing span {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin: 0 2px;
-  border-radius: 9999px;
-  background: currentColor;
-  opacity: 0.35;
-}
-
-/* ── 時間軸進度線 ─────────────────────────── */
-.icrm-progress {
-  transform-origin: left center;
-  transform: scaleX(1);
-}
-.icrm-motion .icrm-progress {
-  transform: scaleX(0);
-  transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s;
-}
-.icrm-motion .is-in .icrm-progress {
-  transform: scaleX(1);
-}
-
-/* ── 分頁內容切換 ─────────────────────────── */
-.icrm-panel-in {
-  animation: icrmPanel 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-/* ── 方案卡 hover 光暈 ────────────────────── */
-.icrm-plan {
-  position: relative;
-  isolation: isolate;
-}
-.icrm-plan::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(26, 198, 200, 0.7), rgba(4, 86, 107, 0.15) 45%, rgba(233, 162, 59, 0.5));
-  opacity: 0;
-  transition: opacity 0.35s ease;
-}
-.icrm-plan:hover::before,
-.icrm-plan:focus-within::before {
-  opacity: 1;
-}
-
-/* ── 手風琴：grid-rows 過渡，內容一直留在 DOM（搜尋引擎讀得到） ── */
-.icrm-acc {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.icrm-acc[data-open='true'] {
-  grid-template-rows: 1fr;
-}
-.icrm-acc > div {
-  overflow: hidden;
-}
-
-/* ── 深色 AI 區塊背景 ─────────────────────── */
-.icrm-dark {
-  background:
-    radial-gradient(at 12% 0%, rgba(26, 198, 200, 0.22) 0px, transparent 50%),
-    radial-gradient(at 92% 100%, rgba(233, 162, 59, 0.12) 0px, transparent 45%),
-    linear-gradient(160deg, #033d4d 0%, #022a36 70%);
-}
-.icrm-grid-dark {
-  background-image:
-    linear-gradient(rgba(124, 182, 198, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 182, 198, 0.08) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 75%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 75%);
-}
-
-/* 橫向可捲動的區段導覽：隱藏捲軸但保留捲動 */
-.icrm-scroll-x {
-  scrollbar-width: none;
-}
-.icrm-scroll-x::-webkit-scrollbar {
-  display: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .icrm-orbit-spin {
-    animation: icrmSpin 60s linear infinite;
-  }
-  .icrm-orbit-spin-rev {
-    animation: icrmSpin 90s linear infinite reverse;
-  }
-  .icrm-float {
-    animation: icrmFloat 6s ease-in-out infinite;
-  }
-  .icrm-float-late {
-    animation: icrmFloat 7s ease-in-out 1.2s infinite;
-  }
-  .icrm-typing span {
-    animation: icrmTyping 1.2s ease-in-out infinite;
-  }
-  .icrm-typing span:nth-child(2) {
-    animation-delay: 0.15s;
-  }
-  .icrm-typing span:nth-child(3) {
-    animation-delay: 0.3s;
-  }
-  .icrm-pulse-ring {
-    animation: icrmPulseRing 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
-  }
-  .icrm-scan {
-    animation: icrmScan 2.6s ease-in-out infinite alternate;
+  .icrm-sheet-prev {
+    display: none;
   }
 }
 
+/* 祝福示範：已排定的列 */
+.icrm-pop {
+  animation: icrmPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes icrmPop {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .icrm-bubble,
-  .icrm-panel-in {
+  .icrm-pop {
     animation: none;
-  }
-  .icrm-acc {
-    transition: none;
-  }
-}
-
-@keyframes icrmBubble {
-  from {
-    opacity: 0;
-    transform: translateY(10px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes icrmPanel {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-@keyframes icrmSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes icrmFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-@keyframes icrmTyping {
-  0%,
-  60%,
-  100% {
-    opacity: 0.35;
-    transform: translateY(0);
-  }
-  30% {
-    opacity: 1;
-    transform: translateY(-3px);
-  }
-}
-@keyframes icrmPulseRing {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.6);
-    opacity: 0;
-  }
-}
-/* 保單辨識的掃描線 */
-@keyframes icrmScan {
-  from {
-    top: 12%;
-  }
-  to {
-    top: 88%;
-  }
-}
-/* 輪播進度條（只有自動輪播中才會掛上） */
-@keyframes icrmBar {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-/* 主標第二行：取 logo 的漸層（青綠 → 藍 → 品牌深青），最淺端 #0A93A3 在白底 3.67:1，符合大字 3:1 */
-.icrm-text-logo {
-  background-image: linear-gradient(100deg, #0a93a3 0%, #0a86b8 45%, #04566b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* ── 數位名片翻面示範 ─────────────────────── */
-.icrm-flip {
-  perspective: 1000px;
-}
-.icrm-flip-inner {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.icrm-flip-inner.is-flipped {
-  transform: rotateY(180deg);
-}
-.icrm-face {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-.icrm-back {
-  transform: rotateY(180deg);
-}
-@media (prefers-reduced-motion: reduce) {
-  .icrm-flip-inner {
-    transition: none;
   }
 }

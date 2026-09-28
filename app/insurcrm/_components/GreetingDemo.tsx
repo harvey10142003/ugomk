@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Check, Clock, Gift, MoonStar, PenLine, RotateCcw, Send, ShieldCheck } from 'lucide-react';
+import { Check, Clock, PenLine, RotateCcw, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { greetingDrafts } from '../_data/content';
 
@@ -28,7 +28,7 @@ export function GreetingDemo() {
     setEditing(null);
     setStage('sending');
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    window.setTimeout(() => setStage('scheduled'), reduce ? 0 : 900);
+    window.setTimeout(() => setStage('scheduled'), reduce ? 0 : 700);
   };
 
   const reset = () => {
@@ -38,44 +38,60 @@ export function GreetingDemo() {
     setStage('review');
   };
 
-  const iconFor = (occasion: string, lunar?: boolean) =>
-    lunar ? MoonStar : occasion.includes('週年') ? ShieldCheck : Gift;
-
   return (
-    <div className="rounded-[2rem] border border-brand-100 bg-white p-4 shadow-card sm:p-7">
-      <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="icrm-screen">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[color:var(--icrm-rule-2)] px-4 py-3 sm:px-5">
         <div>
-          <div className="text-xs font-semibold text-brand-700">今天早上 07:30｜系統已擬好</div>
-          <div className="mt-1 text-lg font-bold text-ink-900">今日祝福待確認</div>
+          <div className="text-[15px] font-bold">今天待確認的祝福</div>
+          <div className="icrm-small">示範 3 則（共 12 則）．系統 07:30 已擬好</div>
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FBEFD9] px-3 py-1 text-xs font-semibold text-[#7A4B0B]">
-          <Clock className="h-3.5 w-3.5" aria-hidden />
-          預定 09:00 發出
+        <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[color:var(--icrm-teal-2)]">
+          <Clock className="h-4 w-4" aria-hidden />
+          預定 <span className="icrm-num">09:00</span> 發出
         </span>
       </div>
 
-      <ul className="mt-5 space-y-3">
+      <ul>
         {greetingDrafts.map((g) => {
-          const Icon = iconFor(g.occasion, g.lunar);
           const on = picked[g.id];
           const done = stage === 'scheduled' && on;
           return (
             <li
               key={g.id}
               className={cn(
-                'rounded-2xl border p-3.5 transition-all duration-300 sm:p-4',
-                done ? 'border-brand-300 bg-brand-50' : on ? 'border-brand-200 bg-white' : 'border-ink-100 bg-mist-200 opacity-70'
+                'border-b border-[color:var(--icrm-rule-2)] px-4 py-4 transition-colors duration-300 sm:px-5',
+                done && 'bg-[color:var(--icrm-tint)]',
+                !on && 'bg-[color:var(--icrm-paper)]'
               )}
             >
               <div className="flex items-start gap-3">
-                <span className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FBEFD9] text-[#B7791F] sm:inline-flex">
-                  <Icon className="h-5 w-5" aria-hidden />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-bold text-ink-900">{g.who}</span>
-                    <span className="chip-ink">{g.occasion}</span>
-                    {g.lunar ? <span className="chip-brand">農曆自動換算</span> : null}
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={on}
+                  aria-label={`發送給${g.who}的${g.occasion}祝福`}
+                  disabled={stage !== 'review'}
+                  onClick={() => setPicked((s) => ({ ...s, [g.id]: !s[g.id] }))}
+                  className="-m-2.5 inline-flex h-11 w-11 shrink-0 items-center justify-center disabled:cursor-default"
+                >
+                  <span
+                    className={cn(
+                      'inline-flex h-6 w-6 items-center justify-center rounded-[5px] border-2 transition-colors duration-200',
+                      on
+                        ? 'border-[color:var(--icrm-teal)] bg-[color:var(--icrm-teal)] text-white'
+                        : 'border-[color:var(--icrm-ink-3)] bg-white text-transparent'
+                    )}
+                  >
+                    <Check className="h-4 w-4" aria-hidden />
+                  </span>
+                </button>
+                <div className={cn('min-w-0 flex-1', !on && 'opacity-60')}>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="font-bold">{g.who}</span>
+                    <span className="text-sm text-[color:var(--icrm-ink-3)]">{g.occasion}</span>
+                    {g.lunar ? (
+                      <span className="text-xs font-bold text-[color:var(--icrm-red)]">農曆八月十五</span>
+                    ) : null}
                   </div>
                   {editing === g.id ? (
                     <div className="mt-2">
@@ -87,61 +103,51 @@ export function GreetingDemo() {
                         value={texts[g.id]}
                         onChange={(e) => setTexts((s) => ({ ...s, [g.id]: e.target.value.slice(0, 200) }))}
                         rows={3}
-                        className="w-full rounded-xl border border-brand-300 bg-white px-3 py-2 text-sm leading-relaxed text-ink-800 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+                        className="w-full rounded-lg border border-[color:var(--icrm-teal)] bg-white px-3 py-2 text-[15px] leading-relaxed focus:outline-none focus:ring-2 focus:ring-[color:var(--icrm-teal)]/30"
                       />
                       <button
                         type="button"
                         onClick={() => setEditing(null)}
-                        className="mt-2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-700"
+                        className="mt-1 inline-flex min-h-[44px] items-center gap-1 text-sm font-bold text-[color:var(--icrm-teal)]"
                       >
-                        <Check className="h-3.5 w-3.5" aria-hidden />
+                        <Check className="h-4 w-4" aria-hidden />
                         完成修改
                       </button>
                     </div>
                   ) : (
-                    <p className="mt-1.5 text-sm leading-relaxed text-ink-600">{texts[g.id]}</p>
+                    <p className="mt-1 text-[15px] leading-relaxed text-[color:var(--icrm-ink-2)]">{texts[g.id]}</p>
                   )}
                   {stage === 'review' && editing !== g.id ? (
                     <button
                       type="button"
                       onClick={() => setEditing(g.id)}
-                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-700 hover:text-brand-900"
+                      className="mt-0.5 inline-flex min-h-[40px] items-center gap-1 text-sm font-bold text-[color:var(--icrm-teal)] hover:text-[color:var(--icrm-ink)]"
                       aria-label={`修改給${g.who}的祝福`}
                     >
                       <PenLine className="h-3.5 w-3.5" aria-hidden />
                       改幾個字
                     </button>
                   ) : null}
+                  {done ? (
+                    <div className="icrm-pop mt-2 flex items-center gap-1.5 text-sm font-bold text-[color:var(--icrm-teal-2)]">
+                      <Clock className="h-3.5 w-3.5" aria-hidden />
+                      已排定 09:00 以你的名義發出
+                    </div>
+                  ) : null}
                 </div>
-                <button
-                  type="button"
-                  role="checkbox"
-                  aria-checked={on}
-                  aria-label={`${on ? '取消' : '勾選'}發送給${g.who}的${g.occasion}祝福`}
-                  disabled={stage !== 'review'}
-                  onClick={() => setPicked((s) => ({ ...s, [g.id]: !s[g.id] }))}
-                  className={cn(
-                    'inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2 disabled:cursor-default',
-                    on ? 'border-brand-700 bg-brand-700 text-white' : 'border-ink-300 bg-white text-transparent'
-                  )}
-                >
-                  <Check className="h-4 w-4" aria-hidden />
-                </button>
               </div>
-              {done ? (
-                <div className="icrm-bubble mt-3 flex items-center gap-1.5 text-xs font-semibold text-brand-800">
-                  <Clock className="h-3.5 w-3.5" aria-hidden />
-                  已排定 09:00 以你的名義發出
-                </div>
-              ) : null}
             </li>
           );
         })}
       </ul>
 
-      <div className="mt-6 flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-4 sm:px-5">
         {stage === 'scheduled' ? (
-          <button type="button" onClick={reset} className="btn-outline">
+          <button
+            type="button"
+            onClick={reset}
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg border border-[color:var(--icrm-rule)] bg-white px-4 font-bold text-[color:var(--icrm-ink)] hover:border-[color:var(--icrm-teal)]"
+          >
             <RotateCcw className="h-4 w-4" aria-hidden />
             再示範一次
           </button>
@@ -150,18 +156,18 @@ export function GreetingDemo() {
             type="button"
             onClick={confirm}
             disabled={count === 0 || stage === 'sending'}
-            className="btn-brand disabled:cursor-not-allowed disabled:opacity-60 disabled:translate-y-0"
+            className="inline-flex min-h-[44px] items-center gap-2 rounded-lg bg-[color:var(--icrm-teal)] px-5 font-bold text-white transition-colors hover:bg-[color:var(--icrm-teal-2)] disabled:cursor-not-allowed disabled:opacity-60"
           >
-            <Send className={cn('h-4 w-4', stage === 'sending' && 'animate-pulse')} aria-hidden />
-            {stage === 'sending' ? '排程中' : `確認 ${count} 則，09:00 發出`}
+            <Send className="h-4 w-4" aria-hidden />
+            {stage === 'sending' ? '排程中' : `確認 ${count} 則`}
           </button>
         )}
-        <p className="text-xs text-ink-500" aria-live="polite">
+        <p className="icrm-small" aria-live="polite">
           {stage === 'scheduled'
-            ? `已排定 ${count} 則祝福；沒勾選的不會發出。`
+            ? `已排定 ${count} 則；沒勾的不會發出。`
             : count === 0
-              ? '沒有勾選任何祝福，今天不會發出。'
-              : '沒確認的祝福不會發出，隔天早報會提醒你。'}
+              ? '沒有勾選，今天不會發出任何祝福。'
+              : '這是示範，不會送出任何訊息。'}
         </p>
       </div>
     </div>

@@ -12,13 +12,11 @@ export const COMING_SOON_LABEL = '搶先預約即將開放';
  */
 export function ComingSoonCta({
   tone = 'light',
-  size = 'md',
   label,
   className
 }: {
   tone?: 'light' | 'dark';
-  size?: 'sm' | 'md' | 'lg';
-  /** 方案卡用：前面加方案名，例如「個人版．搶先預約即將開放」 */
+  /** 方案用：前面加方案名，例如「個人版．搶先預約即將開放」 */
   label?: string;
   className?: string;
 }) {
@@ -26,13 +24,10 @@ export function ComingSoonCta({
     <span
       aria-disabled="true"
       className={cn(
-        'inline-flex cursor-default select-none items-center justify-center gap-2 whitespace-nowrap rounded-full border border-dashed font-semibold',
-        size === 'sm' && 'px-4 py-2 text-sm',
-        size === 'md' && 'px-6 py-3 text-sm',
-        size === 'lg' && 'px-7 py-3.5 text-base',
+        'inline-flex min-h-[48px] cursor-default select-none items-center justify-center gap-2 whitespace-nowrap rounded-lg border-[1.5px] border-dashed px-5 text-[15px] font-bold',
         tone === 'light'
-          ? 'border-brand-300 bg-brand-50 text-brand-800'
-          : 'border-white/40 bg-white/10 text-white',
+          ? 'border-[color:var(--icrm-teal)] bg-[color:var(--icrm-tint)] text-[color:var(--icrm-teal-2)]'
+          : 'border-white/50 bg-white/10 text-white',
         className
       )}
     >
