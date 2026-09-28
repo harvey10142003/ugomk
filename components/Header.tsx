@@ -9,6 +9,26 @@ import { navItems, site } from '@/lib/data/site';
 import { sourceFromPath, ctaHref } from '@/lib/site-source';
 import { cn } from '@/lib/utils';
 
+/*
+ * 全站頁首（2026-09-28 改版，設計方向見 docs/design/site-direction.md）。
+ *
+ * ## 版面：三欄 grid，不是 flex justify-between
+ *
+ * 原本是 flex + justify-between，logo／選單／按鈕三塊都不能縮。
+ * 只要選單的實際寬度比預期大（瀏覽器預設字級調大、縮放、字型換成較寬的備援字），
+ * 最右邊的「預約需求討論」就被推出畫面 —— Shark 在 1100–1200 寬看到的就是這個。
+ * 現在：logo 與按鈕兩欄是 auto（永遠保有自己的寬度），選單欄是 minmax(0, 1fr)，
+ * 不夠寬時選單會在自己那一欄裡擠，按鈕不會被推走。
+ * 另外 lg～xl 之間按鈕改用短文案、選單間距收小，一般字級下選單不會擠到按鈕。
+ *
+ * 不要在 <nav> 加 overflow-hidden：下拉面板是 nav 的子元素，會被一起切掉。
+ *
+ * 最後一道保險（`tight`）：桌機寬度下實際量選單需要的寬度，放不下（例如瀏覽器字級設成「特大」）
+ * 就整個改用漢堡選單，而不是讓選單疊到按鈕上。
+ *
+ * ## 字重只用 400／700
+ * 中文字型每多一個字重就多下載 3–4 個約 70KB 的分片（app/fonts.css）。
+ */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -16,6 +36,51 @@ export function Header() {
   const [menu, setMenu] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pathname = usePathname();
+  /** 桌機寬度但選單放不下 → 改用漢堡選單（見檔頭說明） */
+  const [tight, setTight] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    const lg = window.matchMedia('(min-width: 1024px)');
+    const check = () => {
+      const nav = navRef.current;
+      if (!lg.matches || !nav || !logoRef.current || !ctaRef.current) {
+        setTight(false);
+        return;
+      }
+      const cs = getComputedStyle(bar);
+      const gap = parseFloat(cs.columnGap) || 0;
+      const avail =
+        bar.clientWidth -
+        parseFloat(cs.paddingLeft) -
+        parseFloat(cs.paddingRight) -
+        logoRef.current.offsetWidth -
+        ctaRef.current.offsetWidth -
+        gap * 2;
+      // 用子項寬度加總，不用 nav.scrollWidth：選單置中時往左溢出的部分不算進 scrollWidth
+      const items = Array.from(nav.children) as HTMLElement[];
+      const navGap = parseFloat(getComputedStyle(nav).columnGap) || 0;
+      const need = items.reduce((sum, el) => sum + el.offsetWidth, 0) + navGap * Math.max(0, items.length - 1);
+      setTight(need > avail);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(bar);
+    // 字級改變時 bar 本身寬度不變，要看選單各項與按鈕自己的尺寸
+    if (navRef.current) Array.from(navRef.current.children).forEach((el) => ro.observe(el));
+    if (ctaRef.current) ro.observe(ctaRef.current);
+    lg.addEventListener?.('change', check);
+    document.fonts?.ready.then(check).catch(() => {});
+    return () => {
+      ro.disconnect();
+      lg.removeEventListener?.('change', check);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -51,22 +116,37 @@ export function Header() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   };
 
+  /** 目前所在頁的底線：logo 漸層的一小段線（冰藍 → 深青） */
+  const underline = (on: boolean) => (
+    <span
+      aria-hidden
+      className={cn(
+        'absolute -bottom-2 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#8CC8DA] to-[#04566B] transition-all duration-300',
+        on ? 'w-full' : 'w-0 group-hover:w-full'
+      )}
+    />
+  );
+
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
+        'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300',
         scrolled || open || menu
-          ? 'bg-white/95 backdrop-blur-md shadow-[0_1px_0_0_rgba(3,61,77,0.08)]'
-          : 'bg-white/70 backdrop-blur-sm'
+          ? 'border-[#D3E0E5] bg-white/95 backdrop-blur-md shadow-[0_8px_24px_-18px_rgba(6,44,56,0.35)]'
+          : 'border-transparent bg-white/80 backdrop-blur-sm'
       )}
     >
       {/*
-        h-18 不在 Tailwind 的間距刻度裡（沒有 18），這個 class 一直是靜默失效的，
-        手機版的高度其實是被內容撐出來的。CTA 進來之後內容高 44px，
-        沒有 h-16 兜底的話 logo 上下各只剩 4px。
+        高度：h-16（手機）／h-20（md 以上）。Tailwind 沒有 h-18，別再寫回去（見 2026-09-06 的修正）。
       */}
-      <div className="container-ug flex h-16 md:h-20 items-center justify-between gap-5">
-        <Link href="/" className="shrink-0" aria-label={`${site.name} 首頁`}>
+      <div
+        ref={barRef}
+        className={cn(
+          'container-ug grid h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-4 md:h-20 lg:gap-6',
+          !tight && 'lg:grid-cols-[auto_minmax(0,1fr)_auto]'
+        )}
+      >
+        <Link ref={logoRef} href="/" className="shrink-0" aria-label={`${site.name} 首頁`}>
           <Image
             src="/ugo-logo.png"
             alt={`${site.shortName} ${site.name}`}
@@ -77,7 +157,16 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-7 xl:gap-8">
+        <nav
+          ref={navRef}
+          className={cn(
+            'hidden min-w-0 items-center justify-center gap-5 lg:flex xl:gap-8',
+            // 放不下時仍留在 DOM 裡（量得到需要的寬度，變寬時才切得回來），但不佔位也看不到
+            tight && 'lg:pointer-events-none lg:invisible lg:absolute lg:left-0 lg:top-0'
+          )}
+          aria-label="主選單"
+          aria-hidden={tight || undefined}
+        >
           {navItems.map((item) => {
             const active = isActive(item.href);
 
@@ -86,18 +175,14 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'group relative text-sm font-semibold transition-colors whitespace-nowrap',
-                    active ? 'text-ink-900' : 'text-ink-500 hover:text-ink-900'
+                    'group relative whitespace-nowrap py-2 text-[0.9375rem] transition-colors',
+                    active ? 'font-bold text-[#0B2530]' : 'text-[#3D5560] hover:text-[#0B2530]'
                   )}
                 >
                   {item.label}
-                  <span
-                    className={cn(
-                      'absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-brand-600 transition-all duration-300',
-                      active ? 'w-full' : 'w-0 group-hover:w-full'
-                    )}
-                  />
+                  {underline(active)}
                 </Link>
               );
             }
@@ -119,47 +204,41 @@ export function Header() {
                   aria-haspopup="true"
                   onClick={() => setMenu(expanded ? null : item.label)}
                   className={cn(
-                    'group relative inline-flex items-center gap-1 text-sm font-semibold transition-colors whitespace-nowrap',
-                    active || expanded ? 'text-ink-900' : 'text-ink-500 hover:text-ink-900'
+                    'group relative inline-flex items-center gap-1 whitespace-nowrap py-2 text-[0.9375rem] transition-colors',
+                    active ? 'font-bold text-[#0B2530]' : 'text-[#3D5560] hover:text-[#0B2530]',
+                    expanded && 'text-[#0B2530]'
                   )}
                 >
                   {item.label}
                   <ChevronDown
                     className={cn('h-3.5 w-3.5 transition-transform duration-200', expanded && 'rotate-180')}
                   />
-                  <span
-                    className={cn(
-                      'absolute -bottom-1.5 left-0 h-0.5 rounded-full bg-brand-600 transition-all duration-300',
-                      active ? 'w-full' : 'w-0 group-hover:w-full'
-                    )}
-                  />
+                  {underline(active)}
                 </button>
 
                 {expanded ? (
                   <div
-                    className="absolute left-1/2 top-full z-50 w-[320px] -translate-x-1/2 pt-4"
+                    className="absolute left-1/2 top-full z-50 w-[340px] -translate-x-1/2 pt-3"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
                   >
-                    <div className="overflow-hidden rounded-2xl border border-ink-100 bg-white p-2 shadow-card">
+                    <div className="overflow-hidden rounded-2xl border border-[#D3E0E5] bg-white p-2 shadow-[0_24px_48px_-24px_rgba(6,44,56,0.4)]">
                       {item.children.map((c) => (
                         <Link
                           key={c.label}
                           href={c.href}
                           onClick={() => setMenu(null)}
-                          className="group/item block rounded-xl px-4 py-3 transition-colors hover:bg-brand-50"
+                          className="group/item block rounded-xl px-4 py-3 transition-colors hover:bg-[#E3F0F4]"
                         >
-                          <div className="flex items-center gap-2 text-sm font-bold text-ink-900 group-hover/item:text-brand-800">
+                          <div className="flex items-center gap-2 text-sm font-bold text-[#0B2530] group-hover/item:text-[#04566B]">
                             {c.label}
                             {c.pending ? (
-                              <span className="rounded-full border border-ink-200 px-1.5 py-0.5 text-[9px] font-semibold text-ink-400">
+                              <span className="rounded-full border border-[#D3E0E5] px-1.5 py-0.5 text-[10px] text-[#5B6F78]">
                                 洽詢
                               </span>
                             ) : null}
                           </div>
-                          {c.desc ? (
-                            <div className="mt-0.5 text-xs text-ink-400">{c.desc}</div>
-                          ) : null}
+                          {c.desc ? <div className="mt-0.5 text-xs text-[#5B6F78]">{c.desc}</div> : null}
                         </Link>
                       ))}
                     </div>
@@ -171,26 +250,29 @@ export function Header() {
         </nav>
 
         {/*
-          這顆按鈕原本包在 hidden lg:flex 裡，小於 lg 整顆不渲染。
-          site.ts 的註解說「預約諮詢不放進 nav，因為它已經是 header 右側的主要按鈕」——
-          這個前提在手機上是假的，結果手機訪客的常駐入口從 1 個變成 0 個
-          （而 LINE 點進來的訪客幾乎都是手機）。
-          小螢幕縮 padding、換短文案；.btn 已有 whitespace-nowrap，不會破版。
+          預約按鈕在每一種寬度都要看得到（手機訪客幾乎都從 LINE 點進來）。
+          lg 以下與 lg～xl 用短文案，xl 以上才用完整文案；兩段文字都留在 DOM 裡，
+          連結文字（GTM link_text）與改版前相同。
         */}
-        <div className="flex items-center gap-3 shrink-0">
-          <Link
-            href={ctaHref(site.cta.primary.href, headerSource, 'header')}
-            className="btn-brand px-4 lg:px-6"
-          >
-            <span className="lg:hidden">預約諮詢</span>
-            <span className="hidden lg:inline">{site.cta.primary.label}</span>
-          </Link>
-        </div>
+        <Link
+          ref={ctaRef}
+          href={ctaHref(site.cta.primary.href, headerSource, 'header')}
+          className={cn(
+            'col-start-3 inline-flex h-10 items-center justify-center whitespace-nowrap rounded-full bg-[#04566B] px-4 text-sm font-bold tracking-[0.04em] text-white transition-colors hover:bg-[#0B3A48] md:h-11 xl:px-6',
+            !tight && 'lg:col-start-auto'
+          )}
+        >
+          <span className="xl:hidden">預約諮詢</span>
+          <span className="hidden xl:inline">{site.cta.primary.label}</span>
+        </Link>
 
         <button
           aria-label={open ? '關閉選單' : '開啟選單'}
           aria-expanded={open}
-          className="lg:hidden -mr-2 p-2 text-ink-700"
+          className={cn(
+            '-mr-2 inline-flex h-11 w-11 items-center justify-center text-[#0B2530]',
+            !tight && 'lg:hidden'
+          )}
           onClick={() => setOpen((v) => !v)}
         >
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -199,8 +281,13 @@ export function Header() {
 
       {/* 手機選單 —— 下拉在觸控裝置沒有 hover，改成可展開的子清單 */}
       {open && (
-        <div className="lg:hidden max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-ink-100 bg-white">
-          <nav className="container-ug flex flex-col py-6 gap-1">
+        <div
+          className={cn(
+            'max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-[#D3E0E5] bg-white',
+            !tight && 'lg:hidden'
+          )}
+        >
+          <nav className="container-ug flex flex-col gap-1 py-6" aria-label="主選單">
             {navItems.map((item) => {
               const active = isActive(item.href);
               const expanded = menu === item.label;
@@ -210,11 +297,12 @@ export function Header() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    aria-current={active ? 'page' : undefined}
                     className={cn(
-                      'py-3 text-base font-semibold border-l-2 pl-4 transition-colors',
+                      'border-l-2 py-3 pl-4 text-base transition-colors',
                       active
-                        ? 'border-brand-600 text-ink-900'
-                        : 'border-transparent text-ink-500 hover:border-brand-300 hover:text-ink-900'
+                        ? 'border-[#04566B] font-bold text-[#0B2530]'
+                        : 'border-transparent text-[#3D5560] hover:border-[#8CC8DA] hover:text-[#0B2530]'
                     )}
                   >
                     {item.label}
@@ -229,8 +317,8 @@ export function Header() {
                     aria-expanded={expanded}
                     onClick={() => setMenu(expanded ? null : item.label)}
                     className={cn(
-                      'flex w-full items-center justify-between py-3 pl-4 text-base font-semibold border-l-2 transition-colors',
-                      active ? 'border-brand-600 text-ink-900' : 'border-transparent text-ink-500'
+                      'flex w-full items-center justify-between border-l-2 py-3 pl-4 text-base transition-colors',
+                      active ? 'border-[#04566B] font-bold text-[#0B2530]' : 'border-transparent text-[#3D5560]'
                     )}
                   >
                     {item.label}
@@ -239,23 +327,23 @@ export function Header() {
                     />
                   </button>
                   {expanded ? (
-                    <div className="ml-4 border-l border-ink-100 pl-4">
+                    <div className="ml-4 border-l border-[#D3E0E5] pl-4">
                       {item.children.map((c) => (
                         <Link
                           key={c.label}
                           href={c.href}
-                          className="block py-2.5 text-sm font-medium text-ink-500 hover:text-brand-800"
+                          className="block py-2.5 text-sm text-[#3D5560] hover:text-[#04566B]"
                         >
                           <span className="inline-flex items-center gap-2">
                             {c.label}
                             {c.pending ? (
-                              <span className="rounded-full border border-ink-200 px-1.5 py-0.5 text-[9px] text-ink-400">
+                              <span className="rounded-full border border-[#D3E0E5] px-1.5 py-0.5 text-[10px] text-[#5B6F78]">
                                 洽詢
                               </span>
                             ) : null}
                           </span>
-                          {/* 桌機版同一段用 ink-400（4.83:1）；ink-300 只有 2.48:1 */}
-                          {c.desc ? <div className="mt-0.5 text-xs text-ink-400">{c.desc}</div> : null}
+                          {/* #5B6F78 白底 5.3:1；比這更淺的灰會掉到 AA 以下 */}
+                          {c.desc ? <div className="mt-0.5 text-xs text-[#5B6F78]">{c.desc}</div> : null}
                         </Link>
                       ))}
                     </div>
@@ -265,7 +353,7 @@ export function Header() {
             })}
             <Link
               href={ctaHref(site.cta.primary.href, headerSource, 'header_menu')}
-              className="btn-brand mt-4 w-full"
+              className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-full bg-[#04566B] text-sm font-bold tracking-[0.04em] text-white"
             >
               {site.cta.primary.label}
             </Link>
