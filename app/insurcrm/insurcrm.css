@@ -158,32 +158,6 @@
   background: currentColor;
 }
 
-/* ── 階段標記：首波實心、第二階段外框、第三階段虛線框 ─── */
-.icrm-phase {
-  display: inline-flex;
-  align-items: center;
-  flex-shrink: 0;
-  height: 22px;
-  padding: 0 7px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  line-height: 1;
-  white-space: nowrap;
-}
-.icrm-phase[data-phase='1'] {
-  background: var(--icrm-teal);
-  color: #fff;
-}
-.icrm-phase[data-phase='2'] {
-  border: 1.5px solid var(--icrm-teal);
-  color: var(--icrm-teal-2);
-}
-.icrm-phase[data-phase='3'] {
-  border: 1.5px dashed var(--icrm-ink-3);
-  color: var(--icrm-ink-2);
-}
 .icrm-team {
   display: inline-flex;
   align-items: center;
@@ -556,21 +530,21 @@
   padding-top: 18px;
 }
 .icrm-items li {
+  position: relative;
+  padding-left: 22px;
   text-wrap: pretty;
-  display: grid;
-  grid-template-columns: 76px 1fr;
-  gap: 12px;
-  align-items: start;
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--icrm-ink-2);
 }
-.icrm-items li > span:first-child {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  padding-top: 2px;
+.icrm-items li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.8em;
+  width: 10px;
+  height: 2px;
+  background: var(--icrm-teal);
 }
 .icrm-note {
   display: flex;
@@ -1006,44 +980,44 @@
   color: #d5e3e3;
 }
 
-/* ── 功能 × 階段 ─────────────────────── */
+/* ── 全部功能一覽 ─────────────────────── */
 .icrm-roadmap {
   padding: 104px 0;
 }
-.icrm-phases {
+.icrm-featlist {
   display: grid;
-  gap: 40px;
   margin-top: 48px;
+  border-top: 2px solid var(--icrm-ink);
 }
-@media (min-width: 1024px) {
-  .icrm-phases {
-    grid-template-columns: 1.15fr 1.15fr 0.9fr;
-    gap: 40px;
+@media (min-width: 768px) {
+  .icrm-featlist {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
   }
 }
-.icrm-phase-col h3 {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--icrm-ink);
+@media (min-width: 1200px) {
+  .icrm-featlist {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
-.icrm-phase-col li {
+.icrm-featlist li {
   display: grid;
   grid-template-columns: minmax(0, 8.5em) minmax(0, 1fr);
   gap: 4px 14px;
-  padding: 12px 0;
+  padding: 14px 0;
   border-bottom: 1px solid var(--icrm-rule);
   font-size: 0.92rem;
   line-height: 1.6;
 }
-.icrm-phase-col li b {
+.icrm-featlist li b {
   font-weight: 700;
   color: var(--icrm-ink);
 }
-.icrm-phase-col li span {
+.icrm-featlist li span {
   color: var(--icrm-ink-3);
+}
+.icrm-featlist li b .icrm-team {
+  color: var(--icrm-ink-2);
 }
 
 /* ── 方案 ───────────────────────────── */

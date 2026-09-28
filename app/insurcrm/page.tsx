@@ -10,7 +10,6 @@ import {
   LOGO_MARK,
   OG_IMAGE_PATH,
   PAGE_PATH,
-  PHASE_LABEL,
   PRODUCT_NAME,
   PRODUCT_SUBTITLE,
   PRODUCT_TAGLINE,
@@ -24,9 +23,8 @@ import {
   planNote,
   photos,
   planRows,
-  roadmap,
-  type DayMock,
-  type Phase
+  allFeatures,
+  type DayMock
 } from './_data/content';
 import { MotionRoot } from './_components/MotionRoot';
 import { CalendarPad } from './_components/CalendarPad';
@@ -91,14 +89,6 @@ const MOCKS: Record<Exclude<DayMock, 'greeting'>, () => JSX.Element> = {
   inbox: InboxMock,
   ical: IcalMock
 };
-
-function PhaseTag({ phase }: { phase: Phase }) {
-  return (
-    <span className="icrm-phase" data-phase={phase}>
-      {PHASE_LABEL[phase]}
-    </span>
-  );
-}
 
 /**
  * 中文標題在逗號後才換行：每一個分句是一個 inline-block，瀏覽器優先在分句之間斷行，
@@ -196,13 +186,6 @@ export default function InsurCrmPage() {
             </h2>
             <div>
               <p className="icrm-body">{headings.dayLead}</p>
-              <p className="mt-3 flex flex-wrap items-center gap-2 text-sm text-[color:var(--icrm-ink-3)]">
-                <PhaseTag phase={1} />
-                <PhaseTag phase={2} />
-                <PhaseTag phase={3} />
-                <span className="icrm-team">團隊版</span>
-                <span>＝只有團隊版有</span>
-              </p>
             </div>
           </div>
 
@@ -226,11 +209,8 @@ export default function InsurCrmPage() {
                     <ul className="icrm-items">
                       {d.items.map((it) => (
                         <li key={it.text}>
-                          <span>
-                            <PhaseTag phase={it.phase} />
-                            {it.team ? <span className="icrm-team">團隊版</span> : null}
-                          </span>
-                          <span>{it.text}</span>
+                          {it.text}
+                          {it.team ? <span className="icrm-team ml-2 align-middle">團隊版</span> : null}
                         </li>
                       ))}
                     </ul>
@@ -277,12 +257,7 @@ export default function InsurCrmPage() {
             <p className="icrm-body mt-5">{clientSide.body}</p>
             <ul className="icrm-items max-w-[36em]">
               {clientSide.items.map((it) => (
-                <li key={it.text}>
-                  <span>
-                    <PhaseTag phase={it.phase} />
-                  </span>
-                  <span>{it.text}</span>
-                </li>
+                <li key={it.text}>{it.text}</li>
               ))}
             </ul>
           </div>
@@ -330,36 +305,26 @@ export default function InsurCrmPage() {
         </div>
       </section>
 
-      {/* ── 功能 × 推出階段 ───────────────────────────────── */}
-      <section id="roadmap" className="icrm-roadmap scroll-mt-20" aria-labelledby="icrm-road-title">
+      {/* ── 全部功能（不分階段；Shark 2026-09-28 決定頁面不顯示推出階段） ─── */}
+      <section id="features" className="icrm-roadmap scroll-mt-20" aria-labelledby="icrm-road-title">
         <div className="icrm-wrap">
           <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-12" data-reveal>
             <h2 id="icrm-road-title" className="icrm-h2">
-              {headings.roadmap}
+              <Phrase text={headings.roadmap} />
             </h2>
-            <p className="icrm-body">{headings.roadmapLead}全部尚未上線；上線一項，這張表就更新一項。</p>
+            <p className="icrm-body">{headings.roadmapLead}</p>
           </div>
-          <div className="icrm-phases">
-            {([1, 2, 3] as Phase[]).map((p) => (
-              <div key={p} className="icrm-phase-col" data-reveal style={{ '--d': `${(p - 1) * 90}ms` } as React.CSSProperties}>
-                <h3>
-                  <span className="icrm-serif text-2xl">{PHASE_LABEL[p]}</span>
-                  <span className="icrm-small icrm-num">{roadmap[p].length} 項</span>
-                </h3>
-                <ul>
-                  {roadmap[p].map((it) => (
-                    <li key={it.title}>
-                      <b>
-                        {it.title}
-                        {it.team ? <span className="icrm-team ml-1.5 align-middle">團隊版</span> : null}
-                      </b>
-                      <span>{it.body}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <ul className="icrm-featlist" data-reveal>
+            {allFeatures.map((it) => (
+              <li key={it.title}>
+                <b>
+                  {it.title}
+                  {it.team ? <span className="icrm-team ml-1.5 align-middle">團隊版</span> : null}
+                </b>
+                <span>{it.body}</span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 

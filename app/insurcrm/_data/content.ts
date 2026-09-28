@@ -9,9 +9,10 @@
  *  - 不寫「保證」「穩賺」「最高」「第一」「唯一」這類絕對用語。
  *  - 不提及、不比較任何同業產品名稱。
  *  - 不暗示提供商品推薦或投資建議；缺口分析只說「規則式、不列商品」。
- *  - 2026-09 時點**所有功能都還沒上線、搶先預約也還沒開放**：每一項都要帶 phase；預約按鈕一律是
- *    不可點的「搶先預約即將開放」（_components/ComingSoonCta），開放時把它換回連到 /contact 的連結，
- *    不可以寫成「已經有」。上線一項就把那一項的 phase 改成 'live'，再回頭改 FAQ 與 hero 的說法。
+ *  - 頁面不顯示推出階段（Shark 2026-09-28 決定）：畫面上不放首波／第二階段／第三階段的標籤、圖例或對照表。
+ *    資料裡的 `phase` 保留給內部排程對照，頁面不讀。「團隊版」這類版本差異標記可以顯示。
+ *  - 2026-09 時點**所有功能都還沒上線、搶先預約也還沒開放**：預約按鈕一律是不可點的「搶先預約即將開放」
+ *    （_components/ComingSoonCta），開放時把它換回連到 /contact 的連結；不可以寫成「已經有」。
  *  - 不編造客戶名稱、使用人數、評價。畫面示範裡的人物一律虛構，並在旁邊註明。
  *  - 功能與界線的來源是 line-crm-saas `docs/specs/insurance-agent-module.md`，
  *    實作進度以記憶 project_insurance_agent_module（分支 feat/insurance-final）為準；
@@ -40,7 +41,7 @@ export const SOLO_PRICE = 900;
 
 export type Phase = 1 | 2 | 3;
 
-/** 三個推出階段的畫面標籤 —— 刻意不寫日期，排程未定前寫日期就是承諾 */
+/** 推出階段的內部名稱 —— 頁面不顯示（Shark 2026-09-28），只供內部對照 */
 export const PHASE_LABEL: Record<Phase, string> = {
   1: '首波推出',
   2: '第二階段',
@@ -50,7 +51,7 @@ export const PHASE_LABEL: Record<Phase, string> = {
 /* ── 首屏 ─────────────────────────────────────────────── */
 export const hero = {
   lead: '給保險業務、銀行理專與通訊處的客戶經營系統，做在你的 LINE 官方帳號裡。每天早上一則早報告訴你今天該聯絡誰；祝福、提醒、保單整理由系統先備好，你看過、按下確認才會送出。',
-  status: '尚未上線，功能分三階段推出'
+  status: '尚未上線'
 };
 
 /**
@@ -308,7 +309,8 @@ export const compliance = {
   footnote: '以上為產品的設計與實作方式；實際合規以你所屬公司或機構的規定為準。'
 };
 
-/* ── 功能 × 推出階段（完整清單） ─────────────────────── */
+/* ── 完整功能清單 ─────────────────────────────────────
+ * 依推出階段分組只是內部對照；頁面用 allFeatures 不分階段列出。 */
 export type RoadmapItem = { title: string; body: string; team?: boolean };
 export const roadmap: Record<Phase, RoadmapItem[]> = {
   1: [
@@ -349,6 +351,9 @@ export const roadmap: Record<Phase, RoadmapItem[]> = {
   ]
 };
 
+/** 頁面上的「全部功能」：不分階段 */
+export const allFeatures: RoadmapItem[] = [...roadmap[1], ...roadmap[2], ...roadmap[3]];
+
 /* ── 方案比較 ───────────────────────────────────────── */
 export const planRows: { label: string; solo: string; team: string }[] = [
   { label: '給誰用', solo: '保險業務員、銀行理專、獨立理財顧問本人', team: '通訊處與業務團隊：業務、組長、區經理、處經理' },
@@ -364,7 +369,7 @@ export const planNote = '兩個版本是同一套系統，彼此獨立、資料�
 export const faqs: { q: string; a: string }[] = [
   {
     q: '現在可以開始使用了嗎？',
-    a: `${PRODUCT_NAME} 尚未上線，功能分三個階段推出。首波包含客戶與家庭、保單整理、家庭保障總表、提醒與行事曆、每日早報、生日與農曆節日祝福、一對一訊息與客戶在 LINE 看保單；AI 業務助理在第二階段加入。搶先預約即將開放，想先了解可以用 LINE 詢問我們。`
+    a: `${PRODUCT_NAME} 尚未上線，搶先預約即將開放。想先了解功能或導入方式，可以用 LINE 詢問我們。`
   },
   {
     q: '我的客戶需要下載 App 嗎？',
@@ -407,11 +412,11 @@ export const faqs: { q: string; a: string }[] = [
 /* ── 區塊標題（標題用 Noto Serif TC 子集，所以集中在這裡） ─── */
 export const headings = {
   day: '業務的一天，從一張日曆紙開始',
-  dayLead: '以下是同一天的六個時段。每一項功能都標著推出階段，全部尚未上線。',
+  dayLead: '以下是同一天的六個時段，每個時段配一個產品畫面。產品尚未上線，畫面皆為示意。',
   client: clientSide.title,
   compliance: compliance.title,
-  roadmap: '每一項功能，在哪個階段推出',
-  roadmapLead: '階段是推出的先後順序，不是日期。',
+  roadmap: '全部功能，一次看完',
+  roadmapLead: '從客戶經營、LINE 關懷到團隊管理，保客+ 目前規劃的完整功能。',
   plans: '一個人經營，或整個通訊處一起用',
   faq: '還想知道的事',
   closing: PRODUCT_TAGLINE
@@ -425,7 +430,7 @@ const SERIF_TEXT = [
   ...Object.values(headings),
   ...dayEntries.map((d) => d.title),
   ...Object.values(calendarSheet).flat(),
-  '0123456789個人版團隊版洽詢報價首波推出第二階段第三階段',
+  '0123456789個人版團隊版洽詢報價',
   familyMock.household
 ].join('');
 
