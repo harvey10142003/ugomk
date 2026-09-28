@@ -125,7 +125,7 @@ export function GreetingDemo() {
                       aria-label={`修改給${g.who}的祝福`}
                     >
                       <PenLine className="h-3.5 w-3.5" aria-hidden />
-                      改幾個字
+                      編輯
                     </button>
                   ) : null}
                   {done ? (
