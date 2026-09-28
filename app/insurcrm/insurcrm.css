@@ -2,14 +2,15 @@
  * /insurcrm 落地頁專用樣式（只在這個路由載入，不影響其他頁）。
  *
  * 設計方向「業務手帳的一天」（2026-09-28 改版）：
- *   首屏是一張撕日曆（農民曆格式），往下是手帳的時間欄，一個時段一段產品畫面。
+ *   首屏右欄是業務在 LINE 跟助理的對話（Shark 09-28 決定換回改版前的首屏畫面），
+ *   往下是手帳的時間欄，一個時段一段產品畫面。
  *
  * 色票 —— 全部從保客+ logo 取色，另加一個曆朱：
  *   --icrm-ink    #0F2A33  墨：文字與深色區塊（logo 深青壓暗）
  *   --icrm-teal   #006E8C  保客青：logo 主色，連結、線條、介面框（白底對比 5.6:1）
  *   --icrm-aqua   #00BFB3  浪綠：logo 綠端，只用在深色底或當填色，不當白底文字
  *   --icrm-paper  #F3F6F5  紙：頁面底色（冷調，不用米黃）
- *   --icrm-red    #B3342B  曆朱：只給農曆／節日／宜忌與「不做」的印記（白底對比 5.9:1）
+ *   --icrm-red    #B3342B  曆朱：只給農曆／節日、保障缺口、健康字詞阻擋與「不做」的印記（白底對比 5.9:1）
  * LINE 綠只出現在 LINE 介面示範裡。
  *
  * 字型：標題 Noto Serif TC 700、手寫註記 LXGW WenKai TC（兩者都是本頁用字子集，見 scripts/insurcrm-fonts.mjs），
@@ -17,7 +18,7 @@
  *
  * 動畫原則：
  *   - 進場動畫只在 .icrm-motion 存在時生效（MotionRoot 在有 IntersectionObserver 且沒開減少動態時才加）。
- *   - 首屏撕日曆只播一次；減少動態時前一天那張直接不顯示。
+ *   - 首屏對話只在看得到時循環播放；減少動態時直接顯示完整對話、浮動卡不動。
  */
 
 @font-face {
@@ -229,119 +230,154 @@
   }
 }
 
-/* 撕日曆 */
-/*
- * 結構：裝訂條（高 --icrm-bind）與紙同寬、同一個 left/right，紙從裝訂條下緣接著往下；
- * 前一天那張與下面的紙疊都以同一個 top 對齊。所有對齊只靠 --icrm-bind 一個變數。
- */
-.icrm-pad {
-  --icrm-bind: 22px;
+/* 首屏右欄：業務與助理的 LINE 對話（HeroChat）＋兩張浮動資訊卡 */
+.icrm-hero-visual {
   position: relative;
   width: min(100%, 400px);
   margin: 0 auto;
-  padding-top: var(--icrm-bind);
+  padding: 8px 0;
 }
-.icrm-pad-binding {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: var(--icrm-bind);
-  border-radius: 6px 6px 0 0;
+.icrm-hero-phone {
+  width: 280px;
+  margin: 0 auto;
+  border: 9px solid var(--icrm-ink);
+  border-radius: 40px;
   background: var(--icrm-ink);
-  /* 在撕下的那張之上：看起來是從裝訂條底下撕出來 */
-  z-index: 5;
+  box-shadow: 0 30px 60px -30px rgba(15, 42, 51, 0.5);
 }
-.icrm-pad-binding::before,
-.icrm-pad-binding::after {
-  content: '';
-  position: absolute;
-  top: 7px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--icrm-paper);
-}
-.icrm-pad-binding::before {
-  left: 28%;
-}
-.icrm-pad-binding::after {
-  right: 28%;
-}
-.icrm-pad-stack {
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  bottom: -6px;
-  top: var(--icrm-bind);
-  border-radius: 0 0 6px 6px;
-  background: var(--icrm-sheet);
-  box-shadow: 0 1px 0 var(--icrm-rule), 0 4px 0 -1px #fff, 0 5px 0 -1px var(--icrm-rule), 0 24px 48px -24px rgba(15, 42, 51, 0.35);
-}
-.icrm-sheet {
+.icrm-hero-screen {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  /* 五則訊息全部播完時，早報那一格也要完整看得到 */
+  height: 610px;
+  overflow: hidden;
+  border-radius: 31px;
+  background: #e8eef2;
+}
+.icrm-hero-notch {
+  position: absolute;
   z-index: 2;
-  background: var(--icrm-sheet);
-  border-radius: 0 0 6px 6px;
-  padding: 30px 26px 0;
-  box-shadow: 0 1px 2px rgba(15, 42, 51, 0.06);
+  top: 8px;
+  left: 50%;
+  width: 88px;
+  height: 20px;
+  margin-left: -44px;
+  border-radius: 9999px;
+  background: var(--icrm-ink);
 }
-.icrm-sheet-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--icrm-rule);
-  font-weight: 700;
-  color: var(--icrm-ink-2);
+@media (max-width: 380px) {
+  .icrm-hero-phone {
+    width: 260px;
+  }
+  .icrm-hero-screen {
+    height: 600px;
+  }
 }
-.icrm-sheet-body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  align-items: center;
-  padding: 6px 0 4px;
-}
-.icrm-sheet-day {
-  font-family: var(--icrm-serif);
-  font-weight: 700;
-  font-size: clamp(8rem, 6rem + 8vw, 10.5rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--icrm-red);
-  text-align: center;
-  font-variant-numeric: lining-nums;
-}
-.icrm-sheet-lunar {
-  writing-mode: vertical-rl;
-  font-family: var(--icrm-serif);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.2em;
+.icrm-float-card {
+  position: absolute;
+  z-index: 3;
+  display: none;
+  width: 196px;
+  padding: 12px 14px;
+  border: 1px solid var(--icrm-rule);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 40px -24px rgba(15, 42, 51, 0.45);
   color: var(--icrm-ink);
-  border-left: 1px solid var(--icrm-rule);
-  padding-left: 12px;
-  height: 100%;
-  display: flex;
+}
+@media (min-width: 640px) {
+  .icrm-float-card {
+    display: block;
+  }
+}
+/* 兩張卡各壓在手機左右邊緣一小段（改版前的構圖），避開對話頂欄與輸入列 */
+.icrm-float-a {
+  top: 110px;
+  left: -8px;
+}
+.icrm-float-b {
+  bottom: 150px;
+  right: -8px;
+}
+@media (min-width: 1024px) {
+  .icrm-float-a {
+    left: -64px;
+  }
+}
+.icrm-float-icon {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--icrm-tint);
 }
-.icrm-sheet-lunar b {
-  color: var(--icrm-red);
-  margin-top: 0.6em;
+/* 對話氣泡進場與輸入中 */
+.icrm-bubble {
+  animation: icrmBubble 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.icrm-sheet-yiji {
-  display: grid;
-  gap: 8px;
-  padding: 14px 0 18px;
-  border-top: 1px solid var(--icrm-rule);
+.icrm-typing span {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 2px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.35;
 }
-.icrm-sheet-yiji li {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.95rem;
-  line-height: 1.6;
+@media (prefers-reduced-motion: no-preference) {
+  .icrm-float {
+    animation: icrmFloat 6s ease-in-out infinite;
+  }
+  .icrm-float-late {
+    animation: icrmFloat 7s ease-in-out 1.2s infinite;
+  }
+  .icrm-typing span {
+    animation: icrmTyping 1.2s ease-in-out infinite;
+  }
+  .icrm-typing span:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .icrm-typing span:nth-child(3) {
+    animation-delay: 0.3s;
+  }
 }
+@media (prefers-reduced-motion: reduce) {
+  .icrm-bubble {
+    animation: none;
+  }
+}
+@keyframes icrmBubble {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+}
+@keyframes icrmFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes icrmTyping {
+  0%,
+  60%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+/* 印記（合規區「不做」清單用） */
 .icrm-seal {
   display: inline-flex;
   align-items: center;
@@ -356,28 +392,7 @@
   color: #fff;
   background: var(--icrm-red);
 }
-.icrm-seal[data-kind='ji'] {
-  background: var(--icrm-ink);
-}
-.icrm-sheet-perf {
-  position: relative;
-  height: 1px;
-  margin: 0 -26px;
-  background-image: linear-gradient(90deg, var(--icrm-rule) 50%, transparent 50%);
-  background-size: 8px 1px;
-}
-.icrm-sheet-foot {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0 -26px;
-  padding: 14px 20px;
-  background: var(--icrm-tint);
-  border-radius: 0 0 6px 6px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: var(--icrm-teal-2);
-}
+
 .icrm-line-dot {
   display: inline-flex;
   align-items: center;
@@ -389,50 +404,6 @@
   color: #fff;
   flex-shrink: 0;
 }
-/* 前一天那張：載入後撕掉 */
-.icrm-sheet-prev {
-  position: absolute;
-  z-index: 4;
-  top: var(--icrm-bind);
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--icrm-sheet);
-  border-radius: 0 0 6px 6px;
-  padding: 30px 26px 0;
-  transform-origin: 12% 0%;
-  pointer-events: none;
-  box-shadow: 0 10px 30px -12px rgba(15, 42, 51, 0.3);
-}
-.icrm-sheet-prev .icrm-sheet-day {
-  color: var(--icrm-ink);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .icrm-sheet-prev {
-    animation: icrmTear 1.1s cubic-bezier(0.55, 0, 0.3, 1) 0.9s both;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .icrm-sheet-prev {
-    display: none;
-  }
-}
-@keyframes icrmTear {
-  0% {
-    transform: none;
-    opacity: 1;
-  }
-  22% {
-    transform: rotate(-3deg) translate3d(-4px, 4px, 0);
-    opacity: 1;
-  }
-  100% {
-    transform: rotate(-24deg) translate3d(-120px, 260px, 0);
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
 /* ── 一天的時間軸 ───────────────────── */
 .icrm-day-head {
   display: grid;
@@ -1151,9 +1122,6 @@
   .icrm-motion [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
-  }
-  .icrm-sheet-prev {
-    display: none;
   }
 }
 

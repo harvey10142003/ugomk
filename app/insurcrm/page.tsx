@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { ArrowDown, MessageCircle } from 'lucide-react';
+import { ArrowDown, MessageCircle, MoonStar, ShieldCheck } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import { pageMeta, absoluteUrl } from '@/lib/seo';
 import { breadcrumbLd, faqPageLd, ORGANIZATION_ID } from '@/lib/jsonld';
@@ -27,7 +27,7 @@ import {
   type DayMock
 } from './_data/content';
 import { MotionRoot } from './_components/MotionRoot';
-import { CalendarPad } from './_components/CalendarPad';
+import { HeroChat } from './_components/HeroChat';
 import { GreetingDemo } from './_components/GreetingDemo';
 import { AssistantMock, BriefMock, ClientPhoneMock, FamilyMock, IcalMock, InboxMock } from './_components/Mocks';
 import { Faq } from './_components/Faq';
@@ -143,7 +143,7 @@ export default function InsurCrmPage() {
         ]}
       />
 
-      {/* ── 首屏：標語 + 今天這張日曆 ───────────────────── */}
+      {/* ── 首屏：標語 + 業務在 LINE 跟助理的對話（2026-09-28 Shark：換回改版前的首屏畫面） ─── */}
       <section className="icrm-hero" aria-labelledby="icrm-h1">
         <div className="icrm-wrap icrm-hero-grid">
           <div>
@@ -173,7 +173,28 @@ export default function InsurCrmPage() {
               {hero.status}．個人版 <span className="icrm-num font-bold text-[color:var(--icrm-ink)]">NT${SOLO_PRICE.toLocaleString('en-US')}</span>／月
             </p>
           </div>
-          <CalendarPad />
+          <div className="icrm-hero-visual">
+            <HeroChat />
+            {/* 浮動資訊卡（裝飾；內容與下方時間軸一致） */}
+            <div className="icrm-float-card icrm-float icrm-float-a" aria-hidden>
+              <div className="flex items-center gap-2 text-[13px] font-bold">
+                <span className="icrm-float-icon text-[color:var(--icrm-red)]">
+                  <MoonStar className="h-4 w-4" />
+                </span>
+                農曆八月十五
+              </div>
+              <p className="mt-1.5 text-xs leading-relaxed text-[color:var(--icrm-ink-3)]">中秋節祝福 12 則已擬好，等你確認</p>
+            </div>
+            <div className="icrm-float-card icrm-float-late icrm-float-b" aria-hidden>
+              <div className="flex items-center gap-2 text-[13px] font-bold">
+                <span className="icrm-float-icon text-[color:var(--icrm-teal)]">
+                  <ShieldCheck className="h-4 w-4" />
+                </span>
+                不收健康資料
+              </div>
+              <p className="mt-1.5 text-xs leading-relaxed text-[color:var(--icrm-ink-3)]">回覆寫到醫療字詞會直接擋下</p>
+            </div>
+          </div>
         </div>
       </section>
 

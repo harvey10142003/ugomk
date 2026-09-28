@@ -54,24 +54,6 @@ export const hero = {
   status: '尚未上線'
 };
 
-/**
- * 首屏的日曆紙（示範日：2026 年中秋節，國曆 9 月 25 日星期五、農曆八月十五）。
- * 「宜／忌」借用農民曆的格式講今天的事；早報內容與下方 07:30 的示範一致。人物皆為虛構。
- */
-export const calendarSheet = {
-  year: '2026',
-  month: '九月',
-  day: '25',
-  weekday: '星期五',
-  prevDay: '24',
-  prevWeekday: '星期四',
-  lunar: '農曆八月十五',
-  festival: '中秋節',
-  yi: ['確認中秋祝福 12 則', '拜訪陳家．保單週年'],
-  ji: ['忘了林媽媽的繳費日'],
-  footer: '07:30 早報已送到你的 LINE'
-};
-
 /* ── 一天的時間軸 ───────────────────────────────────── */
 export type DayMock = 'brief' | 'greeting' | 'family' | 'assistant' | 'inbox' | 'ical';
 export type DayItem = { text: string; phase: Phase; team?: boolean };
@@ -195,7 +177,7 @@ export const dayEntries: DayEntry[] = [
   }
 ];
 
-/* ── 早報示範（與首屏日曆紙同一天；人物皆為虛構） ─────────── */
+/* ── 早報示範（示範日：2026 年中秋節 9/25；人物皆為虛構） ─────────── */
 export const briefMock = {
   heading: '今日早報｜9/25（五）中秋節',
   summary: '約訪 2 件、祝福 12 則待確認',
@@ -274,7 +256,7 @@ export const compliance = {
   does: [
     {
       title: '不收健康資料',
-      body: '沒有病歷、既往症、體檢的欄位。筆記、祝福改字、一對一回覆遇到疾病或醫療字詞直接擋下；保單辨識遇到健康告知頁整張捨棄。'
+      body: '沒有病歷、既往症、體檢的欄位。祝福改字與一對一回覆遇到疾病或醫療字詞直接擋下；筆記會先攔下提醒，堅持存入會留下紀錄；保單辨識遇到健康告知頁整張捨棄。'
     },
     {
       title: '客戶要求刪除，就真的刪',
@@ -389,7 +371,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '系統會蒐集客戶的健康資料嗎？',
-    a: '不會。系統沒有病歷、既往症與體檢的欄位；筆記、祝福與一對一回覆出現疾病或醫療字詞會直接擋下，保單辨識偵測到健康告知內容會整張捨棄。'
+    a: '不會。系統沒有病歷、既往症與體檢的欄位；祝福與一對一回覆出現疾病或醫療字詞會直接擋下，筆記會先攔下提醒、堅持存入會留下紀錄，保單辨識偵測到健康告知內容會整張捨棄。'
   },
   {
     q: 'AI 會自己傳訊息給我的客戶嗎？',
@@ -411,7 +393,7 @@ export const faqs: { q: string; a: string }[] = [
 
 /* ── 區塊標題（標題用 Noto Serif TC 子集，所以集中在這裡） ─── */
 export const headings = {
-  day: '業務的一天，從一張日曆紙開始',
+  day: '業務的一天，從早上七點半開始',
   dayLead: '以下是同一天的六個時段，每個時段配一個產品畫面。產品尚未上線，畫面皆為示意。',
   client: clientSide.title,
   compliance: compliance.title,
@@ -423,15 +405,15 @@ export const headings = {
 };
 
 /** 手寫註記用到的全部文字 */
-const HAND_TEXT = [...dayEntries.map((d) => d.note), '宜', '忌', '示範人物皆為虛構'].join('');
-/** 標題字型用到的全部文字（含日曆紙） */
+const HAND_TEXT = [...dayEntries.map((d) => d.note), '不'].join('');
+/** 標題字型用到的全部文字（區塊標題、時段標題、示意畫面裡的 serif 小標） */
 const SERIF_TEXT = [
   PRODUCT_TAGLINE,
   ...Object.values(headings),
   ...dayEntries.map((d) => d.title),
-  ...Object.values(calendarSheet).flat(),
   '0123456789個人版團隊版洽詢報價',
-  familyMock.household
+  `${familyMock.household}．家庭保障總表`,
+  '9 月 26 日 星期六林○華的保單總表系統刻意不做的事'
 ].join('');
 
 /** 給 scripts/insurcrm-fonts.mjs 產生字型子集用；頁面不讀 */
