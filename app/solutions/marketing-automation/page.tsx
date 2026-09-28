@@ -213,7 +213,7 @@ export default function MarketingAutomationPage() {
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
+        <div className="container-ug relative [&>*]:max-w-3xl">
           <Link
             href="/solutions"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-500 transition-colors hover:text-brand-800"
@@ -222,7 +222,7 @@ export default function MarketingAutomationPage() {
             所有解決方案
           </Link>
 
-          <span className="eyebrow mt-8 block">LINE 行銷自動化・分眾推播</span>
+          <span className="eyebrow mt-8 flex">LINE 行銷自動化・分眾推播</span>
           <h1 className="heading-1 mt-4 text-balance">
             設定一次，
             <br />
@@ -255,8 +255,7 @@ export default function MarketingAutomationPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">The problem</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">不是訊息發得不夠多，是每一則都發給同一群人</h2>
             <p className="body-base mt-4">
               好友數成長之後，人工跟進就開始失效。真正漏掉的往往是最該被聯繫的那幾位。
@@ -290,8 +289,7 @@ export default function MarketingAutomationPage() {
       {/* ─────────── 運作模型 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">How it works</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">一條劇本只有四個欄位</h2>
             <p className="body-base mt-4">
               整套自動化就是這四件事。看得懂這四格，你就知道自己的店該設哪幾條。
@@ -322,8 +320,7 @@ export default function MarketingAutomationPage() {
           </div>
 
           <div className="mt-16">
-            <div className="mx-auto max-w-2xl text-center">
-              <span className="eyebrow">Walk through</span>
+            <div className="max-w-2xl">
               <h2 className="heading-3 mt-3 text-balance">{solutionDemos['marketing-automation'].title}</h2>
               <p className="body-base mt-4">{solutionDemos['marketing-automation'].intro}</p>
             </div>
@@ -338,7 +335,6 @@ export default function MarketingAutomationPage() {
       <section className="section">
         <div className="container-ug">
           <div className="max-w-2xl">
-            <span className="eyebrow">Triggers</span>
             <h2 className="heading-2 mt-3 text-balance">可以拿來當觸發條件的事</h2>
             <p className="body-base mt-4">
               下面每一項都在後台「新增劇本」的下拉選單裡選得到，不是規劃中的項目。
@@ -395,7 +391,6 @@ export default function MarketingAutomationPage() {
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
           <div className="max-w-2xl">
-            <span className="eyebrow">Actions</span>
             <h2 className="heading-2 mt-3 text-balance">條件成立之後，系統可以做的事</h2>
             <p className="body-base mt-4">
               一條劇本可以同時設好幾個動作。發訊息只是其中一種，很多時候發一張票券比講十句話有用。
@@ -424,7 +419,6 @@ export default function MarketingAutomationPage() {
         <div className="container-ug relative">
           <div className="grid gap-12 lg:grid-cols-[1fr_0.95fr] lg:gap-16">
             <div>
-              <span className="eyebrow-on-dark">Cost</span>
               <h2 className="heading-2 mt-3 text-white text-balance">
                 為什麼這比每個月群發一次省
               </h2>
@@ -483,8 +477,7 @@ export default function MarketingAutomationPage() {
       {/* ─────────── 適合誰 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Who it fits</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">同行通常從這幾條開始設</h2>
             <p className="body-base mt-4">
               不用一次設十條。先挑一條你現在靠人記、而且常常忘記的事，交給系統做。
@@ -538,8 +531,7 @@ export default function MarketingAutomationPage() {
       {/* ─────────── 怎麼搭 ─────────── */}
       <section className="section-tight border-t border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Works with</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">自動化要有東西可以發</h2>
             <p className="body-base mt-4">
               劇本負責決定「誰、什麼時候」，內容則來自其他模組。兩邊接起來才是完整的一次跟進。

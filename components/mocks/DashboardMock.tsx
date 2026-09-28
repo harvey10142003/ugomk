@@ -5,17 +5,20 @@ import {
   BarChart3,
   Megaphone,
   Settings,
-  Sparkles,
   ArrowUpRight
 } from 'lucide-react';
 
 /**
- * 後台 dashboard mock — Hero 主視覺
+ * 後台 dashboard mock
  * 純 CSS / HTML，無圖檔，響應式
+ *
+ * 2026-09-28：側欄店名原本是真實客戶「finnail」配上編的營收數字，改成虛構的「示範店家」並加「畫面為系統示意」；
+ * 手機寬度時原本側欄擠掉主欄、字被擠成一字一行 → 小螢幕收起側欄、數字卡改直排。
  */
 export function DashboardMock() {
   return (
-    <div className="glass overflow-hidden p-1.5">
+    <div>
+    <div className="overflow-hidden rounded-2xl border border-ink-100 bg-white p-1.5 shadow-card">
       {/* Browser frame */}
       <div className="flex items-center gap-1.5 px-3 py-2.5">
         <span className="h-2.5 w-2.5 rounded-full bg-ink-200" />
@@ -30,14 +33,14 @@ export function DashboardMock() {
       </div>
 
       <div className="rounded-xl bg-white overflow-hidden border border-ink-100">
-        <div className="grid grid-cols-[160px_1fr]">
+        <div className="grid sm:grid-cols-[150px_1fr]">
           {/* Sidebar */}
-          <aside className="bg-mist-100 border-r border-ink-100 py-4 px-3">
+          <aside className="hidden sm:block bg-mist-100 border-r border-ink-100 py-4 px-3">
             <div className="flex items-center gap-2 mb-5 px-1">
               <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-gradient-brand text-white text-[10px] font-bold">
                 U
               </span>
-              <span className="text-xs font-bold text-ink-800">finnail</span>
+              <span className="text-xs font-bold text-ink-800">示範店家</span>
             </div>
             <ul className="space-y-1">
               {[
@@ -67,19 +70,14 @@ export function DashboardMock() {
           <div className="p-5">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <div className="text-[10px] tracking-widest-2 uppercase text-ink-400 font-semibold">
-                  Overview · 今日
-                </div>
+                <div className="text-[11px] text-ink-400">今日</div>
                 <div className="mt-0.5 text-sm font-bold text-ink-900">營運儀表板</div>
               </div>
-              <span className="chip-brand">
-                <Sparkles className="h-3 w-3" />
-                即時
-              </span>
+              <span className="text-[11px] text-ink-400 sm:hidden">示範店家</span>
             </div>
 
             {/* Stat cards */}
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
               {[
                 { label: '今日新會員', value: '+24', delta: '+18%', accent: true },
                 { label: '推播觸及', value: '1,386', delta: '+9%' },
@@ -93,7 +91,7 @@ export function DashboardMock() {
                       : 'rounded-lg bg-mist-100 border border-ink-100 p-3'
                   }
                 >
-                  <div className="text-[9px] tracking-widest-2 uppercase text-ink-500 font-semibold">
+                  <div className="text-[10px] text-ink-500 font-semibold">
                     {c.label}
                   </div>
                   <div className="mt-1 flex items-baseline gap-1.5">
@@ -152,14 +150,14 @@ export function DashboardMock() {
             </div>
 
             {/* Activity row */}
-            <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {[
                 { name: '林小姐', action: '兌換 100 點 → 修甲券', time: '2 分鐘前' },
                 { name: '陳先生', action: '完成預約 · 美甲師 Amy', time: '5 分鐘前' }
               ].map((a) => (
                 <div key={a.name} className="rounded-md border border-ink-100 bg-white p-2">
                   <div className="flex items-center gap-2">
-                    <span className="h-5 w-5 rounded-full bg-gradient-to-br from-brand-400 to-mint-400 inline-flex items-center justify-center text-white text-[8px] font-bold">
+                    <span className="h-5 w-5 rounded-full bg-brand-600 inline-flex items-center justify-center text-white text-[8px] font-bold">
                       {a.name[0]}
                     </span>
                     <span className="text-[10px] font-semibold text-ink-800">{a.name}</span>
@@ -172,6 +170,8 @@ export function DashboardMock() {
           </div>
         </div>
       </div>
+    </div>
+    <p className="mt-3 text-center text-xs text-ink-400">畫面為系統示意，店家與會員皆為虛構</p>
     </div>
   );
 }

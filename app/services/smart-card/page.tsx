@@ -180,8 +180,7 @@ export default function SmartCardPage() {
       {/* ─────────── 紙本名片的問題 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Why</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">紙本名片的問題不是不好看</h2>
             <p className="body-base mt-4">是收下之後就進了抽屜，而且上面的資訊會過期。</p>
           </div>
@@ -227,8 +226,7 @@ export default function SmartCardPage() {
       {/* ─────────── 卡片上可以放什麼 ─────────── */}
       <section className="section border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">What it does</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">卡片上的每個按鈕都能做事</h2>
             <p className="body-base mt-4">Flex 圖卡的每一個區塊都可以掛動作，不只是一張圖。</p>
           </div>
@@ -251,7 +249,6 @@ export default function SmartCardPage() {
       <section className="section">
         <div className="container-ug grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
-            <span className="eyebrow">Who it fits</span>
             <h2 className="heading-3 mt-3 text-balance">誰適合用</h2>
             <p className="body-base mt-4">
               需要把自己介紹出去、而且希望對方能順手轉介給別人的人。

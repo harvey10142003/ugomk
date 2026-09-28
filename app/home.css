@@ -8,20 +8,7 @@
  * 且沒開減少動態時才加）；首屏的線是純 CSS 動畫、只畫一次，不等 JS。
  */
 
-@font-face {
-  font-family: 'UG Serif';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/site/fonts/serif-700.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'UG Hand';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/site/fonts/hand-400.woff2) format('woff2');
-}
+/* 字型 @font-face（UG Serif／UG Hand）在 app/fonts.css —— 全站共用 */
 
 .ug-home {
   --ug-ink: #0b2530;

@@ -53,13 +53,13 @@ export function CtaBlock({
   return (
     <div
       className={cn(
-        'card-glow bg-gradient-to-br from-brand-50 to-mint-100/40 text-center',
+        'rounded-2xl border border-ink-100 bg-white text-center',
         size === 'lg' ? 'p-10 md:p-16' : 'p-10 md:p-14',
         className
       )}
     >
       {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2 className={cn('heading-3 text-balance', eyebrow && 'mt-4')}>{title}</h2>
+      <h2 className={cn('heading-2', eyebrow && 'mt-4')}>{title}</h2>
       <p className="body-base mx-auto mt-4 max-w-xl">{description}</p>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
         {children ?? (

@@ -18,7 +18,7 @@ const config: Config = {
           700: '#0A6178',
           800: '#04566B',
           900: '#033D4D',
-          950: '#022A36'
+          950: '#062C38'
         },
         // 點綴：logo 漸層的淺端，hero mesh / accent 用
         mint: {
@@ -45,28 +45,29 @@ const config: Config = {
           700: '#038638',
           800: '#026B2D'
         },
-        // 深字 / 邊框
+        // 深字 / 邊框 —— 2026-09-28 改成帶一點 logo 青的墨色（原本是中性灰 #0B0F19…），
+        // 與 docs/design/site-direction.md 的 --ug-ink 系列同源。對比：400 在白底 5.3:1、500 7.9:1
         ink: {
-          DEFAULT: '#0B0F19',
-          50: '#F5F7FA',
-          100: '#E5E9F0',
-          200: '#CBD2DC',
-          300: '#9CA5B4',
-          400: '#6B7280',
-          500: '#4B5563',
-          600: '#374151',
-          700: '#1F2937',
-          800: '#111827',
-          900: '#0B0F19'
+          DEFAULT: '#0B2530',
+          50: '#F4F7F8',
+          100: '#DDE7EB',
+          200: '#C5D3D9',
+          300: '#8FA1A8',
+          400: '#5B6F78',
+          500: '#3D5560',
+          600: '#2E4651',
+          700: '#1D3440',
+          800: '#132C37',
+          900: '#0B2530'
         },
-        // 淺底（科技感淺色）
+        // 淺底 —— 冷調紙色（不用米黃）
         mist: {
-          DEFAULT: '#F7F9FC',
+          DEFAULT: '#F1F5F7',
           50: '#FFFFFF',
-          100: '#FAFBFD',
-          200: '#F7F9FC',
-          300: '#EEF2F7',
-          400: '#E2E8F0'
+          100: '#F1F5F7',
+          200: '#EDF2F4',
+          300: '#E5EDF0',
+          400: '#D3E0E5'
         }
       },
       fontFamily: {
@@ -83,10 +84,10 @@ const config: Config = {
         'display-sm': ['clamp(1.25rem, 1.9vw, 1.6rem)', { lineHeight: '1.25', letterSpacing: '-0.025em' }]
       },
       letterSpacing: {
-        'widest-2': '0.2em'
+        'widest-2': '0.08em'
       },
       backgroundImage: {
-        'gradient-brand': 'linear-gradient(135deg, #04566B 0%, #7CB6C6 100%)',
+        'gradient-brand': 'linear-gradient(135deg, #04566B 0%, #0A6178 100%)',
         'gradient-brand-soft': 'linear-gradient(135deg, #EEF6F9 0%, #D6E9F0 100%)',
         'gradient-mesh':
           'radial-gradient(at 20% 0%, rgba(124, 182, 198, 0.32) 0px, transparent 52%),' +

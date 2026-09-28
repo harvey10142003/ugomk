@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowRight, Blocks, CheckCircle2 } from 'lucide-react';
 import { ModuleGroups } from '@/components/ModuleGroups';
 import { ModuleArchitectureMock } from '@/components/mocks/ModuleArchitectureMock';
@@ -85,16 +84,35 @@ export default function CustomModulesPage() {
           </div>
           </div>
 
-          <div className="relative">
-            <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-brand-100/50 via-mint-100/40 to-transparent blur-3xl" />
-            <Image
-              src="/hero-visual.jpg"
-              alt="模組像積木一樣掛在同一份會員資料上的示意"
-              width={1600}
-              height={900}
-              priority
-              className="relative rounded-2xl shadow-card"
-            />
+          {/*
+            2026-09-28：原本是一張 AI 生成的抽象科技圖（/hero-visual.jpg），換成畫出「現成模組＋客製那一塊」的示意畫面。
+            圖檔本身沒刪（其他地方沒有引用，第二階段收尾時一併清）。
+          */}
+          <div aria-hidden>
+            <div className="rounded-2xl border border-ink-100 bg-white shadow-card">
+              <div className="flex items-center justify-between border-b border-ink-100 px-5 py-3 text-sm">
+                <span className="font-bold text-ink-900">示範店家・已開通的模組</span>
+                <span className="text-ink-400">後台</span>
+              </div>
+              <ul className="px-5 py-2 text-[0.95rem]">
+                {[
+                  ['會員管理', '現成'],
+                  ['餐飲 POS', '現成'],
+                  ['餐飲訂位', '現成'],
+                  ['行銷自動化', '現成'],
+                  ['訂位時一併記錄備料數量', '客製']
+                ].map(([name, kind]) => (
+                  <li key={name} className="flex items-center justify-between gap-3 border-b border-ink-100 py-3 last:border-0">
+                    <span className={kind === '客製' ? 'font-bold text-ink-900' : 'text-ink-700'}>{name}</span>
+                    <span className={kind === '客製' ? 'chip border-brand-800 bg-brand-800 text-white' : 'chip-ink'}>{kind}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="border-t border-ink-100 bg-mist-100 px-5 py-3 text-sm text-ink-500">
+                客製的那一塊，資料一樣掛在同一位會員身上
+              </div>
+            </div>
+            <p className="mt-3 text-center text-xs text-ink-400">畫面為系統示意，店家與會員皆為虛構</p>
           </div>
         </div>
       </section>
@@ -102,8 +120,7 @@ export default function CustomModulesPage() {
       {/* ─────────── 架構圖 ─────────── */}
       <section className="section section-dark">
         <div className="container-ug relative">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow-on-dark">Architecture</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-white text-balance">客製的東西，掛在同一份會員資料上</h2>
             <p className="mt-4 text-base leading-relaxed text-brand-200">
               客製模組不是另外一套系統。它跟現成模組共用同一份會員、點數與標籤，所以客製出來的功能一樣算得進報表、觸發得了自動化。
@@ -118,8 +135,7 @@ export default function CustomModulesPage() {
       {/* ─────────── 現成模組 ─────────── */}
       <section className="section border-b border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Ready to use</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">先看看這 {siteModuleCount} 個夠不夠用</h2>
             <p className="body-base mt-4">
               點進任何一個模組可以看到它實際能做什麼，還有操作起來長什麼樣。
@@ -134,8 +150,7 @@ export default function CustomModulesPage() {
       {/* ─────────── 什麼情況需要客製 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">When to customize</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">什麼情況才需要客製</h2>
             <p className="body-base mt-4">
               我們不會因為你問了就報一套客製。能用現成的就用現成的，對你比較省，對我們也比較好維護。
@@ -158,8 +173,7 @@ export default function CustomModulesPage() {
       {/* ─────────── 客製流程 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">How it works</span>
+          <div className="max-w-2xl">
             <h2 className="heading-3 mt-3 text-balance">客製是怎麼進行的</h2>
           </div>
           <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">

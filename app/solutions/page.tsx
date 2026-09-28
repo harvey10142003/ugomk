@@ -97,7 +97,6 @@ export default function SolutionsPage() {
           </div>
 
           <div className="relative">
-            <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-brand-100/50 via-mint-100/40 to-transparent blur-3xl" />
             <div className="relative">
               <ChatFlowMock />
             </div>
@@ -108,8 +107,7 @@ export default function SolutionsPage() {
       {/* ─────────── 為什麼要一套 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Why one system</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">問題不是工具不夠，是工具彼此不認識</h2>
             <p className="body-base mt-4">
               大部分店家不缺系統，缺的是讓這些系統講同一種話。
@@ -124,8 +122,7 @@ export default function SolutionsPage() {
       {/* ─────────── 多模組架構 ─────────── */}
       <section className="section section-dark">
         <div className="container-ug relative">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow-on-dark">Architecture</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-white text-balance">多模組架構長什麼樣</h2>
             <p className="mt-4 text-base leading-relaxed text-brand-200">
               中間是所有模組共用的那份會員資料，外面是可以隨時加、隨時停的模組。
@@ -154,8 +151,7 @@ export default function SolutionsPage() {
       {/* ─────────── 誰在用、看到什麼 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Who uses what</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">同一套系統，三種人看到三種畫面</h2>
             <p className="body-base mt-4">
               顧客不會看到後台，店員不會看到不該看的報表。每個角色只看到自己需要的部分。
@@ -260,8 +256,7 @@ export default function SolutionsPage() {
       {/* ─────────── 模組清單 ─────────── */}
       <section className="section border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Modules</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">可以開通的 {siteModuleCount} 個模組</h2>
             <p className="body-base mt-4">
               會員、點數、標籤、推播這些是每個品牌都有的基本功能，不用另外開通。
@@ -277,8 +272,7 @@ export default function SolutionsPage() {
       {/* ─────────── 不用開通就有的能力 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Built in</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">不用開通，一進來就有的那幾件事</h2>
             <p className="body-base mt-4">
               上面那些模組是依行業選配的。下面這些是每個品牌開通就有的地基，
@@ -306,8 +300,7 @@ export default function SolutionsPage() {
       {/* ─────────── 產業組合包 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Industry packs</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">不知道要開哪些？同行通常這樣配</h2>
           </div>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
@@ -322,6 +315,8 @@ export default function SolutionsPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-brand-950/10 to-transparent" />
+                  {/* 圖庫情境照，不是客戶實景 —— 一律標示（2026-09-28） */}
+                  <span className="photo-note">示意照片</span>
                   <span className="absolute bottom-3 left-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-brand-800">
                     {p.industry}
                   </span>
@@ -349,8 +344,7 @@ export default function SolutionsPage() {
       {/* ─────────── 我們提供的服務 ─────────── */}
       <section className="section border-t border-ink-100 bg-mist-100">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Services</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">我們提供的服務</h2>
             <p className="body-base mt-4">
               上面列的是系統裡開得起來的功能；這三項是我們替你做的事。

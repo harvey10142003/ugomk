@@ -1,11 +1,14 @@
-import { CreditCard, Plus, Minus, Wallet, Receipt } from 'lucide-react';
+import { Banknote, CreditCard, Plus, Minus, Wallet, Receipt } from 'lucide-react';
 
 /**
  * POS 收銀 mock — 給 POS 區段當主視覺
+ *
+ * 2026-09-28：付款方式的 emoji（💵💳🪙）換成 lucide 圖示；加「畫面為系統示意」。
  */
 export function POSMock() {
   return (
-    <div className="glass p-4 max-w-[440px] mx-auto">
+    <div className="max-w-[440px] mx-auto">
+    <div className="rounded-2xl border border-ink-100 bg-white p-4 shadow-card">
       <div className="flex items-center justify-between mb-4">
         <div>
           <div className="text-[10px] tracking-widest-2 uppercase text-ink-400 font-semibold">
@@ -73,9 +76,9 @@ export function POSMock() {
 
       <div className="grid grid-cols-3 gap-2 mb-3">
         {[
-          { label: '現金', icon: '💵' },
-          { label: '信用卡', icon: '💳', active: true },
-          { label: '儲值金', icon: '🪙' }
+          { label: '現金', icon: Banknote },
+          { label: '信用卡', icon: CreditCard, active: true },
+          { label: '儲值金', icon: Wallet }
         ].map((m) => (
           <button
             key={m.label}
@@ -85,7 +88,7 @@ export function POSMock() {
                 : 'rounded-lg border border-ink-100 bg-white px-2 py-2 text-xs font-medium text-ink-600'
             }
           >
-            <div className="text-base mb-0.5">{m.icon}</div>
+            <m.icon className="mx-auto mb-1 h-4 w-4" aria-hidden />
             {m.label}
           </button>
         ))}
@@ -95,6 +98,8 @@ export function POSMock() {
         <Receipt className="h-4 w-4" />
         確認結帳 · $1,260
       </button>
+    </div>
+    <p className="mt-3 text-center text-xs text-ink-400">畫面為系統示意，店家與會員皆為虛構</p>
     </div>
   );
 }

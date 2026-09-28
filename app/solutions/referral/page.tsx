@@ -206,7 +206,7 @@ export default function ReferralPage() {
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
+        <div className="container-ug relative [&>*]:max-w-3xl">
           <Link
             href="/solutions"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-500 transition-colors hover:text-brand-800"
@@ -215,7 +215,7 @@ export default function ReferralPage() {
             所有解決方案
           </Link>
 
-          <span className="eyebrow mt-8 block">LINE 推薦好友獎勵・MGM 會員裂變</span>
+          <span className="eyebrow mt-8 flex">LINE 推薦好友獎勵・MGM 會員裂變</span>
           <h1 className="heading-1 mt-4 text-balance">
             老客戶帶新客戶，
             <br />
@@ -250,7 +250,6 @@ export default function ReferralPage() {
         <div className="container-ug">
           <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
             <div>
-              <span className="eyebrow">What it means</span>
               <h2 className="heading-2 mt-3 text-balance">先講清楚：什麼是「會員裂變」</h2>
               <p className="body-base mt-5">
                 我們的系統全名是「{site.product}」，裂變兩個字常被當成術語帶過，
@@ -311,8 +310,7 @@ export default function ReferralPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">The problem</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">「聽朋友說的」是你最大的來源，也是最沒紀錄的那個</h2>
           </div>
 
@@ -343,8 +341,7 @@ export default function ReferralPage() {
       {/* ─────────── 實際怎麼跑 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Walk through</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">{solutionDemos.referral.title}</h2>
             <p className="body-base mt-4">{solutionDemos.referral.intro}</p>
           </div>
@@ -372,7 +369,6 @@ export default function ReferralPage() {
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
           <div className="max-w-2xl">
-            <span className="eyebrow">Rewards</span>
             <h2 className="heading-2 mt-3 text-balance">獎勵分成四份，時機不一樣</h2>
             <p className="body-base mt-4">
               很多推薦活動失敗是因為把所有獎勵綁在同一個時間點。這四份是分開設定的，
@@ -427,7 +423,6 @@ export default function ReferralPage() {
       <section className="section section-dark">
         <div className="container-ug relative">
           <div className="mx-auto max-w-3xl">
-            <span className="eyebrow-on-dark">The detail that matters</span>
             <h2 className="heading-2 mt-3 text-white text-balance">
               朋友加入了，但還沒加你的官方帳號
             </h2>
@@ -469,7 +464,6 @@ export default function ReferralPage() {
         <div className="container-ug">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
-              <span className="eyebrow">Fair play</span>
               <h2 className="heading-2 mt-3 text-balance">送出去的獎勵要送對人</h2>
               <p className="body-base mt-5">
                 推薦活動一旦有獎勵，就一定有人會試著鑽。這幾道防線是預設就在的，
@@ -523,8 +517,7 @@ export default function ReferralPage() {
       {/* ─────────── 適合誰 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Who it fits</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">哪些生意特別吃這一套</h2>
             <p className="body-base mt-4">
               共通點是：客人本來就會互相講。裂變做的是把那句話變成一個按得下去的連結。
@@ -563,8 +556,7 @@ export default function ReferralPage() {
       {/* ─────────── 怎麼搭 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Works with</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">裂變不是單獨一個功能</h2>
             <p className="body-base mt-4">
               它要有東西可以當獎勵，也要有人在對的時間提醒會員去分享。

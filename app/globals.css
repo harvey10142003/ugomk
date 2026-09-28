@@ -3,11 +3,15 @@
 @tailwind utilities;
 
 /*
- * Ugomk 官網 — 全站樣式基底
- * 設計語彙：淺色科技風 × UGO 青（#04566B，取自 logo 實際像素）
- * LINE 綠降為語意色，只出現在與 LINE 有關的元件上（btn-line / chip-line / 對話氣泡）
- * ⚠️ 按鈕底色用 line-700 #038638（配白字 4.70:1）；line-500 #06C755 只有 2.26:1 會掉 a11y
- * 對齊 docs/CIS.md
+ * Ugomk 官網 — 全站樣式基底（2026-09-28 第二階段改版）
+ *
+ * 設計方向「一條線」：docs/design/site-direction.md（改任何頁面前先讀它的禁止清單）。
+ * 這個檔把共用 class（eyebrow / heading-* / btn-* / card-* / hero-bg / section-dark …）
+ * 全部換成新方向，所以沿用這些 class 的頁面不必逐頁改就會跟著換：
+ *   - 標題 h1／h2 用襯線子集（'UG Serif'，scripts/site-fonts.mjs 產生），h3 以下用黑體
+ *   - 不用漸層文字、模糊光球、點陣／網格底紋（對應的 utility 保留成空殼，舊頁面不會壞）
+ *   - 卡片不浮起、不發光，只換框線顏色
+ * LINE 綠只給與 LINE 有關的元件；綠底按鈕用 line-700 #038638（白字 4.70:1），#06C755 只有 2.26:1。
  */
 
 @layer base {
@@ -15,8 +19,20 @@
     --color-brand: 4 86 107;
     --color-mint: 124 182 198;
     --color-line: 6 199 85;
-    --color-ink: 11 15 25;
-    --color-mist: 247 249 252;
+    --color-ink: 11 37 48;
+    --color-mist: 241 245 247;
+
+    /* 與 app/home.css 的 --ug-* 同一組值（首頁那份是 .ug-home 範圍內的副本） */
+    --ug-ink: #0b2530;
+    --ug-ink-2: #3d5560;
+    --ug-ink-3: #5b6f78;
+    --ug-teal: #04566b;
+    --ug-ice: #8cc8da;
+    --ug-tint: #e3f0f4;
+    --ug-mist: #f1f5f7;
+    --ug-rule: #d3e0e5;
+    --ug-night: #062c38;
+    --ug-serif: 'UG Serif', 'Noto Serif TC', var(--font-noto-sans-tc), serif;
   }
 
   html {
@@ -28,23 +44,27 @@
 
   body {
     @apply bg-mist-100 text-ink-700 font-sans antialiased;
-    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    letter-spacing: 0.01em;
+    /* 中英混排自動加間距、行首標點擠壓（支援的瀏覽器才生效） */
+    text-autospace: normal;
+    text-spacing-trim: trim-start;
   }
 
   ::selection {
-    @apply bg-brand-200 text-brand-950;
+    background: #c6e3ec;
+    color: var(--ug-ink);
   }
 
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: #F7F9FC; }
-  ::-webkit-scrollbar-thumb { background: #04566B; border-radius: 6px; }
-  ::-webkit-scrollbar-thumb:hover { background: #033D4D; }
+  :focus-visible {
+    outline: 2px solid var(--ug-teal);
+    outline-offset: 3px;
+  }
 
   input, textarea, select {
     @apply rounded-xl;
   }
 
-  /* 深色區塊的標題被 sticky header 蓋住 → 錨點捲動時預留 header 高度 */
+  /* 錨點捲動時預留 header 高度 */
   section[id], h2[id], h3[id] {
     scroll-margin-top: 96px;
   }
@@ -52,106 +72,132 @@
 
 @layer components {
   .container-ug {
-    @apply mx-auto w-full max-w-[1280px] px-6 md:px-10 lg:px-12;
+    @apply mx-auto w-full max-w-[1280px] px-5 md:px-10 lg:px-12;
   }
 
-  /* Eyebrow — 統一無 dash 的緊湊版（SaaS 標竿做法） */
-  .eyebrow {
-    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-700;
+  /*
+   * 小標：中文、深青、前面一小段 logo 漸層線。
+   * 英文小標（THE PROBLEM 之類）是模板的指紋 —— 不要再加；頁面上只留中文的。
+   */
+  .eyebrow,
+  .eyebrow-on-dark {
+    @apply inline-flex items-center gap-2.5 text-sm font-bold tracking-[0.08em];
+    color: var(--ug-teal);
+  }
+  .eyebrow::before,
+  .eyebrow-on-dark::before {
+    content: '';
+    width: 24px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--ug-ice), var(--ug-teal));
   }
   .eyebrow-on-dark {
-    @apply inline-block text-[11px] font-semibold tracking-widest-2 uppercase text-brand-300;
+    color: var(--ug-ice);
+  }
+  .eyebrow-on-dark::before {
+    background: var(--ug-ice);
   }
 
-  /* 標題系統 — 收緊 tracking、強化層級對比 */
+  /* 標題：h1／h2 襯線，h3 以下黑體 */
+  .heading-display,
+  .heading-1,
+  .heading-2 {
+    font-family: var(--ug-serif);
+    font-weight: 700;
+    font-feature-settings: 'palt';
+    letter-spacing: 0.02em;
+    color: var(--ug-ink);
+    text-wrap: balance;
+  }
   .heading-display {
-    @apply font-display font-extrabold text-display-xl text-ink-900;
+    font-size: clamp(2.1rem, 1rem + 2.3vw, 2.6rem);
+    line-height: 1.26;
   }
   .heading-1 {
-    @apply font-display font-extrabold text-display-lg text-ink-900;
+    font-size: clamp(1.9rem, 1.1rem + 2vw, 2.45rem);
+    line-height: 1.3;
   }
   .heading-2 {
-    @apply font-display font-bold text-display-md text-ink-900;
+    font-size: clamp(1.6rem, 1.2rem + 1.3vw, 2.2rem);
+    line-height: 1.36;
   }
   .heading-3 {
-    @apply font-display font-bold text-display-sm text-ink-900;
+    @apply font-bold text-ink-900;
+    font-size: clamp(1.2rem, 1.05rem + 0.5vw, 1.4rem);
+    line-height: 1.5;
+    text-wrap: balance;
   }
 
-  .body-lg { @apply text-base md:text-lg leading-[1.7] text-ink-500 font-normal; }
-  .body-base { @apply text-base leading-relaxed text-ink-500; }
+  .body-lg { @apply text-base md:text-[1.08rem] leading-[1.9] text-ink-500 font-normal; text-wrap: pretty; }
+  .body-base { @apply text-base leading-[1.85] text-ink-500; text-wrap: pretty; }
   .body-sm { @apply text-sm leading-relaxed text-ink-500; }
 
-  /* 按鈕 */
+  /* 按鈕：不浮起、不發光；主按鈕深青實心、次按鈕白底框線 */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 text-sm font-semibold transition-all duration-200 rounded-full whitespace-nowrap;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 px-6 py-2.5 text-sm font-bold tracking-[0.04em] transition-colors duration-200 rounded-full whitespace-nowrap;
+  }
+  .btn:active {
+    transform: translateY(1px);
   }
   .btn-brand {
-    @apply btn bg-brand-800 text-white hover:bg-brand-700 shadow-soft hover:shadow-brand hover:-translate-y-0.5;
+    @apply btn bg-brand-800 text-white hover:bg-brand-900;
   }
   .btn-outline {
-    @apply btn border border-ink-200 text-brand-900 bg-white hover:border-brand-800 hover:text-brand-800 hover:bg-brand-50;
+    @apply btn border border-ink-200 text-brand-800 bg-white hover:border-brand-800;
   }
   .btn-ghost {
-    @apply btn text-ink-600 hover:text-brand-800;
+    @apply btn text-brand-800 underline decoration-ink-200 decoration-2 underline-offset-[6px] hover:decoration-brand-800;
   }
   /* LINE 專用 — 全站唯一的綠色按鈕 */
   .btn-line {
-    @apply btn bg-line-700 text-white hover:bg-line-800 hover:-translate-y-0.5;
+    @apply btn bg-line-700 text-white hover:bg-line-800;
   }
 
-  /* 卡片 */
+  /* 卡片：1px 框線、圓角 16px；hover 只換框線顏色 */
   .card {
-    @apply bg-white border border-ink-100 rounded-2xl transition-all duration-300;
+    @apply bg-white border border-ink-100 rounded-2xl transition-colors duration-200;
   }
   .card-hover {
-    @apply card hover:border-brand-200 hover:shadow-card hover:-translate-y-0.5;
+    @apply card hover:border-brand-400;
   }
   .card-glow {
-    @apply card border-brand-200 shadow-brand;
+    @apply card border-brand-800;
+    box-shadow: 0 0 0 1px var(--ug-teal);
   }
   .card-dark {
-    @apply bg-brand-950 text-brand-100 rounded-2xl border border-brand-800;
+    @apply rounded-2xl border text-brand-100;
+    background: var(--ug-night);
+    border-color: rgba(140, 200, 218, 0.2);
   }
 
-  /* 玻璃感（hero 上的浮動 UI mock） */
+  /* 原本是半透明玻璃卡，改成實心白卡（玻璃感是模板感的來源之一） */
   .glass {
-    @apply bg-white/80 backdrop-blur-xl border border-white/40 rounded-2xl;
-    box-shadow: 0 24px 60px -24px rgba(3, 61, 77, 0.22);
+    @apply bg-white border border-ink-100 rounded-2xl;
+    box-shadow: 0 18px 40px -20px rgba(6, 44, 56, 0.28);
   }
 
   /* 標籤 / 徽章 */
   .chip {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium rounded-full border;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-full border;
   }
-  .chip-brand { @apply chip border-brand-200 bg-brand-50 text-brand-800; }
-  .chip-ink { @apply chip border-ink-200 bg-mist-200 text-ink-600; }
+  .chip-brand { @apply chip border-transparent bg-brand-50 text-brand-800; }
+  .chip-ink { @apply chip border-transparent bg-mist-300 text-ink-600; }
   .chip-dark { @apply chip border-brand-700 bg-brand-900 text-brand-200; }
-  /* LINE 專用標籤 */
   .chip-line { @apply chip border-line-200 bg-line-50 text-line-700; }
 
-  /* Section padding 統一 */
-  .section { @apply py-24 md:py-32; }
-  .section-tight { @apply py-16 md:py-24; }
+  .section { @apply py-20 md:py-28; }
+  .section-tight { @apply py-16 md:py-20; }
 
-  /* Hero 漸層背景 — UGO 青 mesh */
+  /* 頁首區：白到冷灰的直向漸層，不放光暈 */
   .hero-bg {
-    background:
-      radial-gradient(at 18% 0%, rgba(124, 182, 198, 0.32) 0px, transparent 52%),
-      radial-gradient(at 82% 6%, rgba(21, 105, 127, 0.18) 0px, transparent 46%),
-      radial-gradient(at 50% 92%, rgba(4, 86, 107, 0.08) 0px, transparent 54%),
-      linear-gradient(180deg, #FFFFFF 0%, #F6FAFC 100%);
+    background: linear-gradient(180deg, #ffffff 0%, var(--ug-mist) 100%);
   }
 
-  /* 深色區塊（架構圖 / 創辦人） */
+  /* 深色區塊：logo 最深處的青黑，不放光暈 */
   .section-dark {
-    @apply bg-brand-950 text-brand-100 relative overflow-hidden;
-  }
-  .section-dark::before {
-    content: '';
-    @apply absolute inset-0 pointer-events-none;
-    background:
-      radial-gradient(at 15% 0%, rgba(124, 182, 198, 0.16) 0px, transparent 48%),
-      radial-gradient(at 85% 100%, rgba(42, 125, 148, 0.2) 0px, transparent 50%);
+    @apply text-brand-100 relative overflow-hidden;
+    background: var(--ug-night);
   }
 }
 
@@ -159,33 +205,19 @@
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
 
+  /* 漸層文字已停用（模板感）：保留 class 讓舊頁面不壞，改成實心深青 */
   .text-gradient-brand {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(120deg, #04566B 0%, #2A7D94 55%, #7CB6C6 100%);
+    color: var(--ug-teal);
   }
   .text-gradient-ink {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #0B0F19 0%, #4B5563 100%);
+    color: var(--ug-ink);
   }
 
-  /* 微點背景（hero 副視覺） */
-  .dot-grid {
-    background-image: radial-gradient(rgba(4, 86, 107, 0.10) 1px, transparent 1px);
-    background-size: 26px 26px;
-  }
-  .dot-grid-fade {
-    background-image: radial-gradient(rgba(4, 86, 107, 0.10) 1px, transparent 1px);
-    background-size: 26px 26px;
-    mask-image: radial-gradient(ellipse at 50% 35%, black 32%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse at 50% 35%, black 32%, transparent 78%);
-  }
-
-  /* 細網格 */
+  /* 點陣／網格底紋已停用（裝飾性、模板感）：保留 class 讓舊頁面不壞 */
+  .dot-grid,
+  .dot-grid-fade,
   .grid-bg {
-    background-image:
-      linear-gradient(rgba(11, 15, 25, 0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(11, 15, 25, 0.035) 1px, transparent 1px);
-    background-size: 56px 56px;
+    background-image: none;
   }
 
   .mask-fade-b {
@@ -193,13 +225,17 @@
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
   }
 
-  /* 文字垂直直立的小裝飾 */
   .vertical-rule {
     @apply h-3 w-px bg-ink-300 inline-block align-middle mx-3;
   }
 
-  /* hover ring 動效 */
   .ring-soft {
     box-shadow: 0 0 0 1px rgba(3, 61, 77, 0.08);
+  }
+
+  /* 圖庫照片的「示意照片」標示（第二階段：Unsplash 等非客戶實景一律要標） */
+  .photo-note {
+    @apply absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-0.5 text-[11px] font-bold text-white;
+    letter-spacing: 0.04em;
   }
 }

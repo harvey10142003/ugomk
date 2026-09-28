@@ -14,8 +14,7 @@ export function RelatedServices({ current }: { current: string }) {
   return (
     <section className="section-tight border-t border-ink-100 bg-mist-100">
       <div className="container-ug">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">More services</span>
+        <div className="max-w-2xl">
           <h2 className="heading-3 mt-3 text-balance">你可能也需要這些</h2>
         </div>
 

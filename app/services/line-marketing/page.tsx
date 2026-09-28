@@ -69,7 +69,6 @@ export default function LineMarketingPage() {
             </div>
           </div>
           <div className="relative">
-            <div className="absolute -inset-6 rounded-full bg-gradient-to-br from-brand-100/50 via-mint-100/40 to-transparent blur-3xl" />
             <div className="relative">
               <ChatFlowMock />
             </div>
@@ -80,8 +79,7 @@ export default function LineMarketingPage() {
       {/* ─────────── 地圖 vs 導航 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Map or navigation</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">你的 LINE@ 是「地圖」還是「導航」？</h2>
             <p className="body-base mt-4">同樣是要到目的地，兩者的差別在於有沒有人告訴你下一步該轉哪裡。</p>
           </div>
@@ -138,8 +136,7 @@ export default function LineMarketingPage() {
       {/* ─────────── 六步法 ─────────── */}
       <section className="section section-dark">
         <div className="container-ug relative">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow-on-dark">Six steps</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-white text-balance">導航六步法</h2>
             <p className="mt-4 text-base leading-relaxed text-brand-200">
               這套系統的核心路徑，就是這六個關鍵步驟。每一步都有要達成的目標，也有做得出來的東西。
@@ -180,8 +177,7 @@ export default function LineMarketingPage() {
       {/* ─────────── 合作方式 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">How we work</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">我們怎麼陪你做這件事</h2>
             <p className="body-base mt-4">
               規劃不是給你一份簡報就結束，要能落到實際的設定與腳本上。

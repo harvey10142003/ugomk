@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, ArrowRight, Check, CircleCheck } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CircleCheck } from 'lucide-react';
 import { crmModules, siteModuleGroups } from '@/lib/data/modules';
 import { moduleDemos } from '@/lib/data/module-demos';
 import { ModuleDemo } from '@/components/ModuleDemo';
@@ -83,8 +83,7 @@ export default function ModulePage({ params }: Props) {
 
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-20">
-        <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
+        <div className="container-ug relative">
           <Link
             href="/solutions"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-500 transition-colors hover:text-brand-800"
@@ -94,19 +93,17 @@ export default function ModulePage({ params }: Props) {
           </Link>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-brand-100 bg-brand-50 text-brand-800">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand-800 text-white">
               {Icon ? <Icon className="h-7 w-7" /> : null}
             </span>
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-600">
-                {group?.label}
-              </div>
+              <div className="text-sm font-bold text-brand-700">{group?.label}</div>
               <h1 className="heading-1 mt-1">{mod.title}</h1>
             </div>
           </div>
 
           <p className="mt-6 text-lg font-bold text-brand-800 md:text-xl">{detail.tagline}</p>
-          <p className="body-lg mt-4">{detail.intro}</p>
+          <p className="body-lg mt-4 max-w-3xl">{detail.intro}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
             <Link href={ctaHref(site.cta.primary.href, source, 'hero')} className="btn-brand">
@@ -124,9 +121,8 @@ export default function ModulePage({ params }: Props) {
       {demo ? (
         <section className="section-tight">
           <div className="container-ug">
-            <div className="mx-auto max-w-2xl text-center">
-              <span className="eyebrow">Walk through</span>
-              <h2 className="heading-2 mt-3 text-balance">{demo.title}</h2>
+            <div className="max-w-2xl">
+              <h2 className="heading-2">{demo.title}</h2>
               <p className="body-base mt-4">{demo.intro}</p>
             </div>
             <div className="mt-12">
@@ -140,30 +136,28 @@ export default function ModulePage({ params }: Props) {
       <section className="section">
         <div className="container-ug">
           <div className="max-w-2xl">
-            <span className="eyebrow">What it does</span>
-            <h2 className="heading-2 mt-3 text-balance">這個模組可以做到什麼</h2>
+            <h2 className="heading-2">這個模組可以做到什麼</h2>
             <p className="body-base mt-4">
               以下每一項都是系統裡實際存在的功能，不是規劃中的項目。
             </p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {/*
+            2026-09-28：原本是「圓底勾勾圖示＋標題＋說明」的等大卡片三欄（10 張長得一模一樣、最後一張落單），
+            改成兩欄的細線清單 —— 功能是並列的，沒有順序，所以不編號、不配圖示。
+          */}
+          <dl className="mt-12 grid border-t border-ink-100 md:grid-cols-2 md:gap-x-14">
             {detail.features.map((f) => (
-              <article key={f.title} className="card-hover p-7">
-                <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-50 text-brand-700">
-                  <Check className="h-4 w-4" />
-                </span>
-                <h3 className="mt-4 text-base font-bold text-ink-900">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-500">{f.description}</p>
-              </article>
+              <div key={f.title} className="border-b border-ink-100 py-5">
+                <dt className="text-base font-bold text-ink-900">{f.title}</dt>
+                <dd className="mt-1.5 text-[0.95rem] leading-[1.8] text-ink-500">{f.description}</dd>
+              </div>
             ))}
-          </div>
+          </dl>
 
           {detail.note ? (
-            <div className="mt-10 rounded-2xl border border-brand-200 bg-brand-50 p-6">
-              <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-700">
-                搭配說明
-              </div>
+            <div className="mt-10 border-l-2 border-brand-300 pl-5">
+              <div className="text-sm font-bold text-brand-800">搭配說明</div>
               <p className="mt-2 text-sm leading-relaxed text-ink-600">{detail.note}</p>
             </div>
           ) : null}
@@ -174,8 +168,7 @@ export default function ModulePage({ params }: Props) {
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div>
-            <span className="eyebrow">Who it fits</span>
-            <h2 className="heading-3 mt-3 text-balance">這個模組適合誰</h2>
+            <h2 className="heading-2">這個模組適合誰</h2>
             <p className="body-base mt-4">
               不確定自己適不適合？把現在的流程講一遍，我們幫你判斷要不要開這個模組。
             </p>
@@ -183,13 +176,10 @@ export default function ModulePage({ params }: Props) {
               預約需求討論
             </Link>
           </div>
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="border-t border-ink-100">
             {detail.forWho.map((w) => (
-              <li
-                key={w}
-                className="flex items-start gap-2.5 rounded-xl border border-ink-100 bg-mist-200 p-4 text-sm font-medium text-ink-700"
-              >
-                <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-brand-500" />
+              <li key={w} className="flex items-start gap-3 border-b border-ink-100 py-4 text-base text-ink-700">
+                <CircleCheck className="mt-1 h-4 w-4 shrink-0 text-brand-600" />
                 {w}
               </li>
             ))}
@@ -203,8 +193,7 @@ export default function ModulePage({ params }: Props) {
           <div className="container-ug">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
-                <span className="eyebrow">More modules</span>
-                <h2 className="heading-3 mt-3">同一組的其他模組</h2>
+                <h2 className="heading-2">同一組的其他模組</h2>
               </div>
               <Link href="/solutions" className="btn-ghost">
                 看全部模組
@@ -219,7 +208,7 @@ export default function ModulePage({ params }: Props) {
                   <Link
                     key={m.id}
                     href={`/solutions/${m.id}`}
-                    className="group flex gap-3.5 rounded-2xl border border-ink-100 bg-white p-[18px] transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-card"
+                    className="group flex gap-3.5 rounded-2xl border border-ink-100 bg-white p-[18px] transition-colors duration-200 hover:border-brand-400"
                   >
                     <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-xl border border-brand-100 bg-brand-50 text-brand-800 transition-colors duration-200 group-hover:border-brand-800 group-hover:bg-brand-800 group-hover:text-white">
                       {SibIcon ? <SibIcon className="h-5 w-5" /> : null}

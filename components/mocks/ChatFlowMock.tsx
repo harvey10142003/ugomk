@@ -2,14 +2,17 @@ import { CheckCircle2, Bot, MousePointer2 } from 'lucide-react';
 
 /**
  * LINE 自動化對話 mock — 行銷自動化 section 主視覺
+ *
+ * 2026-09-28：店名原本是真實客戶「菲韻美甲」配上編的對話，改成虛構的「示範店家」；
+ * 訊息裡的 emoji 拿掉（介面禁用 emoji）；下方加一行「畫面為系統示意」。
  */
 export function ChatFlowMock() {
   const messages: Array<{ from: 'user' | 'bot'; text: string; time: string }> = [
-    { from: 'bot', text: '🎉 林小姐 歡迎回來菲韻美甲！\n你的會員等級已升等為「鑽石」', time: '14:02' },
+    { from: 'bot', text: '林小姐，歡迎回來示範店家！\n你的會員等級已升等為「金卡」', time: '14:02' },
     { from: 'user', text: '太棒了！我的點數還剩多少？', time: '14:03' },
     {
       from: 'bot',
-      text: '目前點數：📍 1,240 點\n可兌換：免費修甲券（300 點）',
+      text: '目前點數：1,240 點\n可兌換：保養折價券（300 點）',
       time: '14:03'
     }
   ];
@@ -30,11 +33,11 @@ export function ChatFlowMock() {
 
           {/* LINE header */}
           <div className="bg-white border-b border-ink-100 px-4 py-2.5 flex items-center gap-2.5">
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-brand text-white font-extrabold text-sm">
-              U
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-800 text-white font-bold text-sm">
+              店
             </span>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-bold text-ink-900 truncate">菲韻美甲</div>
+              <div className="text-xs font-bold text-ink-900 truncate">示範店家</div>
               <div className="text-[9px] text-brand-700 inline-flex items-center gap-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-500" />
                 線上
@@ -50,8 +53,8 @@ export function ChatFlowMock() {
                 className={m.from === 'bot' ? 'flex items-end gap-1.5' : 'flex items-end gap-1.5 justify-end'}
               >
                 {m.from === 'bot' ? (
-                  <span className="h-6 w-6 rounded-full bg-gradient-brand inline-flex items-center justify-center text-white text-[10px] font-bold shrink-0">
-                    U
+                  <span className="h-6 w-6 rounded-full bg-brand-800 inline-flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+                    店
                   </span>
                 ) : null}
                 <div
@@ -69,8 +72,8 @@ export function ChatFlowMock() {
             ))}
             {/* Typing indicator */}
             <div className="flex items-end gap-1.5">
-              <span className="h-6 w-6 rounded-full bg-gradient-brand inline-flex items-center justify-center text-white text-[10px] font-bold shrink-0">
-                U
+              <span className="h-6 w-6 rounded-full bg-brand-800 inline-flex items-center justify-center text-white text-[10px] font-bold shrink-0">
+                店
               </span>
               <div className="rounded-2xl rounded-bl-sm bg-white px-3 py-2 shadow-soft">
                 <div className="flex gap-1">
@@ -91,9 +94,11 @@ export function ChatFlowMock() {
         </div>
       </div>
 
+      <p className="mt-4 text-center text-xs text-ink-400">畫面為系統示意，店家與會員皆為虛構</p>
+
       {/* Floating annotation */}
       <div className="absolute -right-2 top-16 hidden md:block">
-        <div className="glass px-3 py-2 max-w-[180px]">
+        <div className="rounded-xl border border-ink-100 bg-white px-3 py-2 shadow-soft max-w-[180px]">
           <div className="flex items-start gap-2">
             <Bot className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
             <div>
@@ -105,7 +110,7 @@ export function ChatFlowMock() {
       </div>
 
       <div className="absolute -left-2 bottom-20 hidden md:block">
-        <div className="glass px-3 py-2 max-w-[170px]">
+        <div className="rounded-xl border border-ink-100 bg-white px-3 py-2 shadow-soft max-w-[170px]">
           <div className="flex items-start gap-2">
             <MousePointer2 className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
             <div>

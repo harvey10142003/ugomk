@@ -226,7 +226,7 @@ export default function LoyaltyPage() {
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24">
         <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
+        <div className="container-ug relative [&>*]:max-w-3xl">
           <Link
             href="/solutions"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink-500 transition-colors hover:text-brand-800"
@@ -235,7 +235,7 @@ export default function LoyaltyPage() {
             所有解決方案
           </Link>
 
-          <span className="eyebrow mt-8 block">LINE 會員集點系統・票券・儲值金</span>
+          <span className="eyebrow mt-8 flex">LINE 會員集點系統・票券・儲值金</span>
           <h1 className="heading-1 mt-4 text-balance">
             開一張 LINE 集點卡，
             <br />
@@ -268,8 +268,7 @@ export default function LoyaltyPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">The problem</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">集點做了三年，還是不知道熟客是誰</h2>
             <p className="body-base mt-4">
               多數店家不是沒有集點，是集點這件事被切在系統外面。
@@ -323,8 +322,7 @@ export default function LoyaltyPage() {
       {/* ─────────── 實際怎麼跑 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Walk through</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">{solutionDemos.loyalty.title}</h2>
             <p className="body-base mt-4">{solutionDemos.loyalty.intro}</p>
           </div>
@@ -338,7 +336,6 @@ export default function LoyaltyPage() {
       <section className="section">
         <div className="container-ug">
           <div className="max-w-2xl">
-            <span className="eyebrow">What it does</span>
             <h2 className="heading-2 mt-3 text-balance">四件事，同一份會員資料</h2>
             <p className="body-base mt-4">
               下面每一項都是系統裡實際存在的功能。設定畫面在後台的「參數設定」與「活動管理」裡，
@@ -429,8 +426,7 @@ export default function LoyaltyPage() {
       {/* ─────────── 適合誰 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Who it fits</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">哪些店這樣用</h2>
             <p className="body-base mt-4">
               集點適合會回頭的生意。單價高但一年來一次的服務，通常先做票券與推薦比較有感。
@@ -469,8 +465,7 @@ export default function LoyaltyPage() {
       {/* ─────────── 怎麼搭 ─────────── */}
       <section className="section">
         <div className="container-ug">
-          <div className="mx-auto max-w-2xl text-center">
-            <span className="eyebrow">Works with</span>
+          <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">點數與票券是別的模組的燃料</h2>
             <p className="body-base mt-4">
               集點本身只是記數字。真正把它變成回購的，是誰在什麼時候把點數與票券送到客人面前。
