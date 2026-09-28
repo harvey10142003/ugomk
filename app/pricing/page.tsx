@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Fragment } from 'react';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle2, Sparkles, Minus } from 'lucide-react';
+import { ArrowRight, Check, CheckCircle2, Minus, Plus } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
@@ -101,14 +101,12 @@ export default function PricingPage() {
                 )}
               >
                 {p.highlight ? (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand-800 px-3 py-1 text-xs font-bold text-white">
-                    <Sparkles className="h-3 w-3 text-brand-400" />
+                  // 「最受歡迎」待 Shark 確認（CRM 裡沒有 Growth 方案的租戶，無法證實）；確認前文字原樣保留
+                  <span className="absolute -top-3 left-8 inline-flex items-center rounded-full bg-brand-800 px-3 py-0.5 text-xs font-bold text-white">
                     最受歡迎
                   </span>
                 ) : null}
-                <div className="text-[11px] tracking-widest-2 uppercase font-semibold text-ink-400">
-                  {p.caption}
-                </div>
+                <div className="text-sm text-ink-400">{p.caption}</div>
                 {/*
                   h1 是 PageHero 的頁面標題，方案卡是它底下的第一層內容，
                   所以這裡是 h2 —— 原本寫 h3，中間少一階（Lighthouse 會標紅）。
@@ -116,17 +114,17 @@ export default function PricingPage() {
                 */}
                 <h2 className="mt-2 text-xl font-bold text-ink-900">{p.name}</h2>
                 <div className="mt-5 flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-ink-900 tracking-tight">
+                  <span className="font-[family-name:var(--font-inter)] text-4xl font-bold tabular-nums text-ink-900">
                     {p.price}
                   </span>
                   <span className="text-sm text-ink-400">{p.priceSuffix}</span>
                 </div>
-                <p className="mt-3 text-sm leading-relaxed text-ink-500">{p.description}</p>
+                <p className="mt-3 text-[0.95rem] leading-[1.8] text-ink-500">{p.description}</p>
                 {/* flex-1 吃掉高度差，CTA 才會被推到卡片底部對齊 */}
                 <ul className="mt-6 flex-1 space-y-2.5">
                   {p.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-ink-700">
-                      <CheckCircle2 className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
+                    <li key={f} className="flex items-start gap-2 text-[0.95rem] text-ink-700">
+                      <Check className="h-4 w-4 text-brand-700 mt-1 shrink-0" />
                       {f}
                     </li>
                   ))}
@@ -142,7 +140,7 @@ export default function PricingPage() {
             ))}
           </div>
 
-          <div className="mt-12 max-w-3xl mx-auto text-center">
+          <div className="mt-10 max-w-3xl">
             <p className="text-sm leading-relaxed text-ink-500">{billingNote}</p>
           </div>
         </div>
@@ -151,9 +149,8 @@ export default function PricingPage() {
       {/* Comparison table */}
       <section className="section bg-mist-100 border-y border-ink-100">
         <div className="container-ug max-w-5xl">
-          <div className="text-center mb-12">
-            <span className="eyebrow">Compare</span>
-            <h2 className="heading-2 mt-3">完整方案比較</h2>
+          <div className="mb-10">
+            <h2 className="heading-2">完整方案比較</h2>
           </div>
 
           <div className="card overflow-hidden">
@@ -161,7 +158,7 @@ export default function PricingPage() {
               <table className="w-full text-sm min-w-[640px]">
                 <thead>
                   <tr className="border-b border-ink-100">
-                    <th className="text-left p-5 text-xs font-semibold tracking-widest-2 uppercase text-ink-500 w-1/2">
+                    <th className="text-left p-5 text-sm font-bold text-ink-500 w-1/2">
                       功能
                     </th>
                     <th className="p-5 text-sm font-bold text-ink-900 w-1/6">Starter</th>
@@ -177,7 +174,7 @@ export default function PricingPage() {
                       <tr className="bg-mist-100">
                         <td
                           colSpan={4}
-                          className="px-5 py-3 text-[11px] tracking-widest-2 uppercase font-semibold text-ink-500"
+                          className="px-5 py-3 text-sm font-bold text-brand-800"
                         >
                           {sec.section}
                         </td>
@@ -217,23 +214,21 @@ export default function PricingPage() {
       {/* FAQ */}
       <section className="section">
         <div className="container-ug max-w-3xl">
-          <div className="text-center mb-12">
-            <span className="eyebrow">FAQ</span>
-            <h2 className="heading-2 mt-3">常見問題</h2>
+          <div className="mb-10">
+            <h2 className="heading-2">常見問題</h2>
           </div>
-          <div className="space-y-3">
+          {/* 問答是一條一條的細線清單，不做成一張張卡片 */}
+          <div className="border-t border-ink-100">
             {pricingFaqs.map((it) => (
-              <details
-                key={it.q}
-                className="card-hover p-6 group"
-              >
-                <summary className="flex items-center justify-between cursor-pointer list-none">
+              <details key={it.q} className="group border-b border-ink-100 py-5">
+                <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-4">
                   <span className="text-base font-bold text-ink-900">{it.q}</span>
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-ink-200 text-ink-500 group-open:rotate-45 transition-transform">
-                    +
-                  </span>
+                  <Plus
+                    aria-hidden
+                    className="h-5 w-5 shrink-0 text-brand-700 transition-transform group-open:rotate-45"
+                  />
                 </summary>
-                <p className="mt-4 text-sm leading-relaxed text-ink-500">{it.a}</p>
+                <p className="mt-3 text-[0.95rem] leading-[1.85] text-ink-500">{it.a}</p>
               </details>
             ))}
           </div>
@@ -245,7 +240,7 @@ export default function PricingPage() {
           <div className="mt-14">
             <CtaBlock
               title="還是不確定要選哪一個？"
-              description="把你的分店數量、目前的 LINE 好友數與最想解決的問題講一遍，我們直接說哪個方案夠用、哪些模組先不用開。"
+              description="把你的產業、分店數量與最想解決的問題講一遍，我們直接說哪個方案夠用、哪些模組先不用開。"
               source="pricing"
               secondary={{ label: '看實際案例', href: '/cases' }}
             />
