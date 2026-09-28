@@ -158,7 +158,7 @@ export function ModuleArchitectureMock() {
             <div
               className={cn(
                 'mt-1 inline-flex items-center gap-1 text-[0.68rem]',
-                m.on ? 'text-brand-200' : 'text-brand-300/50'
+                m.on ? 'text-brand-200' : 'text-brand-300/80'
               )}
             >
               {m.on ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}

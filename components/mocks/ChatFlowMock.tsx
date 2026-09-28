@@ -67,7 +67,7 @@ export function ChatFlowMock() {
                 >
                   {m.text}
                 </div>
-                <span className="text-[8px] text-ink-400 mb-1 shrink-0">{m.time}</span>
+                <span className="text-[9px] text-ink-500 mb-1 shrink-0">{m.time}</span>
               </div>
             ))}
             {/* Typing indicator */}
