@@ -57,6 +57,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="zh-Hant-TW" className="font-vars">
+      <head>
+        {/*
+          首屏一定用到的兩個字型先開始下載，不等 CSS 解析完才發現：
+          內文 400（全站都用）與標題襯線子集（36KB）。字晚到會讓首屏換行位置跳動（CLS）。
+          700 不預載 —— 它多半只在按鈕與小標，晚一點到的代價小，預載反而跟首屏資源搶頻寬。
+        */}
+        <link rel="preload" href="/fonts/body/noto-sans-tc-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/site/fonts/serif-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen flex flex-col">
         {/* GTM 的 noscript 備援要在 body 的最前面（官方要求）；未設容器 ID 時不渲染 */}
         <GoogleTagManagerNoScript />

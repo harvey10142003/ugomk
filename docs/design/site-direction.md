@@ -50,7 +50,7 @@ UGO 的 logo 圖形是一個**交織的結**：幾條線互相穿過，最後是
 |---|---|---|
 | 標題 | **Noto Serif TC 700**（本頁用字子集，`/site/fonts/serif-700.woff2`） | 與保客+ 同一套襯線，產品線一致。只用在 h1–h3 與大的引言 |
 | 手寫註記 | **LXGW WenKai TC 400**（子集，`/site/fonts/hand-400.woff2`） | 顧問在畫面旁邊寫的旁註。**一個畫面最多兩則**，不寫行銷話術，只講「這裡發生了什麼」 |
-| 內文 | Noto Sans TC 400／700（全站自託管，`app/fonts.css`） | 首頁與頁首頁尾**只用 400 與 700 兩個字重**（每多一個字重，中文要多下載 3–4 個 70KB 分片） |
+| 內文 | Noto Sans TC 400／700「本站用字子集」（`public/fonts/body/`，各約 200KB，`app/fonts.css`） | **全站只有 400 與 700 兩個字重**：`font-medium` 會顯示成 400、`font-semibold` 以上顯示成 700，新寫的頁面直接用 400／700。新增文章或頁面文字後重跑 `python scripts/site-body-font.py`；缺字會退回系統字體（蘋方／微軟正黑體），`npm run build` 前的檢查會列出缺哪些字 |
 | 數字 | Inter，`font-variant-numeric: tabular-nums` | 價格、點數、時間 |
 
 - 子集產生：改了 `lib/data/home.ts` 的標題或手寫註記 → `node scripts/site-fonts.mjs`。沒重跑不會壞，缺的字退回黑體。
