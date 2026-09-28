@@ -223,33 +223,40 @@
 }
 @media (min-width: 1024px) {
   .icrm-hero-grid {
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-    gap: 48px;
+    /* 右欄固定在日曆紙的寬度範圍，左欄吃剩下的；gap 隨視窗放大，1024–1280 不會把日曆擠到邊上 */
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 400px);
+    gap: clamp(40px, 6vw, 112px);
   }
 }
 
 /* 撕日曆 */
+/*
+ * 結構：裝訂條（高 --icrm-bind）與紙同寬、同一個 left/right，紙從裝訂條下緣接著往下；
+ * 前一天那張與下面的紙疊都以同一個 top 對齊。所有對齊只靠 --icrm-bind 一個變數。
+ */
 .icrm-pad {
+  --icrm-bind: 22px;
   position: relative;
   width: min(100%, 400px);
   margin: 0 auto;
-  padding-top: 18px;
+  padding-top: var(--icrm-bind);
 }
 .icrm-pad-binding {
   position: absolute;
   top: 0;
-  left: 10px;
-  right: 10px;
-  height: 26px;
-  border-radius: 6px 6px 2px 2px;
+  left: 0;
+  right: 0;
+  height: var(--icrm-bind);
+  border-radius: 6px 6px 0 0;
   background: var(--icrm-ink);
-  z-index: 3;
+  /* 在撕下的那張之上：看起來是從裝訂條底下撕出來 */
+  z-index: 5;
 }
 .icrm-pad-binding::before,
 .icrm-pad-binding::after {
   content: '';
   position: absolute;
-  top: 9px;
+  top: 7px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -266,7 +273,7 @@
   left: 4px;
   right: 4px;
   bottom: -6px;
-  top: 30px;
+  top: var(--icrm-bind);
   border-radius: 0 0 6px 6px;
   background: var(--icrm-sheet);
   box-shadow: 0 1px 0 var(--icrm-rule), 0 4px 0 -1px #fff, 0 5px 0 -1px var(--icrm-rule), 0 24px 48px -24px rgba(15, 42, 51, 0.35);
@@ -386,7 +393,7 @@
 .icrm-sheet-prev {
   position: absolute;
   z-index: 4;
-  top: 18px;
+  top: var(--icrm-bind);
   left: 0;
   right: 0;
   bottom: 0;
