@@ -148,7 +148,7 @@ export default function PricingPage() {
 
       {/* Comparison table */}
       <section className="section bg-mist-100 border-y border-ink-100">
-        <div className="container-ug max-w-5xl">
+        <div className="container-ug [&>*]:max-w-5xl">
           <div className="mb-10">
             <h2 className="heading-2">完整方案比較</h2>
           </div>
@@ -213,7 +213,7 @@ export default function PricingPage() {
 
       {/* FAQ */}
       <section className="section">
-        <div className="container-ug max-w-3xl">
+        <div className="container-ug [&>*]:max-w-3xl">
           <div className="mb-10">
             <h2 className="heading-2">常見問題</h2>
           </div>

@@ -38,7 +38,7 @@ export default function CasesPage() {
       />
 
       <section className="section">
-        <div className="container-ug space-y-10 max-w-5xl">
+        <div className="container-ug space-y-10 [&>*]:max-w-5xl">
           {cases.map((c, idx) => {
             const q = quotes[c.id];
             return (
