@@ -37,9 +37,10 @@ export default function ContactPage() {
                   href={site.contact.lineUrl}
                   target="_blank"
                   rel="noopener"
-                  className="flex items-center gap-4 rounded-2xl border border-brand-200 bg-brand-50 p-4 hover:bg-brand-100 transition-colors"
+                  className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-4 hover:border-line-700 transition-colors"
                 >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500 text-white shrink-0">
+                  {/* LINE 綠只給「去 LINE」這個動作（line-700 配白字 4.70:1） */}
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-line-700 text-white shrink-0">
                     <MessageCircle className="h-5 w-5" />
                   </span>
                   <div className="flex-1 min-w-0">
@@ -52,9 +53,9 @@ export default function ContactPage() {
 
                 <a
                   href={`mailto:${site.contact.email}`}
-                  className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-4 hover:border-brand-300 transition-colors"
+                  className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-4 hover:border-brand-400 transition-colors"
                 >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mist-300 text-ink-800 shrink-0">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-800 shrink-0">
                     <Mail className="h-5 w-5" />
                   </span>
                   <div className="flex-1 min-w-0">
@@ -65,9 +66,9 @@ export default function ContactPage() {
 
                 <a
                   href={`tel:${site.contact.phone}`}
-                  className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-4 hover:border-brand-300 transition-colors"
+                  className="flex items-center gap-4 rounded-2xl border border-ink-100 bg-white p-4 hover:border-brand-400 transition-colors"
                 >
-                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-mist-300 text-ink-800 shrink-0">
+                  <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-800 shrink-0">
                     <Phone className="h-5 w-5" />
                   </span>
                   <div className="flex-1 min-w-0">
@@ -81,30 +82,34 @@ export default function ContactPage() {
             </div>
 
             <div className="card p-7">
-              <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-700">
-                Office
-              </div>
-              <h2 className="mt-2 text-lg font-bold text-ink-900">宇果國際行銷</h2>
+              <div className="eyebrow">公司地址</div>
+              <h2 className="mt-3 text-lg font-bold text-ink-900">宇果國際行銷</h2>
               <ul className="mt-5 space-y-3 text-sm text-ink-600">
                 <li className="flex items-start gap-2">
-                  <MapPin className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
+                  <MapPin className="h-4 w-4 text-brand-700 mt-0.5 shrink-0" />
                   {site.contact.address}
                 </li>
                 <li className="flex items-start gap-2">
-                  <Clock className="h-4 w-4 text-brand-500 mt-0.5 shrink-0" />
+                  <Clock className="h-4 w-4 text-brand-700 mt-0.5 shrink-0" />
                   週一 – 週五 10:00 – 18:00
                 </li>
               </ul>
             </div>
 
-            <div className="card-glow p-7 bg-gradient-brand-soft">
+            <div className="border-l-2 border-brand-300 pl-6">
               <h2 className="text-lg font-bold text-ink-900">第一次討論會確認這些事情</h2>
-              <ul className="mt-4 space-y-2 text-sm text-ink-800">
-                <li>· 目前 LINE 官方帳號的使用方式</li>
-                <li>· 會員、預約、點數或門市流程的問題</li>
-                <li>· 需要整合的既有系統</li>
-                <li>· 適合的功能與導入順序</li>
-                <li>· 預算範圍與預計上線時間</li>
+              <ul className="mt-3 text-[0.95rem] text-ink-600">
+                {[
+                  '目前 LINE 官方帳號的使用方式',
+                  '會員、預約、點數或門市流程的問題',
+                  '需要整合的既有系統',
+                  '適合的功能與導入順序',
+                  '預算範圍與預計上線時間'
+                ].map((t) => (
+                  <li key={t} className="border-b border-ink-100 py-2.5 last:border-0">
+                    {t}
+                  </li>
+                ))}
               </ul>
             </div>
           </aside>
