@@ -102,27 +102,30 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHero
-        eyebrow="Privacy"
+        eyebrow="個資與表單"
         title="隱私權說明"
         subtitle="這一頁講清楚我們在官網表單蒐集什麼、用在哪裡、存多久，以及你可以要求我們做什麼。沒有法律八股，看得懂比較重要。"
       />
 
       <section className="section">
         <div className="container-ug grid gap-10 lg:grid-cols-[1.4fr_1fr]">
-          <div className="space-y-6">
-            {sections.map((s) => (
-              <div key={s.q} className="card p-7 md:p-8">
-                <h2 className="heading-3">{s.q}</h2>
-                <div className="body-base mt-4 space-y-1">{s.a}</div>
-              </div>
-            ))}
-            <p className="body-sm">
+          {/* 2026-09-28：每一題原本一張卡片，改成細線分段的文件版面（法務說明讀起來像文件比較好讀） */}
+          <div>
+            <div className="border-t border-ink-100">
+              {sections.map((s) => (
+                <div key={s.q} className="border-b border-ink-100 py-8">
+                  <h2 className="heading-3">{s.q}</h2>
+                  <div className="body-base mt-3 space-y-1">{s.a}</div>
+                </div>
+              ))}
+            </div>
+            <p className="body-sm mt-6">
               本說明如有調整，會直接更新在這一頁。最後更新：2026-09-06。
             </p>
           </div>
 
-          <aside className="space-y-6">
-            <div className="card-glow p-7 bg-gradient-brand-soft">
+          <aside className="space-y-6 lg:sticky lg:top-28 lg:self-start">
+            <div className="card p-7">
               <h2 className="text-lg font-bold text-ink-900">個資聯絡窗口</h2>
               {/* 個資法的告知義務要求蒐集者身分明確 —— 用登記全名與統編，不用簡稱 */}
               <p className="mt-3 text-sm text-ink-700">
