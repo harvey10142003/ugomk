@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, CheckCircle2, Quote } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { cases } from '@/lib/data/cases';
 import { site } from '@/lib/data/site';
@@ -54,11 +54,10 @@ export default function CasesPage() {
                     priority={idx === 0}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/25 to-transparent" />
+                  {/* 圖庫情境照，不是客戶實景 —— 可見標示（2026-09-28；原本只寫在程式註解裡，訪客看不到） */}
+                  <span className="photo-note">示意照片</span>
                   <div className="absolute bottom-5 left-6 right-6">
-                    <div className="text-[11px] font-semibold uppercase tracking-widest-2 text-brand-200">
-                      Case 0{idx + 1}
-                    </div>
-                    <div className="mt-1 text-2xl font-extrabold text-white">{c.name}</div>
+                    <div className="font-[family-name:var(--ug-serif)] text-2xl font-bold text-white">{c.name}</div>
                   </div>
                 </div>
 
@@ -67,7 +66,7 @@ export default function CasesPage() {
                     {/* 07-17 這批頁面的區塊標題整整比其他頁小一階，抬齊到 heading-2 */}
                     <h2 className="heading-2">{c.industry}</h2>
                     <div className="mt-6">
-                      <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
+                      <div className="text-sm font-bold text-brand-800">
                         導入的功能
                       </div>
                       <div className="mt-3 flex flex-wrap gap-1.5">
@@ -82,42 +81,40 @@ export default function CasesPage() {
 
                   <div className="space-y-6">
                     <div>
-                      <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
+                      <div className="text-sm font-bold text-brand-800">
                         客戶原本的問題
                       </div>
                       <p className="mt-2 body-base">{c.problem}</p>
                     </div>
 
                     <div>
-                      <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
+                      <div className="text-sm font-bold text-brand-800">
                         實際使用流程
                       </div>
                       <p className="mt-2 body-base">{c.flow}</p>
                     </div>
 
-                    <div className="card-glow p-5 bg-brand-50 border-brand-200">
+                    <div className="rounded-2xl bg-brand-50 p-5">
                       <div className="flex items-start gap-3">
-                        <CheckCircle2 className="h-5 w-5 text-brand-700 mt-1 shrink-0" />
+                        <CheckCircle2 className="h-5 w-5 text-brand-700 mt-0.5 shrink-0" />
                         <div>
-                          <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-brand-800">
-                            導入後的改變
-                          </div>
-                          <p className="mt-2 text-sm leading-relaxed text-ink-800">{c.outcome}</p>
+                          <div className="text-sm font-bold text-brand-800">導入後的改變</div>
+                          <p className="mt-2 text-[0.95rem] leading-[1.8] text-ink-800">{c.outcome}</p>
                         </div>
                       </div>
                     </div>
 
                     {q ? (
-                      <figure className="border-l-2 border-brand-500 pl-5">
-                        <div className="text-[11px] font-semibold tracking-widest-2 uppercase text-ink-500">
+                      // 引言與「客戶真實回饋」標籤待 Shark 確認真偽（2026-09-28 健檢），確認前內容原樣保留、只改外觀
+                      <figure className="border-l-2 border-[#8CC8DA] pl-5">
+                        <div className="text-sm font-bold text-brand-800">
                           客戶真實回饋
                         </div>
-                        <Quote className="h-5 w-5 text-brand-500 mt-3" />
-                        <blockquote className="mt-3 text-base leading-relaxed text-ink-800 italic">
+                        <blockquote className="mt-3 text-base leading-[1.85] text-ink-800">
                           “{q.text}”
                         </blockquote>
                         <figcaption className="mt-4 flex items-center gap-3">
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-brand text-white font-bold text-sm">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-brand-800 text-white font-bold text-sm">
                             {q.author[0]}
                           </span>
                           <div>

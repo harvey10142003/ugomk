@@ -25,9 +25,8 @@ export default function AboutPage() {
 
       {/* ─────────── Hero ─────────── */}
       <section className="hero-bg relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-24">
-        <div className="absolute inset-0 dot-grid-fade pointer-events-none" />
-        <div className="container-ug relative max-w-4xl">
-          <span className="chip-brand">關於宇果</span>
+        <div className="container-ug relative [&>*]:max-w-3xl">
+          <span className="eyebrow">關於宇果</span>
           <h1 className="heading-1 mt-6 text-balance">
             我們把 LINE 當成<span className="text-gradient-brand">營運系統</span>在做，
             <br className="hidden md:block" />
@@ -60,7 +59,7 @@ export default function AboutPage() {
                   i < approach.length - 1 ? 'border-b border-ink-100' : ''
                 }`}
               >
-                <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-xl border border-brand-100 bg-brand-50 text-base font-extrabold text-brand-800">
+                <span className="grid h-[42px] w-[42px] shrink-0 place-items-center rounded-xl bg-brand-800 font-[family-name:var(--ug-serif)] text-lg font-bold text-white">
                   {a.mark}
                 </span>
                 <div>
@@ -84,8 +83,10 @@ export default function AboutPage() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-950/85 via-brand-950/55 to-brand-950/20" />
+        {/* 圖庫照片，不是宇果的辦公室 —— 一律標示（2026-09-28） */}
+        <span className="photo-note">示意照片</span>
         <div className="container-ug relative flex h-full items-center">
-          <p className="max-w-xl text-lg font-bold leading-relaxed text-white md:text-2xl">
+          <p className="max-w-xl font-[family-name:var(--ug-serif)] text-xl font-bold leading-relaxed text-white md:text-3xl">
             我們不是把系統交出去就結束，
             <br />
             而是陪你把流程走順。
@@ -105,7 +106,6 @@ export default function AboutPage() {
           <div className="container-ug grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 items-start">
             {/* 左欄內容短，跟著捲動貼住頂端，避免右側時間軸拉長後左邊出現大片空白 */}
             <div className="lg:sticky lg:top-28">
-              <span className="eyebrow">Milestones</span>
               <h2 className="heading-2 mt-3 text-balance">一路走過來</h2>
               <p className="body-base mt-5">
                 公司從設計與出版起家，2024 年才轉做 LINE@
@@ -114,16 +114,16 @@ export default function AboutPage() {
             </div>
             <ol className="relative pl-8">
               <span
-                className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5 rounded-full bg-gradient-to-b from-brand-300 to-brand-100"
+                className="absolute left-[7px] top-1.5 bottom-1.5 w-0.5 rounded-full bg-gradient-to-b from-[#8CC8DA] to-brand-800"
                 aria-hidden
               />
               {publishedMilestones.map((m) => (
                 <li key={m.title} className="relative pb-9 last:pb-0">
                   <span
-                    className="absolute -left-8 top-1 h-4 w-4 rounded-full border-[3px] border-brand-500 bg-white"
+                    className="absolute -left-8 top-1 h-4 w-4 rounded-full border-[3px] border-brand-800 bg-white"
                     aria-hidden
                   />
-                  <div className="font-mono text-sm font-bold tracking-wide text-brand-600">{m.year}</div>
+                  <div className="font-[family-name:var(--font-inter)] text-sm font-bold tabular-nums text-brand-700">{m.year}</div>
                   <div className="mt-1 text-lg font-bold text-ink-900">{m.title}</div>
                   {m.description ? <p className="mt-1 text-sm text-ink-400">{m.description}</p> : null}
                 </li>
@@ -136,7 +136,6 @@ export default function AboutPage() {
       {/* ─────────── 旗下站點 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
-          <span className="eyebrow">Our sites</span>
           <h2 className="heading-3 mt-3">旗下站點</h2>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {sites.map((s) => (

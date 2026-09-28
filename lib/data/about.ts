@@ -7,7 +7,7 @@
  */
 
 export const positioning = {
-  eyebrow: 'Our position',
+  eyebrow: '我們的定位',
   title: '大多數品牌不缺工具，缺的是把工具接起來的人',
   paragraphs: [
     '市面上不缺 CRM、不缺 POS、也不缺群發工具。真正的困難在於：這些系統各自握著一部分顧客資料，沒有人負責讓它們對得起來。',
