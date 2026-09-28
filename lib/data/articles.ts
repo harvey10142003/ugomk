@@ -25,9 +25,17 @@ export type ArticleSection =
 
 /**
  * 文章封面圖示。
- * 介面不放 emoji，新文章一律用這裡對應的 SVG 圖示（對應表在 components/ArticleCard.tsx）。
+ * 介面不放 emoji，封面一律用這裡對應的 SVG 圖示（對應表在 components/ArticleCard.tsx）。
+ * 2026-09-28：最後三篇原本是 emoji 封面（💬🏬⚡），改成 conversation／branches／automation。
  */
-export type ArticleCoverIcon = 'checklist' | 'cost' | 'reservation' | 'loyalty';
+export type ArticleCoverIcon =
+  | 'checklist'
+  | 'cost'
+  | 'reservation'
+  | 'loyalty'
+  | 'conversation'
+  | 'branches'
+  | 'automation';
 
 export type Article = {
   slug: string;
@@ -37,11 +45,8 @@ export type Article = {
   publishedAt: string;
   readingMinutes: number;
   author: { name: string; role: string };
-  /**
-   * emoji 是既有文章的封面寫法，保留是為了不動已發佈的三篇；
-   * 新文章改用 icon（SVG）。兩個都給時以 icon 優先。
-   */
-  cover: { tone: 'brand' | 'ink' | 'mint'; emoji?: string; icon?: ArticleCoverIcon };
+  /** 封面：底色＋SVG 圖示（介面不放 emoji） */
+  cover: { tone: 'brand' | 'ink' | 'mint'; icon: ArticleCoverIcon };
   /**
    * 文末導向對應能力頁的出口。
    *
@@ -635,7 +640,7 @@ export const articles: Article[] = [
     publishedAt: '2026-05-28',
     readingMinutes: 6,
     author: { name: 'Shark', role: '宇果國際行銷 CEO' },
-    cover: { tone: 'brand', emoji: '💬' },
+    cover: { tone: 'brand', icon: 'conversation' },
     sections: [
       {
         kind: 'p',
@@ -710,7 +715,7 @@ export const articles: Article[] = [
     publishedAt: '2026-05-20',
     readingMinutes: 7,
     author: { name: 'Shark', role: '宇果國際行銷 CEO' },
-    cover: { tone: 'ink', emoji: '🏬' },
+    cover: { tone: 'ink', icon: 'branches' },
     sections: [
       {
         kind: 'p',
@@ -801,7 +806,7 @@ export const articles: Article[] = [
     publishedAt: '2026-05-12',
     readingMinutes: 5,
     author: { name: 'Shark', role: '宇果國際行銷 CEO' },
-    cover: { tone: 'mint', emoji: '⚡' },
+    cover: { tone: 'mint', icon: 'automation' },
     sections: [
       {
         kind: 'p',

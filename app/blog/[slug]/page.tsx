@@ -30,11 +30,6 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   });
 }
 
-const coverBg: Record<'brand' | 'ink' | 'mint', string> = {
-  brand: 'bg-gradient-to-br from-brand-400 to-brand-600',
-  ink: 'bg-gradient-to-br from-ink-800 to-ink-900',
-  mint: 'bg-gradient-to-br from-mint-400 to-brand-500'
-};
 
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const a = articleBySlug(params.slug);
@@ -75,36 +70,33 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       <JsonLd data={[articleLd, breadcrumb]} />
 
       {/* Hero / Cover */}
-      <section className={`${coverBg[a.cover.tone]} pt-32 pb-20 md:pt-40 md:pb-28 relative overflow-hidden`}>
-        <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
-        <div className="container-ug relative max-w-3xl text-white">
+      {/*
+        2026-09-28：原本是整片漸層色塊＋白字，改成淺底＋襯線標題（與全站頁首一致）；
+        「回到專欄列表」原本是 inline-flex、和分類標籤擠在同一行而重疊，改成獨立一行。
+      */}
+      <section className="hero-bg pt-28 pb-14 md:pt-36 md:pb-20">
+        <div className="container-ug relative max-w-3xl">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white mb-8"
+            className="mb-8 flex w-fit items-center gap-2 text-sm font-bold text-ink-500 hover:text-brand-800"
           >
             <ArrowLeft className="h-4 w-4" />
             回到專欄列表
           </Link>
-          <span className="inline-block rounded-full bg-white/20 backdrop-blur px-3 py-1 text-[11px] font-semibold tracking-widest-2 uppercase text-white">
-            {a.category}
-          </span>
-          <h1 className="font-display font-extrabold tracking-tight text-3xl md:text-5xl mt-5 text-balance leading-tight">
-            {a.title}
-          </h1>
-          <p className="mt-6 text-lg md:text-xl text-white/85 leading-relaxed text-balance">
-            {a.excerpt}
-          </p>
-          <div className="mt-8 flex items-center gap-3 text-sm text-white/85">
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white text-ink-900 font-bold">
+          <span className="eyebrow">{a.category}</span>
+          <h1 className="heading-1 mt-5">{a.title}</h1>
+          <p className="body-lg mt-6">{a.excerpt}</p>
+          <div className="mt-8 flex flex-wrap items-center gap-3 text-sm text-ink-500">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-brand-800 text-white font-bold">
               {a.author.name[0]}
             </span>
             <div>
-              <div className="font-semibold text-white">{a.author.name}</div>
-              <div className="text-xs text-white/70">{a.author.role}</div>
+              <div className="font-bold text-ink-900">{a.author.name}</div>
+              <div className="text-xs text-ink-400">{a.author.role}</div>
             </div>
-            <span className="mx-1 h-3 w-px bg-white/40" />
+            <span className="mx-1 h-3 w-px bg-ink-200" />
             <span>{date}</span>
-            <span className="mx-1 h-3 w-px bg-white/40" />
+            <span className="mx-1 h-3 w-px bg-ink-200" />
             <span className="inline-flex items-center gap-1">
               <Clock className="h-3.5 w-3.5" />
               {a.readingMinutes} 分鐘
@@ -161,11 +153,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           {/* Author + CTA */}
           <div className="mt-16 pt-10 border-t border-ink-100">
             <div className="card p-6 md:p-8 bg-mist-100 flex flex-col md:flex-row gap-6 items-start md:items-center">
-              <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-gradient-brand text-white text-2xl font-extrabold shadow-brand shrink-0">
+              <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-brand-800 text-white text-2xl font-bold shrink-0">
                 {a.author.name[0]}
               </span>
               <div className="flex-1">
-                <div className="text-xs tracking-widest-2 uppercase font-semibold text-brand-700">
+                <div className="text-sm font-bold text-brand-700">
                   關於作者
                 </div>
                 <div className="mt-1 text-lg font-bold text-ink-900">

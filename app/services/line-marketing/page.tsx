@@ -213,7 +213,7 @@ export default function LineMarketingPage() {
         <div className="container-ug">
           <CtaBlock
             title="先看看你的 LINE@ 卡在哪一步"
-            description="把現在的好友數、經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。"
+            description="把你的產業、分店數量、現在的經營方式與最想改善的問題講一遍，我們幫你判斷該從六步裡的哪一步開始。"
             source="services_line_marketing"
             secondary={{ label: '看實際案例', href: '/cases' }}
           />

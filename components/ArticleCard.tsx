@@ -5,27 +5,31 @@ import {
   ClipboardCheck,
   Clock,
   Coins,
+  MessagesSquare,
   Stamp,
+  Store,
+  Workflow,
   type LucideIcon
 } from 'lucide-react';
 import type { Article, ArticleCoverIcon } from '@/lib/data/articles';
 import { cn } from '@/lib/utils';
 
-const coverBg: Record<Article['cover']['tone'], string> = {
-  brand: 'bg-gradient-to-br from-brand-400 to-brand-600',
-  ink: 'bg-gradient-to-br from-ink-800 to-ink-900',
-  mint: 'bg-gradient-to-br from-mint-400 to-brand-500'
+/** 封面底色（2026-09-28：原本三種漸層，改成三個實色，都取自 logo 色系） */
+export const coverBg: Record<Article['cover']['tone'], string> = {
+  brand: 'bg-brand-800 text-white',
+  ink: 'bg-brand-950 text-white',
+  mint: 'bg-[#E3F0F4] text-brand-800'
 };
 
-/**
- * 封面圖示對應表。
- * 介面不放 emoji（既有三篇維持原樣不動），新文章一律走這裡的 SVG。
- */
-const coverIcon: Record<ArticleCoverIcon, LucideIcon> = {
+/** 封面圖示對應表（介面不放 emoji） */
+export const coverIcon: Record<ArticleCoverIcon, LucideIcon> = {
   checklist: ClipboardCheck,
   cost: Coins,
   reservation: CalendarCheck,
-  loyalty: Stamp
+  loyalty: Stamp,
+  conversation: MessagesSquare,
+  branches: Store,
+  automation: Workflow
 };
 
 export function ArticleCard({
@@ -42,7 +46,7 @@ export function ArticleCard({
   headingLevel?: 'h2' | 'h3';
 }) {
   const Heading = headingLevel;
-  const CoverIcon = article.cover.icon ? coverIcon[article.cover.icon] : null;
+  const CoverIcon = coverIcon[article.cover.icon];
   const date = new Date(article.publishedAt).toLocaleDateString('zh-TW', {
     year: 'numeric',
     month: '2-digit',
@@ -64,24 +68,14 @@ export function ArticleCard({
           featured && 'md:aspect-auto md:h-full'
         )}
       >
-        {CoverIcon ? (
-          <CoverIcon
-            className="h-16 w-16 text-white/90 drop-shadow-lg md:h-[88px] md:w-[88px]"
-            strokeWidth={1.25}
-            aria-hidden
-          />
-        ) : (
-          <span className="text-[64px] md:text-[88px] drop-shadow-lg select-none">
-            {article.cover.emoji}
-          </span>
-        )}
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white/90 backdrop-blur px-2.5 py-1 text-[11px] font-semibold text-ink-800">
+        <CoverIcon className="h-14 w-14 opacity-90 md:h-[72px] md:w-[72px]" strokeWidth={1.25} aria-hidden />
+        <span className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-ink-800">
           {article.category}
         </span>
       </div>
 
       <div className={cn('p-6 md:p-8 flex flex-col', featured && 'md:p-10')}>
-        <div className="flex items-center gap-2 text-[11px] text-ink-400">
+        <div className="flex items-center gap-2 text-xs text-ink-400">
           <span>{date}</span>
           <span className="vertical-rule" />
           <span className="inline-flex items-center gap-1">
@@ -91,8 +85,8 @@ export function ArticleCard({
         </div>
         <Heading
           className={cn(
-            'mt-3 font-display font-bold text-ink-900 tracking-tight group-hover:text-brand-700 transition-colors',
-            featured ? 'text-2xl md:text-3xl' : 'text-lg'
+            'mt-3 font-bold text-ink-900 group-hover:text-brand-700 transition-colors',
+            featured ? 'font-[family-name:var(--ug-serif)] text-2xl leading-snug md:text-3xl' : 'text-lg leading-snug'
           )}
         >
           {article.title}
@@ -106,7 +100,7 @@ export function ArticleCard({
           {article.excerpt}
         </p>
         <div className="mt-5 flex items-center gap-3">
-          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-gradient-brand text-white text-xs font-bold">
+          <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-800 text-white text-xs font-bold">
             {article.author.name[0]}
           </span>
           <div>
