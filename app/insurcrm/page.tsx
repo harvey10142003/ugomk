@@ -13,7 +13,6 @@ import {
   PRODUCT_NAME,
   PRODUCT_SUBTITLE,
   PRODUCT_TAGLINE,
-  SOLO_PRICE,
   clientSide,
   compliance,
   dayEntries,
@@ -57,7 +56,7 @@ export const metadata: Metadata = {
  */
 
 /**
- * SoftwareApplication：價格只宣告個人版（團隊版是洽詢）。
+ * SoftwareApplication：價格一律洽詢，不宣告 offers。
  * 不宣告 availability（2026-09-28 Shark：頁面不寫上線狀態；原本的 PreOrder 也是一種上線狀態宣告）。
  * 名稱讀 PRODUCT_NAME，改名時自動一致。
  */
@@ -72,14 +71,7 @@ const softwareLd = {
   url: absoluteUrl(PAGE_PATH),
   description: DESCRIPTION,
   inLanguage: 'zh-TW',
-  publisher: { '@id': ORGANIZATION_ID },
-  offers: {
-    '@type': 'Offer',
-    name: '個人版',
-    price: SOLO_PRICE,
-    priceCurrency: 'TWD',
-    url: absoluteUrl(PAGE_PATH)
-  }
+  publisher: { '@id': ORGANIZATION_ID }
 };
 
 const MOCKS: Record<Exclude<DayMock, 'greeting'>, () => JSX.Element> = {
@@ -169,9 +161,6 @@ export default function InsurCrmPage() {
                 <ArrowDown className="h-4 w-4" aria-hidden />
               </a>
             </div>
-            <p className="icrm-small mt-6">
-              個人版 <span className="icrm-num font-bold text-[color:var(--icrm-ink)]">NT${SOLO_PRICE.toLocaleString('en-US')}</span>／月
-            </p>
           </div>
           <div className="icrm-hero-visual">
             <HeroChat />
@@ -370,9 +359,7 @@ export default function InsurCrmPage() {
               <div>
                 <div className="text-lg font-bold">個人版</div>
                 <div className="icrm-price">
-                  <span className="icrm-small font-bold">NT$</span>
-                  <b className="icrm-num">{SOLO_PRICE.toLocaleString('en-US')}</b>
-                  <span className="icrm-small font-bold">／月</span>
+                  <b>洽詢報價</b>
                 </div>
                 <ComingSoonCta label="個人版" className="mt-5 w-full whitespace-normal sm:w-auto" />
               </div>

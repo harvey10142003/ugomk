@@ -39,8 +39,6 @@ export const LOGO_MARK = { src: '/insurcrm/baoke-plus-mark.png', width: 256, hei
 export const OG_IMAGE_PATH = '/insurcrm/og-baoke-plus.png';
 export const PAGE_PATH = '/insurcrm';
 
-/** 個人版月費（2026-09-27 Shark 定案為正式價格）。改這裡會同步到方案、FAQ 與結構化資料 */
-export const SOLO_PRICE = 900;
 
 export type Phase = 1 | 2 | 3;
 
@@ -345,7 +343,7 @@ export const planRows: { label: string; solo: string; team: string }[] = [
   { label: '祝福範本', solo: '依職業別（保險、理專、顧問）內建，建立即可用', team: '固定保險業範本，主管核可後才能使用' },
   { label: '主管功能', solo: '沒有主管，看的是你自己的活動量', team: '主管儀表板、增員與團隊業績、主管週報' },
   { label: '開通方式', solo: '由我們協助開通，一步步接上你的 LINE 官方帳號', team: '協助導入與教育訓練' },
-  { label: '月費', solo: `NT$${SOLO_PRICE.toLocaleString('en-US')}／月`, team: '依團隊規模與導入範圍報價' }
+  { label: '月費', solo: '依使用需求報價', team: '依團隊規模與導入範圍報價' }
 ];
 export const planNote = '兩個版本是同一套系統，彼此獨立、資料不互通。LINE 官方帳號的訊息費依你的官方帳號方案由 LINE 計收，不含在月費內。';
 
@@ -389,7 +387,7 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: '費用怎麼計算？',
-    a: `個人版每月 NT$${SOLO_PRICE.toLocaleString('en-US')}；團隊版依規模報價。LINE 官方帳號的訊息費用依你的官方帳號方案由 LINE 計收，不含在月費內。`
+    a: `個人版與團隊版都依使用需求報價，歡迎透過 LINE 洽詢。LINE 官方帳號的訊息費用依你的官方帳號方案由 LINE 計收，不含在月費內。`
   }
 ];
 
