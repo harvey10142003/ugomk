@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>幸福腦 App 系統規劃書</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: 單欄規劃書（約 880px），章節以細線分隔；畫面範例用手機外框三欄並排，窄螢幕改單欄 */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#142131; --muted:#5b6877; --rule:#d8dee5;
+  --brand:#1c4d6b; --brand-soft:#e4eef4; --wave:#2f8f8a; --wave-soft:#e2f2f0; --gold:#b07a1e;
+  --screen:#0e1a26; --screen-2:#16273a; --screen-ink:#e9f1f7; --screen-muted:#8fa3b5;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-display:"Noto Serif TC","Songti TC",serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d131a; --paper:#141c25; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d131a; --paper:#141c25; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; color-scheme:dark}
+*{box-sizing:border-box}
+html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.8 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:900px;margin:0 auto;padding-block:48px 80px}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.35}
+h1{font:700 34px/1.3 var(--f-display);letter-spacing:.03em}
+h2{font:700 23px/1.4 var(--f-display);margin-bottom:14px}
+h3{font-size:16px;font-weight:700;margin:22px 0 8px}
+p{margin:0 0 12px;max-width:68ch}
+ul,ol{margin:0 0 12px;padding-left:1.3em} li{margin:4px 0;max-width:66ch}
+a{color:var(--brand)}
+.cover{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:36px 32px;position:relative;overflow:hidden}
+.cover::after{content:"";position:absolute;right:-40px;top:-40px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,var(--wave-soft) 0 40%,transparent 41% 52%,var(--wave-soft) 53% 60%,transparent 61%);opacity:.9;pointer-events:none}
+.kicker{font:500 12px/1 var(--f-mono);letter-spacing:.14em;color:var(--wave);text-transform:uppercase}
+.cover h1{margin-top:14px;position:relative;z-index:1}
+.cover .sub{color:var(--muted);margin-top:10px;position:relative;z-index:1}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:24px;position:relative;z-index:1}
+.facts div{border-top:2px solid var(--brand);padding-top:8px;min-width:0}
+.facts b{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.facts span{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+section{margin-top:44px;padding-top:32px;border-top:1px solid var(--rule)}
+.no{font:500 12px var(--f-mono);color:var(--muted);letter-spacing:.1em;display:block;margin-bottom:6px}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;min-width:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card h3{margin-top:0}
+.tag{display:inline-block;font-size:12px;line-height:1;padding:5px 9px;border-radius:999px;background:var(--brand-soft);color:var(--brand);margin:2px 4px 2px 0;white-space:nowrap}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin:12px 0}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:13px;font-weight:500;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.sub td{font-weight:700;background:var(--brand-soft)}
+tr.grand td{font-weight:700;font-size:15px;background:var(--wave-soft)}
+td.mod{font-weight:700;color:var(--brand);white-space:nowrap}
+.note{font-size:13px;color:var(--muted)}
+.diagram{overflow-x:auto;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:12px;margin:14px 0}
+.diagram svg{display:block;width:100%;min-width:640px;height:auto}
+/* 手機畫面範例 */
+.phones{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+@media (max-width:980px){.phones{grid-template-columns:repeat(2,1fr)}}
+.phone{min-width:0}
+/* 手機外框固定 9:19.5（約 iPhone 15 比例），寬度隨欄寬縮放，內容不撐高外框 */
+.device{background:#05090e;border-radius:28px;padding:7px;border:1px solid var(--rule);width:100%;max-width:230px;aspect-ratio:9/19.5;margin:0 auto;display:flex}
+.scr{background:var(--screen);color:var(--screen-ink);border-radius:22px;flex:1;min-height:0;padding:12px 11px 12px;font-size:11px;line-height:1.5;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.scr .tile{padding:8px 10px;border-radius:10px}
+.scr .tile b{font-size:12px}
+.scr .tile>span,.scr .tile>.lock{white-space:nowrap;flex-shrink:0}
+.scr .tile>div{min-width:0}
+.scr .btn{padding:8px;font-size:12px}
+.scr .ring{width:120px;height:120px}
+.scr .ring span{font-size:22px}
+.sbar{display:flex;justify-content:space-between;font:500 10px var(--f-mono);color:var(--screen-muted)}
+.scr h4{margin:0;font-size:15px;font-weight:700}
+.scr .muted{color:var(--screen-muted)}
+.chip{display:inline-block;padding:3px 8px;border-radius:999px;background:var(--screen-2);color:var(--screen-ink);font-size:11px;margin-right:4px}
+.chip.on{background:#2f8f8a;color:#fff}
+.tile{background:var(--screen-2);border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tile b{font-size:13px;display:block}
+.lock{font:500 10px var(--f-mono);color:#e0ae55;border:1px solid #e0ae55;border-radius:6px;padding:2px 6px;white-space:nowrap}
+.btn{background:#2f8f8a;color:#fff;border-radius:999px;text-align:center;padding:9px;font-weight:700;font-size:13px}
+.btn.ghost{background:transparent;border:1px solid #4a6276;color:var(--screen-ink)}
+.ring{width:150px;height:150px;margin:6px auto 0;border-radius:50%;border:2px solid #2f8f8a;display:grid;place-items:center;
+  box-shadow:0 0 0 10px rgba(47,143,138,.15),0 0 0 22px rgba(47,143,138,.07)}
+.ring span{font:500 26px var(--f-mono)}
+.wave{height:34px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ok{color:#5cc3bc;font-weight:700}
+.warn{color:#e0ae55}
+.bar{height:6px;border-radius:3px;background:var(--screen-2);overflow:hidden}
+.bar i{display:block;height:100%;background:#2f8f8a}
+.cap{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+.cap b{display:block;color:var(--ink);font-size:14px}
+.line-scr{background:#7f9db9}
+.bubble{background:#fff;color:#1d2b38;border-radius:14px;padding:10px 12px}
+.flex-card{background:#fff;color:#1d2b38;border-radius:12px;overflow:hidden}
+.flex-card .hd{background:#1c4d6b;color:#fff;padding:8px 12px;font-weight:700}
+.flex-card .bd{padding:8px 12px;display:grid;gap:6px}
+.flex-card .lk{color:#1c4d6b;font-weight:700;border-top:1px solid #e3e8ee;padding-top:6px;text-align:center}
+/* 圖文選單：一整張設計圖（LINE 大型尺寸 2500×1686），不是按鈕格 */
+.rich{margin:auto -11px -12px;aspect-ratio:2500/1686;position:relative;overflow:hidden;
+  background:radial-gradient(circle at 78% 42%,rgba(92,195,188,.55) 0 9%,transparent 10% 17%,rgba(92,195,188,.3) 18% 20%,transparent 21% 29%,rgba(92,195,188,.18) 30% 31%,transparent 32%),
+  linear-gradient(135deg,#0f2a40 0%,#1c4d6b 55%,#2f8f8a 100%);color:#fff;padding:10px 12px}
+.rich .brand{font:700 11px/1 var(--f-display);letter-spacing:.12em;opacity:.85}
+.rich .hl{font:700 15px/1.3 var(--f-display);margin-top:8px;max-width:60%}
+.rich .cta{display:inline-block;margin-top:8px;background:#f0c36a;color:#1d2b38;font-weight:700;font-size:10px;padding:4px 10px;border-radius:999px}
+.rich .foot{position:absolute;left:12px;right:12px;bottom:8px;display:flex;justify-content:space-between;font-size:9px;opacity:.8;border-top:1px solid rgba(255,255,255,.25);padding-top:5px}
+.rich .glasses{position:absolute;right:16px;top:30%;width:44px;height:16px}
+/* 甘特圖 */
+.gantt{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin:14px 0}
+.g{display:grid;grid-template-columns:170px repeat(11,minmax(42px,1fr));min-width:700px;font-size:13px}
+.g div{padding:8px 6px;border-bottom:1px solid var(--rule)}
+.g .h{font:500 11px var(--f-mono);color:var(--muted);text-align:center;background:var(--bg)}
+.g .lbl{font-weight:500}
+.g .b{border-radius:6px;margin:6px 2px;padding:4px 6px;font-size:11px;color:#fff;align-self:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.b1{background:var(--gold)} .b2{background:var(--brand)} .b3{background:var(--wave)} .b4{background:#6d5aa8}
+.steps{display:grid;gap:10px;counter-reset:s}
+.step{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.step .n{width:36px;height:36px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font:700 14px var(--f-mono)}
+.step p{margin:2px 0 0}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px}
+@media (max-width:760px){.grid3,.phones{grid-template-columns:1fr}.grid2{grid-template-columns:1fr}h1{font-size:27px}.cover{padding:26px 20px}}
+@media (prefers-reduced-motion:no-preference){.ring{animation:breathe 6s ease-in-out infinite}@keyframes breathe{50%{box-shadow:0 0 0 14px rgba(47,143,138,.18),0 0 0 28px rgba(47,143,138,.06)}}}
+/* 互動原型：一支可操作的手機 + 畫面標籤列 */
+.proto{margin-top:18px;min-width:0}
+.proto-tabs{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+  padding:4px 2px 10px;margin:0 0 6px;scrollbar-width:thin;max-width:100%}
+.ptab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;font:500 14px/1 var(--f-body);color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:9px 14px;cursor:pointer;white-space:nowrap}
+.ptab .pn{font:500 11px var(--f-mono);color:var(--muted)}
+.ptab:hover{border-color:var(--wave)}
+.ptab[aria-current="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.ptab[aria-current="true"] .pn{color:inherit;opacity:.8}
+.proto-stage{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:28px;align-items:start;
+  background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:24px}
+.proto-phone{min-width:0}
+.proto .device{max-width:300px;position:relative}
+.screens{position:relative;flex:1;min-height:0;display:flex}
+.screen{position:absolute;inset:0;font-size:12px;opacity:0;visibility:hidden;transform:translateX(14px);
+  transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s}
+.screen.on{opacity:1;visibility:visible;transform:none;transition:opacity .28s ease,transform .28s ease,visibility 0s}
+.screen.back{transform:translateX(-14px)}
+.screen:focus{outline:none}
+.proto .scr h4{font-size:16px}
+.proto .scr .tile b{font-size:13px}
+.proto .scr .btn{font-size:13px;padding:9px}
+.proto .scr .ring{width:132px;height:132px}
+.proto .scr .ring span{font-size:24px}
+/* 手機內可點元件：沿用原畫面外觀，只換成 button */
+.scr button{font:inherit;color:inherit;border:0;margin:0;cursor:pointer;-webkit-appearance:none;appearance:none}
+.scr button.btn{display:block;width:100%;background:#2f8f8a;color:#fff;font-weight:700}
+.scr button.btn.ghost{background:transparent;border:1px solid #4a6276;color:var(--screen-ink)}
+.scr button.tile{width:100%;text-align:left;background:var(--screen-2)}
+.scr button.tile:hover{background:#1d3550}
+.scr button.tile.glassy,.scr .tile.glassy{background:rgba(255,255,255,.12)}
+.scr button.tile.glassy:hover{background:rgba(255,255,255,.2)}
+.scr .tile span.muted,.scr .tile div>span{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.scr button.chip{background:var(--screen-2);color:var(--screen-ink);margin:0;padding:3px 9px;border-radius:999px;font-size:11px}
+.scr button.chip.on{background:#2f8f8a;color:#fff}
+.tiles{display:grid;gap:8px}
+.tile[hidden]{display:none}
+.lock-clock{font:500 44px var(--f-mono)}
+.bars7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;align-items:end;height:80px}
+.bars7 i{background:#2f8f8a;border-radius:3px}
+.bars7 i.off{background:#16273a}
+.linkish{background:transparent;color:#5cc3bc;text-decoration:underline;text-underline-offset:3px;font-size:12px;margin-top:auto;padding:4px}
+.flex-card button.lk{display:block;width:100%;background:none;color:#1c4d6b;font-weight:700;border-top:1px solid #e3e8ee;padding-top:6px;text-align:center}
+.flex-card.done .hd{background:#038638}
+.flex-card.flash{animation:flash .9s ease}
+@keyframes flash{0%{box-shadow:0 0 0 0 rgba(240,195,106,.9)}100%{box-shadow:0 0 0 10px rgba(240,195,106,0)}}
+/* 圖文選單熱區：疊在整張設計圖上的透明按鈕 */
+.rich .hot{position:absolute;background:transparent;border-radius:6px;padding:0}
+.rich .hot:hover{background:rgba(255,255,255,.1)}
+.rich .hot-main{left:0;right:0;top:0;bottom:22%}
+.rich .hot-1,.rich .hot-2,.rich .hot-3{bottom:0;height:22%;width:33.333%}
+.rich .hot-1{left:0}.rich .hot-2{left:33.333%}.rich .hot-3{left:66.666%}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sheet{position:absolute;inset:0;background:rgba(5,9,14,.55);display:flex;align-items:flex-end;border-radius:22px;padding:8px}
+.sheet[hidden]{display:none}
+.sheet-card{background:#16273a;border:1px solid #2c4560;border-radius:16px;padding:14px;width:100%}
+.toast{position:absolute;left:12px;right:12px;bottom:18px;background:#e9f1f7;color:#142131;border-radius:10px;padding:9px 12px;
+  font-weight:700;text-align:center;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+/* 焦點樣式：鍵盤操作清楚可見 */
+.proto button:focus-visible{outline:2px solid #f0c36a;outline-offset:2px}
+.ptab:focus-visible,.pbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.proto-cap{text-align:center;font-size:14px;color:var(--muted);margin:14px auto 0;max-width:300px;min-height:72px}
+.proto-cap .kicker{display:block;margin-bottom:6px}
+.proto-cap b{display:block;color:var(--ink);font-size:15px}
+.proto-side{min-width:0}
+.proto-hint{font-weight:700;color:var(--ink);margin:8px 0 14px}
+.flow{margin:0 0 16px;padding-left:1.4em;font-size:14px;color:var(--muted)}
+.flow li{margin:6px 0}
+.flow li.cur{color:var(--brand);font-weight:700}
+.proto-nav{display:flex;gap:10px;flex-wrap:wrap}
+.pbtn{font:500 14px var(--f-body);color:var(--brand);background:var(--brand-soft);border:1px solid transparent;border-radius:999px;padding:9px 16px;cursor:pointer}
+.pbtn:hover{border-color:var(--brand)}
+@media (max-width:760px){
+  .proto-stage{grid-template-columns:minmax(0,1fr);padding:16px 12px;gap:18px}
+  .proto .device{max-width:280px}
+  .flow{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .screen,.screen.on,.toast{transition:none}
+  .screen{transform:none}
+  .flex-card.flash{animation:none}
+}
+</style>
+</head>
+<body>
+<main class="wrap">
+
+<header class="cover">
+  <span class="kicker">System Proposal · HAPPYBRAIN Phase 1</span>
+  <h1>幸福腦 HAPPYBRAIN<br>第一階段 App 系統規劃書</h1>
+  <p class="sub">致 藍海樂活股份有限公司 · 回覆文件編號 HB-RFQ-2026-APP-V1</p>
+  <div class="facts">
+    <div><b>提案單位</b><span>宇果國際行銷有限公司</span></div>
+    <div><b>提案日期</b><span>2026 年 10 月 16 日</span></div>
+    <div><b>建議時程</b><span>約 11 週（含技術驗證與上架）</span></div>
+    <div><b>專案總額（未稅）</b><span>NT$980,000</span></div>
+  </div>
+</header>
+
+<section>
+  <span class="no">01 · 規劃摘要</span>
+  <h2>以原生 App 承載聲光調頻核心，以 LINE 官方帳號串起會員與通路</h2>
+  <p>感謝貴司提供完整的需求規格。依規格內容，本規劃將系統分為兩大部分：</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>幸福腦 App（iOS／Android）</h3>
+      <p>負責聲光同步播放、延遲控制、加密串流與防側錄，確保專利聲光音訊以設計的精度送達使用者。</p>
+      <span class="tag">Flutter 雙平台</span><span class="tag">原生音訊管線</span><span class="tag">HLS AES-128</span><span class="tag">防側錄</span><span class="tag">LINE／Google／Apple 登入</span>
+    </div>
+    <div class="card">
+      <h3>LINE 官方帳號會員生態</h3>
+      <p>負責會員訂閱、合作門店預約與評測、健康管理師與代理商推廣、轉介紹與點數，讓 C 端、B 端與代理商在同一套系統運作。</p>
+      <span class="tag">會員與訂閱</span><span class="tag">門店預約</span><span class="tag">代理商分潤</span><span class="tag">MGM 推薦</span>
+    </div>
+  </div>
+  <p style="margin-top:14px">為了讓驗收標準（示波器量測、相位與失真率）在正式開發前就有明確依據，我們建議先進行為期兩週的<b>技術驗證</b>，與貴司 QC 團隊共同確認輸出方案，再進入全案開發。</p>
+</section>
+
+<section>
+  <span class="no">02 · 輸出方案建議</span>
+  <h2>建議採「單線輸出」，讓音訊與光波共用同一時脈</h2>
+  <p>規格書要求藍牙耳機與有線發光眼鏡兩路同步，相位差在 5 毫秒以內。藍牙傳輸本身有一兩百毫秒、且會隨裝置浮動的延遲，要長期穩定達到 5 毫秒以內，技術風險相對高。</p>
+  <p>我們建議將耳機與眼鏡改由同一個有線輸出取得訊號。兩路共用同一個時脈，同步精度可達單一取樣點，遠優於 5 毫秒的要求，也讓「右耳先行」等延遲參數能精準執行。</p>
+  <div class="diagram">
+    <svg viewBox="0 0 760 210" role="img" aria-label="單線輸出訊號路徑">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <g fill="none" stroke="var(--muted)" stroke-width="1.25">
+        <path d="M184 105H240" marker-end="url(#ar)"/><path d="M400 105H440" marker-end="url(#ar)"/>
+        <path d="M560 92L600 56" marker-end="url(#ar)"/><path d="M560 118L600 154" marker-end="url(#ar)"/>
+      </g>
+      <rect x="24" y="70" width="160" height="70" rx="10" fill="var(--wave-soft)" stroke="var(--wave)" stroke-width="2"/>
+      <text x="104" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">幸福腦 App</text>
+      <text x="104" y="120" text-anchor="middle" font-size="12" fill="var(--muted)">單一音訊流・同一時脈</text>
+      <rect x="240" y="70" width="160" height="70" rx="10" fill="none" stroke="var(--muted)"/>
+      <text x="320" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">USB-C 音訊轉接器</text>
+      <text x="320" y="120" text-anchor="middle" font-size="12" fill="var(--muted)">由貴司指定型號</text>
+      <rect x="440" y="70" width="120" height="70" rx="10" fill="none" stroke="var(--muted)"/>
+      <text x="500" y="100" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">分線</text>
+      <text x="500" y="120" text-anchor="middle" font-size="12" fill="var(--muted)">濾波或分聲道</text>
+      <rect x="600" y="20" width="136" height="60" rx="10" fill="none" stroke="var(--muted)"/>
+      <text x="668" y="46" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">耳機</text>
+      <text x="668" y="66" text-anchor="middle" font-size="12" fill="var(--muted)">背景音樂與雙耳訊號</text>
+      <rect x="600" y="130" width="136" height="60" rx="10" fill="none" stroke="var(--muted)"/>
+      <text x="668" y="156" text-anchor="middle" font-size="14" font-weight="700" fill="var(--ink)">發光眼鏡</text>
+      <text x="668" y="176" text-anchor="middle" font-size="12" fill="var(--muted)">光波控制載波</text>
+    </svg>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>A 案：載波置於高頻段</h3><p>音樂在可聽頻段，光波控制載波置於更高頻段，共用左右聲道，眼鏡端以濾波取出載波。可使用一般 USB-C 音訊轉接器，硬體成本最低。</p></div>
+    <div class="card"><h3>B 案：四聲道分流</h3><p>採用四聲道 USB 音訊介面，第 1、2 聲道輸出耳機，第 3、4 聲道輸出眼鏡。音樂與光波完全分離，互不干擾。</p></div>
+  </div>
+  <p class="note" style="margin-top:12px">兩案選擇由貴司硬體團隊決定；技術驗證期間會同時測試兩案，提供量測數據作為決策依據。原規格的藍牙加有線雙路方案，可列為選配，經技術驗證確認可行後另行報價。</p>
+</section>
+
+<section>
+  <span class="no">03 · 系統架構</span>
+  <h2>App、雲端串流與 LINE 會員系統的分工</h2>
+  <div class="grid3">
+    <div class="card"><h3>幸福腦 App</h3><ul>
+      <li>LINE、Google、Apple 帳號登入，同一位會員可綁定多種登入方式</li>
+      <li>痛點頻道列表與專屬播放器</li><li>原生音訊管線：取樣率控制、PCM 延遲鏈（右耳先行、音壓偏置）</li>
+      <li>防截圖、防錄影、單一裝置綁定</li><li>依會員等級開放頻道</li><li>二期預留：即時波形、閉環狀態機、腦波儀介面</li></ul></div>
+    <div class="card"><h3>雲端串流</h3><ul>
+      <li>音訊母帶切片並以 AES-128 加密</li><li>動態簽章網址，限時有效</li>
+      <li>全程無損直通，不做壓縮、重新取樣或低通濾波</li><li>建議平台：Cloudflare Stream 或 AWS CloudFront</li></ul></div>
+    <div class="card"><h3>LINE 會員系統</h3><ul>
+      <li>LINE 一鍵登入，App 與官方帳號共用帳號</li><li>訂閱方案、門店預約與評測紀錄</li>
+      <li>健康管理師與代理商推廣碼、分潤報表</li><li>轉介紹、點數、自動發券</li><li>依調頻紀錄自動推送關懷訊息</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>海外與非 LINE 使用者</h3>
+    <p>不使用 LINE 的海外客戶，可以用 Google 或 Apple 帳號登入 App，會員資料、訂閱與調頻紀錄存在同一套會員系統。LINE 使用者收到的提醒與活動通知，非 LINE 會員改以 App 推播送達。依 App Store 審查規範，App 提供 Google 等第三方登入時，需同時提供「以 Apple 登入」，本規劃已一併納入。</p>
+  </div>
+</section>
+
+<section id="screens">
+  <span class="no">04 · 畫面範例</span>
+  <h2>主要畫面示意</h2>
+  <p class="note">以下為功能示意，實際視覺將依貴司品牌識別，於架構凍結週確認 UI 設計稿。下方手機可以直接點選操作，也可以用上排標籤跳到任一畫面。</p>
+
+  <div class="proto" id="proto">
+    <div class="proto-tabs" role="toolbar" aria-label="選擇要查看的畫面">
+      <button type="button" class="ptab" data-go="login"><span class="pn">01</span>登入</button>
+      <button type="button" class="ptab" data-go="channels"><span class="pn">02</span>頻道</button>
+      <button type="button" class="ptab" data-go="check"><span class="pn">03</span>裝置檢查</button>
+      <button type="button" class="ptab" data-go="player"><span class="pn">04</span>播放</button>
+      <button type="button" class="ptab" data-go="records"><span class="pn">05</span>紀錄</button>
+      <button type="button" class="ptab" data-go="line"><span class="pn">06</span>LINE</button>
+      <button type="button" class="ptab" data-go="agent"><span class="pn">07</span>管理師</button>
+      <button type="button" class="ptab" data-go="push"><span class="pn">08</span>推播</button>
+    </div>
+
+    <div class="proto-stage">
+      <div class="proto-phone">
+        <div class="device"><div class="screens" id="screens-host">
+
+          <!-- 01 登入 -->
+          <div class="scr screen" data-screen="login" tabindex="-1" aria-label="登入畫面">
+            <div class="sbar"><span>9:41</span><span>5G</span></div>
+            <div style="margin-top:40px;text-align:center"><h4 style="font-size:20px;letter-spacing:.08em">幸福腦</h4><span class="muted">HAPPYBRAIN</span></div>
+            <div class="ring" style="width:110px;height:110px"><span style="font-size:13px">AVE</span></div>
+            <div style="margin-top:auto;display:grid;gap:8px">
+              <button type="button" class="btn" style="background:#06c755" data-go="channels" data-from-phone>以 LINE 帳號登入</button>
+              <button type="button" class="btn ghost" data-go="channels" data-from-phone>以 Google 帳號登入</button>
+              <button type="button" class="btn ghost" data-go="channels" data-from-phone>以 Apple 帳號登入</button>
+              <div class="muted" style="text-align:center">登入即表示同意服務條款與隱私權政策</div>
+            </div>
+          </div>
+
+          <!-- 02 頻道 -->
+          <div class="scr screen" data-screen="channels" tabindex="-1" aria-label="痛點頻道列表">
+            <div class="sbar"><span>9:41</span><span>5G</span></div>
+            <div><span class="muted">早安，林小姐</span><h4>今天想調整什麼狀態？</h4></div>
+            <div class="chips" role="group" aria-label="頻道分類">
+              <button type="button" class="chip on" data-cat="all" aria-pressed="true">全部</button><button type="button" class="chip" data-cat="sleep" aria-pressed="false">睡眠</button><button type="button" class="chip" data-cat="relax" aria-pressed="false">紓壓</button><button type="button" class="chip" data-cat="focus" aria-pressed="false">專注</button>
+            </div>
+            <div class="tiles">
+              <button type="button" class="tile" data-cats="sleep" data-play="sleep"><div><b>深層入眠</b><span class="muted">Delta 引導・30 分鐘</span></div><span class="ok">播放</span></button>
+              <button type="button" class="tile" data-cats="relax" data-play="relax"><div><b>午後紓壓</b><span class="muted">Alpha 引導・15 分鐘</span></div><span class="ok">播放</span></button>
+              <button type="button" class="tile" data-cats="focus" data-play="focus"><div><b>專注工作</b><span class="muted">Beta 過渡・25 分鐘</span></div><span class="ok">播放</span></button>
+              <button type="button" class="tile" data-cats="sleep relax focus" data-upgrade><div><b>腦頻師專屬課程</b><span class="muted">門店指定頻道</span></div><span class="lock">會員升級</span></button>
+            </div>
+            <div class="muted" style="margin-top:auto;text-align:center">本週已調頻 3 小時 20 分</div>
+            <div class="sheet" id="upgrade-sheet" role="dialog" aria-modal="false" aria-labelledby="upgrade-title" hidden>
+              <div class="sheet-card">
+                <span class="lock">尊榮會員</span>
+                <h4 id="upgrade-title" style="margin-top:8px">此頻道需升級會員</h4>
+                <p class="muted" style="margin:6px 0 10px">腦頻師專屬課程由門店依評測結果指定，升級尊榮會員即可收聽，並享門店預約優先。</p>
+                <button type="button" class="btn" data-close-sheet>了解升級方案</button>
+                <button type="button" class="btn ghost" style="margin-top:6px" data-close-sheet>稍後再說</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 03 裝置檢查 -->
+          <div class="scr screen" data-screen="check" tabindex="-1" aria-label="裝置檢查">
+            <div class="sbar"><span>9:41</span><span>5G</span></div>
+            <h4>開始前的裝置檢查</h4>
+            <div class="tile"><div><b>音訊轉接器</b><span class="muted">已偵測，48 kHz 輸出</span></div><span class="ok">正常</span></div>
+            <div class="tile"><div><b>耳機線材</b><span class="muted">請使用 3 節（TRS）立體聲線</span></div><span class="warn">提醒</span></div>
+            <div class="tile"><div><b>光波測試</b><span class="muted">眼鏡將閃爍 3 秒</span></div><span class="ok">通過</span></div>
+            <div class="tile"><div><b>音量</b><span class="muted">建議 40%–60%</span></div><span class="ok">50%</span></div>
+            <div class="muted" style="text-align:center" data-check-name>即將播放：深層入眠</div>
+            <button type="button" class="btn" style="margin-top:auto" data-start>開始調頻</button>
+          </div>
+
+          <!-- 04 播放器 -->
+          <div class="scr screen" data-screen="player" tabindex="-1" aria-label="聲光調頻播放器">
+            <div class="sbar"><span>23:08</span><span>5G</span></div>
+            <div class="row"><span class="muted" data-p-name>深層入眠</span><span class="muted" data-p-band>Delta</span></div>
+            <div class="ring" data-ring><span data-p-time aria-live="off">30:00</span></div>
+            <svg class="wave" viewBox="0 0 220 34" aria-hidden="true"><path d="M0 17 Q 11 2 22 17 T 44 17 T 66 17 T 88 17 T 110 17 T 132 17 T 154 17 T 176 17 T 198 17 T 220 17" fill="none" stroke="#2f8f8a" stroke-width="2"/></svg>
+            <div class="row"><span>耳機</span><span class="ok">已連接</span></div>
+            <div class="row"><span>發光眼鏡</span><span class="ok" data-p-glass>同步中</span></div>
+            <div class="bar"><i data-p-bar style="width:0%"></i></div>
+            <div class="row"><button type="button" class="btn ghost" style="flex:1" data-pause aria-pressed="false">暫停</button><button type="button" class="btn" style="flex:1" data-go="records" data-from-phone>結束</button></div>
+            <div class="muted" style="text-align:center">螢幕關閉後仍會持續播放</div>
+          </div>
+
+          <!-- 05 紀錄 -->
+          <div class="scr screen" data-screen="records" tabindex="-1" aria-label="我的調頻紀錄">
+            <div class="sbar"><span>9:41</span><span>5G</span></div>
+            <h4>我的調頻紀錄</h4>
+            <div class="row"><span class="muted">本月累計</span><b style="font-size:18px" data-month>12 小時 40 分</b></div>
+            <div class="bars7" aria-hidden="true">
+              <i style="height:40%"></i><i style="height:70%"></i><i style="height:30%"></i><i style="height:85%"></i><i style="height:55%"></i><i class="off" style="height:10%"></i><i style="height:65%"></i>
+            </div>
+            <div class="row muted"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+            <button type="button" class="tile" data-play="sleep"><div><b>最常使用</b><span class="muted">深層入眠</span></div><span>8 次</span></button>
+            <div class="tile"><div><b>門店評測</b><span class="muted">信義旗艦店・10/12</span></div><span class="ok">查看</span></div>
+            <div class="tile"><div><b>會員等級</b><span class="muted">尊榮會員・到期 2027/10</span></div><span class="ok">續約</span></div>
+            <button type="button" class="linkish" data-go="line" data-from-phone>回到 LINE 官方帳號</button>
+          </div>
+
+          <!-- 06 LINE 官方帳號 -->
+          <div class="scr screen line-scr" data-screen="line" tabindex="-1" aria-label="LINE 官方帳號">
+            <div class="sbar" style="color:#1d2b38"><span>9:41</span><span>LINE</span></div>
+            <div class="bubble">林小姐您好，本週已連續調頻 4 天。今晚 22:30 會提醒您開始。</div>
+            <div class="flex-card" data-booking>
+              <div class="hd" data-bk-hd>門店體驗預約</div>
+              <div class="bd">
+                <div>信義旗艦店・大腦狀態觀測</div><div style="color:#5b6877">10/20（一）19:00</div>
+                <button type="button" class="lk" data-confirm-booking>確認預約</button>
+              </div>
+            </div>
+            <div class="rich" aria-label="圖文選單示意：一整張品牌設計圖，點選不同區塊進入對應功能">
+              <div class="brand">HAPPYBRAIN 幸福腦</div>
+              <div class="hl">今晚，讓大腦好好休息</div>
+              <span class="cta">開始調頻</span>
+              <svg class="glasses" viewBox="0 0 44 16" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1.5"><rect x="1" y="2" width="17" height="12" rx="5"/><rect x="26" y="2" width="17" height="12" rx="5"/><path d="M18 7h8"/></g></svg>
+              <div class="foot"><span>門店預約</span><span>會員中心</span><span>推薦好友</span></div>
+              <button type="button" class="hot hot-main" data-play="sleep"><span class="sr">圖文選單：開始調頻</span></button>
+              <button type="button" class="hot hot-1" data-confirm-booking><span class="sr">圖文選單：門店預約</span></button>
+              <button type="button" class="hot hot-2" data-go="records" data-from-phone><span class="sr">圖文選單：會員中心</span></button>
+              <button type="button" class="hot hot-3" data-go="agent" data-from-phone><span class="sr">圖文選單：推薦好友</span></button>
+            </div>
+          </div>
+
+          <!-- 07 管理師專區 -->
+          <div class="scr screen" data-screen="agent" tabindex="-1" aria-label="健康管理師專區">
+            <div class="sbar"><span>9:41</span><span>LINE</span></div>
+            <h4>健康管理師專區</h4>
+            <div class="row"><span class="muted">本月推廣</span><b style="font-size:18px">18 位會員</b></div>
+            <button type="button" class="tile" data-share><div><b>我的推廣碼</b><span class="muted">HB-CHEN-0921</span></div><span class="ok">分享</span></button>
+            <div class="tile"><div><b>本月分潤</b><span class="muted">結算日 11/5</span></div><span>NT$12,600</span></div>
+            <div class="tile"><div><b>現場評測</b><span class="muted">登錄評測結果給客戶</span></div><span class="ok">新增</span></div>
+            <div class="tile"><div><b>客戶名單</b><span class="muted">續約提醒 3 位</span></div><span class="warn">查看</span></div>
+            <div class="toast" data-toast role="status" aria-live="polite"></div>
+          </div>
+
+          <!-- 08 推播 -->
+          <div class="scr screen" data-screen="push" tabindex="-1" aria-label="App 推播" style="background:linear-gradient(180deg,#1c3550,#0e1a26)">
+            <div class="sbar"><span></span><span>5G</span></div>
+            <div style="text-align:center;margin-top:24px"><div class="lock-clock">22:28</div><span class="muted">Thursday, October 16</span></div>
+            <button type="button" class="tile glassy" style="margin-top:18px" data-play="sleep"><div><b>HAPPYBRAIN · now</b><span>Your Deep Sleep session starts in 2 minutes. Put on your glasses and relax.</span></div></button>
+            <button type="button" class="tile glassy" data-play="sleep"><div><b>HAPPYBRAIN · 2h ago</b><span>4 days in a row. Keep your evening routine going.</span></div></button>
+            <div class="muted" style="margin-top:auto;text-align:center">英文介面與推播為選配示意</div>
+          </div>
+
+        </div></div>
+        <p class="proto-cap" aria-live="polite"><span class="kicker" data-cap-no>01 / 08</span><b data-cap-title>登入</b><span data-cap-text>LINE、Google、Apple 三種方式，海外客戶免用 LINE</span></p>
+      </div>
+
+      <div class="proto-side">
+        <span class="kicker">操作提示</span>
+        <p class="proto-hint" data-cap-hint>點「以 LINE 帳號登入」進入頻道列表</p>
+        <ol class="flow" aria-label="建議操作流程">
+          <li data-flow="login">登入：選擇 LINE、Google 或 Apple</li>
+          <li data-flow="channels">頻道列表：切換分類，點「深層入眠」</li>
+          <li data-flow="check">裝置檢查：點「開始調頻」</li>
+          <li data-flow="player">播放器：可暫停、繼續，點「結束」</li>
+          <li data-flow="records">我的紀錄：查看本月累計</li>
+          <li data-flow="line">LINE 官方帳號：點圖文選單不同區塊</li>
+          <li data-flow="agent">管理師專區：點「分享」推廣碼</li>
+          <li data-flow="push">App 推播：點通知直接開始播放</li>
+        </ol>
+        <div class="proto-nav">
+          <button type="button" class="pbtn" data-step="-1">上一個畫面</button>
+          <button type="button" class="pbtn" data-step="1">下一個畫面</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:12px">畫面為示意，畫面中的人名、門店、數字皆為示意。</p>
+</section>
+
+<section>
+  <span class="no">05 · 開發流程</span>
+  <h2>每個階段都有明確交付與驗收</h2>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div><b>技術驗證（第 1–2 週）</b><p>製作測試播放器（iOS、Android），同時測試 A、B 兩種輸出方案，由貴司 QC 團隊以示波器量測，提交量測報告與方案建議。</p></div></div>
+    <div class="step"><span class="n">2</span><div><b>架構凍結（第 3 週）</b><p>簽署保密協定，鎖定開發規格、四大預留介面與 UI 設計稿。</p></div></div>
+    <div class="step"><span class="n">3</span><div><b>介面與原生引擎開發（第 4–7 週）</b><p>Flutter 雙平台介面、原生音訊管線、防側錄、加密串流與會員系統串接同步進行；每週提供測試版供貴司試用。</p></div></div>
+    <div class="step"><span class="n">4</span><div><b>實機試戴與學術 QC（第 8 週）</b><p>交付測試安裝檔，於指定機型與指定轉接器進行實機試戴，由貴司 QC 團隊驗收訊號品質。</p></div></div>
+    <div class="step"><span class="n">5</span><div><b>工程完工（第 9 週）</b><p>全功能整合、問題修正、交付原始碼與技術文件。</p></div></div>
+    <div class="step"><span class="n">6</span><div><b>雙平台上架（第 10–11 週）</b><p>協助 App Store 與 Google Play 送審與補件，完成雲端後台移交。上架後提供 90 天保固。</p></div></div>
+  </div>
+  <div class="gantt"><div class="g">
+    <div class="h">工作項目</div><div class="h">W1</div><div class="h">W2</div><div class="h">W3</div><div class="h">W4</div><div class="h">W5</div><div class="h">W6</div><div class="h">W7</div><div class="h">W8</div><div class="h">W9</div><div class="h">W10</div><div class="h">W11</div>
+    <div class="lbl">技術驗證</div><div class="b b1" style="grid-column:2 / span 2">兩案量測</div><div style="grid-column:4 / span 9"></div>
+    <div class="lbl">架構凍結、UI 設計</div><div style="grid-column:2 / span 2"></div><div class="b b2" style="grid-column:4 / span 1">凍結</div><div style="grid-column:5 / span 8"></div>
+    <div class="lbl">App 開發</div><div style="grid-column:2 / span 3"></div><div class="b b3" style="grid-column:5 / span 4">介面與原生引擎</div><div style="grid-column:9 / span 4"></div>
+    <div class="lbl">LINE 會員系統</div><div style="grid-column:2 / span 3"></div><div class="b b4" style="grid-column:5 / span 3">會員、門店、代理商</div><div style="grid-column:8 / span 5"></div>
+    <div class="lbl">實機與 QC</div><div style="grid-column:2 / span 7"></div><div class="b b1" style="grid-column:9 / span 1">QC</div><div style="grid-column:10 / span 3"></div>
+    <div class="lbl">完工與上架</div><div style="grid-column:2 / span 8"></div><div class="b b2" style="grid-column:10 / span 3">完工、送審上架</div>
+  </div></div>
+  <p class="note">LINE 會員系統可與 App 平行開發，第 7 週起即可先開放合作門店與代理商使用。上架審查時間依 Apple 與 Google 實際作業而定。</p>
+</section>
+
+<section>
+  <span class="no">06 · 詳細報價</span>
+  <h2>專案總額 NT$980,000（未稅）</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>模組</th><th>工作項目</th><th class="num">金額（NT$）</th></tr></thead>
+    <tbody>
+      <tr><td class="mod">技術驗證</td><td>iOS、Android 測試播放器；A、B 兩案輸出實作；取樣率與延遲量測工具；量測報告與方案建議</td><td class="num">85,000</td></tr>
+      <tr><td class="mod" rowspan="4">模組 A<br>介面</td><td>UI 視覺設計（依貴司品牌識別，主要畫面約 15 頁）</td><td class="num">60,000</td></tr>
+      <tr><td>痛點頻道列表、頻道詳情、會員等級顯示</td><td class="num">45,000</td></tr>
+      <tr><td>聲光播放器介面、裝置檢查與線材提示</td><td class="num">50,000</td></tr>
+      <tr><td>登入、個人紀錄、設定與通知</td><td class="num">35,000</td></tr>
+      <tr class="sub"><td colspan="2">模組 A 小計</td><td class="num">190,000</td></tr>
+      <tr><td class="mod" rowspan="4">模組 B<br>原生音訊</td><td>iOS 原生音訊管線（AVAudioEngine）與 Flutter 橋接</td><td class="num">85,000</td></tr>
+      <tr><td>Android 原生音訊管線（AudioTrack）與 Flutter 橋接</td><td class="num">85,000</td></tr>
+      <tr><td>PCM 延遲鏈：右耳先行、音壓偏置、參數動態配置</td><td class="num">55,000</td></tr>
+      <tr><td>取樣率對齊、輸出裝置偵測、鎖屏持續播放</td><td class="num">35,000</td></tr>
+      <tr class="sub"><td colspan="2">模組 B 小計</td><td class="num">260,000</td></tr>
+      <tr><td class="mod" rowspan="3">模組 C<br>資安與串流</td><td>防截圖、防錄影、投影偵測（iOS、Android 各自實作）</td><td class="num">45,000</td></tr>
+      <tr><td>單一裝置綁定、異地登入踢除、快取抹除</td><td class="num">40,000</td></tr>
+      <tr><td>HLS AES-128 加密串流解密播放、簽章網址、無損直通設定</td><td class="num">60,000</td></tr>
+      <tr class="sub"><td colspan="2">模組 C 小計</td><td class="num">145,000</td></tr>
+      <tr><td class="mod" rowspan="5">模組 D<br>架構與整合</td><td>Clean Architecture 四大預留介面（含腦波儀測試替身）</td><td class="num">45,000</td></tr>
+      <tr><td>會員系統 API 對接：帳號、調頻紀錄、門店評測回傳</td><td class="num">40,000</td></tr>
+      <tr><td>多元登入：LINE、Google、Apple 帳號登入與帳號綁定整合</td><td class="num">40,000</td></tr>
+      <tr><td>App 推播通知（iOS、Android），供非 LINE 會員接收提醒與活動</td><td class="num">30,000</td></tr>
+      <tr><td>雙平台上架送審、技術文件與雲端後台移交</td><td class="num">35,000</td></tr>
+      <tr class="sub"><td colspan="2">模組 D 小計</td><td class="num">190,000</td></tr>
+      <tr><td class="mod" rowspan="3">LINE 會員系統</td><td>官方帳號串接、LINE 登入、圖文選單與訊息範本</td><td class="num">35,000</td></tr>
+      <tr><td>訂閱方案、門店預約與評測紀錄</td><td class="num">40,000</td></tr>
+      <tr><td>健康管理師與代理商推廣碼、分潤報表、轉介紹與點數</td><td class="num">35,000</td></tr>
+      <tr class="sub"><td colspan="2">LINE 會員系統小計</td><td class="num">110,000</td></tr>
+      <tr class="grand"><td colspan="2">專案總額（未稅）</td><td class="num">980,000</td></tr>
+      <tr><td colspan="2">營業稅 5%</td><td class="num">49,000</td></tr>
+      <tr class="grand"><td colspan="2">含稅總額</td><td class="num">1,029,000</td></tr>
+    </tbody>
+  </table></div>
+  <div class="card" style="margin-top:12px"><b>技術驗證費用全額折抵：</b>技術驗證完成後兩個月內簽訂全案，NT$85,000 驗證費用將全額折抵全案款項，全案實付 NT$895,000（未稅）。</div>
+
+  <h3>選配項目</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>項目</th><th>說明</th><th class="num">金額（NT$，未稅）</th></tr></thead>
+    <tbody>
+      <tr><td>藍牙加有線雙路方案</td><td>原規格雙路同步；技術驗證確認可行後另行報價</td><td class="num">另行報價</td></tr>
+      <tr><td>保固延長</td><td>上架後保固由 90 天延長至 180 天</td><td class="num">30,000</td></tr>
+      <tr><td>英文介面</td><td>App 全頁面英文化與語系切換，供海外客戶使用</td><td class="num">45,000</td></tr>
+      <tr><td>年度維護</td><td>iOS／Android 新版本相容、問題修正、小幅調整</td><td class="num">每年 89,500</td></tr>
+      <tr><td>LINE 會員系統月費</td><td>依會員人數與功能選擇方案</td><td class="num">依方案另計</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>付款方式</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>階段</th><th>條件</th><th class="num">比例</th><th class="num">金額（NT$，未稅）</th></tr></thead>
+    <tbody>
+      <tr><td>技術驗證</td><td>簽約時</td><td class="num">100%</td><td class="num">85,000</td></tr>
+      <tr><td>第一期</td><td>架構凍結文件簽署</td><td class="num">30%</td><td class="num">268,500</td></tr>
+      <tr><td>第二期</td><td>實機試戴與學術 QC 通過</td><td class="num">30%</td><td class="num">268,500</td></tr>
+      <tr><td>第三期</td><td>工程完工驗收</td><td class="num">30%</td><td class="num">268,500</td></tr>
+      <tr><td>尾款</td><td>雙平台上架完成</td><td class="num">10%</td><td class="num">89,500</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">全案款項以 NT$895,000（App 四模組 785,000＋LINE 會員系統 110,000）計算各期金額。報價有效期限 30 天。</p>
+</section>
+
+<section>
+  <span class="no">07 · 貴司協助事項</span>
+  <h2>為確保時程，需要貴司提供</h2>
+  <div class="grid2">
+    <div class="card"><h3>開發與測試</h3><ul>
+      <li>測試音檔（含光波控制載波）與載波頻率、取樣率參數</li>
+      <li>指定測試手機、指定 USB-C 音訊轉接器、發光眼鏡樣品</li>
+      <li>學術 QC 團隊示波器量測時段</li>
+      <li>品牌識別資料（標誌、色彩、字體）</li></ul></div>
+    <div class="card"><h3>帳號與雲端</h3><ul>
+      <li>Apple Developer 帳號（年費 US$99）、Google Play 開發者帳號（一次 US$25），以貴司名義申請</li>
+      <li>雲端串流與儲存服務帳號（費用依用量由貴司支付）</li>
+      <li>LINE 官方帳號與 LINE Developers 權限</li>
+      <li>Google 登入與推播所需的 Google Cloud／Firebase 專案權限</li>
+      <li>App 內健康相關文案的法規確認</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <span class="no">08 · 合作條款建議</span>
+  <h2>智慧財產、驗收與保固</h2>
+  <ol>
+    <li><b>智慧財產權</b>：本案為貴司開發的程式碼、介面與文件，於款項結清後全數移轉貴司。宇果既有的 LINE 會員系統平台與共用元件，以授權方式提供貴司使用。</li>
+    <li><b>保密與競業</b>：宇果對本案聲光技術與商業規劃負永久保密義務；競業限制範圍為「聲光同步調頻播放應用」。</li>
+    <li><b>驗收標準</b>：訊號品質驗收以指定手機型號、指定音訊轉接器與指定測試音檔為準；若硬體或母帶規格調整，雙方另行確認驗收基準。</li>
+    <li><b>保固</b>：雙平台上架後 90 天免費保固，涵蓋程式錯誤修正與系統小版本更新造成的異常；新增需求另行報價。</li>
+    <li><b>App 內付款</b>：App 內販售訂閱等數位內容，需符合 Apple 與 Google 的應用程式內購規範，平台會收取 15%–30% 的費用。訂閱與付款方式將於架構凍結週與貴司確認。</li>
+    <li><b>開源授權</b>：僅使用 MIT、Apache 2.0、BSD 等寬鬆授權套件，不引入 GPL、AGPL 類授權；程式碼不寫入任何金鑰或憑證。</li>
+  </ol>
+</section>
+
+<section>
+  <span class="no">09 · 下一步</span>
+  <h2>啟動技術驗證</h2>
+  <ol>
+    <li>貴司確認本規劃方向與報價</li>
+    <li>簽署保密協定與技術驗證合約</li>
+    <li>貴司提供測試音檔、指定轉接器與測試手機</li>
+    <li>兩週內完成驗證並提交量測報告，確認輸出方案後啟動全案</li>
+  </ol>
+</section>
+
+<footer>宇果國際行銷有限公司 · 提案聯絡人：施雲漢 執行長 · 本文件含貴司機密資訊，僅供本專案評估使用 · 金額均為新台幣</footer>
+</main>
+<script>
+(function(){
+  var root=document.getElementById('proto'); if(!root) return;
+  var order=['login','channels','check','player','records','line','agent','push'];
+  var meta={
+    login:['登入','LINE、Google、Apple 三種方式，海外客戶免用 LINE','點「以 LINE 帳號登入」進入頻道列表'],
+    channels:['痛點頻道列表','依睡眠、紓壓、專注分類；依會員等級顯示可用頻道','點上方分類切換篩選；點「深層入眠」進入裝置檢查，點「會員升級」頻道看升級提示'],
+    check:['裝置檢查','偵測轉接器與取樣率、提示正確線材，避免訊號串音','點「開始調頻」進入播放器'],
+    player:['聲光調頻播放器','顯示剩餘時間、裝置狀態；鎖定螢幕持續播放','倒數正在進行，可點「暫停」或「繼續」，點「結束」看調頻紀錄'],
+    records:['個人紀錄','調頻時長與門店評測，同步回會員系統','點「最常使用」可再次播放，或回到 LINE 官方帳號'],
+    line:['LINE 官方帳號','使用提醒、門店預約；圖文選單為整張品牌設計圖，點選不同區塊進入對應功能','點圖文選單：上半部開始調頻，下方依序為門店預約、會員中心、推薦好友'],
+    agent:['代理商與管理師','推廣碼、分潤、現場評測與客戶追蹤','點「我的推廣碼」的分享'],
+    push:['App 推播（非 LINE 會員）','海外客戶以手機推播接收提醒與活動通知','點通知直接進入播放器']
+  };
+  var programs={
+    sleep:{name:'深層入眠',band:'Delta',min:30},
+    relax:{name:'午後紓壓',band:'Alpha',min:15},
+    focus:{name:'專注工作',band:'Beta',min:25}
+  };
+  var screens={}; root.querySelectorAll('[data-screen]').forEach(function(el){screens[el.getAttribute('data-screen')]=el;});
+  var tabs=root.querySelectorAll('.ptab');
+  var cur='login', pending='sleep', timer=null, total=1800, left=1800, paused=false;
+  var $=function(sel,ctx){return (ctx||root).querySelector(sel);};
+
+  function stopTimer(){ if(timer){clearInterval(timer);timer=null;} }
+  function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?'0':'')+m+':'+(x<10?'0':'')+x;}
+  function renderTime(){
+    $('[data-p-time]').textContent=fmt(left);
+    $('[data-p-bar]').style.width=((total-left)/total*100).toFixed(1)+'%';
+  }
+  function startPlayer(key){
+    var p=programs[key]||programs.sleep;
+    $('[data-p-name]').textContent=p.name; $('[data-p-band]').textContent=p.band;
+    total=left=p.min*60; paused=false;
+    var pb=$('[data-pause]'); pb.textContent='暫停'; pb.setAttribute('aria-pressed','false');
+    $('[data-p-glass]').textContent='同步中'; $('[data-p-glass]').className='ok';
+    renderTime(); stopTimer();
+    timer=setInterval(function(){ if(paused) return; if(left>0){left--;renderTime();} else stopTimer(); },1000);
+  }
+
+  function show(id,opts){
+    opts=opts||{};
+    if(!screens[id]) return;
+    var prevIdx=order.indexOf(cur), nextIdx=order.indexOf(id);
+    if(id!=='player') stopTimer();
+    Object.keys(screens).forEach(function(k){
+      var el=screens[k];
+      el.classList.toggle('back', nextIdx<prevIdx && k!==id);
+      if(k===id){el.classList.add('on');el.removeAttribute('aria-hidden');}
+      else{el.classList.remove('on');el.setAttribute('aria-hidden','true');}
+    });
+    cur=id;
+    if(id==='player') startPlayer(opts.program||pending);
+    if(id==='check') $('[data-check-name]').textContent='即將播放：'+(programs[pending]||programs.sleep).name;
+    var m=meta[id], n=nextIdx+1;
+    $('[data-cap-no]').textContent=(n<10?'0':'')+n+' / 08';
+    $('[data-cap-title]').textContent=m[0];
+    $('[data-cap-text]').textContent=m[1];
+    $('[data-cap-hint]').textContent=m[2];
+    tabs.forEach(function(t){ t.setAttribute('aria-current', t.getAttribute('data-go')===id?'true':'false'); });
+    root.querySelectorAll('[data-flow]').forEach(function(li){ li.classList.toggle('cur', li.getAttribute('data-flow')===id); });
+    var tab=root.querySelector('.ptab[data-go="'+id+'"]');
+    if(tab && opts.scrollTab!==false){
+      var bar=tab.parentNode, l=tab.offsetLeft-bar.offsetLeft, r=l+tab.offsetWidth;
+      if(l<bar.scrollLeft||r>bar.scrollLeft+bar.clientWidth) bar.scrollLeft=l-16;
+    }
+    var sheet=document.getElementById('upgrade-sheet'); if(sheet) sheet.hidden=true;
+    if(opts.focus) screens[id].focus({preventScroll:true});
+  }
+
+  root.addEventListener('click',function(e){
+    var t=e.target.closest('button'); if(!t||!root.contains(t)) return;
+    var inPhone=!!t.closest('.screens');
+    if(t.hasAttribute('data-go')){ show(t.getAttribute('data-go'),{focus:inPhone}); return; }
+    if(t.hasAttribute('data-step')){
+      var i=(order.indexOf(cur)+parseInt(t.getAttribute('data-step'),10)+order.length)%order.length;
+      if(order[i]==='player'||order[i]==='check') pending='sleep';
+      show(order[i]); return;
+    }
+    if(t.hasAttribute('data-play')){
+      pending=t.getAttribute('data-play');
+      // 頻道列表進入裝置檢查；推播、紀錄、圖文選單直接進播放器
+      if(cur==='channels'||cur==='line') show('check',{focus:true});
+      else show('player',{focus:true,program:pending});
+      return;
+    }
+    if(t.hasAttribute('data-start')){ show('player',{focus:true,program:pending}); return; }
+    if(t.hasAttribute('data-pause')){
+      paused=!paused; t.textContent=paused?'繼續':'暫停'; t.setAttribute('aria-pressed',paused?'true':'false');
+      var g=$('[data-p-glass]'); g.textContent=paused?'已暫停':'同步中'; g.className=paused?'warn':'ok'; return;
+    }
+    if(t.hasAttribute('data-cat')){
+      var c=t.getAttribute('data-cat');
+      root.querySelectorAll('[data-cat]').forEach(function(ch){var on=ch===t;ch.classList.toggle('on',on);ch.setAttribute('aria-pressed',on?'true':'false');});
+      root.querySelectorAll('[data-cats]').forEach(function(tile){ tile.hidden=!(c==='all'||tile.getAttribute('data-cats').split(' ').indexOf(c)>-1); });
+      return;
+    }
+    if(t.hasAttribute('data-upgrade')){
+      var s=document.getElementById('upgrade-sheet'); s.hidden=false; var b=s.querySelector('button'); if(b) b.focus(); return;
+    }
+    if(t.hasAttribute('data-close-sheet')){
+      document.getElementById('upgrade-sheet').hidden=true; var u=root.querySelector('[data-upgrade]'); if(u) u.focus(); return;
+    }
+    if(t.hasAttribute('data-confirm-booking')){
+      var card=$('[data-booking]'); card.classList.add('done');
+      $('[data-bk-hd]').textContent='預約已確認';
+      var lk=card.querySelector('.lk'); lk.textContent='已為您保留時段，前一天會再提醒';
+      card.classList.remove('flash'); void card.offsetWidth; card.classList.add('flash');
+      return;
+    }
+    if(t.hasAttribute('data-share')){
+      var toast=$('[data-toast]'); toast.textContent='已複製推廣碼 HB-CHEN-0921'; toast.classList.add('show');
+      clearTimeout(toast._t); toast._t=setTimeout(function(){toast.classList.remove('show');},2200); return;
+    }
+  });
+  root.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ var s=document.getElementById('upgrade-sheet'); if(s&&!s.hidden){s.hidden=true;var u=root.querySelector('[data-upgrade]');if(u)u.focus();} }
+  });
+  show('login',{scrollTab:false});
+})();
+</script>
+</body>
+</html>

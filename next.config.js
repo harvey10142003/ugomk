@@ -12,7 +12,8 @@ const nextConfig = {
     // 這條只是讓網址不必帶 index.html；它不在 sitemap、站內沒有任何連結。
     // 2026-09-22 起另放三份內部教材（零售與進銷存操作手冊／練習劇本／示範 Runbook），同樣規則。
     // 2026-09-24 加一份給意向客戶看的產品功能與串接說明（platform-4ar69s），同樣規則。
-    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0', 'platform-4ar69s'].map((slug) => ({
+    // 2026-10-16 加幸福腦 App 系統規劃書（hb-hgeqxyffnuyb，含可操作的畫面原型），同樣規則。
+    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0', 'platform-4ar69s', 'hb-hgeqxyffnuyb'].map((slug) => ({
       source: `/p/${slug}`,
       destination: `/p/${slug}/index.html`
     }));
