@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>幸福腦 年度 LINE 行銷規劃</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/icon.png">
+<style>
+/* 版面：桌機左側章節目錄＋單欄規劃書（約 880px）；1100px 以下改成頂部可收合目錄。
+   色票沿用上一份《App 系統規劃書》，字型全部系統黑體，不載入任何網路字型。 */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#142131; --muted:#5b6877; --rule:#d8dee5;
+  --brand:#1c4d6b; --brand-soft:#e4eef4; --wave:#2f8f8a; --wave-soft:#e2f2f0; --gold:#b07a1e; --gold-soft:#f6eedf;
+  --avoid:#9a4a3c; --avoid-soft:#f7ebe8;
+  --f-body:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Noto Sans CJK TC",system-ui,sans-serif;
+  --f-mono:ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d131a; --paper:#141c25; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; --gold-soft:#2b2414;
+  --avoid:#e39a8b; --avoid-soft:#2e1c19; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d131a; --paper:#141c25; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; --gold-soft:#2b2414;
+  --avoid:#e39a8b; --avoid-soft:#2e1c19; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.8 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.35}
+h1{font-size:34px;font-weight:700;letter-spacing:.02em}
+h2{font-size:23px;font-weight:700;letter-spacing:.01em;margin-bottom:14px}
+h3{font-size:16px;font-weight:700;margin:24px 0 8px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 12px;padding-left:1.3em} li{margin:4px 0}
+a{color:var(--brand)}
+b,strong{font-weight:700}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:16px;top:-60px;background:var(--brand);color:var(--paper);padding:8px 14px;border-radius:6px;z-index:20;text-decoration:none}
+.skip:focus{top:12px}
+
+/* 外框：目錄＋內文 */
+.shell{max-width:1176px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,880px);gap:56px;justify-content:center;padding-block:48px 80px}
+.doc{min-width:0}
+
+/* 章節目錄 */
+.toc{position:sticky;top:32px;align-self:start;max-height:calc(100vh - 64px);overflow:auto;font-size:13px}
+.toc-toggle{display:none}
+.toc-head{font:500 11px/1 var(--f-mono);letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin:6px 0 14px}
+.toc ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+.toc li{margin:0}
+.toc a{display:grid;grid-template-columns:26px 1fr;gap:2px;padding:6px 0 6px 12px;margin-left:-1px;border-left:2px solid transparent;color:var(--muted);text-decoration:none;line-height:1.45;transition:color .2s,border-color .2s}
+.toc a span{font:500 11px/1.6 var(--f-mono);opacity:.8}
+.toc a:hover{color:var(--ink)}
+.toc a[aria-current="true"]{color:var(--brand);border-left-color:var(--brand);font-weight:700}
+.toc a:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
+
+/* 封面 */
+.cover{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:36px 32px 30px;position:relative;overflow:hidden}
+.cover-wave{position:absolute;right:0;top:26px;width:46%;height:100px;pointer-events:none;opacity:.9}
+.cover-wave path{fill:none;stroke:var(--wave);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.cover-wave path.faint{stroke:var(--wave-soft);stroke-width:6}
+.kicker{font:500 12px/1 var(--f-mono);letter-spacing:.14em;color:var(--wave);text-transform:uppercase}
+.cover h1{margin-top:14px;position:relative;z-index:1;max-width:620px}
+.cover .sub{color:var(--muted);margin-top:10px;position:relative;z-index:1}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:28px;position:relative;z-index:1}
+.facts div{border-top:2px solid var(--brand);padding-top:8px;min-width:0}
+.facts b{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.facts span{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* 章節 */
+.doc>section{margin-top:44px;padding-top:32px;border-top:1px solid var(--rule)}
+.no{font:500 12px var(--f-mono);color:var(--muted);letter-spacing:.1em;display:block;margin-bottom:6px}
+.lede{font-size:16px;color:var(--ink);max-width:720px}
+.note{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;font-size:12px;line-height:1;padding:5px 9px;border-radius:999px;background:var(--brand-soft);color:var(--brand);margin:2px 4px 2px 0;white-space:nowrap}
+.tag.wave{background:var(--wave-soft);color:var(--wave)}
+.tag.gold{background:var(--gold-soft);color:var(--gold)}
+
+/* 摘要要點：左側標籤、右側內容，以細線分列 */
+.spec{border-top:1px solid var(--rule);margin:16px 0 0}
+.spec>div{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.spec dt{font-size:13px;color:var(--muted);font-weight:500;padding-top:2px}
+.spec dd{margin:0}
+.spec dd p:last-child{margin:0}
+
+/* 表格 */
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:8px;background:var(--paper);margin:12px 0;-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+.tbl.narrow table{min-width:520px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-size:13px;font-weight:500;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:700;color:var(--brand);white-space:nowrap}
+td.nw{white-space:nowrap}
+.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* 共用：分頁按鈕列 */
+.tabs{display:flex;gap:8px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;padding:4px 2px 10px;margin:4px 0 6px;scrollbar-width:thin;max-width:100%}
+.tab,.chip,.seg button,.more{font:500 14px/1 var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:10px 15px;cursor:pointer;white-space:nowrap;flex:0 0 auto;transition:background-color .2s,border-color .2s,color .2s}
+.tab:hover,.chip:hover,.seg button:hover,.more:hover{border-color:var(--wave)}
+.tab[aria-selected="true"],.chip[aria-pressed="true"],.seg button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.tab .pn{font:500 11px var(--f-mono);color:var(--muted);margin-right:6px}
+.tab[aria-selected="true"] .pn{color:inherit;opacity:.8}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.panel{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:22px 24px}
+.panel:focus{outline:none}
+.panel:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.swap{animation:swapIn .32s ease both}
+@keyframes swapIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* 三條客群線 */
+.line-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:28px}
+.line-who{color:var(--muted);margin:2px 0 14px}
+.flow{list-style:none;margin:0;padding:0;counter-reset:f}
+.flow li{position:relative;padding:0 0 14px 34px;margin:0;counter-increment:f}
+.flow li::before{content:counter(f);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--wave-soft);color:var(--wave);font:700 12px/22px var(--f-mono);text-align:center}
+.flow li::after{content:"";position:absolute;left:10.5px;top:26px;bottom:2px;width:1px;background:var(--rule)}
+.flow li:last-child::after{display:none}
+.flow li:last-child{padding-bottom:0}
+.side h3:first-child{margin-top:0}
+.phase2{margin-top:16px;border-left:2px solid var(--gold);padding:2px 0 2px 12px;font-size:14px}
+.phase2 b{display:block;color:var(--gold);font-size:12px;font-weight:500;font-family:var(--f-mono);letter-spacing:.08em}
+
+/* 競品定位圖 */
+.map-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;margin-top:8px}
+.map{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:12px}
+.map svg{display:block;width:100%;height:auto}
+.map text{font-family:var(--f-body)}
+.insight{border-left:2px solid var(--wave);padding-left:14px}
+
+/* 客戶旅程：波形步驟條（越往後越平穩） */
+.journey{margin-top:10px}
+.jtrack{position:relative;padding-top:4px}
+.jwave{position:absolute;left:0;right:0;top:4px;height:56px;width:100%;pointer-events:none}
+.jwave path{fill:none;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.jwave .base{stroke:var(--rule);stroke-width:2}
+.jwave .done{stroke:var(--wave);stroke-width:2.5}
+.jsteps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));list-style:none;margin:0;padding:0}
+.jsteps li{margin:0;min-width:0}
+.jstep{width:100%;background:none;border:0;padding:0 2px 8px;cursor:pointer;color:var(--muted);font:500 14px/1.4 var(--f-body);display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;border-radius:8px}
+.jdot{width:56px;height:56px;display:grid;place-items:center}
+.jdot i{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--paper);border:2px solid var(--rule);font:700 12px/1 var(--f-mono);font-style:normal;color:var(--muted);transition:background-color .25s,border-color .25s,color .25s,transform .25s}
+.jstep.past .jdot i{border-color:var(--wave);color:var(--wave)}
+.jstep[aria-selected="true"]{color:var(--ink);font-weight:700}
+.jstep[aria-selected="true"] .jdot i{background:var(--wave);border-color:var(--wave);color:#fff;transform:scale(1.15)}
+.jstep:hover .jdot i{border-color:var(--wave)}
+.jpanel{margin-top:6px}
+.jpanel h3{margin:0 0 4px;font-size:18px}
+.jcols{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;margin-top:14px}
+.jcols h4,.side h4{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:500}
+.jcols p{margin:0}
+.metric-list{list-style:none;padding:0;margin:0}
+.metric-list li{padding:6px 0;border-bottom:1px solid var(--rule);margin:0}
+.metric-list li:last-child{border-bottom:0}
+.jnav{display:flex;gap:10px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
+.pbtn{font:500 14px var(--f-body);color:var(--brand);background:var(--brand-soft);border:1px solid transparent;border-radius:999px;padding:10px 16px;cursor:pointer}
+.pbtn:hover{border-color:var(--brand)}
+.pbtn:disabled{opacity:.4;cursor:default;border-color:transparent}
+
+/* 自動化劇本 */
+.filters{display:grid;gap:4px;margin:8px 0 4px}
+.frow{display:flex;align-items:center;gap:10px;min-width:0}
+.frow>.flabel{font-size:13px;color:var(--muted);flex:0 0 auto;width:36px}
+.frow .tabs{margin:0;padding:4px 2px 6px;flex:1;min-width:0}
+.chip{font-size:13px;padding:8px 13px}
+.count{font-size:13px;color:var(--muted);margin:6px 0 10px}
+.plays{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.plays>li{margin:0;border-bottom:1px solid var(--rule)}
+.plays>li[hidden]{display:none}
+.play-btn{width:100%;display:grid;grid-template-columns:40px minmax(0,1fr) auto 20px;gap:12px;align-items:center;background:none;border:0;padding:14px 4px;cursor:pointer;text-align:left;color:var(--ink);font:inherit}
+.play-btn:hover{background:var(--paper)}
+.play-btn .pid{font:500 12px var(--f-mono);color:var(--muted)}
+.play-btn .pname{font-weight:700;min-width:0}
+.play-btn .pname small{display:block;font-weight:400;color:var(--muted);font-size:13px;line-height:1.5}
+.play-btn .pstage{font-size:12px;color:var(--muted);white-space:nowrap}
+.chev{width:16px;height:16px;transition:transform .25s;color:var(--muted)}
+.play-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.play-body{padding:0 4px 16px 56px}
+.play-body[hidden]{display:none}
+.play-body dl{margin:0;display:grid;grid-template-columns:96px minmax(0,1fr);gap:6px 14px;font-size:14px}
+.play-body dt{color:var(--muted)}
+.play-body dd{margin:0}
+.empty{padding:18px 4px;color:var(--muted)}
+
+/* 12 個月行事曆 */
+.months{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;margin:10px 0 12px}
+.mbtn{background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:10px 4px 8px;cursor:pointer;color:var(--ink);font:inherit;display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0;transition:background-color .2s,border-color .2s,color .2s}
+.mbtn:hover{border-color:var(--wave)}
+.mbtn .mn{font:700 15px/1 var(--f-mono)}
+.mbtn .mn small{font:500 10px var(--f-body);margin-left:1px}
+.mbtn .dots{display:flex;gap:3px;height:6px}
+.mbtn .dots i{width:6px;height:6px;border-radius:50%;background:var(--wave)}
+.mbtn .rm{height:14px;font-size:10px;line-height:14px;color:var(--gold);white-space:nowrap}
+.mbtn[aria-selected="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.mbtn[aria-selected="true"] .dots i{background:var(--paper)}
+.mbtn[aria-selected="true"] .rm{color:var(--paper)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:12px}
+.legend i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--wave);margin-right:6px;vertical-align:middle}
+.legend em{font-style:normal;color:var(--gold);margin-right:6px}
+.mhead{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.mhead .big{font:700 30px/1 var(--f-mono);color:var(--brand)}
+.mhead h3{margin:0;font-size:20px}
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 28px;margin-top:16px}
+.mgrid h4{margin:0 0 4px;font-size:13px;color:var(--muted);font-weight:500}
+.mgrid p{margin:0}
+
+/* 文案對照 */
+.phr{border:1px solid var(--rule);border-radius:10px;background:var(--paper);overflow:hidden;margin-top:12px}
+.phr-head,.phr-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+.phr-head div{font-size:13px;font-weight:500;color:var(--muted);background:var(--bg);padding:10px 14px;border-bottom:1px solid var(--rule)}
+.phr-row>div{padding:12px 14px;border-bottom:1px solid var(--rule);min-width:0}
+.phr-row:last-of-type>div{border-bottom:0}
+.phr-row .av{color:var(--avoid);background:var(--avoid-soft);text-decoration:line-through;text-decoration-thickness:1px;text-decoration-color:color-mix(in srgb,var(--avoid) 55%,transparent)}
+.phr-row .us{border-left:1px solid var(--rule)}
+.phr-row[hidden]{display:none}
+.phr-more{padding:10px 14px;border-top:1px solid var(--rule);background:var(--bg)}
+.more{font-size:13px;padding:8px 14px;display:inline-flex;align-items:center;gap:6px}
+.more[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.disclaimer{margin-top:18px;border:1px solid var(--wave);border-radius:10px;padding:16px 18px;background:var(--wave-soft)}
+.disclaimer b{display:block;font-size:12px;font-family:var(--f-mono);letter-spacing:.08em;color:var(--wave);font-weight:500;margin-bottom:4px}
+.disclaimer p{margin:0;font-weight:700}
+.principles{list-style:none;padding:0;margin:8px 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.principles li{display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;padding:10px 0;border-bottom:1px solid var(--rule);margin:0}
+.principles svg{width:16px;height:16px;margin-top:5px;color:var(--wave)}
+
+/* KPI */
+.kpi-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 4px}
+.seg{display:inline-flex;gap:6px;padding:4px;border:1px solid var(--rule);border-radius:999px;background:var(--paper)}
+.seg button{border-color:transparent;padding:9px 16px}
+.kpi-state{font-size:13px;color:var(--muted)}
+.kv{font:700 16px/1.4 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--brand);white-space:nowrap}
+.funnel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:16px 0 6px;border:1px solid var(--rule);border-radius:10px;background:var(--paper);overflow:hidden}
+.funnel div{padding:14px 16px;border-left:1px solid var(--rule);min-width:0}
+.funnel div:first-child{border-left:0}
+.funnel b{display:block;font-size:12px;color:var(--muted);font-weight:500}
+.funnel span{font:700 22px/1.3 var(--f-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.funnel small{display:block;font-size:12px;color:var(--muted)}
+.assume{margin-top:18px;background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:16px 20px}
+.assume h3{margin:0 0 6px;font-size:14px}
+.assume ol{margin:0;font-size:14px}
+
+/* 導入時程 */
+.phases{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr) minmax(0,1fr);border:1px solid var(--rule);border-radius:10px;background:var(--paper);overflow:hidden;margin-top:12px}
+.phases>div{padding:18px 18px;border-left:1px solid var(--rule);min-width:0}
+.phases>div:first-child{border-left:0}
+.phases .when{font:500 12px var(--f-mono);color:var(--wave);letter-spacing:.06em}
+.phases h3{margin:4px 0 8px;font-size:16px}
+.phases ol,.phases ul{font-size:14px;margin:0}
+.ext{display:grid;gap:0;margin-top:10px;border-top:1px solid var(--rule)}
+.ext>div{display:grid;grid-template-columns:200px minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.ext h4{margin:0;font-size:15px}
+.ext h4 small{display:block;font:500 11px var(--f-mono);color:var(--gold);letter-spacing:.08em;margin-bottom:2px}
+.ext p{margin:0;font-size:14px}
+.ext p+p{color:var(--muted);margin-top:4px}
+
+/* 素材清單、待確認 */
+.checklist{list-style:none;padding:0;margin:8px 0 0;columns:2;column-gap:28px}
+.checklist li{break-inside:avoid;display:grid;grid-template-columns:20px minmax(0,1fr);gap:8px;padding:9px 0;border-bottom:1px solid var(--rule);margin:0}
+.checklist svg{width:15px;height:15px;margin-top:5px;color:var(--brand)}
+.qs{counter-reset:q;list-style:none;padding:0;margin:8px 0 0}
+.qs li{counter-increment:q;display:grid;grid-template-columns:36px minmax(0,1fr);gap:6px;padding:10px 0;border-bottom:1px solid var(--rule);margin:0}
+.qs li::before{content:counter(q,decimal-leading-zero);font:500 12px/1.9 var(--f-mono);color:var(--muted)}
+.qs b{display:block}
+
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--rule);color:var(--muted);font-size:13px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* 進場淡入：只有 JS 確認可用、且使用者沒有關閉動態時才隱藏 */
+html.rv .doc>section{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+html.rv .doc>section.in{opacity:1;transform:none}
+
+/* 1100px 以下：頂部目錄 */
+@media (max-width:1099px){
+  html{scroll-padding-top:64px}
+  .shell{grid-template-columns:minmax(0,1fr);max-width:900px;gap:0;padding-top:0}
+  .toc{top:0;z-index:10;max-height:none;overflow:visible;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px)));padding:0 max(16px,env(safe-area-inset-left,0px));background:var(--bg);border-bottom:1px solid var(--rule)}
+  .toc-head{display:none}
+  .toc-toggle{display:flex;width:100%;align-items:center;gap:10px;background:none;border:0;padding:13px 0;font:500 14px/1.3 var(--f-body);color:var(--ink);cursor:pointer;text-align:left}
+  .toc-toggle .lbl{font:500 11px var(--f-mono);color:var(--muted);letter-spacing:.12em;flex:0 0 auto}
+  .toc-toggle .cur{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;color:var(--brand)}
+  .toc-toggle .chev{flex:0 0 auto}
+  .toc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .toc ol{display:none;border-left:0;padding:0 0 12px;max-height:60vh;overflow:auto}
+  .toc.open ol{display:block}
+  .toc a{padding:9px 4px;border-left:0;border-radius:6px}
+  .toc a[aria-current="true"]{background:var(--brand-soft)}
+  .cover{margin-top:24px}
+}
+@media (max-width:760px){
+  h1{font-size:27px} h2{font-size:21px}
+  .cover{padding:26px 20px 24px}
+  .cover-wave{display:none}
+  .spec>div{grid-template-columns:minmax(0,1fr);gap:2px}
+  .line-grid,.jcols,.map-wrap,.mgrid,.principles{grid-template-columns:minmax(0,1fr)}
+  .line-grid{gap:20px}
+  [data-lines-tabs] .tab{padding:10px 13px}
+  [data-lines-tabs] .tab .pn{display:none}
+  .panel{padding:18px 16px}
+  .jstep{font-size:12px}
+  .jdot{width:44px;height:56px}
+  .months{display:flex;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;padding-bottom:6px;scroll-snap-type:x proximity}
+  .mbtn{flex:0 0 64px;scroll-snap-align:start}
+  .play-btn{grid-template-columns:30px minmax(0,1fr) 20px}
+  .play-btn .pstage{display:none}
+  .play-body{padding-left:4px}
+  .play-body dl{grid-template-columns:minmax(0,1fr);gap:0}
+  .play-body dd{margin-bottom:8px}
+  .phr-head{display:none}
+  .phr-row{grid-template-columns:minmax(0,1fr)}
+  .phr-row .av{border-bottom:0;padding-bottom:6px}
+  .phr-row .us{border-left:0;padding-top:6px}
+  .phr-row .av::before{content:"避免　";text-decoration:none;display:inline-block;font-size:12px;color:var(--muted)}
+  .phr-row .us::before{content:"建議　";display:inline-block;font-size:12px;color:var(--muted)}
+  .funnel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .funnel div:nth-child(3){border-left:0}
+  .funnel div:nth-child(n+3){border-top:1px solid var(--rule)}
+  .phases{grid-template-columns:minmax(0,1fr)}
+  .phases>div{border-left:0;border-top:1px solid var(--rule)}
+  .phases>div:first-child{border-top:0}
+  .ext>div{grid-template-columns:minmax(0,1fr);gap:4px}
+  .checklist{columns:1}
+  /* 手機：表格改成逐列堆疊，每格前面帶欄名，不必橫向捲動 */
+  .tbl.stack{overflow:visible}
+  .tbl.stack table{min-width:0}
+  .tbl.stack thead{display:none}
+  .tbl.stack tr{display:block;padding:12px 14px;border-bottom:1px solid var(--rule)}
+  .tbl.stack tr:last-child{border-bottom:0}
+  .tbl.stack td{display:block;border:0;padding:2px 0;text-align:left;white-space:normal}
+  .tbl.stack td:first-child{font-size:15px;margin-bottom:4px}
+  .tbl.stack td[data-label]:not(:first-child)::before{content:attr(data-label);display:block;font-size:12px;color:var(--muted);font-weight:400;font-family:var(--f-body)}
+  .tbl.stack td.num{display:flex;align-items:baseline;gap:10px}
+  .tbl.stack td.num::before{display:inline!important}
+  .frow{align-items:flex-start;flex-direction:column;gap:0}
+  .frow .tabs{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+@media print{
+  .toc,.jnav,.phr-more{display:none}
+  .shell{display:block}
+  html.rv .doc>section{opacity:1;transform:none}
+  .phr-row[hidden],.play-body[hidden]{display:grid}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#doc">跳到內容</a>
+<div class="shell">
+
+<nav class="toc" id="toc" aria-label="章節目錄">
+  <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="toc-list">
+    <span class="lbl">目錄</span><span class="cur" data-toc-cur>規劃摘要</span>
+    <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+  <p class="toc-head">Contents</p>
+  <ol id="toc-list"></ol>
+</nav>
+
+<main class="doc" id="doc" tabindex="-1">
+
+<header class="cover">
+  <svg class="cover-wave" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true"><path class="faint" data-wave="cover"/><path data-wave="cover"/></svg>
+  <span class="kicker">Annual LINE Marketing Plan · 2027</span>
+  <h1>幸福腦 HAPPYBRAIN<br>2027 年度 LINE 官方帳號行銷規劃</h1>
+  <p class="sub">致 藍海樂活有限公司 · 會員經營、自動化劇本與 12 個月檔期</p>
+  <div class="facts">
+    <div><b>規劃單位</b><span>宇果國際行銷</span></div>
+    <div><b>規劃日期</b><span>2026 年 10 月 19 日</span></div>
+    <div><b>執行期間</b><span>2027 年 1 月至 12 月</span></div>
+    <div><b>導入期</b><span>2026 年 11 月至 12 月</span></div>
+  </div>
+</header>
+
+<section id="s-summary" data-toc="規劃摘要">
+  <span class="no">01 · 規劃摘要</span>
+  <h2>把聲光音體驗定位為「放鬆儀式」，用 LINE 官方帳號串起體驗、成交與推薦</h2>
+  <p class="lede">幸福腦的價值在於腦頻師陪同的實體體驗、遍布北中南的據點與居家儀器。這份規劃讓每一位接觸過品牌的人，都留在同一個 LINE 官方帳號裡，從第一次體驗一路走到回購與推薦。</p>
+  <dl class="spec">
+    <div><dt>定位</dt><dd><p>對外一律以「放鬆儀式與生活習慣」描述，談感受與情境，不談效果；所有文案依第 11 節的合規建議撰寫。</p></dd></div>
+    <div><dt>會員承接</dt><dd><p>一位 LINE 好友就是一位會員。以標籤記錄偏好、階段與來源，以自動化劇本做體驗前後的跟進。</p></dd></div>
+    <div><dt>三條客群線</dt><dd><p>C 端會員、B 端合作門店、管理師與代理商，各有專屬入口與追蹤方式，在同一個官方帳號運作。</p></dd></div>
+    <div><dt>年度節奏</dt><dd><p>2026 年 11 至 12 月導入，2027 年 1 月起依 12 個月檔期執行；全體推播每月不超過 4 次，其餘交給分眾與劇本。</p></dd></div>
+    <div><dt>目標（預估）</dt><dd><p>年度新增好友 3,000 至 8,000 位；體驗後 30 天成交率 8% 至 15%。數字依第 12 節列出的假設估算，第一季後以實際數據修正。</p></dd></div>
+  </dl>
+</section>
+
+<section id="s-brand" data-toc="我們對幸福腦的理解">
+  <span class="no">02 · 我們對幸福腦的理解</span>
+  <h2>一個以人與場域取勝的放鬆體驗品牌</h2>
+  <p>幸福腦 HAPPYBRAIN 由藍海樂活有限公司經營，2026 年 3 月由「藍海潛能 DNAHAPPY」更名。以聲、光、音結合的放鬆體驗為核心，延伸出居家儀器、App 與師資課程。以下是我們依公開資料與先前討論整理的理解，細節請貴司協助確認。</p>
+  <dl class="spec">
+    <div><dt>產品</dt><dd><p>居家聲光音儀器（幸福盒子、全家型，由主機、耳機與光波眼鏡組成）；幸福腦 2.0 系統（個人化調頻情境）；幸福腦 App（居家會員訂閱，另案規劃中）。</p></dd></div>
+    <div><dt>體驗</dt><dd><p>由腦頻師陪同的一對一體驗，約 90 分鐘，原價 4,500 元，另有 399 元公益場；10 人以上可安排單位講座與團體體驗。目前以官網表單與電話聯繫預約。</p></dd></div>
+    <div><dt>課程</dt><dd><p>腦頻率調頻師（基礎、進階、實習）與聲光音師資課程，對象包含斜槓工作者、二度就業者、瑜伽健身教練、企業人資與教育工作者；另有經銷與代理商招募。</p></dd></div>
+    <div><dt>據點</dt><dd><p>桃園旗艦店、台北 3 處（直營中心、U3 會館、三代會館）、台中南屯、高雄左營；海外有香港服務據點與杭州分公司。</p></dd></div>
+    <div><dt>線上通路</dt><dd><p>官網 dnahappy.com、Facebook、Instagram、YouTube，以及 LINE 官方帳號 @jxl9344x。</p></dd></div>
+    <div><dt>客群</dt><dd>
+      <span class="tag">壓力大的上班族</span><span class="tag">銀髮族與家人</span><span class="tag">考生與家長</span><span class="tag">冥想修行者</span><span class="tag">商務人士與運動員</span>
+    </dd></div>
+  </dl>
+</section>
+
+<section id="s-lines" data-toc="三條客群線">
+  <span class="no">03 · 三條客群線</span>
+  <h2>同一個官方帳號，承接三種不同的對象</h2>
+  <p>LINE 官方帳號在這裡是會員資料與行銷的中樞。三條線的入口、跟進方式與要看的成效各不相同，切換下方分頁查看。</p>
+  <div class="tabs" role="tablist" aria-label="客群線" data-lines-tabs></div>
+  <div class="panel" role="tabpanel" id="lines-panel" tabindex="0" data-lines-panel></div>
+</section>
+
+<section id="s-compete" data-toc="競品定位">
+  <span class="no">04 · 競品定位</span>
+  <h2>市場上多數產品賣「量測與回饋」，幸福腦賣「有人陪同的體驗」</h2>
+  <div class="map-wrap">
+    <div class="map">
+      <svg viewBox="0 0 400 300" role="img" aria-labelledby="map-t">
+        <title id="map-t">競品定位示意：橫軸由量測回饋到主動式聲光刺激，縱軸由自助使用到人員陪同</title>
+        <g stroke="var(--rule)" stroke-width="1"><line x1="200" y1="20" x2="200" y2="270"/><line x1="30" y1="145" x2="370" y2="145"/></g>
+        <g font-size="12" fill="var(--muted)">
+          <text x="30" y="290">量測與回饋</text><text x="370" y="290" text-anchor="end">主動式聲光刺激</text>
+          <text x="206" y="30">人員陪同、實體場域</text><text x="206" y="264">自助使用</text>
+        </g>
+        <g font-size="13" fill="var(--ink)">
+          <circle cx="80" cy="225" r="5" fill="var(--brand)"/><text x="90" y="229">Muse 冥想頭帶</text>
+          <circle cx="70" cy="195" r="5" fill="var(--brand)"/><text x="80" y="199">BrainCo 頭環</text>
+          <circle cx="110" cy="168" r="5" fill="var(--brand)"/><text x="120" y="172">勝宏 BrainLink</text>
+          <circle cx="75" cy="60" r="5" fill="var(--brand)"/><text x="85" y="64">醫療院所神經回饋</text>
+          <circle cx="300" cy="240" r="5" fill="var(--brand)"/><text x="268" y="230">雙耳節拍 App</text>
+          <circle cx="285" cy="110" r="5" fill="var(--brand)"/><text x="230" y="100">brainLight（德國）</text>
+          <circle cx="335" cy="52" r="8" fill="var(--wave)"/><text x="330" y="80" text-anchor="end" font-weight="700" fill="var(--wave)">幸福腦</text>
+        </g>
+      </svg>
+      <p class="note" style="margin:6px 4px 0">位置為依公開資訊的定性判斷，用來說明差異，不代表量化評比。</p>
+    </div>
+    <div>
+      <p class="insight">腦波頭帶與頭環主打量測加回饋，多在萬元上下，以 App 訂閱與自助使用為主。幸福腦結合主動式聲光體驗、腦頻師陪同與實體據點，最接近德國 brainLight 的整體放鬆路線。</p>
+      <p>這代表幸福腦的轉換關鍵在<b>信任</b>：顧客要先安心走進據點、體驗過，才會考慮課程與儀器。因此本規劃把資源集中在三件事：</p>
+      <ol>
+        <li>以透明的體驗流程降低第一次的門檻：事前說明流程、時間與注意事項。</li>
+        <li>以真實使用紀錄建立信任：分享經授權的感受與情境，不寫效果。</li>
+        <li>以據點與管理師的人際關係帶動推薦。</li>
+      </ol>
+    </div>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>品牌或類型</th><th>產品型態</th><th>定位</th><th>公開價格</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Muse（InteraXon）</td><td>EEG 冥想頭帶</td><td>冥想回饋，不談療效；硬體搭配 App 訂閱</td><td>Muse 2 約 US$199.99～249.99；Muse S US$449；訂閱一年 US$124</td></tr>
+      <tr><td class="k">BrainCo 強腦科技</td><td>EEG 神經回饋頭環</td><td>運動員與上班族的專注與放鬆</td><td>台灣售價未公開</td></tr>
+      <tr><td class="k">勝宏 BrainLink／MindWave</td><td>消費級腦波儀、訓練套件</td><td>專注訓練、遊戲化、機構方案</td><td>8,999～39,999 元；機構套件 198,888 元起</td></tr>
+      <tr><td class="k">brainLight（德國）</td><td>聲光放鬆系統、LED 眼鏡加耳機</td><td>整體放鬆；進駐企業與照護機構</td><td>高階機型約 7,500 歐元（2012 年）</td></tr>
+      <tr><td class="k">醫療院所神經回饋</td><td>醫療場域訓練</td><td>醫師評估後進行，通常 20 次以上</td><td>單次未公開</td></tr>
+      <tr><td class="k">雙耳節拍 App</td><td>手機 App</td><td>自助放鬆，替代品</td><td>免費或低價訂閱</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s-journey" data-toc="客戶旅程與漏斗">
+  <span class="no">05 · 客戶旅程與漏斗</span>
+  <h2>從陌生人到推薦人，五個關卡各有對應的設定與指標</h2>
+  <p>點選關卡，或用鍵盤左右鍵切換。波形越往右越平穩，對應顧客從第一次接觸到成為熟客的過程。</p>
+  <div class="journey">
+    <div class="jtrack">
+      <svg class="jwave" viewBox="0 0 1000 56" preserveAspectRatio="none" aria-hidden="true">
+        <defs><clipPath id="jclip"><rect data-jclip x="0" y="0" width="100" height="56"/></clipPath></defs>
+        <path class="base" data-wave="journey"/>
+        <path class="done" data-wave="journey" clip-path="url(#jclip)"/>
+      </svg>
+      <ol class="jsteps" role="tablist" aria-label="客戶旅程關卡" data-jsteps></ol>
+    </div>
+    <div class="panel jpanel" role="tabpanel" id="journey-panel" tabindex="0" data-jpanel></div>
+    <div class="jnav">
+      <button type="button" class="pbtn" data-jstep="-1">上一個關卡</button>
+      <button type="button" class="pbtn" data-jstep="1">下一個關卡</button>
+    </div>
+  </div>
+</section>
+
+<section id="s-sources" data-toc="好友來源">
+  <span class="no">06 · 好友來源</span>
+  <h2>七個加好友入口，每個入口都自動標記來源</h2>
+  <p>每個通路使用專屬的落地頁或 QR Code，好友加入時自動貼上來源標籤，之後就能分開計算每個通路帶來多少好友、多少體驗與成交。</p>
+  <div class="tbl"><table>
+    <thead><tr><th>來源</th><th>做法</th><th>系統設定</th></tr></thead>
+    <tbody data-sources></tbody>
+  </table></div>
+  <p class="note">既有官方帳號 @jxl9344x 的舊好友，接上系統後可以用好友同步功能匯入，不必重新加入。</p>
+</section>
+
+<section id="s-segments" data-toc="分群與問卷">
+  <span class="no">07 · 會員分群與問卷</span>
+  <h2>標籤只記偏好、身分、階段與來源，全部使用中性名稱</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>維度</th><th>標籤範例</th><th>怎麼貼上</th></tr></thead>
+    <tbody data-tags></tbody>
+  </table></div>
+  <h3>放鬆偏好問卷：只問喜好與情境</h3>
+  <p>問卷是加好友後的第一個互動，也是分群的依據。題目一律用選項題，不開放自由填寫，避免顧客寫下健康狀況。</p>
+  <div class="tbl narrow"><table>
+    <thead><tr><th>不建議問</th><th>建議改成</th></tr></thead>
+    <tbody data-survey></tbody>
+  </table></div>
+  <ul class="note">
+    <li>階段標籤只往上累加（未體驗、已體驗、課程學員、儀器持有者），劇本篩選時以「排除標籤」區分，例如喚回訊息排除已購買儀器的會員。</li>
+    <li>隱私權告知寫明：只記錄偏好與使用紀錄，不做健康判斷。</li>
+  </ul>
+</section>
+
+<section id="s-plays" data-toc="自動化劇本">
+  <span class="no">08 · 自動化劇本</span>
+  <h2>19 條劇本，讓跟進在對的時間自動發生</h2>
+  <p>劇本由觸發條件、篩選與動作組成，設定一次就會持續運作。依旅程階段或客群篩選，點開任一條查看細節。</p>
+  <div class="filters">
+    <div class="frow"><span class="flabel" id="f-stage">階段</span><div class="tabs" role="group" aria-labelledby="f-stage" data-f-stage></div></div>
+    <div class="frow"><span class="flabel" id="f-aud">客群</span><div class="tabs" role="group" aria-labelledby="f-aud" data-f-aud></div></div>
+  </div>
+  <p class="count" role="status" aria-live="polite" data-play-count></p>
+  <ul class="plays" data-plays></ul>
+</section>
+
+<section id="s-calendar" data-toc="12 個月行事曆">
+  <span class="no">09 · 12 個月行事曆</span>
+  <h2>2027 年每個月一個主題，檔期提前兩個月排好</h2>
+  <p>全體群發每月 2 次、分眾每月 1 至 2 次，其餘交給劇本；全體推播每月不超過 4 次，降低封鎖。圖文選單依標籤分成 4 組（未體驗、已體驗、儀器持有者與 App 會員、管理師），季節主題換版由我方依下表時點切換。</p>
+  <div class="legend" aria-hidden="true"><span><i></i>每點代表一次推播</span><span><em>換版</em>圖文選單季節換版</span></div>
+  <div class="months" role="tablist" aria-label="選擇月份" data-months></div>
+  <div class="panel" role="tabpanel" id="month-panel" tabindex="0" data-mpanel></div>
+</section>
+
+<section id="s-content" data-toc="內容規劃">
+  <span class="no">10 · 內容規劃</span>
+  <h2>以生活習慣與真實感受為主軸的內容</h2>
+  <div class="tbl"><table>
+    <thead><tr><th>類型</th><th>頻率</th><th>內容與原則</th></tr></thead>
+    <tbody>
+      <tr><td class="k">教育型</td><td class="nw">每月 2 篇</td><td>睡前生活習慣（燈光、手機、呼吸）、讀書前的轉換儀式、上班族的微休息。只寫生活習慣不寫醫學，附「如有困擾請諮詢專業醫師」。文章放貴司官網，LINE 推送連結。</td></tr>
+      <tr><td class="k">感受分享</td><td class="nw">每月 1 則</td><td>取得書面授權；只寫感受與情境，並加註「個人感受，因人而異」。</td></tr>
+      <tr><td class="k">品牌知識</td><td class="nw">不定期</td><td>聲光音體驗是什麼、體驗流程一步步說明、腦頻師人物故事、據點介紹。</td></tr>
+      <tr><td class="k">互動型</td><td class="nw">依檔期</td><td>21 天儀式打卡、抽獎、問卷。</td></tr>
+      <tr><td class="k">管理師專屬</td><td class="nw">每月 1 次</td><td>只發給管理師標籤：合規文案範本、活動素材、培訓場次。</td></tr>
+      <tr><td class="k">電子報</td><td class="nw">每月 1 封</td><td>給不使用 LINE 的 App 會員（Google 登入或海外客戶）；寄件網域設定完成後啟用。</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s-copy" data-toc="行銷文案合規建議">
+  <span class="no">11 · 行銷文案合規建議</span>
+  <h2>用感受與情境說話，讓每一則訊息都能安心發送</h2>
+  <p>依醫療器材管理法，非醫療器材的產品不宜以任何形式暗示醫療效能，採訪、業配文與 KOL 合作內容同樣適用。以下對照表可直接作為官網、LINE 訊息、廣告與 KOL 合作的文案準則，宇果撰寫的所有訊息也會依此把關。</p>
+  <div class="phr" data-phr>
+    <div class="phr-head"><div>避免的說法</div><div>建議的說法</div></div>
+  </div>
+  <div class="disclaimer">
+    <b>固定免責聲明</b>
+    <p>本產品與服務非醫療器材、非醫療行為，不具診斷或治療效果；如有睡眠或身心困擾，請諮詢專業醫師。</p>
+  </div>
+  <p class="note" style="margin-top:8px">建議放在官網頁尾、體驗報名頁、歡迎訊息與每則推廣圖卡的說明文字中。</p>
+  <h3>個人資料原則</h3>
+  <ul class="principles" data-principles></ul>
+</section>
+
+<section id="s-kpi" data-toc="KPI 與目標">
+  <span class="no">12 · KPI 與目標</span>
+  <h2>年度目標（預估，依假設）</h2>
+  <div class="kpi-top">
+    <div class="seg" role="group" aria-label="估算情境">
+      <button type="button" data-kpi="c" aria-pressed="true">保守估計</button>
+      <button type="button" data-kpi="a" aria-pressed="false">積極估計</button>
+    </div>
+    <span class="kpi-state" role="status" aria-live="polite" data-kpi-state>目前顯示：保守估計</span>
+  </div>
+  <div class="tbl narrow"><table>
+    <thead><tr><th>指標</th><th class="num">預估值</th><th>怎麼量</th></tr></thead>
+    <tbody data-kpis></tbody>
+  </table></div>
+  <h3>依上表推算的體驗漏斗</h3>
+  <div class="funnel" data-funnel></div>
+  <p class="note">推算方式：新增好友 × 好友變體驗報名 × 報名後到場率 × 體驗後 30 天成交率，四捨五入，僅供規劃參考。</p>
+  <div class="assume">
+    <h3>估算假設</h3>
+    <ol>
+      <li>2027 全年 12 個月，國內 6 個據點。</li>
+      <li>廣告預算由貴司決定，以每月 3 萬至 6 萬元估算。</li>
+      <li>既有 LINE 好友數未知，只估「新增」。</li>
+      <li>儀器客單價參考公開價格 7.5 萬至 8 萬元；App 訂閱價格尚未訂定，未納入。</li>
+      <li>封鎖率與轉換率取自宇果過往服務其他產業的經驗值，並非本產業的公開統計；第一季結束後以實際數據修正。</li>
+    </ol>
+  </div>
+</section>
+
+<section id="s-rollout" data-toc="導入時程">
+  <span class="no">13 · 導入時程</span>
+  <h2>兩個月完成導入，2027 年 1 月正式上檔</h2>
+  <div class="phases">
+    <div>
+      <span class="when">2026 年 11–12 月</span>
+      <h3>導入期</h3>
+      <p style="font-size:14px;margin:0">在測試環境完成全部設定與演練，確認流程無誤後，再切換到正式官方帳號。</p>
+    </div>
+    <div>
+      <span class="when">第 1 個月</span>
+      <h3>開通與設定</h3>
+      <ol>
+        <li>會員、標籤、等級：建立標籤體系，設 3 級會員等級（門檻由貴司決定）</li>
+        <li>問卷：放鬆偏好問卷、體驗回饋問卷</li>
+        <li>課程報名：體驗場次、公益場、付費課，線上付款接綠界</li>
+        <li>自動化劇本：第 08 節 19 條</li>
+        <li>圖文選單：4 組，依標籤自動切換</li>
+        <li>推薦好友：加入禮、推薦人獎勵、階梯任務</li>
+        <li>落地頁：每個據點、通路、KOL 各一頁</li>
+        <li>群發與排程：排好前兩個月的檔期</li>
+        <li>電商：配件、入門組或 App 啟用序號（視貴司是否在 LINE 上收款）</li>
+      </ol>
+    </div>
+    <div>
+      <span class="when">第 2–3 個月</span>
+      <h3>檔期與擴充</h3>
+      <ul>
+        <li>3 月世界睡眠日抽獎檔期</li>
+        <li>視需求開啟電子報</li>
+        <li>評估 21 天打卡與勳章等互動功能</li>
+      </ul>
+    </div>
+  </div>
+  <h3>第二階段擴充項目</h3>
+  <p>App 上線後，以下三項讓 App、門店與管理師的經營資料連成一條。第一階段先以來源標籤與名單匯入運作，不影響上檔時程；範圍與時程另行評估。</p>
+  <div class="ext">
+    <div><h4><small>擴充一</small>App 事件串接</h4><div><p>App 回傳完成次數、本週次數、連續天數等行為事件，系統自動貼標、發點數與優惠券，並觸發劇本，例如「7 日未使用」喚回。</p><p>第一階段：每週由 App 後台匯出名單，以會員匯入批次貼標。</p></div></div>
+    <div><h4><small>擴充二</small>會員歸屬門店與代理商</h4><div><p>每位會員記錄所屬的門店或代理商，作為 B 端門店與管理師業績統計的基礎。</p><p>第一階段：以「門店：XX」「通路：XX」來源標籤區分。</p></div></div>
+    <div><h4><small>擴充三</small>代理商與管理師分潤報表</h4><div><p>依會員歸屬自動計算分潤，產出每月報表。</p><p>第一階段：依來源標籤報表，由貴司結算。</p></div></div>
+  </div>
+</section>
+
+<section id="s-materials" data-toc="需要貴司提供">
+  <span class="no">14 · 需要貴司提供</span>
+  <h2>導入前請協助準備的素材與權限</h2>
+  <ul class="checklist" data-materials></ul>
+</section>
+
+<section id="s-questions" data-toc="待確認問題">
+  <span class="no">15 · 待確認問題</span>
+  <h2>啟動前想與貴司確認的事項</h2>
+  <ol class="qs" data-questions></ol>
+</section>
+
+<footer><span>宇果國際行銷 規劃</span><span>2026-10-19</span></footer>
+</main>
+</div>
+
+<script type="application/json" id="plan-data">
+{
+  "lines": [
+    {"id":"c","short":"C 端會員","title":"C 端：一般消費者與 App 會員","who":"壓力大的上班族、考生與家長、銀髮族與家人，以及居家儀器使用者與 App 訂閱會員。",
+     "flow":["從門店 QR、廣告、KOL 落地頁加入好友，自動標記來源","填寫放鬆偏好問卷，依答案貼上偏好與身分標籤","報名體驗場次，線上付款、上課前自動提醒、現場掃碼報到","體驗後第 1、3、7 天自動跟進，第 7 天發限時回訪券","購買課程、儀器或 App 方案，開始 21 天使用習慣陪伴","依累積消費升等，生日與升等送禮，推薦好友拿獎勵"],
+     "crm":"同一個 LINE 好友就是同一位會員，用標籤記錄階段，用劇本做跟進。",
+     "features":["會員與等級","標籤","問卷","自動化劇本","群發","圖文選單","推薦好友","電商"],
+     "kpi":["放鬆偏好問卷完成率","好友變體驗報名","體驗後 30 天成交","一年內回購"]},
+    {"id":"b","short":"B 端門店","title":"B 端：合作門店與通路","who":"高奢酒店、醫美、身心館、瑜伽館、健身房、補習班、企業 EAP 等合作夥伴。",
+     "flow":["每家門店一個專屬落地頁或微網頁 QR Code","顧客加入時自動貼上「門店：XX」「通路：XX」來源標籤","門店活動與團體場（10 人以上）以課程場次收報名","補習班做考前定心場，企業與酒店做團體場，依季節巡迴","依來源標籤分開檢視各門店帶來的好友、體驗與成交"],
+     "crm":"門店不必另外管理名單：顧客一加入就歸到對應來源，後續的跟進由品牌官方帳號統一處理。醫美與心理健康機構接近醫療場域，文案採更保守的版本。",
+     "features":["落地頁來源標籤","微網頁","課程報名","多店分店"],
+     "kpi":["各門店新增好友數","團體場報名與到場","門店來源的體驗後成交"],
+     "phase2":"第二階段可加上「會員歸屬門店」，讓門店業績統計更完整。"},
+    {"id":"p","short":"管理師與代理商","title":"B2C2B：大腦健康管理師與代理商","who":"經過培訓的大腦健康管理師、腦頻率調頻師與代理商。",
+     "flow":["管理師本人也是會員，貼上「階段_管理師」標籤","每位管理師一個專屬推薦碼與一頁專屬落地頁","被推薦人首次消費後，推薦人才獲得獎勵；推薦滿 3、5、10 人分階加碼","管理師看到專用的圖文選單，每月收到素材包與培訓場次","培訓、進階課與結業以課程模組管理"],
+     "crm":"管理師的推廣成效以推薦碼與來源標籤追蹤；給管理師的訊息只用標籤群發，不會發到一般會員。",
+     "features":["推薦好友","落地頁","標籤群發","課程報名","管理師專用圖文選單"],
+     "kpi":["管理師帶來的新好友占比","有成功推薦的會員比例","進階課報名率"],
+     "phase2":"第二階段可加上「依會員歸屬計算分潤」，自動產出代理商與管理師的分潤報表。"}
+  ],
+  "journey": [
+    {"label":"陌生人","from":"陌生人","to":"加好友","features":["官網落地頁（自動貼來源標籤）","微網頁","門店 QR Code","抽獎"],"setup":"每個通路一頁落地頁或一個 QR Code；以「加好友抽體驗券」作為加入誘因。","metrics":["各來源新增好友數","落地頁成效"],"plays":[1,2]},
+    {"label":"加好友","from":"加好友","to":"首次體驗","features":["放鬆偏好問卷","體驗場次報名","群發"],"setup":"加好友後推送放鬆偏好問卷，依答案自動貼上偏好標籤。體驗做成「場次」：可線上付款、名額控管、上課前最多 3 段提醒、現場掃碼報到。","metrics":["問卷完成率","場次報名數","到場率"],"plays":[3,4]},
+    {"label":"首次體驗","from":"首次體驗","to":"購買課程或儀器","features":["自動化劇本（貼標後延遲發送）","優惠券","電商（配件、入門組、App 啟用序號）","付費課程報名"],"setup":"體驗後填寫回饋問卷，貼上「階段_已體驗」，觸發第 1、3、7 天跟進；第 7 天發 14 天內有效的回訪券。","metrics":["體驗後 14 天與 30 天成交率","客單價"],"plays":[5,6,7,9]},
+    {"label":"購買課程／儀器","from":"購買課程或儀器","to":"回購","features":["會員等級（成長值自動升級）","點數","優惠券到期與久未消費提醒","學員分眾群發"],"setup":"依累積消費分等級，升等時送禮；儀器持有者進入 21 天使用習慣陪伴；進階課只發給課程學員。","metrics":["回購率","進階課報名率","App 續訂率（App 串接後）"],"plays":[10,11,12,13,14]},
+    {"label":"回購與推薦","from":"回購","to":"推薦","features":["推薦好友","推薦人獎勵劇本","抽獎"],"setup":"被推薦人首次消費後才發推薦獎勵；推薦滿 3、5、10 人分階給獎。","metrics":["推薦人數","推薦帶來的營收"],"plays":[15,16,17,18]}
+  ],
+  "sources": [
+    ["門店 QR（6 個國內據點）","櫃台立牌、體驗床邊卡：「加好友領 3 分鐘定心體驗」","每個據點一頁落地頁，自動貼「門店：桃園旗艦」這類標籤"],
+    ["體驗活動、公益場","以場次開放報名，報名前先加好友","課程報名；報名成立時自動貼「日期＋課名」標籤"],
+    ["廣告（Google、Meta、TikTok）","只用合規文案，導到落地頁再加好友","每個廣告組一頁落地頁，分開計算成效"],
+    ["KOL","分享放鬆體驗心得並附免責聲明","每位 KOL 一頁專屬落地頁"],
+    ["合作通路","瑜伽館、健身房、補習班、企業 EAP、高奢酒店；補習班做考前定心場，企業與酒店做團體場","每家通路一個微網頁或落地頁，貼「通路：XX」"],
+    ["管理師與代理商","每人一個推薦碼，加一頁專屬落地頁","推薦碼、落地頁"],
+    ["推薦好友","推薦人在被推薦人首次消費後拿獎勵，另有階梯任務；被推薦人拿新好友加入禮","推薦好友設定"]
+  ],
+  "tags": [
+    ["需求偏好","偏好_睡前放鬆、偏好_讀書工作前定心、偏好_日常紓壓、偏好_冥想","問卷依答案自動貼"],
+    ["身分","身分_學生、身分_家長、身分_上班族、身分_銀髮、身分_企業窗口","問卷，或會員資料欄位自動貼"],
+    ["階段","階段_未體驗、階段_已體驗、階段_課程學員、階段_儀器持有者、階段_App 訂閱、階段_管理師","體驗回饋問卷、課程報名、店員手動、劇本"],
+    ["來源","來源：落地頁 XX、通路：XX、門店：XX","落地頁或微網頁自動貼"],
+    ["使用行為","App 活躍、App 7 日未使用、連續 21 天","第一階段以名單匯入批次貼標；第二階段由 App 自動回傳"]
+  ],
+  "survey": [
+    ["你有失眠嗎？每晚睡幾小時？有沒有吃安眠藥？","你最想在什麼時候放鬆一下？（睡前／讀書工作前／通勤中／週末）"],
+    ["你有焦慮、憂鬱或自律神經失調嗎？","你喜歡哪種放鬆方式？（音樂／冥想／運動／泡澡）"],
+    ["孩子有沒有專注力方面的困擾？","孩子目前的階段？（國小／國中／高中／大學）"],
+    ["自由填寫「你的困擾」","不開自由文字題；或改成「想對我們說的話」，並提醒不要填寫健康狀況"]
+  ],
+  "stages": [["join","加入"],["pre","體驗前"],["post","體驗後"],["own","成交與使用"],["loyal","回購與推薦"]],
+  "audiences": [["c","C 端會員"],["b","B 端門店"],["p","管理師與代理商"]],
+  "plays": [
+    {"id":1,"name":"新好友歡迎","stage":"join","aud":["c","b","p"],"trigger":"加入好友時（推薦好友設定的全會員加入禮，加上歡迎訊息）","filter":"無","action":"發體驗折價券，推送放鬆偏好問卷","message":"品牌介紹、6 個據點、3 分鐘定心體驗、免責聲明","feature":"推薦好友設定、歡迎訊息"},
+    {"id":2,"name":"填完資料獎勵","stage":"join","aud":["c"],"trigger":"會員填完基本資料","filter":"無","action":"送點數","message":"謝謝你，生日月會有驚喜","feature":"自動化劇本"},
+    {"id":3,"name":"問卷後分流","stage":"pre","aud":["c","b"],"trigger":"問卷貼上偏好標籤時","filter":"排除「階段_已體驗」","action":"依偏好推送不同圖卡","message":"睡前放鬆組收到睡前儀式；定心組收到考前或開工儀式","feature":"問卷自動貼標、自動化劇本"},
+    {"id":4,"name":"體驗前提醒","stage":"pre","aud":["c","b"],"trigger":"體驗場次前，最多 3 段（例如 1 天前、3 小時前）","filter":"無","action":"自動提醒","message":"時間、地點、交通、穿著建議、可改期","feature":"課程報名的上課前提醒"},
+    {"id":5,"name":"體驗後第 1 天","stage":"post","aud":["c","b"],"trigger":"貼上「階段_已體驗」後 1 天","filter":"排除「階段_儀器持有者」","action":"推送訊息","message":"謝謝體驗；3 個居家放鬆小習慣","feature":"自動化劇本（延遲發送）"},
+    {"id":6,"name":"體驗後第 3 天","stage":"post","aud":["c"],"trigger":"貼上「階段_已體驗」後 3 天","filter":"排除「階段_儀器持有者」","action":"推送訊息","message":"經授權的體驗感受；再次體驗的時段","feature":"自動化劇本（延遲發送）"},
+    {"id":7,"name":"體驗後第 7 天","stage":"post","aud":["c","b"],"trigger":"貼上「階段_已體驗」後 7 天","filter":"排除「階段_儀器持有者」","action":"發 14 天內有效的回訪或課程折抵券","message":"限時回訪優惠；可預約一對一說明","feature":"自動化劇本、優惠券"},
+    {"id":8,"name":"優惠券到期提醒","stage":"loyal","aud":["c"],"trigger":"優惠券到期前 3 天","filter":"無","action":"推送訊息","message":"你的券還剩 3 天","feature":"自動化劇本"},
+    {"id":9,"name":"未成交喚回","stage":"post","aud":["c","b"],"trigger":"貼上「階段_已體驗」後 30 天","filter":"排除「階段_儀器持有者」「階段_課程學員」","action":"送抽獎機會或優惠券","message":"新檔期活動、公益場、團體場","feature":"自動化劇本、抽獎"},
+    {"id":10,"name":"購買後貼標","stage":"own","aud":["c"],"trigger":"電商訂單付款完成","filter":"無","action":"貼上「階段_儀器持有者」（門市成交由店員手動貼）","message":"不發訊息，作為後續劇本的起點","feature":"電商、自動化劇本"},
+    {"id":11,"name":"21 天習慣：開箱","stage":"own","aud":["c"],"trigger":"貼上「階段_儀器持有者」當天","filter":"無","action":"推送訊息","message":"開箱影片、第一次使用步驟、注意事項（對光敏感者請先諮詢醫師）","feature":"自動化劇本"},
+    {"id":12,"name":"21 天習慣：第 2、3、7、14 天","stage":"own","aud":["c"],"trigger":"貼上「階段_儀器持有者」後第 2、3、7、14 天，共 4 段","filter":"無","action":"推送訊息","message":"固定時段使用的小提醒、常見問題、打卡邀請","feature":"自動化劇本（4 段延遲發送）"},
+    {"id":13,"name":"21 天習慣：第 21 天","stage":"own","aud":["c"],"trigger":"貼上「階段_儀器持有者」後第 21 天","filter":"無","action":"送點數，邀請留下 Google 評論","message":"恭喜完成 21 天儀式；邀請推薦好友","feature":"自動化劇本、評論邀請"},
+    {"id":14,"name":"課程結業","stage":"own","aud":["p"],"trigger":"講師在後台貼上「課程結業」","filter":"無","action":"發進階課優惠券，推送訊息","message":"結業祝福、進階課資訊、成為管理師的路徑","feature":"課程報名、自動化劇本"},
+    {"id":15,"name":"生日","stage":"loyal","aud":["c"],"trigger":"生日前 7 天","filter":"無","action":"發生日優惠券","message":"生日放鬆禮","feature":"自動化劇本"},
+    {"id":16,"name":"升等","stage":"loyal","aud":["c"],"trigger":"會員升等時","filter":"無","action":"推送訊息，發升等優惠券","message":"恭喜升級與等級權益","feature":"會員等級、自動化劇本"},
+    {"id":17,"name":"沉睡喚醒","stage":"loyal","aud":["c"],"trigger":"90 天未消費","filter":"排除「階段_管理師」","action":"送抽獎機會","message":"好久不見，新的體驗場次","feature":"自動化劇本、抽獎"},
+    {"id":18,"name":"推薦成功","stage":"loyal","aud":["c","p"],"trigger":"被推薦人首次消費；推薦人數達 3、5、10 人","filter":"無","action":"送推薦人點數或優惠券","message":"謝謝你把放鬆分享給朋友","feature":"推薦好友設定、自動化劇本（對象設為推薦人）"},
+    {"id":19,"name":"App 未使用喚回","stage":"loyal","aud":["c"],"trigger":"每週由 App 後台匯出「7 日未使用」名單，批次貼標後觸發","filter":"無","action":"推送訊息","message":"今晚留 6 分鐘給自己","feature":"會員匯入批次貼標、自動化劇本；第二階段改為 App 自動回傳","badge":"第二階段可全自動"}
+  ],
+  "months": [
+    {"m":1,"theme":"考前定心","events":"學測（1 月中下旬）、尾牙","focus":"考生「3 分鐘定心」體驗場；企業尾牙團體場","pushes":"全體 2 次，家長與學生分眾 1 次","n":3,"rm":""},
+    {"m":2,"theme":"新年新習慣","events":"農曆年（2027-02-06）、228 連假","focus":"21 天新年儀式挑戰（抽獎）；家庭體驗組","pushes":"2 次","n":2,"rm":"春節版"},
+    {"m":3,"theme":"好好休息月","events":"世界睡眠日（2027-03-19）、國際幸福日（3-20）","focus":"「睡前儀式週」399 元公益場；全年品牌主檔","pushes":"3 次","n":3,"rm":"春季主視覺版"},
+    {"m":4,"theme":"親子放鬆","events":"兒童節、清明連假","focus":"親子體驗；會員推薦月（推薦獎勵加碼）","pushes":"2 次","n":2,"rm":""},
+    {"m":5,"theme":"謝謝媽媽","events":"母親節（5-09）、國中會考","focus":"「媽媽的放鬆時光」禮盒；會考定心場","pushes":"3 次","n":3,"rm":""},
+    {"m":6,"theme":"上班族中場休息","events":"端午（6-09）","focus":"企業 EAP 團體場；上班族午休體驗","pushes":"2 次","n":2,"rm":""},
+    {"m":7,"theme":"暑假自我投資","events":"分科測驗、暑假","focus":"調頻師與管理師招生；學生暑期定心營","pushes":"全體 2 次，管理師分眾 1 次","n":3,"rm":"夏季版"},
+    {"m":8,"theme":"謝謝爸爸","events":"父親節（8-08）","focus":"「爸爸的放鬆時光」；儀器分期方案","pushes":"2 次","n":2,"rm":""},
+    {"m":9,"theme":"開學收心","events":"開學、中秋（2027-09-15）、教師節（9-28）","focus":"開學收心體驗；送老師的放鬆禮","pushes":"2 次","n":2,"rm":""},
+    {"m":10,"theme":"身心平衡月","events":"世界心理健康日（10-10）、重陽（2027-10-08）","focus":"銀髮族音樂放鬆場；合作門店巡迴","pushes":"2 次","n":2,"rm":""},
+    {"m":11,"theme":"雙 11 年度最大檔","events":"雙 11","focus":"儀器、配件、App 年訂方案限時優惠（電商搭配折扣碼）","pushes":"3 次（預告、開賣、最後一天）","n":3,"rm":"雙 11 版"},
+    {"m":12,"theme":"年終好好收尾","events":"聖誕、跨年、年終","focus":"年度回顧等級禮；明年 21 天儀式預購；尾牙團體場預約","pushes":"2 次","n":2,"rm":"年終版"}
+  ],
+  "phrases": [
+    ["改善失眠、治療失眠、助眠、讓你睡著","睡前 6 分鐘的聲光放鬆時光；為一天畫下安靜的句點"],
+    ["進入深層睡眠、提升睡眠品質","打造你的睡前儀式；關燈前，先讓自己慢下來"],
+    ["撫平焦慮、解決壓力、治療憂鬱","給自己一段不被打擾的放鬆時間；忙碌中的片刻寧靜"],
+    ["提升專注力、改善注意力不足","讀書前 3 分鐘的定心儀式；開工前的轉換時間"],
+    ["預防失智、活化大腦、腦部保健","和家人一起的音樂放鬆時光；銀髮族的休閒體驗"],
+    ["調節自律神經、啟動自癒力、能量療癒","沉浸式聲光體驗，放鬆身心"],
+    ["以量測結果判定狀態，或做診斷、評估","體驗前的放鬆偏好問卷（只問喜好，不下判斷）"],
+    ["療程、療癒師、調理","體驗課、放鬆引導師、體驗時段"],
+    ["科學驗證、臨床實證、醫師推薦或醫師見證","不提；學術合作只寫「進行產學合作」，不寫結果"],
+    ["以專利證明有效","「技術取得新型專利」，不連結任何效果"],
+    ["「用了之後不再失眠」這類見證","「這段時間讓我覺得很放鬆」，並加註「個人感受，因人而異」"],
+    ["「改善了多少人的睡眠」這類人數宣稱","「累計體驗人次」，以實際紀錄為準"]
+  ],
+  "principles": [
+    "問卷只問偏好與情境，不問症狀、用藥或診斷，也不開放自由填寫",
+    "標籤一律使用中性名稱；App 的頻道名稱不直接變成標籤，改記使用時段或頻道代碼",
+    "App 只回傳行為事件（完成一次放鬆、本週次數、連續天數），不做任何健康推論",
+    "門店體驗時的量測資料留在 App 端並另行取得書面同意；LINE 會員資料只記「已在某店完成體驗」",
+    "隱私權告知寫明只記錄偏好與使用紀錄，不做健康判斷",
+    "感受分享須取得書面授權，只寫感受與情境"
+  ],
+  "kpis": [
+    {"name":"年度新增 LINE 好友","c":"3,000","a":"8,000","how":"6 個據點每月 20～50 人，加上廣告、通路與推薦"},
+    {"name":"累積封鎖率","c":"≤ 30%","a":"≤ 20%","how":"LINE 官方帳號後台數據"},
+    {"name":"放鬆偏好問卷完成率","c":"30%","a":"50%","how":"問卷統計"},
+    {"name":"好友變體驗報名","c":"10%","a":"20%","how":"場次報名數 ÷ 新增好友"},
+    {"name":"報名後到場率","c":"70%","a":"85%","how":"現場掃碼報到"},
+    {"name":"體驗後 30 天成交","c":"8%","a":"15%","how":"「已體驗」與成交標籤交叉比對"},
+    {"name":"儀器客單價","c":"7.5 萬元","a":"8 萬元以上","how":"參考公開價格"},
+    {"name":"一年內回購（配件、進階課、續訂）","c":"15%","a":"30%","how":"回購率報表"},
+    {"name":"有成功推薦的會員比例","c":"3%","a":"8%","how":"推薦好友報表"},
+    {"name":"管理師或代理商帶來的新好友占比","c":"10%","a":"25%","how":"依來源標籤計算"}
+  ],
+  "funnel": {"c":[3000,0.10,0.70,0.08],"a":[8000,0.20,0.85,0.15]},
+  "materials": [
+    "品牌 Logo、品牌色、各據點照片",
+    "各據點地址與營業時間，以及直營、加盟或合作的區分",
+    "價目表：體驗、課程、儀器、配件、App 方案",
+    "2027 年度場次表（公益場、師資班、團體場）",
+    "經法務或顧問確認的文案（宇果提供初稿）",
+    "感受分享的書面授權書",
+    "管理師名單與推薦獎勵制度",
+    "LINE 官方帳號 @jxl9344x 的管理權限（Messaging API、LINE Login、LIFF）",
+    "隱私權政策與個資同意書"
+  ],
+  "questions": [
+    ["儀器的產品類別與檢驗報告","目前的產品類別，以及光閃爍、電性安全等檢驗報告；保固期多久？"],
+    ["現行型號與售價","幸福盒子、全家型、幸福腦 2.0 是否仍在販售？有沒有可回購的配件或耗材？"],
+    ["App 訂閱方案","月費或年費多少？在 App 內購買還是官網收款？預估多少比例的 App 會員使用 LINE 登入？"],
+    ["據點型態","哪些是直營、哪些是加盟或合作？合作門店要有自己的 LINE 官方帳號，還是共用品牌帳號？"],
+    ["管理師與代理商的獎勵","獎勵如何計算？是否只依本人直接推薦的會員計算？"],
+    ["既有官方帳號現況","@jxl9344x 的好友數、目前的圖文選單與負責管理的人員？"],
+    ["既有文案調整","官網、見證頁與廣告文案，是否同意依第 11 節的建議一起調整？"],
+    ["門店量測資料","體驗時的量測資料存放在哪裡？是否已取得書面同意？"],
+    ["廣告與 KOL","每月廣告預算多少？目前有沒有合作中的 KOL？"],
+    ["海外據點","香港、杭州據點是否納入同一個 LINE 官方帳號？"],
+    ["年度固定場次","有哪些固定場次（公益場、師資班）？檔期可否配合本規劃？"]
+  ]
+}
+</script>
+<script>
+(function(){
+  var D=JSON.parse(document.getElementById('plan-data').textContent);
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(s,c){return (c||document).querySelector(s);}
+  function $$(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var CHEV='<svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 6l4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
+  var CHECK='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var BOX='<svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2.5" y="2.5" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+  function swap(el){ if(reduce) return; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); }
+
+  /* 波形：振幅由左往右遞減，節點落在零交越點上 */
+  function wavePath(h,amp,minAmp,period){
+    var d='',mid=h/2;
+    for(var x=0;x<=1000;x+=4){
+      var a=minAmp+(amp-minAmp)*Math.pow(1-x/1000,1.4);
+      var y=mid-a*Math.sin(2*Math.PI*x/period);
+      d+=(x?'L':'M')+x+' '+y.toFixed(2);
+    }
+    return d;
+  }
+  $$('[data-wave="cover"]').forEach(function(p){p.setAttribute('d',wavePath(120,46,2,125));});
+  $$('[data-wave="journey"]').forEach(function(p){p.setAttribute('d',wavePath(56,22,1.5,200));});
+
+  /* 通用分頁：方向鍵、Home、End 切換，roving tabindex */
+  function tabs(list,items,onSelect){
+    function select(i,focus){
+      items.forEach(function(t,k){var on=k===i;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;});
+      if(focus) items[i].focus();
+      if(items[i].scrollIntoView&&list.scrollWidth>list.clientWidth){
+        var l=items[i].offsetLeft-list.offsetLeft,r=l+items[i].offsetWidth;
+        if(l<list.scrollLeft||r>list.scrollLeft+list.clientWidth) list.scrollLeft=l-16;
+      }
+      onSelect(i);
+    }
+    items.forEach(function(t,i){
+      t.addEventListener('click',function(){select(i,false);});
+      t.addEventListener('keydown',function(e){
+        var n=items.length,j=null;
+        if(e.key==='ArrowRight'||e.key==='ArrowDown') j=(i+1)%n;
+        else if(e.key==='ArrowLeft'||e.key==='ArrowUp') j=(i-1+n)%n;
+        else if(e.key==='Home') j=0; else if(e.key==='End') j=n-1;
+        if(j!==null){e.preventDefault();select(j,true);}
+      });
+    });
+    return select;
+  }
+
+  /* 03 三條客群線 */
+  (function(){
+    var list=$('[data-lines-tabs]'),panel=$('[data-lines-panel]');
+    list.innerHTML=D.lines.map(function(l,i){return '<button type="button" class="tab" role="tab" id="lt-'+l.id+'" aria-controls="lines-panel"><span class="pn">'+(['C','B','B2C2B'][i])+'</span>'+esc(l.short)+'</button>';}).join('');
+    var items=$$('.tab',list);
+    tabs(list,items,function(i){
+      var l=D.lines[i];
+      panel.setAttribute('aria-labelledby','lt-'+l.id);
+      panel.innerHTML='<div class="line-grid"><div><h3 style="margin:0">'+esc(l.title)+'</h3><p class="line-who">'+esc(l.who)+'</p><ol class="flow">'+
+        l.flow.map(function(f){return '<li>'+esc(f)+'</li>';}).join('')+'</ol></div><div class="side"><h4>LINE 官方帳號怎麼承接</h4><p>'+esc(l.crm)+'</p><h4 style="margin-top:14px">使用的功能</h4><div>'+
+        l.features.map(function(f){return '<span class="tag">'+esc(f)+'</span>';}).join('')+'</div><h4 style="margin-top:14px">要看的成效</h4><ul class="metric-list">'+
+        l.kpi.map(function(k){return '<li>'+esc(k)+'</li>';}).join('')+'</ul>'+
+        (l.phase2?'<div class="phase2"><b>第二階段</b>'+esc(l.phase2)+'</div>':'')+'</div></div>';
+      swap(panel);
+    })(0,false);
+  })();
+
+  /* 05 客戶旅程 */
+  var playName={}; D.plays.forEach(function(p){playName[p.id]=p.name;});
+  (function(){
+    var ol=$('[data-jsteps]'),panel=$('[data-jpanel]'),clip=$('[data-jclip]'),cur=0;
+    ol.innerHTML=D.journey.map(function(j,i){return '<li role="presentation"><button type="button" class="jstep" role="tab" id="js-'+i+'" aria-controls="journey-panel"><span class="jdot"><i>'+(i+1)+'</i></span><span>'+esc(j.label)+'</span></button></li>';}).join('');
+    var items=$$('.jstep',ol),prev=$('[data-jstep="-1"]'),next=$('[data-jstep="1"]');
+    var sel=tabs(ol,items,function(i){
+      cur=i; var j=D.journey[i];
+      items.forEach(function(t,k){t.classList.toggle('past',k<i);});
+      clip.setAttribute('width',String(100+200*i));
+      panel.setAttribute('aria-labelledby','js-'+i);
+      panel.innerHTML='<span class="kicker">關卡 '+(i+1)+' / 5</span><h3 style="margin-top:8px">從「'+esc(j.from)+'」到「'+esc(j.to)+'」</h3>'+
+        '<div class="jcols"><div><h4>設定重點</h4><p>'+esc(j.setup)+'</p><h4 style="margin-top:14px">使用的系統功能</h4><div>'+
+        j.features.map(function(f){return '<span class="tag wave">'+esc(f)+'</span>';}).join('')+'</div></div><div><h4>要看的指標</h4><ul class="metric-list">'+
+        j.metrics.map(function(m){return '<li>'+esc(m)+'</li>';}).join('')+'</ul><h4 style="margin-top:14px">對應劇本（第 08 節）</h4><p style="font-size:14px">'+
+        j.plays.map(function(id){return '#'+id+' '+esc(playName[id]);}).join('、')+'</p></div></div>';
+      prev.disabled=i===0; next.disabled=i===D.journey.length-1;
+      swap(panel);
+    });
+    sel(0,false);
+    $$('[data-jstep]').forEach(function(b){b.addEventListener('click',function(){
+      var i=Math.max(0,Math.min(D.journey.length-1,cur+parseInt(b.getAttribute('data-jstep'),10)));sel(i,false);
+    });});
+  })();
+
+  /* 06、07 靜態表格 */
+  $('[data-sources]').innerHTML=D.sources.map(function(r){return '<tr><td class="k">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>';}).join('');
+  $('[data-tags]').innerHTML=D.tags.map(function(r){return '<tr><td class="k">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td></tr>';}).join('');
+  $('[data-survey]').innerHTML=D.survey.map(function(r){return '<tr><td style="color:var(--avoid)">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>';}).join('');
+
+  /* 08 自動化劇本：篩選＋展開 */
+  (function(){
+    var stageName={}; D.stages.forEach(function(s){stageName[s[0]]=s[1];});
+    var fs={stage:'all',aud:'all'};
+    function chips(host,key,opts){
+      host.innerHTML=[['all','全部']].concat(opts).map(function(o){return '<button type="button" class="chip" data-'+key+'="'+o[0]+'" aria-pressed="'+(o[0]==='all')+'">'+esc(o[1])+'</button>';}).join('');
+      host.addEventListener('click',function(e){
+        var b=e.target.closest('button'); if(!b) return;
+        fs[key]=b.getAttribute('data-'+key);
+        $$('button',host).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+        apply();
+      });
+    }
+    chips($('[data-f-stage]'),'stage',D.stages);
+    chips($('[data-f-aud]'),'aud',D.audiences);
+    var ul=$('[data-plays]');
+    ul.innerHTML=D.plays.map(function(p){
+      return '<li data-st="'+p.stage+'" data-au="'+p.aud.join(' ')+'"><button type="button" class="play-btn" aria-expanded="false" aria-controls="pb-'+p.id+'">'+
+        '<span class="pid">#'+(p.id<10?'0':'')+p.id+'</span><span class="pname">'+esc(p.name)+'<small>'+esc(p.trigger)+'</small></span><span class="pstage">'+esc(stageName[p.stage])+'</span>'+CHEV+'</button>'+
+        '<div class="play-body" id="pb-'+p.id+'" hidden><dl><dt>觸發條件</dt><dd>'+esc(p.trigger)+'</dd><dt>篩選</dt><dd>'+esc(p.filter)+'</dd><dt>動作</dt><dd>'+esc(p.action)+'</dd><dt>訊息重點</dt><dd>'+esc(p.message)+'</dd><dt>使用功能</dt><dd>'+esc(p.feature)+
+        (p.badge?' <span class="tag gold">'+esc(p.badge)+'</span>':'')+'</dd></dl></div></li>';
+    }).join('')+'<li class="empty" data-empty hidden>這個組合沒有對應的劇本，請換一個篩選條件。</li>';
+    ul.addEventListener('click',function(e){
+      var b=e.target.closest('.play-btn'); if(!b) return;
+      var open=b.getAttribute('aria-expanded')!=='true';
+      b.setAttribute('aria-expanded',open?'true':'false');
+      var body=document.getElementById(b.getAttribute('aria-controls')); body.hidden=!open; if(open) swap(body);
+    });
+    var count=$('[data-play-count]');
+    function apply(){
+      var n=0;
+      $$('li[data-st]',ul).forEach(function(li){
+        var ok=(fs.stage==='all'||li.getAttribute('data-st')===fs.stage)&&(fs.aud==='all'||li.getAttribute('data-au').split(' ').indexOf(fs.aud)>-1);
+        li.hidden=!ok; if(ok) n++;
+      });
+      $('[data-empty]',ul).hidden=n>0;
+      count.textContent='顯示 '+n+' 條，共 '+D.plays.length+' 條';
+    }
+    apply();
+  })();
+
+  /* 09 行事曆 */
+  (function(){
+    var host=$('[data-months]'),panel=$('[data-mpanel]');
+    host.innerHTML=D.months.map(function(m){
+      var dots=''; for(var k=0;k<m.n;k++) dots+='<i></i>';
+      return '<button type="button" class="mbtn" role="tab" id="mt-'+m.m+'" aria-controls="month-panel" aria-label="'+m.m+' 月：'+esc(m.theme)+'"><span class="mn">'+m.m+'<small>月</small></span><span class="dots">'+dots+'</span><span class="rm">'+(m.rm?'換版':'')+'</span></button>';
+    }).join('');
+    tabs(host,$$('.mbtn',host),function(i){
+      var m=D.months[i];
+      panel.setAttribute('aria-labelledby','mt-'+m.m);
+      panel.innerHTML='<div class="mhead"><span class="big">2027.'+(m.m<10?'0':'')+m.m+'</span><h3>'+esc(m.theme)+'</h3></div><div class="mgrid">'+
+        '<div><h4>檔期與節日</h4><p>'+esc(m.events)+'</p></div><div><h4>主推商品或活動</h4><p>'+esc(m.focus)+'</p></div>'+
+        '<div><h4>推播頻率</h4><p>'+esc(m.pushes)+'</p></div><div><h4>圖文選單</h4><p>'+(m.rm?'換成「'+esc(m.rm)+'」':'沿用目前版本')+'</p></div></div>';
+      swap(panel);
+    })(0,false);
+  })();
+
+  /* 11 文案對照：預設顯示 5 條，可展開 */
+  (function(){
+    var host=$('[data-phr]'),SHOW=5;
+    host.insertAdjacentHTML('beforeend',D.phrases.map(function(p,i){return '<div class="phr-row"'+(i>=SHOW?' hidden data-extra':'')+'><div class="av">'+esc(p[0])+'</div><div class="us">'+esc(p[1])+'</div></div>';}).join('')+
+      '<div class="phr-more"><button type="button" class="more" aria-expanded="false"><span data-more-t>展開全部 '+D.phrases.length+' 組對照</span>'+CHEV+'</button></div>');
+    var btn=$('.more',host);
+    btn.addEventListener('click',function(){
+      var open=btn.getAttribute('aria-expanded')!=='true';
+      btn.setAttribute('aria-expanded',open?'true':'false');
+      $$('[data-extra]',host).forEach(function(r){r.hidden=!open; if(open) swap(r);});
+      $('[data-more-t]',btn).textContent=open?'收合，只看前 '+SHOW+' 組':'展開全部 '+D.phrases.length+' 組對照';
+    });
+    $('[data-principles]').innerHTML=D.principles.map(function(p){return '<li>'+CHECK+'<span>'+esc(p)+'</span></li>';}).join('');
+  })();
+
+  /* 12 KPI：切換保守／積極，數字過渡 */
+  (function(){
+    var tb=$('[data-kpis]'),fn=$('[data-funnel]'),state=$('[data-kpi-state]');
+    function parse(s){var m=String(s).match(/^(.*?)([\d,]+(?:\.\d+)?)(.*)$/);if(!m) return null;var raw=m[2];return {pre:m[1],val:parseFloat(raw.replace(/,/g,'')),dec:(raw.split('.')[1]||'').length,comma:raw.indexOf(',')>-1,post:m[3]};}
+    function fmt(v,p){var s=v.toFixed(p.dec);if(p.comma||v>=1000){var parts=s.split('.');parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,',');s=parts.join('.');}return s;}
+    tb.innerHTML=D.kpis.map(function(k,i){return '<tr><td>'+esc(k.name)+'</td><td class="num"><span class="kv" data-kv="'+i+'">'+esc(k.c)+'</span></td><td class="note" style="font-size:13px">'+esc(k.how)+'</td></tr>';}).join('');
+    var labels=['新增好友','體驗報名','實際到場','30 天內成交'];
+    fn.innerHTML=labels.map(function(l,i){return '<div><b>'+l+'</b><span data-fv="'+i+'">0</span><small>'+(i?'位，推算值':'位，年度目標')+'</small></div>';}).join('');
+    function funnelVals(k){var f=D.funnel[k],a=f[0],b=a*f[1],c=b*f[2],d=c*f[3];return [a,Math.round(b),Math.round(c),Math.round(d)];}
+    var current={c:true}, raf=null, shown=funnelVals('c');
+    function tween(from,to,draw){
+      if(reduce){draw(1);return;}
+      var t0=null,dur=650;
+      function step(ts){if(!t0)t0=ts;var t=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-t,3);draw(e);if(t<1)raf=requestAnimationFrame(step);}
+      raf=requestAnimationFrame(step);
+    }
+    function render(key,animate){
+      if(raf) cancelAnimationFrame(raf);
+      var froms=$$('[data-kv]').map(function(el){return parse(el.textContent);});
+      var tos=D.kpis.map(function(k){return parse(k[key]);});
+      var fFrom=shown.slice(),fTo=funnelVals(key);
+      function draw(e){
+        $$('[data-kv]').forEach(function(el,i){
+          var a=froms[i],b=tos[i];
+          if(!a||!b||e>=1){el.textContent=D.kpis[i][key];return;}
+          el.textContent=b.pre+fmt(a.val+(b.val-a.val)*e,b)+b.post;
+        });
+        $$('[data-fv]').forEach(function(el,i){var v=Math.round(fFrom[i]+(fTo[i]-fFrom[i])*e);shown[i]=v;el.textContent=fmt(v,{dec:0,comma:true});});
+      }
+      if(animate) tween(froms,tos,draw); else draw(1);
+      state.textContent='目前顯示：'+(key==='c'?'保守估計':'積極估計');
+    }
+    $$('[data-kpi]').forEach(function(b){b.addEventListener('click',function(){
+      $$('[data-kpi]').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      render(b.getAttribute('data-kpi'),true);
+    });});
+    shown=[0,0,0,0]; render('c',false);
+  })();
+
+  /* 14、15 */
+  $('[data-materials]').innerHTML=D.materials.map(function(m){return '<li>'+BOX+'<span>'+esc(m)+'</span></li>';}).join('');
+  $('[data-questions]').innerHTML=D.questions.map(function(q){return '<li><span><b>'+esc(q[0])+'</b>'+esc(q[1])+'</span></li>';}).join('');
+
+  /* 表格加欄名，供手機堆疊顯示 */
+  $$('.tbl').forEach(function(t){
+    var heads=$$('thead th',t).map(function(th){return th.textContent;});
+    $$('tbody tr',t).forEach(function(tr){$$('td',tr).forEach(function(td,i){if(heads[i]) td.setAttribute('data-label',heads[i]);});});
+    t.classList.add('stack');
+  });
+
+  /* 章節目錄＋捲動高亮 */
+  (function(){
+    var secs=$$('.doc>section[data-toc]'),list=$('#toc-list'),nav=$('#toc'),tog=$('.toc-toggle',nav),curEl=$('[data-toc-cur]');
+    list.innerHTML=secs.map(function(s,i){return '<li><a href="#'+s.id+'"><span>'+(i<9?'0':'')+(i+1)+'</span>'+esc(s.getAttribute('data-toc'))+'</a></li>';}).join('');
+    var links=$$('a',list);
+    function setCur(i){links.forEach(function(a,k){if(k===i)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current');});curEl.textContent=secs[i].getAttribute('data-toc');}
+    function onScroll(){
+      var y=window.innerHeight*0.3,idx=0;
+      secs.forEach(function(s,i){if(s.getBoundingClientRect().top<=y) idx=i;});
+      setCur(idx);
+    }
+    var ticking=false;
+    window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(function(){ticking=false;onScroll();});}},{passive:true});
+    onScroll();
+    function close(){nav.classList.remove('open');tog.setAttribute('aria-expanded','false');}
+    tog.addEventListener('click',function(){var o=!nav.classList.contains('open');nav.classList.toggle('open',o);tog.setAttribute('aria-expanded',o?'true':'false');});
+    links.forEach(function(a){a.addEventListener('click',function(){close();});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&nav.classList.contains('open')){close();tog.focus();}});
+    document.addEventListener('click',function(e){if(nav.classList.contains('open')&&!nav.contains(e.target))close();});
+  })();
+
+  /* 章節進場淡入：沒有 IntersectionObserver 或關閉動態時全部直接顯示 */
+  (function(){
+    if(reduce||!('IntersectionObserver' in window)) return;
+    var secs=$$('.doc>section');
+    document.documentElement.classList.add('rv');
+    var fired=false;
+    var io=new IntersectionObserver(function(es){fired=true;es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{rootMargin:'0px 0px -8% 0px'});
+    secs.forEach(function(s){io.observe(s);});
+    setTimeout(function(){if(!fired) secs.forEach(function(s){s.classList.add('in');});},1500);
+    window.addEventListener('beforeprint',function(){secs.forEach(function(s){s.classList.add('in');});});
+    window.addEventListener('hashchange',function(){var t=document.getElementById(location.hash.slice(1));if(t)t.classList.add('in');});
+  })();
+})();
+</script>
+</body>
+</html>
