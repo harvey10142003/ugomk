@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>BNI 年會 INW 現場系統</title>
+<title>BNI INW 智慧交流暨會員經營平台</title>
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="googlebot" content="noindex,nofollow">
 <meta name="referrer" content="no-referrer">
@@ -128,7 +128,7 @@ html:not(.deck) .read-foot{display:block;max-width:820px;margin:0 auto;padding:2
 
 /* ---------- 問題 ---------- */
 .pains{display:grid;margin-top:48px;border-top:1px solid var(--rule)}
-.pains li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--rule)}
+.pains li{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;align-items:baseline;padding:30px 0;border-bottom:1px solid var(--rule)}
 .pains .when{font-size:28px;font-weight:800;color:var(--brand)}
 .pains p{font-size:32px;line-height:1.4}
 
@@ -361,15 +361,61 @@ html:not(.deck) .s9-grid .phone{order:3}
 .prep{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;flex:1;min-height:0;margin-top:20px;align-items:center}
 .prep h3{font-size:var(--small);color:var(--muted);font-weight:600;margin-bottom:12px}
 .check{display:grid;border-top:1px solid var(--rule)}
-.check li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:center;padding:28px 0;border-bottom:1px solid var(--rule);font-size:var(--body);font-weight:700}
+.check li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:14px;align-items:center;padding:19px 0;border-bottom:1px solid var(--rule);font-size:var(--body);font-weight:700}
 .check svg{width:28px;height:28px;color:var(--brand)}
 .tl{display:grid;border-top:1px solid var(--rule)}
-.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:baseline;padding:28px 0;border-bottom:1px solid var(--rule)}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:baseline;padding:19px 0;border-bottom:1px solid var(--rule)}
 .tl .w{font-size:var(--small);font-weight:800;color:var(--brand)}
 .tl b{font-size:var(--body);font-weight:600}
 
+/* ---------- 會員持續經營（後台示意，畫面內文字 ≥14px） ---------- */
+.crm-grid{display:grid;grid-template-columns:minmax(0,1fr) 820px;gap:56px;align-items:center;flex:1;min-height:0;margin-top:8px}
+.steps3{display:grid;border-top:1px solid var(--rule)}
+.steps3 li{display:grid;grid-template-columns:56px minmax(0,1fr);gap:18px;align-items:center;padding:22px 0;border-bottom:1px solid var(--rule)}
+.steps3 .dot{width:56px;height:56px;border-radius:50%;border:2px solid var(--brand);display:grid;place-items:center;color:var(--brand)}
+.steps3 .dot svg{width:26px;height:26px}
+.steps3 b{display:block;font-size:var(--body);font-weight:800;line-height:1.35}
+.steps3 span{display:block;font-size:var(--small);color:var(--muted);line-height:1.45;margin-top:2px}
+.win{background:#fff;color:#0f172a;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--rule),0 24px 50px -28px rgba(10,10,10,.45);min-width:0;line-height:1.5}
+.wbar{display:flex;align-items:center;gap:8px;height:40px;padding:0 16px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;font-size:14px;color:#64748b}
+.wbar i{width:11px;height:11px;border-radius:50%;background:#cbd5e1;flex:0 0 auto}
+.wbar span{margin-left:8px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wbody{padding:16px 18px 18px}
+.wtool{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.wsearch{display:flex;align-items:center;gap:8px;flex:1 1 200px;min-width:0;border:1px solid #cbd5e1;border-radius:8px;padding:5px 12px;font-size:15px;color:#94a3b8}
+.wsearch svg{width:16px;height:16px;flex:0 0 auto}
+.tag{display:inline-block;font-size:14px;line-height:1.45;padding:2px 10px;border-radius:999px;background:#f1f5f9;color:#334155;white-space:nowrap}
+.tag.r{background:#fdf3f4;color:#c8102e}
+.tag.g{background:#f6eedf;color:#8a5a12}
+.tag.sel{background:#c8102e;color:#fff}
+.wtable{width:100%;border-collapse:collapse;font-size:15px}
+.wtable th{text-align:left;font-weight:600;font-size:14px;color:#64748b;padding:8px;border-bottom:1px solid #e2e8f0;white-space:nowrap}
+.wtable td{padding:9px 8px;border-bottom:1px solid #f1f5f9;color:#334155;vertical-align:middle}
+.wtable tr:last-child td{border-bottom:0}
+.wtable .person{gap:8px}
+.wtable .person b{font-size:15px;white-space:nowrap}
+.wtable .av{width:34px;height:34px;font-size:14px}
+.wtable .tags{display:flex;gap:4px;flex-wrap:wrap}
+html.deck br.m{display:none}
+.wtable .num,.wtable .ind{white-space:nowrap;font-variant-numeric:tabular-nums}
+/* 精準分眾 */
+.seg-grid{display:grid;grid-template-columns:minmax(0,1fr) 500px;gap:56px;align-items:center;flex:1;min-height:0;margin-top:8px}
+.cards4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.cards4 li{border:1px solid var(--rule);border-top:3px solid var(--brand);border-radius:10px;padding:18px 20px;background:var(--paper);min-width:0}
+.cards4 b{display:block;font-size:var(--body);font-weight:800;line-height:1.35}
+.cards4 p{font-size:var(--small);color:var(--muted);line-height:1.5;margin-top:6px}
+.wlab{font-size:14px;font-weight:600;color:#64748b;margin-bottom:6px}
+.wcount{display:flex;justify-content:space-between;align-items:baseline;gap:8px;background:#f8fafc;border-radius:8px;padding:10px 12px;font-size:15px;color:#334155;margin-top:12px}
+.wcount b{font:800 22px var(--f-body);color:#c8102e;font-variant-numeric:tabular-nums}
+.flowdn{display:flex;justify-content:center;color:#94a3b8;margin:8px 0}
+.flowdn svg{width:22px;height:22px}
+.win .chat{flex:none;border-radius:10px;padding:12px}
+.win .pbtn{margin-top:12px}
+
 /* ---------- 結尾 ---------- */
 .end{justify-content:center}
+.end .kicker{font-size:var(--lead);font-weight:800;color:var(--brand);letter-spacing:.04em;margin-bottom:18px}
+.end .motto{font-size:var(--lead);font-weight:700;margin-top:14px}
 .end .brandmark{margin-bottom:44px}
 .end h2{font-size:64px}
 .end-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:56px;max-width:1200px}
@@ -418,6 +464,18 @@ html:not(.deck) .end h2{font-size:28px}
 html:not(.deck) .end-grid{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:28px}
 html:not(.deck) .phone{max-width:300px}
 html:not(.deck) .seatbox{padding:12px 10px 8px}
+html:not(.deck) .crm-grid,html:not(.deck) .seg-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+html:not(.deck) .cards4{grid-template-columns:minmax(0,1fr);gap:12px}
+html:not(.deck) .cards4 li{padding:14px 16px}
+html:not(.deck) .steps3 li{padding:14px 0;grid-template-columns:44px minmax(0,1fr);gap:14px}
+html:not(.deck) .steps3 .dot{width:44px;height:44px}
+html:not(.deck) .steps3 .dot svg{width:20px;height:20px}
+html:not(.deck) .wbody{padding:12px}
+html:not(.deck) .wtable .hide-m{display:none}
+html:not(.deck) .end .kicker{font-size:18px;margin-bottom:10px}
+html:not(.deck) .end .motto{font-size:17px}
+html.deck .s9-grid{gap:36px}
+html.deck .s9-grid h2{font-size:40px}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition:none!important;animation:none!important}
@@ -454,6 +512,10 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
     <symbol id="i-dl" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5V15M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></g></symbol>
     <symbol id="i-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 8.5a14 14 0 0 1 19 0M5.5 12a9.5 9.5 0 0 1 13 0M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></g></symbol>
     <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20.5h16M4 20.5V4"/><path d="M8 17v-5M12 17V8M16 17v-7M20 17V6"/></g></symbol>
+    <symbol id="i-loop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19.5 12a7.5 7.5 0 0 1-13 5.1M4.5 12a7.5 7.5 0 0 1 13-5.1"/><path d="M17.8 3.5v3.6h-3.6M6.2 20.5v-3.6h3.6"/></g></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4v15M6.5 13.5L12 19l5.5-5.5"/></g></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></g></symbol>
     <symbol id="i-left" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
     <symbol id="i-right" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
     <symbol id="i-grid" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></g></symbol>
@@ -472,11 +534,11 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
   <div class="cover-grid">
     <div class="rise">
       <picture class="brandmark"><source srcset="/ugo-logo-white.png" media="(prefers-color-scheme: dark)"><img src="/ugo-logo.png" alt="宇果國際行銷 UGO" width="1569" height="528"></picture>
-      <h1><small>BNI 年會 · INW 國際人脈交流週</small>一場年會，<br>一個 LINE 走完全程</h1>
-      <p class="lead">報到、名片、換桌、引薦、抽獎到會後聯絡，都在同一個 LINE 官方帳號完成。</p>
+      <h1><small>一場精彩的相遇，開啟無限的合作可能。</small>BNI INW 智慧交流暨<br>會員經營平台</h1>
+      <p class="lead">從活動報到、人脈交流、智慧媒合，<br>到會後會員管理與持續互動。</p>
       <div class="cover-meta">
         <div><b>提案單位</b><span>宇果國際行銷</span></div>
-        <div><b>對象</b><span>BNI 年會籌備團隊</span></div>
+        <div><b>對象</b><span>BNI INW 籌備團隊</span></div>
         <div><b>版本</b><span>2026 年 10 月</span></div>
       </div>
     </div>
@@ -494,30 +556,30 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 02 現場難題 -->
-<section class="slide" id="s2" data-title="現場的四個難題" aria-label="現場的四個難題">
-  <div class="eyebrow"><span class="idx">02</span>現場的樣子</div>
-  <h2 class="rise">上千人的年會，最花力氣的地方不在台上</h2>
+<section class="slide" id="s2" data-title="千人交流盛會的四個挑戰" aria-label="千人交流盛會的四個挑戰">
+  <div class="eyebrow"><span class="idx">02</span>現場的挑戰</div>
+  <h2 class="rise">千人交流盛會，<br class="m">如何讓每個人都滿載而歸？</h2>
   <ul class="pains rise">
-    <li><span class="when">報到</span><p>翻名單、發名牌，網路一斷整排停下來</p></li>
-    <li><span class="when">換桌</span><p>靠紙本座位表，常常又坐到熟面孔</p></li>
-    <li><span class="when">交流</span><p>名片、引薦散落各處，會後找不到人</p></li>
-    <li><span class="when">舞台</span><p>問卷與抽獎資格靠手動整理，開獎全場等</p></li>
+    <li><span class="when">報到太繁忙</span><p>上千人同時進場，翻名單、找名牌，排隊比交流還久</p></li>
+    <li><span class="when">換桌不容易</span><p>紙本座位表難安排，常常又坐回熟面孔</p></li>
+    <li><span class="when">引薦難延續</span><p>名片、引薦散落各處，會後想聯絡卻找不到人</p></li>
+    <li><span class="when">成果難追蹤</span><p>誰參加、誰交流、誰引薦了誰，活動結束就沒了紀錄</p></li>
   </ul>
 </section>
 
 <!-- 03 流程 -->
-<section class="slide" id="s3" data-title="一條 LINE 走完全程" aria-label="一條 LINE 走完全程">
-  <div class="eyebrow"><span class="idx">03</span>與會者的一天</div>
-  <h2 class="rise">從進場到散場，六個環節都在同一個官方帳號</h2>
+<section class="slide" id="s3" data-title="會員的一天" aria-label="會員的一天">
+  <div class="eyebrow"><span class="idx">03</span>會員的一天</div>
+  <h2 class="rise">從踏進會場的那一刻，<br class="m">精彩交流就開始了</h2>
   <ol class="journey rise">
-    <li><span class="dot"><svg><use href="#i-qr"/></svg></span><b>報到</b><p>出示 QR，掃碼報到</p></li>
-    <li><span class="dot"><svg><use href="#i-card"/></svg></span><b>電子名片</b><p>同桌掃 QR 就看到</p></li>
-    <li><span class="dot"><svg><use href="#i-table"/></svg></span><b>多輪換桌</b><p>每輪遇到新面孔</p></li>
-    <li><span class="dot"><svg><use href="#i-ref"/></svg></span><b>電子引薦</b><p>手機填引薦單</p></li>
-    <li><span class="dot"><svg><use href="#i-gift"/></svg></span><b>任務集章</b><p>完成任務領獎、抽獎</p></li>
-    <li><span class="dot"><svg><use href="#i-contacts"/></svg></span><b>會後聯絡人包</b><p>一鍵存進通訊錄</p></li>
+    <li><span class="dot"><svg><use href="#i-qr"/></svg></span><b>快速報到</b><p>出示 QR，一掃完成</p></li>
+    <li><span class="dot"><svg><use href="#i-card"/></svg></span><b>電子名片</b><p>同桌掃碼就認識</p></li>
+    <li><span class="dot"><svg><use href="#i-table"/></svg></span><b>智慧換桌</b><p>每輪遇見新朋友</p></li>
+    <li><span class="dot"><svg><use href="#i-ai"/></svg></span><b>AI 媒合與引薦</b><p>找到合作夥伴</p></li>
+    <li><span class="dot"><svg><use href="#i-gift"/></svg></span><b>趣味互動</b><p>任務集章、抽獎</p></li>
+    <li><span class="dot"><svg><use href="#i-contacts"/></svg></span><b>會後聯繫</b><p>今天的人脈存好帶走</p></li>
   </ol>
-  <div class="oneoa rise"><svg><use href="#i-line"/></svg>與會者只要加入官方帳號好友，不用下載 App。</div>
+  <div class="oneoa rise"><svg><use href="#i-line"/></svg>台灣會員用熟悉的 LINE 參與，不必另外下載 App。</div>
 </section>
 
 <!-- 04 報到 -->
@@ -525,14 +587,14 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
   <div class="split">
     <div class="txt">
       <div class="eyebrow"><span class="idx">04</span>報到</div>
-      <h2 class="rise">掃一下就報到，主辦即時看到進度</h2>
+      <h2 class="rise">少一點排隊，<br class="m">多一點交流時間</h2>
       <ul class="pts rise">
-        <li>工作人員用手機掃報到 QR</li>
-        <li>斷線照常掃，恢復連線自動補送</li>
-        <li>看板依分會或依桌顯示，儀表板每 15 秒更新</li>
+        <li>工作人員用手機掃會員 QR，當場完成報到</li>
+        <li>網路不穩也能照常掃，恢復連線自動補上</li>
+        <li>主辦看板依分會或桌次顯示進度，定時自動更新</li>
       </ul>
       <div class="board rise" role="img" aria-label="報到看板示意：報到率與各分會報到進度">
-        <div class="bh"><b>報到看板</b><span>每 10 秒自動更新</span></div>
+        <div class="bh"><b>報到看板</b><span>定時自動更新</span></div>
         <div class="bt">
           <div class="ring">
             <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#3a2a2d" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#f0505f" stroke-width="9" stroke-dasharray="276.5" stroke-dashoffset="105" stroke-linecap="round"/></svg>
@@ -580,7 +642,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 05 名片 -->
-<section class="slide" id="s5" data-title="電子名片、AI 簡介與 10 秒破冰" aria-label="電子名片、AI 簡介與 10 秒破冰">
+<section class="slide" id="s5" data-title="電子名片與 AI 破冰" aria-label="電子名片與 AI 破冰">
   <div class="split rev">
     <div class="phone rise" data-phone>
       <div class="device"><div class="screens">
@@ -593,7 +655,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
               <label class="fld"><i>分會</i><span>範例分會 A</span></label>
               <label class="fld"><i>產業類別</i><span>室內設計</span></label>
             </div>
-            <div class="blk"><h5>簡介（AI 草稿）</h5>
+            <div class="blk"><h5>簡介（AI 協助撰寫）</h5>
               <span class="fld"><span class="fresh">做住宅與商空室內設計，擅長在有限預算裡把動線與收納規劃清楚……</span></span>
             </div>
             <button type="button" class="pbtn ghost" data-to="view"><svg><use href="#i-ai"/></svg>AI 幫我寫</button>
@@ -631,22 +693,22 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="edit">填名片</button><button type="button" class="ptab" data-to="view">同桌看到</button><button type="button" class="ptab" data-to="ice">10 秒破冰</button></div>
     </div>
     <div class="txt">
-      <div class="eyebrow"><span class="idx">05</span>電子名片</div>
-      <h2 class="rise">每人一張電子名片，<br>同桌掃 QR 就看到</h2>
+      <div class="eyebrow"><span class="idx">05</span>電子名片＋AI 破冰</div>
+      <h2 class="rise">第一次見面，<br>就讓對方快速認識你、記住你</h2>
       <ul class="pts rise">
-        <li>AI 依名片起草 100～150 字簡介，可自己改</li>
-        <li>公開哪些欄位由本人決定，電話、Email 預設不公開</li>
-        <li><span><b>AI 10 秒破冰：</b>生成 40～50 字開場介紹，可重新生成、可自己改</span></li>
-        <li>每輪換桌時一鍵顯示，手機就是提詞機</li>
+        <li><span><b>電子名片：</b>同桌掃 QR，馬上看到你的產業與專長</span></li>
+        <li><span><b>AI 協助介紹：</b>依名片內容起草自我介紹，自己可以再修改</span></li>
+        <li><span><b>10 秒破冰：</b>換桌開場時，手機就是你的提詞機</span></li>
+        <li><span><b>本人決定：</b>公開哪些資訊由自己選，電話、Email 預設不公開</span></li>
       </ul>
     </div>
   </div>
 </section>
 
 <!-- 06 換桌 -->
-<section class="slide" id="s6" data-title="1,000 人多輪換桌" aria-label="1,000 人多輪換桌">
-  <div class="eyebrow"><span class="idx">06</span>多輪換桌</div>
-  <h2 class="rise">每一輪都坐到沒見過的人，同分會不同桌</h2>
+<section class="slide" id="s6" data-title="智慧換桌" aria-label="智慧換桌">
+  <div class="eyebrow"><span class="idx">06</span>智慧換桌</div>
+  <h2 class="rise">來到千人交流盛會，<br class="m">當然要認識更多新朋友</h2>
   <div class="seat-grid">
     <div class="seatbox rise" data-seating>
       <div class="seat-ctl" role="group" aria-label="選擇輪次">
@@ -665,23 +727,24 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
         <div><span>重複同桌</span><b data-repeat>0</b></div>
         <div><span>同分會同桌</span><b data-same>0</b></div>
       </div>
-      <p class="proof">實測 1,000 人、100 桌、5 輪，零重複</p>
-      <p class="proof">可開啟：互相推薦的人安排同桌一次</p>
+      <p class="proof">在 1,000 人、100 桌、5 輪的實測條件下，<br>零重複同桌</p>
+      <p class="cap">此為該條件下的實測結果；人數較少的場次，可能出現少量重複。</p>
+      <p class="proof">也可以安排互相推薦的人同桌一次</p>
       <p class="proof">臨時沒到或現場加入可補位，其他人桌號不變</p>
     </div>
   </div>
 </section>
 
 <!-- 07 AI 媒合＋引薦單 -->
-<section class="slide" id="s7" data-title="AI 媒合與電子引薦單" aria-label="AI 媒合與電子引薦單">
+<section class="slide" id="s7" data-title="AI 智慧媒合與電子引薦" aria-label="AI 智慧媒合與電子引薦">
   <div class="split">
     <div class="txt">
-      <div class="eyebrow"><span class="idx">07</span>AI 媒合＋電子引薦單</div>
-      <h2 class="rise">AI 推薦今天該認識誰，<br>看到就能發引薦單</h2>
+      <div class="eyebrow"><span class="idx">07</span>AI 智慧媒合＋電子引薦</div>
+      <h2 class="rise">這麼多優秀的會員，<br>誰會是你的下一位合作夥伴？</h2>
       <ul class="pts rise">
-        <li>依名片需求推薦本場最多 5 位，附一句理由</li>
-        <li>手機填引薦單，收件人收到 LINE 通知</li>
-        <li>聯絡方式只有收件人看得到</li>
+        <li><span><b>AI 說明為什麼推薦這個人，</b>依雙方名片的需求與專長配對</span></li>
+        <li>點開就能看名片，直接填寫電子引薦單</li>
+        <li>收件人立即收到 LINE 通知，聯絡方式只有他看得到</li>
       </ul>
     </div>
     <div class="phone rise" data-phone>
@@ -692,12 +755,12 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
           <div class="lbody"><div class="lmain">
             <div class="blk">
               <div class="person"><span class="av a1">AC</span><div><b>Alice Chen</b><small>建築營造・範例分會 C</small></div></div>
-              <div class="reason">正在規劃新成屋樣品屋，和你想找的建商合作方向一致。</div>
+              <div class="reason"><b>推薦原因：</b>正在規劃新成屋樣品屋，和你想找的建商合作方向一致。</div>
               <div class="row2" style="margin-top:10px"><span class="pbtn ghost">看名片</span><button type="button" class="pbtn" data-to="ref">引薦單</button></div>
             </div>
             <div class="blk">
               <div class="person"><span class="av a3">陳</span><div><b>陳大文</b><small>房屋仲介・範例分會 D</small></div></div>
-              <div class="reason">常接觸剛交屋的屋主，需要可轉介的裝修夥伴。</div>
+              <div class="reason"><b>推薦原因：</b>常接觸剛交屋的屋主，需要可轉介的裝修夥伴。</div>
             </div>
           </div></div>
           <div class="homebar"></div>
@@ -723,7 +786,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 08 任務與抽獎 -->
-<section class="slide" id="s8" data-title="任務中心與舞台抽獎" aria-label="任務中心與舞台抽獎">
+<section class="slide" id="s8" data-title="趣味互動與舞台抽獎" aria-label="趣味互動與舞台抽獎">
   <div class="split rev">
     <div class="phone rise" data-phone>
       <div class="device"><div class="screens">
@@ -754,12 +817,12 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="survey">填問卷</button><button type="button" class="ptab" data-to="notify">收到通知</button></div>
     </div>
     <div class="txt">
-      <div class="eyebrow"><span class="idx">08</span>任務中心＋舞台抽獎</div>
-      <h2 class="rise">填完問卷就有抽獎資格，大螢幕跟著跳</h2>
+      <div class="eyebrow"><span class="idx">08</span>趣味互動＋舞台抽獎</div>
+      <h2 class="rise">讓全場一起參與，<br>讓活動氣氛更加精彩</h2>
       <ul class="pts rise">
-        <li>填指定問卷，自動給摸彩資格或票券</li>
-        <li>大螢幕約每 7 秒更新合格人數與頭貼</li>
-        <li>開獎當下出結果，發獎在背景處理</li>
+        <li>填完回饋問卷，自動取得摸彩資格</li>
+        <li>舞台大螢幕持續更新合格人數與頭貼</li>
+        <li>開獎當下立即揭曉，全場一起見證</li>
       </ul>
       <div class="stage-scr rise" role="img" aria-label="舞台大螢幕示意：合格人數與頭貼牆">
         <div class="tt">年會大摸彩（範例）</div>
@@ -771,21 +834,22 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 09 任務進程＋現場領取 -->
-<section class="slide" id="s9" data-title="任務進程與現場領取" aria-label="任務進程與現場領取">
+<section class="slide" id="s9" data-title="任務集章與物資領取" aria-label="任務集章與物資領取">
   <div class="split">
     <div class="txt">
-      <div class="eyebrow"><span class="idx">09</span>任務進程＋現場領取</div>
-      <h2 class="rise">任務做到哪一目了然，<br>掃名牌就知道領過什麼</h2>
+      <div class="eyebrow"><span class="idx">09</span>任務集章＋物資領取</div>
+      <h2 class="rise">讓交流變得更有趣，<br>也讓現場管理更輕鬆</h2>
       <ul class="pts rise">
-        <li>進度表列出當天任務，完成一項亮一格</li>
-        <li>全部完成自動拿抽獎資格，或到領取區領紀念品</li>
-        <li>掃名牌 QR 看到已領／可領，每項每人一次</li>
+        <li>任務進度一目了然，完成一項亮一格</li>
+        <li>贊助商攤位設打卡點，會員集章、贊助商增加曝光</li>
+        <li>掃名牌 QR 確認領取，已領／可領清楚，每項每人一次</li>
       </ul>
       <div class="zone rise" role="list" aria-label="各區域掃碼頁">
         <div role="listitem"><b>報到區</b><span>掃了就是報到</span></div>
         <div role="listitem"><b>領取區</b><span>掃了就是領贈品</span></div>
         <div role="listitem"><b>打卡點</b><span>掃了就完成任務</span></div>
       </div>
+      <p class="proof rise">會員有參與感、贊助商有曝光、工作人員更有效率</p>
     </div>
     <div class="phone rise" data-phone>
       <div class="device"><div class="screens">
@@ -815,11 +879,11 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
               <div class="rowl"><span>午餐餐券</span><em class="ok">可領</em></div>
               <div class="rowl"><span>紀念品</span><em>任務未完成</em></div>
             </div>
-            <button type="button" class="pbtn" style="margin-top:auto" data-to="done">核銷可領的 1 項</button>
+            <button type="button" class="pbtn" style="margin-top:auto" data-to="done">確認領取 1 項</button>
           </div></div>
           <div class="homebar"></div>
         </div>
-        <div class="screen" data-s="done" aria-label="核銷完成">
+        <div class="screen" data-s="done" aria-label="領取完成">
           <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
           <div class="lbar"><svg><use href="#i-left"/></svg><div><b>領取區</b><small>工作人員</small></div><span></span></div>
           <div class="lbody"><div class="lmain">
@@ -835,22 +899,21 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
           <div class="homebar"></div>
         </div>
       </div></div>
-      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="prog">任務進度</button><button type="button" class="ptab" data-to="station">掃碼查領取</button><button type="button" class="ptab" data-to="done">核銷</button></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="prog">任務進度</button><button type="button" class="ptab" data-to="station">掃碼查領取</button><button type="button" class="ptab" data-to="done">確認領取</button></div>
     </div>
   </div>
 </section>
 
-<!-- 10 名牌＋聯絡人包 -->
-<section class="slide" id="s10" data-title="A6 名牌與會後聯絡人包" aria-label="A6 名牌與會後聯絡人包">
+<!-- 10 名牌＋會後聯絡 -->
+<section class="slide" id="s10" data-title="名牌與會後聯絡" aria-label="名牌與會後聯絡">
   <div class="s9-grid">
     <div class="txt">
-      <div class="eyebrow"><span class="idx">10</span>名牌＋聯絡人包</div>
-      <h2 class="rise">名牌事先統一印好，<br>散場一鍵存好人脈</h2>
+      <div class="eyebrow"><span class="idx">10</span>名牌＋會後聯絡</div>
+      <h2 class="rise">活動結束了，但今天認識的人，<br>別就這樣失去聯繫</h2>
       <ul class="pts rise">
-        <li>會前依報名名單統一印好 A6 名牌，報到直接領取</li>
-        <li>每一輪桌號都印在名牌上，現場不用再查</li>
-        <li>分會名稱自動統一</li>
-        <li>散場前一鍵存好今天認識的人</li>
+        <li>今天同桌的人、收到的引薦，散場前一鍵存進通訊錄</li>
+        <li>回到工作崗位，打開名片就能約下一次見面</li>
+        <li>名牌會前印好、報到直接領取，各輪桌號都在上面</li>
       </ul>
       <div class="roles rise" aria-label="身分色帶">
         <span class="lab">身分色帶</span>
@@ -882,7 +945,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       <div class="device"><div class="screens">
         <div class="screen on" data-s="pack" aria-label="這次認識的人">
           <div class="sbar" style="background:#1b1b1d;color:#fff"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
-          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>聯絡人包</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>會後聯絡</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
           <div class="lbody">
             <div class="lhd"><span class="kick">BNI 年會（範例）</span><h4>這次認識的人・3 位</h4></div>
             <div class="lmain">
@@ -896,11 +959,11 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
         </div>
         <div class="screen" data-s="done" aria-label="已開啟下載">
           <div class="sbar" style="background:#1b1b1d;color:#fff"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
-          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>聯絡人包</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>會後聯絡</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
           <div class="lbody">
             <div class="lhd"><span class="kick">BNI 年會（範例）</span><h4>這次認識的人・3 位</h4></div>
             <div class="lmain">
-              <div class="blk"><div class="ok-msg"><svg><use href="#i-check"/></svg>已開啟下載</div><p style="margin-top:10px">iPhone 會跳出「加入聯絡人」；連結 10 分鐘內有效。</p></div>
+              <div class="blk"><div class="ok-msg"><svg><use href="#i-check"/></svg>已開啟下載</div><p style="margin-top:10px">iPhone 會跳出「加入聯絡人」，今天的人脈一次存好。</p></div>
               <button type="button" class="pbtn ghost" data-to="pack">回到名單</button>
             </div>
           </div>
@@ -912,8 +975,8 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
   </div>
 </section>
 
-<!-- 10 海外會員＋個資 -->
-<section class="slide" id="s11" data-title="海外會員與個資安全" aria-label="海外會員與個資安全">
+<!-- 11 海外會員＋個資 -->
+<section class="slide" id="s11" data-title="海外會員與個資安心" aria-label="海外會員與個資安心">
   <div class="split rev">
     <div class="phone rise" data-phone>
       <div class="device"><div class="screens">
@@ -952,50 +1015,122 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="login">選登入方式</button><button type="button" class="ptab" data-to="en">英文介面</button></div>
     </div>
     <div class="txt">
-      <div class="eyebrow"><span class="idx">11</span>海外會員＋個資安全</div>
-      <h2 class="rise">海外會員也能參加，<br>資料只給本人同意的人看</h2>
+      <div class="eyebrow"><span class="idx">11</span>海外會員＋個資安心</div>
+      <h2 class="rise">無論來自哪個國家，<br>都能輕鬆參與、安心交流</h2>
       <ul class="pts rise">
-        <li>沒有 LINE 可用 Google 或 Email 登入，主辦決定開不開</li>
-        <li>會員端中英一鍵切換</li>
-        <li>公開欄位本人決定；AI 媒合不接收姓名與聯絡方式</li>
-        <li>只認驗證過的身分，推薦與聯絡人包只限同一場</li>
+        <li>沒有 LINE 也能用 Google 或 Email 登入</li>
+        <li>中英文介面一鍵切換</li>
+        <li>公開哪些資訊由本人決定，AI 媒合不使用姓名與聯絡方式</li>
+        <li>本場交流資料依會員同意的範圍，在本次活動中使用</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- 11 準備事項 -->
-<section class="slide" id="s12" data-title="主辦需要準備的事" aria-label="主辦需要準備的事">
-  <div class="eyebrow"><span class="idx">12</span>準備事項</div>
-  <h2 class="rise">主辦需要準備的事，和建議時程</h2>
+<!-- 12 從活動到會員經營 -->
+<section class="slide" id="s12" data-title="從活動到會員經營" aria-label="從活動到會員經營">
+  <div class="eyebrow"><span class="idx">12</span>會員持續經營</div>
+  <h2 class="rise">活動只有一天，<br class="m">但會員關係可以持續一整年</h2>
+  <div class="crm-grid">
+    <div class="rise">
+      <ol class="steps3">
+        <li><span class="dot"><svg><use href="#i-card"/></svg></span><div><b>建立會員資料</b><span>產業、分會、專長、合作需求</span></div></li>
+        <li><span class="dot"><svg><use href="#i-chart"/></svg></span><div><b>累積參與紀錄</b><span>出席、互動、問卷、引薦</span></div></li>
+        <li><span class="dot"><svg><use href="#i-loop"/></svg></span><div><b>延續會員關係</b><span>分類管理、活動邀請、後續關懷</span></div></li>
+      </ol>
+      <p class="proof">不只管理一場活動，更要累積每一次交流的價值</p>
+    </div>
+    <div class="win rise" role="img" aria-label="後台會員管理示意：會員列表含分會、產業、標籤與出席紀錄，皆為範例資料">
+      <div class="wbar"><i></i><i></i><i></i><span>會員管理（示意）</span></div>
+      <div class="wbody">
+        <div class="wtool">
+          <span class="wsearch"><svg><use href="#i-search"/></svg>搜尋姓名、產業或分會</span>
+          <span class="tag sel">全部 128 位</span><span class="tag">新會員</span><span class="tag">國際交流</span>
+        </div>
+        <table class="wtable">
+          <thead><tr><th>會員</th><th class="hide-m">分會</th><th>產業</th><th>標籤</th><th class="hide-m">出席紀錄</th></tr></thead>
+          <tbody>
+            <tr><td><div class="person"><span class="av a1">王</span><b>王小明</b></div></td><td class="hide-m">範例分會 A</td><td class="ind">室內設計</td><td><div class="tags"><span class="tag r">引薦 2 張</span><span class="tag">問卷已填</span></div></td><td class="hide-m num">出席 3 場</td></tr>
+            <tr><td><div class="person"><span class="av a2">AC</span><b>Alice Chen</b></div></td><td class="hide-m">範例分會 C</td><td class="ind">建築營造</td><td><div class="tags"><span class="tag g">國際交流</span></div></td><td class="hide-m num">出席 2 場</td></tr>
+            <tr><td><div class="person"><span class="av a3">陳</span><b>陳大文</b></div></td><td class="hide-m">範例分會 D</td><td class="ind">房屋仲介</td><td><div class="tags"><span class="tag r">新會員</span></div></td><td class="hide-m num">出席 1 場</td></tr>
+            <tr><td><div class="person"><span class="av a5">林</span><b>林美華</b></div></td><td class="hide-m">範例分會 B</td><td class="ind">餐飲</td><td><div class="tags"><span class="tag">餐飲業</span><span class="tag">問卷已填</span></div></td><td class="hide-m num">出席 4 場</td></tr>
+            <tr><td><div class="person"><span class="av a4">張</span><b>張志強</b></div></td><td class="hide-m">範例分會 E</td><td class="ind">保險規劃</td><td><div class="tags"><span class="tag">曾參與活動</span></div></td><td class="hide-m num">出席 2 場</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 13 精準分眾 -->
+<section class="slide" id="s13" data-title="精準分眾通知" aria-label="精準分眾通知">
+  <div class="eyebrow"><span class="idx">13</span>精準分眾</div>
+  <h2 class="rise">不只知道誰參加了，<br>更能了解會員真正需要什麼</h2>
+  <div class="seg-grid">
+    <div class="rise">
+      <ul class="cards4">
+        <li><b>餐飲業會員</b><p>「餐飲產業交流會開放報名，<br>來認識同業與合作夥伴。」</p></li>
+        <li><b>新加入的會員</b><p>「歡迎加入！這是為你準備的<br>新會員導覽與參加指南。」</p></li>
+        <li><b>國際交流會員</b><p>「下一場國際交流活動資訊，<br>搶先為你送上。」</p></li>
+        <li><b>曾參與活動的會員</b><p>「感謝上次參與，<br>下一場活動邀請你優先報名。」</p></li>
+      </ul>
+      <p class="proof">讓每次通知更貼近需求</p>
+      <p class="cap">跨活動持續經營需經會員告知同意，並依主辦單位授權與權限設定使用。</p>
+    </div>
+    <div class="win rise" role="img" aria-label="分眾通知示意：依標籤篩選出餐飲業會員，再發送 LINE 通知，數字為示意">
+      <div class="wbar"><i></i><i></i><i></i><span>分眾通知（示意）</span></div>
+      <div class="wbody">
+        <p class="wlab">依標籤篩選</p>
+        <div class="wtool" style="margin-bottom:0"><span class="tag sel">產業：餐飲業</span><span class="tag">曾參與活動</span><span class="tag">新會員</span><span class="tag">國際交流</span></div>
+        <div class="wcount"><span>符合條件的會員（示意）</span><b>36 位</b></div>
+        <div class="flowdn" aria-hidden="true"><svg><use href="#i-down"/></svg></div>
+        <p class="wlab">會員收到的 LINE 通知</p>
+        <div class="chat">
+          <div class="msg"><span class="oa">BNI</span>
+            <div class="fcard"><div class="fh">餐飲產業交流會</div><div class="fb"><span>來認識同業與合作夥伴</span><span style="color:#64748b">開放報名中（範例）</span></div><div class="fl">我要報名</div></div>
+          </div>
+        </div>
+        <span class="pbtn red">預覽後發送</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 準備事項 -->
+<section class="slide" id="s14" data-title="主辦準備事項" aria-label="主辦準備事項">
+  <div class="eyebrow"><span class="idx">14</span>準備事項</div>
+  <h2 class="rise">精彩活動，我們一起準備；<br>繁瑣流程，讓系統來幫忙</h2>
   <div class="prep">
     <div class="rise">
       <h3>請籌備團隊提供</h3>
       <ul class="check">
-        <li><svg><use href="#i-cal"/></svg>年會日期、議程與換桌輪數</li>
+        <li><svg><use href="#i-cal"/></svg>活動日期、議程、換桌輪數與預估人數</li>
         <li><svg><use href="#i-contacts"/></svg>報名名單與分會名單</li>
-        <li><svg><use href="#i-wifi"/></svg>場地網路與投影設備</li>
-        <li><svg><use href="#i-line"/></svg>LINE 官方帳號、問卷與獎項</li>
-        <li><svg><use href="#i-gift"/></svg>要發放的贈品品項與數量</li>
+        <li><svg><use href="#i-wifi"/></svg>場地網路、投影與報到設備</li>
+        <li><svg><use href="#i-gift"/></svg>問卷、獎項、贈品品項與數量</li>
+        <li><svg><use href="#i-shield"/></svg>會員資料後續經營的使用需求與授權</li>
       </ul>
     </div>
     <div class="rise">
-      <h3>建議時程（以年會日往前推）</h3>
+      <h3>建議時程（以活動日往前推）</h3>
       <ol class="tl">
-        <li><span class="w">6～4 週前</span><b>確認議程與要開的功能</b></li>
-        <li><span class="w">4～1 週前</span><b>匯入名單，推播邀請建名片</b></li>
-        <li><span class="w">1 週前</span><b>現場演練、名牌統一印好</b></li>
-        <li><span class="w">當天＋會後</span><b>報到、換桌、抽獎、推聯絡人包</b></li>
+        <li><span class="w">6～4 週前</span><b>確認議程、要開的功能與 LINE 官方帳號</b></li>
+        <li><span class="w">4～1 週前</span><b>匯入名單，邀請會員建立電子名片</b></li>
+        <li><span class="w">1 週前</span><b>測試演練、名牌印製</b></li>
+        <li><span class="w">當天</span><b>報到、換桌、互動與抽獎</b></li>
+        <li><span class="w">活動結束後</span><b>整理成果，啟動會員持續經營</b></li>
       </ol>
     </div>
   </div>
 </section>
 
-<!-- 12 結尾 -->
-<section class="slide end" id="s13" data-title="聯絡我們" aria-label="聯絡我們">
+<!-- 15 結尾 -->
+<section class="slide end" id="s15" data-title="BNI INW × 宇果" aria-label="BNI INW × 宇果">
   <picture class="brandmark rise"><source srcset="/ugo-logo-white.png" media="(prefers-color-scheme: dark)"><img src="/ugo-logo.png" alt="宇果國際行銷 UGO" width="1569" height="528"></picture>
-  <h2 class="rise">讓與會者把時間花在認識人，<br>其餘交給系統</h2>
-  <p class="lead rise">提供年會日期與規模，我們依實際場地安排演練。</p>
+  <p class="kicker rise">BNI INW × 宇果</p>
+  <h2 class="rise">一場活動，創造無數連結；<br>一套平台，延續每份價值。</h2>
+  <p class="lead rise">讓一場活動，創造長久的人脈價值。</p>
+  <p class="motto rise">讓科技更有效率，讓交流更有溫度，讓人脈更有價值。</p>
   <div class="end-grid rise">
     <div><b>公司</b><span>宇果國際行銷有限公司</span></div>
     <div><b>聯絡人</b><span>施允瀚 執行長</span></div>
@@ -1005,12 +1140,12 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <div class="chrome" aria-label="翻頁">
-  <span class="brand"><img class="foot-logo" src="/ugo-logo.png" alt="" width="1569" height="528">BNI 年會 INW 現場系統</span>
+  <span class="brand"><img class="foot-logo" src="/ugo-logo.png" alt="" width="1569" height="528">BNI INW 智慧交流暨會員經營平台</span>
   <span class="nav">
     <span class="hint">左右鍵翻頁・F 全螢幕・Esc 總覽</span>
     <button type="button" class="nb" data-nav="overview" aria-label="總覽"><svg><use href="#i-grid"/></svg></button>
     <button type="button" class="nb" data-nav="-1" aria-label="上一頁"><svg><use href="#i-left"/></svg></button>
-    <span class="pg" data-pg aria-live="polite">01 / 13</span>
+    <span class="pg" data-pg aria-live="polite">01 / 15</span>
     <button type="button" class="nb" data-nav="1" aria-label="下一頁"><svg><use href="#i-right"/></svg></button>
   </span>
 </div>
@@ -1024,7 +1159,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
   <div class="ov-grid" data-ov-grid></div>
 </div>
 
-<footer class="read-foot">宇果國際行銷有限公司 · BNI 年會 INW 現場系統簡報 · 人名、公司與畫面數字皆為示意</footer>
+<footer class="read-foot">宇果國際行銷有限公司 · BNI INW 智慧交流暨會員經營平台 · 讓一場活動，創造長久的人脈價值 · 人名、公司與畫面數字皆為示意</footer>
 
 <script>
 (function(){
