@@ -298,13 +298,49 @@ html:not(.deck) .read-foot{display:block;max-width:820px;margin:0 auto;padding:2
 @media (prefers-reduced-motion:no-preference){.slide.on .wall i.new{animation:pop 2.4s ease-in-out infinite}}
 @keyframes pop{0%,100%{opacity:.6}50%{opacity:1}}
 
-/* ---------- 名牌 ---------- */
-.badges{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:30px;background:#fff;border:1px solid var(--rule);border-radius:6px;padding:14px}
-.bdg{border:1px dashed #cbd5e1;border-radius:4px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) 80px;gap:12px;color:#0f172a;min-width:0}
-.bdg b{display:block;font-size:32px;font-weight:800;line-height:1.2;margin-bottom:4px}
-.bdg span{display:block;font-size:18px;color:#475569;line-height:1.45}
-.bdg em{display:inline-block;font-style:normal;font-size:16px;margin-top:10px;padding:4px 10px;border-radius:4px;background:#c8102e;color:#fff}
-.bdg svg{width:80px;height:80px}
+/* ---------- 名牌：A6 直式 105×148mm（1:1.4095），像實際印出的識別證 ---------- */
+.s9-grid{display:grid;grid-template-columns:minmax(0,1fr) 440px 300px;gap:44px;align-items:center;flex:1;min-height:0}
+.s9-grid .phone{max-width:300px}
+.badge-wrap{position:relative;justify-self:center;width:426px;padding-top:66px}
+.lanyard{position:absolute;left:50%;top:0;width:150px;height:84px;margin-left:-75px;pointer-events:none}
+.badge{position:relative;width:426px;aspect-ratio:105/148;background:#fff;color:#1b1b1d;border-radius:10px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 1px 0 rgba(0,0,0,.06),0 2px 6px rgba(0,0,0,.08),0 22px 40px -22px rgba(0,0,0,.45);transform:rotate(-1.2deg)}
+.badge .top{position:relative;background-color:#c8102e;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.09) 0 1px,transparent 1px 10px);color:#fff;padding:40px 28px 18px}
+.badge .top::after{content:"";position:absolute;left:28px;right:28px;bottom:10px;border-top:1px solid rgba(255,255,255,.45)}
+.badge .slot{position:absolute;left:50%;top:14px;width:64px;height:12px;margin-left:-32px;border-radius:6px;background:#fff;box-shadow:inset 0 1px 2px rgba(0,0,0,.35)}
+.badge .ev{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.badge .ev b{font-size:36px;font-weight:800;letter-spacing:.02em;line-height:1}
+.badge .ev small{font-size:14px;font-weight:600;letter-spacing:.24em}
+.badge .ev-sub{display:block;font-size:17px;font-weight:600;letter-spacing:.14em;margin-top:8px;padding-bottom:6px}
+.badge .body{flex:1;display:flex;flex-direction:column;padding:22px 28px 0}
+.badge .nm{font-size:66px;font-weight:800;line-height:1.1;letter-spacing:.04em}
+.badge .meta{display:flex;align-items:baseline;gap:12px;margin-top:10px;padding-bottom:14px;border-bottom:1px solid #d9d9dc}
+.badge .meta b{font-size:22px;font-weight:700}
+.badge .meta span{font-size:18px;color:#5e5e63}
+.badge .tlabel{display:flex;justify-content:space-between;font-size:14px;font-weight:700;letter-spacing:.12em;color:#5e5e63;margin-top:14px}
+.badge .tables{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid #1b1b1d;border-radius:6px;margin-top:8px;overflow:hidden}
+.badge .tables div{text-align:center;padding:6px 0 8px;border-left:1px solid #d9d9dc}
+.badge .tables div:first-child{border-left:0}
+.badge .tables i{display:block;font-style:normal;font-size:14px;color:#5e5e63;line-height:1.3}
+.badge .tables b{display:block;font:800 30px/1.1 var(--f-mono);font-variant-numeric:tabular-nums;color:#1b1b1d}
+.badge .foot{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:auto;padding:12px 0 16px}
+.badge .foot p{font-size:14px;color:#5e5e63;line-height:1.5}
+.badge .foot p b{display:block;font-size:15px;color:#1b1b1d}
+.badge .qr{width:92px;height:92px;flex:0 0 auto;padding:4px;border:1px solid #d9d9dc;border-radius:4px;background:#fff}
+.badge .role{display:flex;justify-content:space-between;align-items:center;padding:10px 28px;font-size:16px;font-weight:800;letter-spacing:.24em;color:#fff;background:#c8102e}
+.badge .role small{font-size:14px;font-weight:600;letter-spacing:.2em}
+.roles{display:flex;gap:18px;align-items:flex-end;margin-top:28px}
+.roles .lab{font-size:var(--tiny);color:var(--muted);margin-right:4px;align-self:center}
+.mini{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:var(--tiny);color:var(--muted)}
+.mini i{display:flex;flex-direction:column;width:52px;aspect-ratio:105/148;background:#fff;border:1px solid var(--rule);border-radius:4px;overflow:hidden;box-shadow:0 6px 12px -8px rgba(0,0,0,.35)}
+.mini i::before{content:"";height:24%;background:#c8102e}
+.mini i::after{content:"";margin-top:auto;height:12%;background:var(--band)}
+html:not(.deck) .s9-grid{grid-template-columns:minmax(0,1fr);gap:32px}
+html:not(.deck) .badge-wrap{width:100%;max-width:426px}
+html:not(.deck) .badge{width:100%;aspect-ratio:auto;transform:none}
+html:not(.deck) .badge .nm{font-size:48px}
+html:not(.deck) .badge .tables b{font-size:24px}
+html:not(.deck) .s9-grid .phone{order:3}
 
 /* ---------- 準備事項 ---------- */
 .prep{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;flex:1;min-height:0;margin-top:20px;align-items:center}
@@ -719,19 +755,42 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 09 名牌＋聯絡人包 -->
-<section class="slide" id="s9" data-title="名牌列印與會後聯絡人包" aria-label="名牌列印與會後聯絡人包">
-  <div class="split">
+<section class="slide" id="s9" data-title="A6 名牌與會後聯絡人包" aria-label="A6 名牌與會後聯絡人包">
+  <div class="s9-grid">
     <div class="txt">
-      <div class="eyebrow"><span class="idx">09</span>名牌＋聯絡人包<span class="st soon">年會前上線</span></div>
-      <h2 class="rise">名牌現場印，散場前<br>一鍵存好今天認識的人</h2>
+      <div class="eyebrow"><span class="idx">09</span>名牌＋聯絡人包</div>
+      <h2 class="rise">名牌現場印，<br>散場一鍵存好人脈</h2>
       <ul class="pts rise">
-        <li>名牌印姓名、分會、產業、桌號與名片 QR</li>
-        <li>分會名稱寫法不同，自動對到分會主檔</li>
-        <li>同桌過、交換過名片、引薦過的人，存進通訊錄或 Excel</li>
+        <li>報到即可現場列印 A6 名牌，也支援 A4 拼版</li>
+        <li>名牌印出每一輪桌號，現場不用再查<span class="st soon">年會前上線</span></li>
+        <li>分會名稱自動統一</li>
+        <li>散場前一鍵存好今天認識的人</li>
       </ul>
-      <div class="badges rise" role="img" aria-label="名牌示意">
-        <div class="bdg"><div><b>王小明</b><span>範例分會 A・室內設計</span><em>第 1 輪 第 12 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
-        <div class="bdg"><div><b>Alice Chen</b><span>範例分會 C・建築營造</span><em>第 1 輪 第 3 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
+      <div class="roles rise" aria-label="身分色帶">
+        <span class="lab">身分色帶</span>
+        <span class="mini" style="--band:#c8102e"><i></i>會員</span>
+        <span class="mini" style="--band:#b07a1e"><i></i>訪賓</span>
+        <span class="mini" style="--band:#58595b"><i></i>主辦</span>
+      </div>
+      <p class="cap rise">本頁功能皆為年會前上線。</p>
+    </div>
+    <div class="badge-wrap rise" role="img" aria-label="A6 直式名牌示意：2027 INW 國際人脈交流週，王小明，範例分會 A，室內設計，第 1 至 5 輪桌號 12、5、28、7、19，名片 QR，會員">
+      <svg class="lanyard" viewBox="0 0 150 84" aria-hidden="true"><path d="M18 0L64 70M132 0L86 70" stroke="#1b1b1d" stroke-width="10" stroke-linecap="round" opacity=".88"/><rect x="58" y="62" width="34" height="20" rx="4" fill="#b9b9bd" stroke="#8d8d92"/></svg>
+      <div class="badge">
+        <div class="top"><span class="slot"></span>
+          <div class="ev"><b>2027 INW</b><small>BNI 年會</small></div>
+          <span class="ev-sub">國際人脈交流週</span>
+        </div>
+        <div class="body">
+          <div class="nm">王小明</div>
+          <div class="meta"><b>範例分會 A</b><span>室內設計</span></div>
+          <div class="tlabel"><span>各輪桌號</span><span>TABLE</span></div>
+          <div class="tables">
+            <div><i>第 1 輪</i><b>12</b></div><div><i>第 2 輪</i><b>5</b></div><div><i>第 3 輪</i><b>28</b></div><div><i>第 4 輪</i><b>7</b></div><div><i>第 5 輪</i><b>19</b></div>
+          </div>
+          <div class="foot"><p><b>掃描看我的名片</b>用 LINE 掃 QR</p><svg class="qr"><use href="#i-qrfake"/></svg></div>
+        </div>
+        <div class="role">會員<small>MEMBER</small></div>
       </div>
     </div>
     <div class="phone rise" data-phone>
@@ -742,7 +801,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
           <div class="lbody">
             <div class="lhd"><span class="kick">BNI 年會（範例）</span><h4>這次認識的人・3 位</h4></div>
             <div class="lmain">
-              <div class="blk row2" style="padding:10px"><button type="button" class="pbtn red" data-to="done"><svg><use href="#i-dl"/></svg>存進通訊錄</button><button type="button" class="pbtn ghost" data-to="done">下載 Excel</button></div>
+              <div class="blk row2" style="padding:10px"><button type="button" class="pbtn red" data-to="done"><svg><use href="#i-dl"/></svg>存通訊錄</button><button type="button" class="pbtn ghost" data-to="done">下載 Excel</button></div>
               <div class="blk"><div class="person"><span class="av a1">AC</span><div><b>Alice Chen</b><small>第 2 輪同桌・引薦 1 張</small></div></div></div>
               <div class="blk"><div class="person"><span class="av a3">陳</span><div><b>陳大文</b><small>第 1 輪同桌・交換名片</small></div></div></div>
               <div class="blk"><div class="person"><span class="av a5">林</span><div><b>林美華</b><small>他引薦給你 1 張</small></div></div></div>
