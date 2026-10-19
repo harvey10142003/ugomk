@@ -50,7 +50,7 @@ function SmartCardMock() {
                   <div className="grid h-12 w-12 place-items-center rounded-full border-[3px] border-white bg-brand-800 text-base font-extrabold text-white">
                     施
                   </div>
-                  <div className="mt-2 text-[13px] font-extrabold text-ink-900">施雲漢 Shark</div>
+                  <div className="mt-2 text-[13px] font-extrabold text-ink-900">施允瀚 Shark</div>
                   <div className="text-[10px] text-ink-400">宇果國際行銷 · 執行長</div>
                 </div>
                 {/* 資訊列 */}
