@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BNI 年會 INW 現場系統</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/icon.png">
+<style>
+/* 網頁式簡報：桌機以 1600×900 畫布等比縮放、一頁一張；窄螢幕或沒有 JS 時改成上下捲動的單欄閱讀。
+   色票沿用同系列提案頁；字型全部系統黑體，不載入網路字型。 */
+:root{
+  --bg:#e9edf1; --paper:#ffffff; --ink:#142131; --muted:#5b6877; --rule:#d8dee5; --soft:#f4f6f8;
+  --brand:#1c4d6b; --brand-soft:#e4eef4; --wave:#2f8f8a; --wave-soft:#e2f2f0; --gold:#b07a1e; --gold-soft:#f6eedf;
+  --c1:#1c4d6b; --c2:#2f8f8a; --c3:#b07a1e; --c4:#6d5aa8; --c5:#b5523b;
+  --f-body:"PingFang TC","Microsoft JhengHei","Noto Sans TC","Noto Sans CJK TC",system-ui,sans-serif;
+  --f-mono:ui-monospace,"SFMono-Regular",Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#080d12; --paper:#121a23; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f; --soft:#0d131a;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; --gold-soft:#2b2414;
+  --c1:#7fb6d6; --c2:#5cc3bc; --c3:#e0ae55; --c4:#a596dc; --c5:#e08a72; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#080d12; --paper:#121a23; --ink:#e7edf3; --muted:#9aa8b6; --rule:#28333f; --soft:#0d131a;
+  --brand:#7fb6d6; --brand-soft:#16293a; --wave:#5cc3bc; --wave-soft:#12302e; --gold:#e0ae55; --gold-soft:#2b2414;
+  --c1:#7fb6d6; --c2:#5cc3bc; --c3:#e0ae55; --c4:#a596dc; --c5:#e08a72; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.75 var(--f-body);overflow-x:hidden}
+h1,h2,h3,h4,p{margin:0}
+h1,h2,h3{text-wrap:balance}
+ul,ol{margin:0;padding:0;list-style:none}
+button{font:inherit;color:inherit}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---------- 投影片共用 ---------- */
+.slide{--h1:78px;--h2:50px;--lead:25px;--body:20px;--small:16px;--tiny:14px;
+  background:var(--paper);color:var(--ink);font-size:var(--body);line-height:1.65;display:flex;flex-direction:column;min-width:0}
+.eyebrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font:500 var(--tiny)/1 var(--f-mono);letter-spacing:.14em;color:var(--wave);text-transform:uppercase;margin-bottom:18px}
+.eyebrow .idx{color:var(--muted)}
+.slide h2{font-size:var(--h2);font-weight:800;line-height:1.22;letter-spacing:-.005em}
+.lead{font-size:var(--lead);color:var(--muted);line-height:1.6;margin-top:16px;max-width:30em}
+.note{font-size:var(--tiny);color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:6px;font:500 var(--tiny)/1 var(--f-body);letter-spacing:0;text-transform:none;padding:6px 10px;border-radius:999px;white-space:nowrap}
+.st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.live{color:var(--wave);background:var(--wave-soft)}
+.st.soon{color:var(--gold);background:var(--gold-soft)}
+.st.soon::before{background:transparent;border:1.5px solid currentColor;width:6px;height:6px}
+.k{font-weight:700;color:var(--ink)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* 條列：左側細線＋標題 */
+.points{display:grid;gap:0;border-top:1px solid var(--rule)}
+.points li{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.points b{font-size:var(--body);font-weight:700}
+.points span{font-size:var(--small);color:var(--muted);line-height:1.6}
+.points .st{margin-left:8px;vertical-align:2px}
+
+.split{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:80px;align-items:center;flex:1;min-height:0}
+.split.rev{grid-template-columns:330px minmax(0,1fr)}
+.split .txt{min-width:0}
+.split .txt .points{margin-top:28px}
+
+/* ---------- 桌機：簡報模式 ---------- */
+html.deck,html.deck body{height:100%;overflow:hidden}
+html.deck .viewport{position:fixed;inset:0;overflow:hidden;background:var(--bg)}
+html.deck .stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;margin:-450px 0 0 -800px;transform:scale(var(--s,1));transform-origin:50% 50%;background:var(--paper);box-shadow:0 1px 0 var(--rule),0 0 0 1px var(--rule)}
+html.deck .slide{position:absolute;inset:0;padding:64px 96px 92px;opacity:0;visibility:hidden;transition:opacity .38s ease,visibility 0s linear .38s}
+html.deck .slide.on{opacity:1;visibility:visible;transition:opacity .38s ease,visibility 0s}
+html.deck .slide .rise{transform:translateY(10px);opacity:0;transition:transform .5s ease .08s,opacity .5s ease .08s}
+html.deck .slide.on .rise{transform:none;opacity:1}
+.chrome{display:none}
+html.deck .chrome{display:flex;position:absolute;left:96px;right:96px;bottom:28px;align-items:center;justify-content:space-between;font-size:14px;color:var(--muted);z-index:5;pointer-events:none}
+html.deck .chrome>*{pointer-events:auto}
+.chrome .brand{display:flex;align-items:center;gap:12px}
+.chrome .brand img{height:22px;width:auto;display:block}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .foot-logo{content:url(/ugo-logo-white.png)}}
+:root[data-theme="dark"] .foot-logo{content:url(/ugo-logo-white.png)}
+.chrome .nav{display:flex;align-items:center;gap:6px}
+.chrome .pg{font:500 14px var(--f-mono);min-width:72px;text-align:center;font-variant-numeric:tabular-nums}
+.chrome .nb{width:36px;height:36px;border-radius:50%;border:1px solid var(--rule);background:var(--paper);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.chrome .nb:hover{border-color:var(--wave)}
+.chrome .nb svg{width:16px;height:16px}
+.chrome .hint{font-size:13px;margin-right:14px;opacity:.8}
+.progress{display:none}
+html.deck .progress{display:block;position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--rule);z-index:5}
+html.deck .progress i{display:block;height:100%;width:0;background:var(--wave);transition:width .38s ease}
+
+/* 總覽 */
+.overview{position:fixed;inset:0;z-index:50;background:var(--bg);overflow:auto;padding:40px 48px 56px}
+.overview[hidden]{display:none}
+.ov-head{display:flex;justify-content:space-between;align-items:baseline;max-width:1360px;margin:0 auto 22px}
+.ov-head h2{font-size:22px;font-weight:700}
+.ov-head span{font-size:14px;color:var(--muted)}
+.ov-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;max-width:1360px;margin:0 auto}
+.thumb{display:block;width:100%;padding:0;border:1px solid var(--rule);border-radius:8px;background:var(--paper);cursor:pointer;text-align:left;overflow:hidden}
+.thumb:hover{border-color:var(--wave)}
+.thumb[aria-current="true"]{outline:3px solid var(--wave);outline-offset:2px}
+.thumb .tv{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;pointer-events:none}
+.thumb .tv>.slide{position:absolute;left:0;top:0;width:1600px;height:900px;padding:64px 96px 92px;transform-origin:0 0;opacity:1;visibility:visible}
+.thumb .tv .rise{opacity:1;transform:none}
+.thumb .tlab{display:flex;gap:10px;padding:9px 12px;font-size:13px;line-height:1.4;border-top:1px solid var(--rule);color:var(--ink);white-space:nowrap;overflow:hidden}
+.thumb .tlab span{overflow:hidden;text-overflow:ellipsis}
+.thumb .tlab b{font:500 13px var(--f-mono);color:var(--muted)}
+
+/* ---------- 窄螢幕：閱讀模式（預設；JS 判斷為桌機才切簡報） ---------- */
+html:not(.deck) .stage{max-width:820px;margin:0 auto}
+html:not(.deck) .slide{--h1:34px;--h2:26px;--lead:17px;--body:15.5px;--small:14px;--tiny:12.5px;
+  padding:44px max(16px,env(safe-area-inset-left,0px)) 44px;border-bottom:1px solid var(--rule)}
+html:not(.deck) .slide.cover-s{padding-top:36px}
+html:not(.deck) .split,html:not(.deck) .split.rev{grid-template-columns:minmax(0,1fr);gap:28px}
+html:not(.deck) .split.rev .phone,html:not(.deck) .split.rev .visual{order:2}
+html:not(.deck) .eyebrow{margin-bottom:12px}
+.read-foot{display:none}
+html:not(.deck) .read-foot{display:block;max-width:820px;margin:0 auto;padding:22px 16px 40px;color:var(--muted);font-size:13px;background:var(--paper)}
+
+/* ---------- 封面 ---------- */
+.cover-s{justify-content:space-between}
+.cover-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;align-items:center;flex:1}
+.brandmark{display:block;margin:0 0 56px}
+.brandmark img{display:block;height:46px;width:auto}
+.cover-s h1{font-size:var(--h1);font-weight:800;line-height:1.12;letter-spacing:-.01em}
+.cover-s h1 small{display:block;font-size:.42em;font-weight:700;letter-spacing:.02em;color:var(--wave);margin-bottom:18px}
+.cover-s .lead{max-width:24em}
+.cover-meta{display:flex;gap:40px;margin-top:44px;flex-wrap:wrap}
+.cover-meta div{border-top:2px solid var(--brand);padding-top:10px;min-width:0}
+.cover-meta b{display:block;font-size:var(--tiny);color:var(--muted);font-weight:500}
+.cover-meta span{font-size:var(--body);font-weight:700}
+.cover-art{position:relative;min-width:0}
+.cover-art svg{display:block;width:100%;height:auto}
+.cover-art text{font-family:var(--f-body)}
+
+/* ---------- 問題 ---------- */
+.scenes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px;margin-top:40px;flex:1;align-content:start}
+.scenes{margin-top:48px}
+.scenes li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px;padding:30px 0 34px;border-top:1px solid var(--rule)}
+.scenes .when{font:700 var(--small)/1.6 var(--f-body);color:var(--wave);letter-spacing:.08em;padding-top:4px}
+.scenes b{display:block;font-size:28px;margin-bottom:8px;line-height:1.35}
+.scenes p{font-size:19px;color:var(--muted);line-height:1.65}
+html:not(.deck) .scenes b{font-size:18px}
+html:not(.deck) .scenes p{font-size:var(--small)}
+
+/* ---------- 流程 ---------- */
+.journey{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px;margin:auto 0}
+.journey::before{content:"";position:absolute;left:40px;right:40px;top:39px;height:2px;background:var(--rule)}
+.journey li{position:relative;min-width:0}
+.journey .dot{position:relative;width:80px;height:80px;border-radius:50%;background:var(--paper);border:2px solid var(--wave);display:grid;place-items:center;color:var(--wave)}
+.journey .dot svg{width:34px;height:34px}
+.journey .n{font:700 var(--small) var(--f-mono);color:var(--wave);margin-top:22px;display:block}
+.journey b{display:block;font-size:28px;margin-top:2px}
+.journey p{font-size:18px;color:var(--muted);margin-top:10px;line-height:1.6}
+.journey .st{margin-top:14px}
+.oneoa{margin-top:0;display:flex;gap:28px;align-items:center;border:1px solid var(--rule);border-radius:10px;padding:20px 26px;background:var(--soft)}
+.oneoa b{font-size:var(--body)}
+.oneoa span{font-size:var(--small);color:var(--muted)}
+.oneoa svg{width:40px;height:40px;flex:0 0 auto;color:var(--wave)}
+
+/* ---------- 手機外框（LINE LIFF） ---------- */
+.phone{min-width:0;justify-self:center;width:100%;max-width:300px}
+.device{position:relative;width:100%;aspect-ratio:9/19.5;background:#05090e;border-radius:44px;padding:9px;box-shadow:0 0 0 1px var(--rule),0 24px 50px -28px rgba(10,20,30,.45)}
+.device::after{content:"";position:absolute;top:17px;left:50%;width:86px;height:24px;margin-left:-43px;border-radius:14px;background:#05090e;z-index:3}
+.screens{position:relative;width:100%;height:100%;border-radius:36px;overflow:hidden;background:#f1f5f9}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:#f1f5f9;color:#0f172a;font-size:12.5px;line-height:1.55;
+  opacity:0;visibility:hidden;transform:translateX(16px);transition:opacity .3s ease,transform .3s ease,visibility 0s linear .3s}
+.screen.on{opacity:1;visibility:visible;transform:none;transition:opacity .3s ease,transform .3s ease,visibility 0s}
+.screen.back{transform:translateX(-16px)}
+.sbar{flex:0 0 auto;height:44px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 6px;font:600 12px/1 -apple-system,var(--f-body);color:#0f172a;background:#fff}
+.sbar .ic{display:flex;gap:5px;align-items:center}
+.sbar svg{height:10px;width:29px}
+.lbar{flex:0 0 auto;height:42px;display:grid;grid-template-columns:34px minmax(0,1fr) 34px;align-items:center;background:#fff;border-bottom:1px solid #e2e8f0;padding:0 6px}
+.lbar svg{width:16px;height:16px;justify-self:center;color:#334155}
+.lbar div{text-align:center;line-height:1.2;min-width:0}
+.lbar b{display:block;font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbar small{display:block;font-size:9.5px;color:#64748b}
+.lbody{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.lhd{background:#0f172a;color:#fff;padding:14px 14px 22px}
+.lhd .kick{font-size:10px;letter-spacing:.08em;color:#94a3b8}
+.lhd h4{font-size:17px;font-weight:700;margin-top:2px}
+.lmain{padding:0 10px 10px;margin-top:-10px;display:flex;flex-direction:column;gap:8px;flex:1;min-height:0}
+.lmain.flat{margin-top:0;padding-top:10px}
+.blk{background:#fff;border-radius:12px;padding:10px 12px;box-shadow:0 1px 2px rgba(15,23,42,.06)}
+.blk h5{margin:0 0 4px;font-size:10.5px;font-weight:600;color:#64748b;letter-spacing:.04em}
+.blk p{font-size:12px;color:#334155;line-height:1.55}
+.fld{display:block;margin-top:6px}
+.fld:first-of-type{margin-top:0}
+.fld i{display:block;font-style:normal;font-size:10px;color:#64748b;margin-bottom:2px}
+.fld span{display:block;border:1px solid #cbd5e1;border-radius:7px;padding:5px 8px;font-size:12px;color:#0f172a;background:#fff;min-height:28px}
+.fld span.ph{color:#94a3b8}
+.fld span.ta{min-height:58px;line-height:1.5}
+.fld span.fresh{border-color:#2f8f8a;background:#f0faf9}
+.pbtn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;min-height:38px;border:0;border-radius:9px;background:#0f172a;color:#fff;font-weight:600;font-size:12.5px;cursor:pointer;padding:0 10px}
+.pbtn.line{background:#06c755}
+.pbtn.ghost{background:#fff;color:#334155;border:1px solid #cbd5e1}
+.pbtn.sm{min-height:30px;font-size:11.5px;border-radius:8px}
+.pbtn svg{width:14px;height:14px}
+.pbtn:hover{filter:brightness(1.08)}
+.savebar{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:#fff;border-top:1px solid #e2e8f0;padding:8px 10px 18px}
+.savebar span{flex:1;min-width:0;font-size:10.5px;color:#64748b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.savebar .pbtn{width:auto;flex:0 0 auto;min-height:34px;padding:0 16px}
+.av{flex:0 0 auto;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;color:#fff;background:#475569}
+.av.lg{width:54px;height:54px;font-size:18px;border:1px solid rgba(255,255,255,.25)}
+.av.a1{background:#1c4d6b}.av.a2{background:#2f8f8a}.av.a3{background:#b07a1e}.av.a4{background:#6d5aa8}.av.a5{background:#b5523b}
+.chipr{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.chipr i{font-style:normal;font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.12)}
+.person{display:flex;gap:9px;align-items:flex-start}
+.person b{display:block;font-size:13px}
+.person small{display:block;font-size:10.5px;color:#64748b;line-height:1.4}
+.reason{margin-top:7px;background:#f8fafc;border-radius:8px;padding:6px 8px;font-size:11px;color:#334155;line-height:1.5}
+.acts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:7px}
+.acts span{display:flex;align-items:center;justify-content:center;gap:3px;min-height:28px;border:1px solid #cbd5e1;border-radius:7px;font-size:10.5px;color:#334155;font-weight:600}
+.acts span.ln{background:#06c755;border-color:#06c755;color:#fff}
+.acts svg{width:11px;height:11px}
+.tabsr{display:flex;background:#fff;border-bottom:1px solid #e2e8f0}
+.tabsr span{flex:1;text-align:center;font-size:11.5px;padding:8px 0;color:#64748b;border-bottom:2px solid transparent}
+.tabsr span.on{color:#0f172a;font-weight:700;border-bottom-color:#0f172a}
+.heat{display:flex;gap:4px;margin-top:3px}
+.heat span{flex:1;height:26px;border-radius:6px;border:1px solid #cbd5e1;display:grid;place-items:center;font-size:11px;color:#475569}
+.heat span.on{background:#0f172a;border-color:#0f172a;color:#fff}
+.tgl{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:#334155;margin-top:7px}
+.tgl i{width:16px;height:16px;border-radius:4px;background:#0f172a;display:grid;place-items:center}
+.tgl i svg{width:10px;height:10px;color:#fff}
+.vis{display:grid;gap:4px}
+.vis div{display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:#334155}
+.sw{width:26px;height:15px;border-radius:999px;background:#cbd5e1;position:relative;flex:0 0 auto}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:11px;height:11px;border-radius:50%;background:#fff}
+.sw.on{background:#2f8f8a}.sw.on::after{left:13px}
+.ok-msg{display:flex;gap:6px;align-items:center;font-size:11px;color:#0f766e;background:#ecfdf5;border-radius:8px;padding:6px 8px}
+.ok-msg svg{width:12px;height:12px;flex:0 0 auto}
+.warn-bar{background:#fef3c7;color:#92400e;font-size:11px;padding:7px 10px;display:flex;gap:6px;align-items:center}
+.warn-bar svg{width:12px;height:12px;flex:0 0 auto}
+.cam{position:relative;margin:10px auto 6px;width:200px;height:220px;border-radius:14px;background:#1e293b;display:grid;place-items:center}
+.cam::before,.cam::after{content:"";position:absolute;inset:22px;border:2px solid rgba(255,255,255,.7);border-radius:10px;clip-path:polygon(0 0,28% 0,28% 6%,6% 6%,6% 28%,0 28%,0 72%,6% 72%,6% 94%,28% 94%,28% 100%,72% 100%,72% 94%,94% 94%,94% 72%,100% 72%,100% 28%,94% 28%,94% 6%,72% 6%,72% 0,100% 0,100% 100%,0 100%)}
+.cam::after{display:none}
+.cam .qr{width:78px;height:78px}
+.cam .scanline{position:absolute;left:32px;right:32px;height:2px;background:#5cc3bc;top:50%}
+@media (prefers-reduced-motion:no-preference){.screen.on .cam .scanline{animation:scan 2.2s ease-in-out infinite}}
+@keyframes scan{0%,100%{top:30%}50%{top:70%}}
+.rowl{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11.5px;padding:6px 0;border-bottom:1px solid #f1f5f9;color:#334155}
+.rowl:last-child{border-bottom:0}
+.rowl em{font-style:normal;font-size:10px;padding:2px 7px;border-radius:999px;background:#ecfdf5;color:#047857;white-space:nowrap}
+.rowl em.w{background:#fef3c7;color:#92400e}
+.rowl em.g{background:#f1f5f9;color:#64748b}
+/* LINE 聊天室 */
+.chat{flex:1;background:#8cabd9;padding:12px 10px;display:flex;flex-direction:column;gap:8px;min-height:0}
+.chat .day{align-self:center;font-size:10px;color:#fff;background:rgba(0,0,0,.18);border-radius:999px;padding:2px 9px}
+.msg{display:flex;gap:6px;align-items:flex-start}
+.msg .oa{width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:0 0 auto;font:700 9px var(--f-body);color:#1c4d6b}
+.bub{background:#fff;border-radius:4px 14px 14px 14px;padding:8px 10px;font-size:11.5px;color:#111827;max-width:200px}
+.fcard{background:#fff;border-radius:12px;overflow:hidden;width:200px}
+.fcard .fh{background:#1c4d6b;color:#fff;padding:8px 11px;font-weight:700;font-size:12px}
+.fcard .fb{padding:8px 11px;font-size:11px;color:#334155;display:grid;gap:3px}
+.fcard .fl{border-top:1px solid #e5e7eb;text-align:center;padding:7px;color:#1c4d6b;font-weight:700;font-size:11.5px}
+.chat .t{font-size:9px;color:rgba(255,255,255,.85);align-self:flex-end}
+.inputbar{flex:0 0 auto;height:46px;background:#fff;border-top:1px solid #e5e7eb;display:flex;align-items:center;gap:8px;padding:0 10px 8px}
+.inputbar span{flex:1;height:26px;border-radius:13px;background:#f1f5f9}
+.inputbar i{width:18px;height:18px;border-radius:4px;border:1.5px solid #94a3b8}
+.q{margin-top:2px}
+.q p{font-size:12px;color:#0f172a;font-weight:600;margin-bottom:5px}
+.opt{display:flex;align-items:center;gap:7px;font-size:11.5px;color:#334155;padding:5px 8px;border:1px solid #e2e8f0;border-radius:7px;margin-top:4px}
+.opt i{width:12px;height:12px;border-radius:50%;border:1.5px solid #94a3b8;flex:0 0 auto}
+.opt.on{border-color:#0f172a}.opt.on i{border:4px solid #0f172a}
+.stars{display:flex;gap:4px}
+.stars span{flex:1;height:26px;border-radius:6px;border:1px solid #cbd5e1;display:grid;place-items:center;font-size:11px}
+.stars span.on{background:#0f172a;color:#fff;border-color:#0f172a}
+.lang{display:inline-flex;border:1px solid rgba(255,255,255,.3);border-radius:999px;overflow:hidden;font-size:10px}
+.lang span{padding:2px 8px;color:#cbd5e1}.lang span.on{background:#fff;color:#0f172a;font-weight:700}
+.code{display:flex;gap:5px;justify-content:center;margin:4px 0}
+.code span{width:30px;height:36px;border:1px solid #cbd5e1;border-radius:7px;display:grid;place-items:center;font:700 15px var(--f-mono);background:#fff}
+.homebar{flex:0 0 auto;height:18px;display:grid;place-items:center;background:inherit}
+.homebar::after{content:"";width:100px;height:4px;border-radius:2px;background:#0f172a;opacity:.85}
+
+/* 手機下方的畫面切換 */
+.ptabs{display:flex;justify-content:center;gap:6px;margin-top:16px;flex-wrap:wrap}
+.ptab{font:500 13px/1 var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.ptab:hover{border-color:var(--wave)}
+.ptab[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.pcap{text-align:center;font-size:13px;color:var(--muted);margin-top:8px;min-height:1.6em}
+
+/* ---------- 報到看板（大螢幕示意） ---------- */
+.visual{min-width:0}
+.boardwrap{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:72px;align-items:center;flex:1;min-height:0}
+.board{background:#0e1a26;color:#e9f1f7;border-radius:14px;padding:22px 24px;border:10px solid #1b2733;box-shadow:0 20px 40px -30px rgba(0,0,0,.6)}
+.board .bh{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;color:#8fa3b5}
+.board .bh b{color:#e9f1f7;font-size:18px}
+.board .bt{display:grid;grid-template-columns:180px minmax(0,1fr);gap:24px;margin-top:14px;align-items:center}
+.ring{position:relative;width:170px;height:170px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring div{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.2}
+.ring div b{font:700 40px var(--f-mono)}
+.ring div small{display:block;font-size:12px;color:#8fa3b5}
+.curve{display:flex;align-items:flex-end;gap:5px;height:120px;border-bottom:1px solid #2c3d4f;padding-bottom:2px}
+.curve i{flex:1;background:#2f8f8a;border-radius:2px 2px 0 0;opacity:.9}
+.curve-l{display:flex;justify-content:space-between;font:500 11px var(--f-mono);color:#8fa3b5;margin-top:4px}
+.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 24px;margin-top:18px}
+.groups div{font-size:13px}
+.groups span{display:flex;justify-content:space-between;color:#c9d6e2}
+.groups i{display:block;height:6px;border-radius:3px;background:#1d2e40;margin-top:4px;overflow:hidden}
+.groups i em{display:block;height:100%;background:#5cc3bc}
+.groups i em.full{background:#4fbf7a}
+.vis-cap{font-size:var(--tiny);color:var(--muted);margin-top:12px}
+.vis-cap .st{margin-right:8px}
+
+/* ---------- 換桌示意 ---------- */
+.seat-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:56px;flex:1;min-height:0;margin-top:24px;align-items:start}
+.seatbox{background:var(--soft);border:1px solid var(--rule);border-radius:12px;padding:18px 18px 12px;min-width:0}
+.seatbox svg{display:block;width:100%;height:auto}
+.seatbox text{font-family:var(--f-body)}
+.seat-ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.seat-ctl .lbl{font-size:var(--tiny);color:var(--muted);margin-right:4px}
+.rbtn{font:500 14px/1 var(--f-body);padding:8px 13px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.rbtn[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--paper)}
+.rbtn.play{margin-left:auto;display:inline-flex;gap:6px;align-items:center}
+.rbtn.play svg{width:12px;height:12px}
+.pp{transition:transform .9s cubic-bezier(.6,.05,.3,1)}
+.pp circle.d{stroke:var(--paper);stroke-width:2}
+.pp text{font-size:12px;font-weight:700;fill:#fff;pointer-events:none}
+.pp.me circle.d{stroke:var(--ink);stroke-width:3}
+.pp .halo{fill:none;stroke:var(--ink);stroke-width:2;opacity:0;transition:opacity .4s}
+.pp.now .halo{opacity:1}
+.pp.met circle.d{opacity:.55}
+.pp.now circle.d{opacity:1}
+.tbl-c{fill:var(--paper);stroke:var(--rule);stroke-width:2}
+.tbl-t{font-size:14px;fill:var(--muted);font-weight:500}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:var(--tiny);color:var(--muted);margin-top:6px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.stats{display:grid;gap:0;border-top:1px solid var(--rule);margin-top:24px}
+.stats div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);font-size:var(--small)}
+.stats b{font:700 26px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--brand)}
+.proof{margin-top:22px;border-left:3px solid var(--wave);padding:4px 0 4px 16px}
+.proof b{display:block;font-size:var(--body)}
+.proof span{font-size:var(--small);color:var(--muted)}
+
+/* ---------- 引薦＋儀表板 ---------- */
+.dash{border:1px solid var(--rule);border-radius:12px;overflow:hidden;margin-top:26px}
+.dash .dh{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;background:var(--soft);border-bottom:1px solid var(--rule);font-size:var(--small)}
+.dash .dh b{font-size:var(--small)}
+.dash .dh span{font-size:var(--tiny);color:var(--muted)}
+.dash ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.dash li{padding:12px 18px;border-bottom:1px solid var(--rule);min-width:0}
+.dash li:nth-child(odd){border-right:1px solid var(--rule)}
+.dash li b{display:block;font-size:var(--small)}
+.dash li span{display:block;font-size:var(--tiny);color:var(--muted);line-height:1.5}
+.dash li:nth-last-child(-n+2){border-bottom:0}
+
+/* ---------- 抽獎大螢幕 ---------- */
+.three{display:grid;grid-template-columns:330px minmax(0,1fr);gap:72px;flex:1;min-height:0;align-items:center}
+.stage-scr{background:#0b1520;color:#e9f1f7;border-radius:14px;border:8px solid #1b2733;padding:16px 22px 14px;position:relative;overflow:hidden}
+.stage-scr .tt{font-size:15px;color:#8fa3b5}
+.stage-scr .big{display:flex;align-items:baseline;gap:14px;margin-top:4px}
+.stage-scr .big b{font:700 60px/1 var(--f-mono);font-variant-numeric:tabular-nums;color:#f0c36a}
+.right-col .points li{padding:10px 0}
+.wall{grid-template-columns:repeat(21,minmax(0,1fr))!important}
+html:not(.deck) .wall{grid-template-columns:repeat(10,minmax(0,1fr))!important}
+.stage-scr .big span{font-size:18px;color:#c9d6e2}
+.wall{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;margin-top:18px}
+.wall i{aspect-ratio:1;border-radius:50%;background:#1d2e40}
+.wall i.f{background:#2f8f8a}.wall i.g{background:#1c4d6b}.wall i.h{background:#6d5aa8}.wall i.k{background:#b07a1e}
+.wall i.new{box-shadow:0 0 0 2px #f0c36a}
+@media (prefers-reduced-motion:no-preference){.slide.on .wall i.new{animation:pop 2.4s ease-in-out infinite}}
+@keyframes pop{0%,100%{opacity:.6}50%{opacity:1}}
+.srcs{display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;padding-top:12px;border-top:1px solid #23364a;font-size:13px;color:#c9d6e2}
+.srcs b{font-family:var(--f-mono);color:#e9f1f7;margin-left:6px}
+.right-col{min-width:0}
+.right-col .points{margin-top:22px}
+
+/* ---------- 名牌＋分會主檔 ---------- */
+.badge-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:64px;flex:1;min-height:0;margin-top:20px;align-items:center}
+.sheet{background:#fff;border:1px solid var(--rule);border-radius:4px;padding:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;box-shadow:0 18px 36px -30px rgba(0,0,0,.5)}
+.bdg{border:1px dashed #cbd5e1;border-radius:4px;padding:22px 22px 20px;display:grid;grid-template-columns:minmax(0,1fr) 84px;gap:12px;color:#0f172a;min-width:0}
+.bdg b{display:block;font-size:34px;font-weight:800;line-height:1.2;margin-bottom:6px}
+.bdg span{display:block;font-size:16px;color:#475569;line-height:1.5}
+.bdg em{display:inline-block;font-style:normal;font-size:14px;margin-top:12px;padding:4px 10px;border-radius:4px;background:#0f172a;color:#fff}
+.bdg svg{width:84px;height:84px}
+html:not(.deck) .bdg{padding:14px;grid-template-columns:minmax(0,1fr) 60px}
+html:not(.deck) .bdg b{font-size:24px}
+html:not(.deck) .bdg span{font-size:13px}
+html:not(.deck) .bdg svg{width:60px;height:60px}
+.alias{display:grid;grid-template-columns:minmax(0,1fr) 40px minmax(0,.8fr);gap:10px;align-items:center;margin-top:22px}
+.alias ul{display:grid;gap:8px}
+.alias li{font-size:var(--small);border:1px solid var(--rule);border-radius:8px;padding:8px 12px;background:var(--soft);font-family:var(--f-body)}
+.alias svg{width:40px;height:100px;color:var(--muted)}
+.alias .to{border:2px solid var(--wave);border-radius:10px;padding:14px;font-weight:700;font-size:var(--body);text-align:center;background:var(--wave-soft)}
+.alias .to small{display:block;font-weight:400;font-size:var(--tiny);color:var(--muted)}
+
+/* ---------- 個資 ---------- */
+.guard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 72px;margin-top:48px}
+.guard li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:18px;padding:30px 0 32px;border-top:1px solid var(--rule)}
+.guard svg{width:36px;height:36px;color:var(--wave);margin-top:2px}
+.guard b{display:block;font-size:26px;margin-bottom:6px}
+.guard span{display:block;font-size:18px;color:var(--muted);line-height:1.65}
+.guard span.st{display:inline-flex;font-size:var(--tiny);margin-left:10px;vertical-align:4px;color:var(--gold)}
+html:not(.deck) .guard li{grid-template-columns:36px minmax(0,1fr);gap:12px;padding:18px 0}
+html:not(.deck) .guard svg{width:26px;height:26px}
+html:not(.deck) .guard b{font-size:17px}
+html:not(.deck) .guard span{font-size:var(--small)}
+
+/* ---------- 準備事項 ---------- */
+.prep{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:64px;flex:1;min-height:0;margin-top:30px}
+.prep h3{font-size:var(--small);color:var(--muted);font-weight:500;margin-bottom:10px}
+.check{display:grid;border-top:1px solid var(--rule)}
+.check li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.check svg{width:18px;height:18px;color:var(--brand);margin-top:4px}
+.check b{display:block;font-size:var(--body)}
+.check span{display:block;font-size:var(--tiny);color:var(--muted);line-height:1.55}
+.tl{display:grid;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:34px;padding:0 0 22px;position:relative}
+.tl li::before{content:"";position:absolute;left:166px;top:10px;bottom:-10px;width:2px;background:var(--rule)}
+.tl li:last-child::before{display:none}
+.tl .w{font:500 var(--tiny)/1.5 var(--f-mono);color:var(--wave);text-align:right;padding-right:22px;position:relative}
+.tl .w::after{content:"";position:absolute;right:-25px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--wave)}
+.tl b{display:block;font-size:22px;line-height:1.4}
+.tl span{display:block;font-size:16px;color:var(--muted);line-height:1.55}
+.tl .w{font-size:16px}
+.check b{font-size:22px!important}
+.check span{font-size:16px!important}
+.check svg{width:22px!important;height:22px!important}
+.check li{grid-template-columns:30px minmax(0,1fr)!important;padding:13px 0!important}
+html:not(.deck) .tl b,html:not(.deck) .check b{font-size:16px!important}
+html:not(.deck) .tl span,html:not(.deck) .check span,html:not(.deck) .tl .w{font-size:13px!important}
+
+/* ---------- 結尾 ---------- */
+.end{justify-content:center}
+.end .brandmark{margin-bottom:40px}
+.end h2{font-size:64px}
+.end-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;margin-top:56px;max-width:1200px}
+.end-grid div{border-top:2px solid var(--brand);padding-top:12px}
+.end-grid b{display:block;font-size:var(--tiny);color:var(--muted);font-weight:500}
+.end-grid span{font-size:var(--body);font-weight:700}
+
+/* 窄螢幕閱讀模式下的各版面調整 */
+html:not(.deck) .cover-grid,html:not(.deck) .boardwrap,html:not(.deck) .seat-grid,html:not(.deck) .three,
+html:not(.deck) .badge-grid,html:not(.deck) .prep{grid-template-columns:minmax(0,1fr);gap:28px}
+html:not(.deck) .three .phone{order:2}
+html:not(.deck) .cover-art{width:240px;max-width:100%;margin:0 auto}
+html:not(.deck) .brandmark{margin-bottom:28px}
+html:not(.deck) .brandmark img{height:34px}
+html:not(.deck) .cover-meta{gap:18px;margin-top:28px}
+html:not(.deck) .scenes,html:not(.deck) .guard{grid-template-columns:minmax(0,1fr);margin-top:24px}
+html:not(.deck) .scenes li{grid-template-columns:minmax(0,1fr);gap:4px;padding:16px 0}
+html:not(.deck) .journey{grid-template-columns:minmax(0,1fr);gap:0;margin-top:28px}
+html:not(.deck) .journey::before{left:21px;right:auto;top:10px;bottom:10px;width:2px;height:auto}
+html:not(.deck) .journey li{display:grid;grid-template-columns:44px minmax(0,1fr);column-gap:16px;padding-bottom:20px}
+html:not(.deck) .journey .dot{width:44px;height:44px;grid-row:span 4}
+html:not(.deck) .journey .dot svg{width:20px;height:20px}
+html:not(.deck) .journey .n{margin-top:0}
+html:not(.deck) .journey b{font-size:17px}
+html:not(.deck) .journey p{font-size:var(--small)}
+html:not(.deck) .journey .st{justify-self:start;margin-top:8px}
+html:not(.deck) .oneoa{margin-top:16px;padding:16px;gap:14px}
+html:not(.deck) .board{padding:14px;border-width:6px}
+html:not(.deck) .board .bt{grid-template-columns:minmax(0,1fr);gap:14px}
+html:not(.deck) .ring{margin:0 auto;width:140px;height:140px}
+html:not(.deck) .ring div b{font-size:30px}
+html:not(.deck) .groups{grid-template-columns:minmax(0,1fr)}
+html:not(.deck) .stage-scr{padding:16px;border-width:6px}
+html:not(.deck) .stage-scr .big b{font-size:52px}
+html:not(.deck) .wall{grid-template-columns:repeat(10,minmax(0,1fr))}
+html:not(.deck) .dash ul{grid-template-columns:minmax(0,1fr)}
+html:not(.deck) .dash li:nth-child(odd){border-right:0}
+html:not(.deck) .dash li:nth-last-child(2){border-bottom:1px solid var(--rule)}
+html:not(.deck) .sheet{grid-template-columns:minmax(0,1fr)}
+html:not(.deck) .alias{grid-template-columns:minmax(0,1fr);gap:8px}
+html:not(.deck) .alias svg{transform:rotate(90deg);width:40px;height:40px;justify-self:center}
+html:not(.deck) .tl li{grid-template-columns:80px minmax(0,1fr);gap:28px}
+html:not(.deck) .tl li::before{left:93px}
+html:not(.deck) .tl .w{padding-right:10px}
+html:not(.deck) .tl .w::after{right:-22px}
+html:not(.deck) .end h2{font-size:30px}
+html:not(.deck) .end-grid{grid-template-columns:minmax(0,1fr);gap:16px;margin-top:28px}
+html:not(.deck) .phone{max-width:280px}
+html:not(.deck) .seatbox{padding:12px 10px 8px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+  html.deck .slide .rise{opacity:1;transform:none}
+}
+@media print{
+  html.deck,html.deck body{height:auto;overflow:visible}
+}
+</style>
+</head>
+<body>
+
+<!-- 內嵌圖示 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-qr" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></g></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="8.5" cy="11" r="2.3"/><path d="M5.2 16.2c.7-1.6 1.9-2.4 3.3-2.4s2.6.8 3.3 2.4M14 10h5M14 13.5h4"/></g></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="3.6" r="1.6"/><circle cx="12" cy="20.4" r="1.6"/><circle cx="3.6" cy="12" r="1.6"/><circle cx="20.4" cy="12" r="1.6"/></g></symbol>
+    <symbol id="i-ref" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4M9 12h7M9 15.5h7M9 8.5h3"/></g></symbol>
+    <symbol id="i-gift" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="8.5" width="17" height="4" rx=".8"/><path d="M5 12.5V21h14v-8.5M12 8.5V21M12 8.5c-1.5-3.8-5.5-4.2-5.5-1.7 0 1.4 2.5 1.7 5.5 1.7zm0 0c1.5-3.8 5.5-4.2 5.5-1.7 0 1.4-2.5 1.7-5.5 1.7z"/></g></symbol>
+    <symbol id="i-contacts" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.8-3.2 3.1-5 6-5s5.2 1.8 6 5"/><path d="M16 5.5a3 3 0 0 1 0 6M18 14.6c1.6.8 2.6 2.4 3 4.9"/></g></symbol>
+    <symbol id="i-line" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5c-5 0-9 3.2-9 7.3 0 3.6 3.2 6.6 7.5 7.2.6.1.5.7.4 1.3l-.2 1.4c0 .4.3.6.7.4 3.8-2 9.6-5.7 9.6-10.3 0-4.1-4-7.3-9-7.3z"/></g></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7M12 14.5v2.5"/></g></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></g></symbol>
+    <symbol id="i-mask" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 12h2M11 12h2M15 12h2"/></g></symbol>
+    <symbol id="i-wall" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M9 3v18M15 3v18" stroke-dasharray="2 3"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7.5 3v5.5c0 4.6-3.2 8.2-7.5 9.5-4.3-1.3-7.5-4.9-7.5-9.5V6z"/><path d="M8.8 12.2l2.2 2.2 4.3-4.4"/></g></symbol>
+    <symbol id="i-ai" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l1.9 5.1 5.1 1.9-5.1 1.9L12 17.5l-1.9-5.1L5 10.5l5.1-1.9z"/><path d="M18.5 16l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></g></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 12.3l2.4 2.4 4.6-5"/></g></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5.5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="18.5" cy="12" r="1.7"/></g></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 15V3.5M7.5 8L12 3.5 16.5 8M5 12.5V20h14v-7.5"/></g></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></symbol>
+    <symbol id="i-dl" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5V15M7.5 10.5L12 15l4.5-4.5M5 19.5h14"/></g></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 8.5a14 14 0 0 1 19 0M5.5 12a9.5 9.5 0 0 1 13 0M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></g></symbol>
+    <symbol id="i-left" viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></g></symbol>
+    <symbol id="i-play" viewBox="0 0 16 16"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+    <symbol id="i-signal" viewBox="0 0 34 12"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".6"/><rect x="5" y="5.5" width="3" height="6.5" rx=".6"/><rect x="10" y="3" width="3" height="9" rx=".6"/><rect x="15" y="0" width="3" height="12" rx=".6"/><rect x="22" y="1.5" width="10" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="23.6" y="3.1" width="6.8" height="5.8" rx="1"/></g></symbol>
+    <symbol id="i-qrfake" viewBox="0 0 29 29"><g fill="#0f172a"><path d="M0 0h7v7H0zM2 2v3h3V2zM22 0h7v7h-7zM24 2v3h3V2zM0 22h7v7H0zM2 24v3h3v-3z"/><path d="M9 0h2v2H9zM13 1h2v3h-2zM17 0h3v2h-3zM9 4h3v2H9zM15 5h2v2h-2zM18 4h2v4h-2zM0 9h2v2H0zM4 9h3v2H4zM9 8h2v3H9zM13 9h4v2h-4zM20 9h2v2h-2zM24 9h5v2h-5zM2 13h3v2H2zM7 12h3v3H7zM12 13h2v4h-2zM16 13h3v2h-3zM22 12h2v3h-2zM26 13h3v2h-3zM0 17h4v2H0zM6 17h2v2H6zM10 18h2v2h-2zM15 17h2v3h-2zM19 16h3v2h-3zM24 17h2v4h-2zM9 22h3v2H9zM14 21h2v2h-2zM18 20h4v2h-4zM27 20h2v2h-2zM9 26h2v3H9zM13 25h4v2h-4zM19 24h2v5h-2zM22 26h4v2h-4zM27 24h2v2h-2z"/></g></symbol>
+  </defs>
+</svg>
+
+<div class="viewport" id="viewport">
+<div class="stage" id="stage">
+
+<!-- 01 封面 -->
+<section class="slide cover-s" id="s1" data-title="封面" aria-label="封面">
+  <div class="cover-grid">
+    <div class="rise">
+      <picture class="brandmark"><source srcset="/ugo-logo-white.png" media="(prefers-color-scheme: dark)"><img src="/ugo-logo.png" alt="宇果國際行銷 UGO" width="1569" height="528"></picture>
+      <h1><small>BNI 年會 · INW 國際交流週</small>一場年會，<br>一個 LINE 走完全程</h1>
+      <p class="lead">報到、名片、換桌、引薦、任務抽獎到會後聯絡，與會者都在同一個 LINE 官方帳號裡完成，不用下載 App。</p>
+      <div class="cover-meta">
+        <div><b>提案單位</b><span>宇果國際行銷</span></div>
+        <div><b>對象</b><span>BNI 年會籌備團隊</span></div>
+        <div><b>版本</b><span>2026 年 10 月</span></div>
+      </div>
+    </div>
+    <div class="cover-art rise" aria-hidden="true">
+      <svg viewBox="0 0 520 520">
+        <circle cx="260" cy="260" r="236" fill="none" stroke="var(--rule)" stroke-dasharray="3 7"/>
+        <circle cx="260" cy="260" r="120" fill="var(--soft)" stroke="var(--rule)" stroke-width="2"/>
+        <g data-cover-seats></g>
+        <rect x="200" y="226" width="120" height="68" rx="6" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/>
+        <text x="260" y="252" text-anchor="middle" font-size="13" fill="var(--muted)">第 2 輪</text>
+        <text x="260" y="280" text-anchor="middle" font-size="24" font-weight="800" fill="var(--ink)">第 12 桌</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- 02 問題 -->
+<section class="slide" id="s2" data-title="一場年會遇到的問題" aria-label="一場年會遇到的問題">
+  <div class="eyebrow"><span class="idx">02</span>現場的樣子</div>
+  <h2 class="rise">上千人的年會，最花力氣的地方不在台上</h2>
+  <ul class="scenes rise">
+    <li><span class="when">入場</span><div><b>報到處排成長龍</b><p>工作人員翻名單、找名字、發名牌；場地網路一不穩，整排停下來等。</p></div></li>
+    <li><span class="when">換桌</span><div><b>換桌靠喊、靠紙本座位表</b><p>每輪要遇到沒見過的人、分會要打散，手排很難做到，常常又坐到熟面孔。</p></div></li>
+    <li><span class="when">交流</span><div><b>名片收了一疊，會後對不上人</b><p>紙名片、拍照、互加 LINE 各用各的，記不得哪張是在哪一桌聊到的。</p></div></li>
+    <li><span class="when">引薦</span><div><b>引薦說了，事後沒人追蹤</b><p>現場口頭的引薦，主辦看不到有多少，收到的人也常忘了要聯絡誰。</p></div></li>
+    <li><span class="when">舞台</span><div><b>抽獎準備久、台上等很久</b><p>回收問卷、整理名單、確認資格都在幕後手動做，開獎時全場等結果。</p></div></li>
+    <li><span class="when">散場</span><div><b>會後聯絡就斷了</b><p>當天認識的人散在各處，回到分會後要再約一對一，已經找不到人。</p></div></li>
+  </ul>
+</section>
+
+<!-- 03 流程 -->
+<section class="slide" id="s3" data-title="一條 LINE 走完全程" aria-label="一條 LINE 走完全程">
+  <div class="eyebrow"><span class="idx">03</span>與會者的一天</div>
+  <h2 class="rise">從進場到散場，六個環節都在同一個官方帳號</h2>
+  <ol class="journey rise">
+    <li><span class="dot"><svg><use href="#i-qr"/></svg></span><span class="n">1</span><b>報到</b><p>出示報到 QR，工作人員掃碼；主辦即時看到到場進度。</p><span class="st live">已上線</span></li>
+    <li><span class="dot"><svg><use href="#i-card"/></svg></span><span class="n">2</span><b>電子名片</b><p>填好名片、用 AI 起草簡介，同桌掃 QR 就看到公開內容。</p><span class="st live">已上線</span></li>
+    <li><span class="dot"><svg><use href="#i-table"/></svg></span><span class="n">3</span><b>多輪換桌</b><p>系統排好每一輪的桌次，每輪遇到不同的人。</p><span class="st live">已上線</span></li>
+    <li><span class="dot"><svg><use href="#i-ref"/></svg></span><span class="n">4</span><b>電子引薦</b><p>在手機上填引薦單送給對方，主辦看到即時成果。</p><span class="st live">已上線</span></li>
+    <li><span class="dot"><svg><use href="#i-gift"/></svg></span><span class="n">5</span><b>任務抽獎</b><p>填問卷拿摸彩資格或優惠券，舞台大螢幕開獎。</p><span class="st live">已上線</span></li>
+    <li><span class="dot"><svg><use href="#i-contacts"/></svg></span><span class="n">6</span><b>會後聯絡人包</b><p>同桌過、交換過名片的人，一鍵存進手機通訊錄。</p><span class="st soon">年會前上線</span></li>
+  </ol>
+  <div class="oneoa rise"><svg><use href="#i-line"/></svg><div><b>與會者只要加入官方帳號好友。</b><br><span>所有頁面都從 LINE 打開、用 LINE 身分登入；沒有 LINE 的海外會員可改用 Google 或 Email（見第 12 頁）。</span></div></div>
+</section>
+
+<!-- 04 報到 -->
+<section class="slide" id="s4" data-title="現場 QR 報到與報到看板" aria-label="現場 QR 報到與報到看板">
+  <div class="boardwrap">
+    <div class="visual">
+      <div class="eyebrow"><span class="idx">04</span>報到<span class="st live">報到看板 已上線</span><span class="st soon">離線掃碼 年會前上線</span></div>
+      <h2 class="rise">掃一下就報到，斷線也照常掃</h2>
+      <p class="lead rise" style="margin-bottom:28px">賓客出示報到 QR，工作人員用手機掃碼；網路斷了先存在手機裡，恢復連線自動補送。</p>
+      <div class="rise">
+      <div class="board" role="img" aria-label="報到看板示意：報到率、每 5 分鐘報到曲線、各分會報到率">
+        <div class="bh"><b>報到看板</b><span>每 10 秒自動更新</span></div>
+        <div class="bt">
+          <div class="ring">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="none" stroke="#1d2e40" stroke-width="9"/><circle cx="50" cy="50" r="44" fill="none" stroke="#5cc3bc" stroke-width="9" stroke-dasharray="276.5" stroke-dashoffset="105" stroke-linecap="round"/></svg>
+            <div><span><b>62%</b><small>報到率（示意）</small></span></div>
+          </div>
+          <div>
+            <div class="curve" aria-hidden="true"><i style="height:8%"></i><i style="height:18%"></i><i style="height:34%"></i><i style="height:62%"></i><i style="height:88%"></i><i style="height:100%"></i><i style="height:76%"></i><i style="height:58%"></i><i style="height:40%"></i><i style="height:30%"></i><i style="height:22%"></i><i style="height:12%"></i></div>
+            <div class="curve-l"><span>每 5 分鐘報到人數</span><span>報到時段</span></div>
+          </div>
+        </div>
+        <div class="groups" aria-hidden="true">
+          <div><span>範例分會 A<b>全數到齊</b></span><i><em class="full" style="width:100%"></em></i></div>
+          <div><span>範例分會 B<b>18 / 24</b></span><i><em style="width:75%"></em></i></div>
+          <div><span>範例分會 C<b>11 / 20</b></span><i><em style="width:55%"></em></i></div>
+          <div><span>未填分會<b>6 / 15</b></span><i><em style="width:40%"></em></i></div>
+        </div>
+      </div>
+      <p class="vis-cap">看板可依分會或依桌切換，接投影機放在報到處；公開投影時名字會遮蔽。畫面數字為示意。</p>
+      </div>
+    </div>
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="scan" aria-label="現場掃碼報到">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-left"/></svg><div><b>現場掃碼報到</b><small>工作人員後台</small></div><span></span></div>
+          <div class="lbody"><div class="lmain flat">
+            <p style="font-size:11.5px;color:#475569">掃賓客的報到 QR。斷線時照常掃，會先存在這台裝置，恢復連線後自動送出。</p>
+            <div class="cam"><svg class="qr" style="background:#fff;padding:5px;border-radius:4px"><use href="#i-qrfake"/></svg><span class="scanline"></span></div>
+            <div class="ok-msg"><svg><use href="#i-check"/></svg>報到成功：王小明</div>
+            <button type="button" class="pbtn" data-to="offline">開啟相機掃碼</button>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="offline" aria-label="離線暫存">
+          <div class="sbar"><span>9:42</span><span class="ic" style="color:#94a3b8"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-left"/></svg><div><b>現場掃碼報到</b><small>工作人員後台</small></div><span></span></div>
+          <div class="warn-bar"><svg><use href="#i-wifi"/></svg>離線中，已暫存 3 筆，恢復連線後會自動送出</div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="blk"><h5>剛剛掃的結果</h5><p style="font-weight:700">已暫存，連線後送出</p></div>
+            <div class="blk">
+              <div class="rowl"><span>QR …8F2A</span><em class="w">暫存</em></div>
+              <div class="rowl"><span>QR …17C0</span><em class="w">暫存</em></div>
+              <div class="rowl"><span>QR …D41B</span><em class="w">暫存</em></div>
+            </div>
+            <p style="font-size:10.5px;color:#64748b">斷線期間請不要重新整理或關閉這一頁。</p>
+            <button type="button" class="pbtn" style="margin-top:auto" data-to="synced">恢復連線</button>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="synced" aria-label="已送出">
+          <div class="sbar"><span>9:44</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-left"/></svg><div><b>現場掃碼報到</b><small>工作人員後台</small></div><span></span></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="ok-msg"><svg><use href="#i-check"/></svg>送出 3 筆：報到成功 2、已報到過 1</div>
+            <div class="blk">
+              <div class="rowl"><span>Alice Chen</span><em>報到成功</em></div>
+              <div class="rowl"><span>陳大文</span><em>報到成功</em></div>
+              <div class="rowl"><span>林美華</span><em class="g">已報到過</em></div>
+            </div>
+            <p style="font-size:10.5px;color:#64748b">同一張 QR 重複掃只算一次；離線時無法確認的 QR，恢復連線後列在「需要處理」。</p>
+            <button type="button" class="pbtn ghost" style="margin-top:auto" data-to="scan">繼續掃碼</button>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="scan">掃碼</button><button type="button" class="ptab" data-to="offline">斷線暫存</button><button type="button" class="ptab" data-to="synced">自動補送</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 名片 -->
+<section class="slide" id="s5" data-title="個人電子名片與 AI 簡介" aria-label="個人電子名片與 AI 簡介">
+  <div class="split rev">
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="edit" aria-label="編輯名片">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>BNI 年會名片</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="blk"><h5>基本資料</h5>
+              <label class="fld"><i>顯示名稱</i><span>王小明</span></label>
+              <label class="fld"><i>分會</i><span>範例分會 A</span></label>
+              <label class="fld"><i>產業類別</i><span>室內設計</span></label>
+            </div>
+            <div class="blk"><h5>介紹與引薦</h5>
+              <label class="fld"><i>我的需求</i><span>想找新成屋建商合作樣品屋</span></label>
+              <label class="fld"><i>簡介</i><span class="ta ph">填好上面的資料後按「AI 幫我寫」，會產生 100～150 字的介紹草稿，可以再自己修改</span></label>
+              <button type="button" class="pbtn sm ghost" style="margin-top:6px" data-to="draft"><svg><use href="#i-ai"/></svg>AI 幫我寫</button>
+            </div>
+          </div></div>
+          <div class="savebar"><span>有尚未儲存的修改</span><button type="button" class="pbtn" data-to="draft">儲存</button></div>
+        </div>
+        <div class="screen" data-s="draft" aria-label="AI 簡介草稿">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>BNI 年會名片</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="ok-msg"><svg><use href="#i-check"/></svg>AI 簡介草稿已產生，可以直接修改</div>
+            <div class="blk"><h5>簡介</h5>
+              <span class="fld"><span class="ta fresh">我是王小明，做住宅與商空室內設計。擅長在有限預算裡把動線與收納規劃清楚，讓空間好住也好整理。最近想認識新成屋建商，一起規劃樣品屋與交屋前的空間提案。</span></span>
+            </div>
+            <div class="blk"><h5>名片公開哪些內容</h5>
+              <div class="vis">
+                <div>公司與職稱<i class="sw on"></i></div>
+                <div>簡介、需求、想認識的對象<i class="sw on"></i></div>
+                <div>電話<i class="sw"></i></div>
+                <div>Email<i class="sw"></i></div>
+              </div>
+            </div>
+          </div></div>
+          <div class="savebar"><span>有尚未儲存的修改</span><button type="button" class="pbtn" data-to="view">儲存</button></div>
+        </div>
+        <div class="screen" data-s="view" aria-label="同桌看到的名片">
+          <div class="sbar" style="background:#0f172a;color:#fff"><span>9:43</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>王小明</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd">
+              <div class="person"><span class="av lg a2">王</span><div style="min-width:0"><h4 style="font-size:17px">王小明</h4><p style="font-size:11px;color:#cbd5e1">小明室內設計・設計總監</p><div class="chipr"><i>範例分會 A</i><i>室內設計</i></div></div></div>
+              <span class="pbtn line" style="margin-top:12px;min-height:36px"><svg><use href="#i-line"/></svg>加 LINE</span>
+            </div>
+            <div class="lmain">
+              <div class="blk"><h5>關於我</h5><p>我是王小明，做住宅與商空室內設計。擅長在有限預算裡把動線與收納規劃清楚……</p></div>
+              <div class="blk"><h5>想認識的引薦對象</h5><p>新成屋建商、社區管委會主委</p></div>
+              <button type="button" class="pbtn" data-to="edit"><svg><use href="#i-share"/></svg>引薦生意給他</button>
+            </div>
+          </div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="edit">填名片</button><button type="button" class="ptab" data-to="draft">AI 起草</button><button type="button" class="ptab" data-to="view">同桌看到</button></div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">05</span>電子名片<span class="st live">已上線</span></div>
+      <h2 class="rise">每個人一張電子名片，<br>同桌掃 QR 就看到</h2>
+      <p class="lead rise">名片欄位照 BNI 的交流習慣設計：除了公司職稱，還有「我的需求」與「想認識的引薦對象」。</p>
+      <ul class="points rise">
+        <li><b>AI 幫我寫簡介</b><span>依本人填的資料起草 100～150 字自我介紹，可以再修改；不會自己編年資、客戶或數字。</span></li>
+        <li><b>公開哪些欄位，本人決定</b><span>顯示名稱一律公開；電話、Email 預設不公開，要本人打開。</span></li>
+        <li><b>加 LINE、引薦生意給他</b><span>有填 LINE ID 或加好友連結才出現「加 LINE」；看名片時可直接發引薦單。</span></li>
+        <li><b>交換名片<span class="st soon">年會前上線</span></b><span>看對方名片時按「交換名片」，會後自動列進聯絡人包。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 06 換桌 -->
+<section class="slide" id="s6" data-title="1,000 人多輪換桌" aria-label="1,000 人多輪換桌">
+  <div class="eyebrow"><span class="idx">06</span>多輪換桌<span class="st live">排桌 已上線</span><span class="st soon">依 AI 媒合同桌 年會前上線</span></div>
+  <h2 class="rise">每一輪都坐到沒見過的人，同分會的人不會同桌</h2>
+  <div class="seat-grid">
+    <div class="seatbox rise" data-seating>
+      <div class="seat-ctl" role="group" aria-label="選擇輪次">
+        <span class="lbl">輪次</span>
+        <button type="button" class="rbtn" data-round="0">第 1 輪</button><button type="button" class="rbtn" data-round="1">第 2 輪</button><button type="button" class="rbtn" data-round="2">第 3 輪</button><button type="button" class="rbtn" data-round="3">第 4 輪</button><button type="button" class="rbtn" data-round="4">第 5 輪</button>
+        <button type="button" class="rbtn play" data-seat-play aria-pressed="false"><svg><use href="#i-play"/></svg><span>自動播放</span></button>
+      </div>
+      <svg viewBox="0 0 820 470" role="img" aria-label="25 人 5 桌換桌示意：每輪每位與會者換到新的一桌，同桌的人都來自不同分會">
+        <g data-tables></g>
+        <g data-people></g>
+      </svg>
+      <div class="legend" aria-hidden="true"><span><i style="background:var(--c1)"></i>分會 A</span><span><i style="background:var(--c2)"></i>分會 B</span><span><i style="background:var(--c3)"></i>分會 C</span><span><i style="background:var(--c4)"></i>分會 D</span><span><i style="background:var(--c5)"></i>分會 E</span><span>粗框＝王小明</span></div>
+    </div>
+    <div class="rise">
+      <p style="font-size:var(--small);color:var(--muted)">示意：25 人、5 桌、每桌 5 人。點輪次看大家怎麼換位置。</p>
+      <div class="stats" aria-live="polite">
+        <div><span>王小明目前認識的人</span><b data-met>4</b></div>
+        <div><span>全場重複同桌的配對</span><b data-repeat>0</b></div>
+        <div><span>同分會坐同一桌</span><b data-same>0</b></div>
+      </div>
+      <div class="proof"><b>實測：1,000 人、100 桌、5 輪，零重複。</b><span>排桌規則依序是：每輪遇到不同的人、分會打散、產業多元。每輪開始前可只算已報到的人重新排。</span></div>
+      <div class="proof" style="border-color:var(--gold)"><b>開啟「依 AI 媒合安排同桌」</b><span>互相推薦的兩個人，會被安排同桌一次；仍以每輪遇到不同的人為第一優先。預設關閉，由主辦決定。</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 AI 媒合 -->
+<section class="slide" id="s7" data-title="AI 媒合：為你推薦" aria-label="AI 媒合：為你推薦">
+  <div class="split">
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">07</span>AI 媒合<span class="st soon">年會前上線</span></div>
+      <h2 class="rise">打開「為你推薦」，<br>知道今天先去找誰</h2>
+      <p class="lead rise">依名片上的需求、想認識的對象與產業，從本場與會者挑出最多 5 位，每位附一句推薦理由。</p>
+      <ul class="points rise">
+        <li><b>只推薦同一場的與會者</b><span>對方的資料只帶他設為公開的欄位。</span></li>
+        <li><b>三個動作接著做</b><span>看名片、發引薦單；對方有公開 LINE 才出現「加 LINE」。</span></li>
+        <li><b>名片寫得越完整，推薦越準</b><span>名單還沒準備好時，頁面會引導先把「需求」與「想認識的對象」填好。</span></li>
+        <li><b>AI 不看姓名與公司</b><span>送給 AI 的只有產業、職稱、能提供什麼、在找什麼，以代號區分；AI 失敗時退回規則版推薦。</span></li>
+      </ul>
+    </div>
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="list" aria-label="為你推薦">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>為你推薦</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain flat">
+            <p style="font-size:11px;color:#64748b">依你的名片需求與產業，挑出本場最值得認識的人。</p>
+            <div class="blk">
+              <div class="person"><span class="av a1">AC</span><div><b>Alice Chen</b><small>建築營造・範例建設・範例分會 C</small></div></div>
+              <div class="reason">正在規劃新成屋樣品屋，與你想找的建商合作方向一致。</div>
+              <div class="acts"><span><svg><use href="#i-eye"/></svg>看名片</span><span><svg><use href="#i-ref"/></svg>引薦單</span><span class="ln"><svg><use href="#i-line"/></svg>加 LINE</span></div>
+            </div>
+            <div class="blk">
+              <div class="person"><span class="av a3">陳</span><div><b>陳大文</b><small>房屋仲介・範例不動產・範例分會 D</small></div></div>
+              <div class="reason">常接觸剛交屋的屋主，需要可以轉介的裝修夥伴。</div>
+              <div class="acts"><span><svg><use href="#i-eye"/></svg>看名片</span><span><svg><use href="#i-ref"/></svg>引薦單</span><span aria-hidden="true" style="border:0"></span></div>
+            </div>
+            <div class="blk">
+              <div class="person"><span class="av a4">DL</span><div><b>David Lee</b><small>系統櫃・範例家具・範例分會 E</small></div></div>
+              <div class="reason">提供系統收納施工，可和設計案搭配報價。</div>
+            </div>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="empty" aria-label="推薦名單準備中">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>為你推薦</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="blk" style="text-align:center;padding:22px 14px">
+              <svg style="width:30px;height:30px;color:#2f8f8a"><use href="#i-ai"/></svg>
+              <p style="font-weight:700;margin-top:6px">推薦名單還在準備中。</p>
+              <p style="margin-top:4px">先把名片的「需求」和「想認識的對象」填好，主辦更新後就會出現。</p>
+              <button type="button" class="pbtn" style="margin-top:12px" data-to="list">編輯我的名片</button>
+            </div>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="list">推薦名單</button><button type="button" class="ptab" data-to="empty">還沒準備好時</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 引薦 -->
+<section class="slide" id="s8" data-title="電子引薦單與主辦儀表板" aria-label="電子引薦單與主辦儀表板">
+  <div class="split rev">
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="new" aria-label="填寫引薦單">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>電子引薦單</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="tabsr"><span class="on">填寫引薦單</span><span>我收到的</span><span>我送出的</span></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="blk"><h5>引薦給誰</h5><div class="person"><span class="av a1" style="width:30px;height:30px;font-size:11px">AC</span><div><b>Alice Chen</b><small>範例建設・範例分會 C</small></div></div></div>
+            <div class="blk"><h5>引薦內容</h5>
+              <label class="fld"><i>引薦對象（姓名或公司）</i><span>林美華（範例社區管委會）</span></label>
+              <label class="fld"><i>需求內容</i><span>社區公設翻新，明年初想先估價</span></label>
+              <label class="fld"><i>對方電話</i><span>09xx-xxx-xxx</span></label>
+              <p style="font-size:10px;color:#94a3b8;margin-top:3px">電話與 Email 至少填一個；只有收件人看得到。</p>
+              <p style="font-size:10.5px;color:#475569;margin-top:5px">熱度</p>
+              <div class="heat"><span>1</span><span>2</span><span>3</span><span class="on">4</span><span>5</span></div>
+              <div class="tgl">已告訴對方會有人聯絡他<i><svg><use href="#i-check"/></svg></i></div>
+            </div>
+          </div></div>
+          <div class="savebar"><span>給 Alice Chen</span><button type="button" class="pbtn" data-to="sent">送出引薦單</button></div>
+        </div>
+        <div class="screen" data-s="sent" aria-label="我送出的">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>電子引薦單</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="tabsr"><span>填寫引薦單</span><span>我收到的</span><span class="on">我送出的</span></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="ok-msg"><svg><use href="#i-check"/></svg>已送出，Alice Chen 會收到 LINE 通知</div>
+            <div class="blk">
+              <div class="rowl"><span><b style="font-size:12px">給 Alice Chen</b><br><small style="color:#64748b">林美華（範例社區管委會）・熱度 4</small></span><em>已送出</em></div>
+              <div class="rowl"><span><b style="font-size:12px">給 陳大文</b><br><small style="color:#64748b">交屋前裝修諮詢・熱度 3</small></span><em>已送出</em></div>
+            </div>
+            <button type="button" class="pbtn ghost" style="margin-top:auto" data-to="new">再填一張</button>
+          </div></div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="new">填寫</button><button type="button" class="ptab" data-to="sent">送出後</button></div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">08</span>電子引薦單＋主辦儀表板<span class="st live">已上線</span></div>
+      <h2 class="rise">現場的引薦留下紀錄，<br>主辦即時看到成果</h2>
+      <p class="lead rise">與會者在手機上填引薦單，收件人收到 LINE 通知；聯絡方式只有收件人看得到，後台預設遮蔽。</p>
+      <div class="dash rise">
+        <div class="dh"><b>主辦儀表板</b><span>頁面開著每 15 秒自動更新</span></div>
+        <ul>
+          <li><b>報名與報到</b><span>已報到／應到、報到率、尚未到場</span></li>
+          <li><b>名片填寫率</b><span>應到賓客中已建立名片的比例</span></li>
+          <li><b>電子引薦單</b><span>本場收到的張數，今天與全部</span></li>
+          <li><b>報到進度分組</b><span>依分會或依產業切換</span></li>
+          <li><b>分桌換桌</b><span>已排幾輪、幾人入座、目前第幾輪</span></li>
+          <li><b>抽獎狀態</b><span>合格人數、券數、已抽出與剩餘名額</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 任務與抽獎 -->
+<section class="slide" id="s9" data-title="任務中心與舞台抽獎" aria-label="任務中心與舞台抽獎">
+  <div class="three">
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="survey" aria-label="回饋問卷">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>年會回饋問卷</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain flat">
+            <div class="blk q"><p>今天的換桌交流，對你有幫助嗎？</p>
+              <div class="stars"><span>1</span><span>2</span><span>3</span><span>4</span><span class="on">5</span></div></div>
+            <div class="blk q"><p>你最想再參加哪一類活動？</p>
+              <div class="opt on"><i></i>產業主題交流</div><div class="opt"><i></i>一對一媒合時段</div><div class="opt"><i></i>分會聯合例會</div></div>
+            <div class="blk q"><p>給主辦的建議（選填）</p><span class="fld"><span class="ta ph">想說的話</span></span></div>
+          </div></div>
+          <div class="savebar"><span>填完可取得摸彩資格</span><button type="button" class="pbtn" data-to="notify">送出</button></div>
+        </div>
+        <div class="screen" data-s="notify" aria-label="LINE 通知">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar" style="grid-template-columns:34px minmax(0,1fr) 34px"><svg><use href="#i-left"/></svg><div><b>BNI 年會（範例官方帳號）</b></div><svg><use href="#i-more"/></svg></div>
+          <div class="chat">
+            <span class="day">今天</span>
+            <div class="msg"><span class="oa">BNI</span><div class="bub">感謝填寫回饋問卷！</div></div>
+            <div class="msg"><span class="oa" style="visibility:hidden">BNI</span>
+              <div class="fcard"><div class="fh">已取得摸彩資格</div><div class="fb"><span>年會大摸彩（範例）</span><span style="color:#64748b">摸彩券 1 張・舞台開獎時抽出</span></div><div class="fl">查看我的摸彩券</div></div>
+            </div>
+            <span class="t">下午 3:12</span>
+          </div>
+          <div class="inputbar"><i></i><span></span><i></i></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="survey">填問卷</button><button type="button" class="ptab" data-to="notify">收到通知</button></div>
+    </div>
+    <div class="right-col">
+      <div class="eyebrow"><span class="idx">09</span>任務中心＋舞台抽獎<span class="st live">已上線</span><span class="st soon">開獎即時回應 年會前上線</span></div>
+      <h2 class="rise">填完問卷就拿到抽獎資格，<br>大螢幕跟著跳</h2>
+      <div class="rise" style="margin-top:26px">
+      <div class="stage-scr" role="img" aria-label="舞台大螢幕示意：合格人數、合格者頭貼牆、各任務合格人數">
+        <div class="tt">年會大摸彩（範例）</div>
+        <div class="big"><b>286</b><span>位合格（示意）</span></div>
+        <div class="wall" aria-hidden="true" data-wall></div>
+        <div class="srcs"><span>填回饋問卷抽大獎<b>214</b></span><span>現場掃 QR 領券<b>58</b></span><span>推薦好友<b>14</b></span></div>
+      </div>
+      <ul class="points">
+        <li><b>任務中心</b><span>填完指定問卷，自動給摸彩資格或一張票券；同一人同一任務只發一次。</span></li>
+        <li><b>大螢幕約每 7 秒更新</b><span>新拿到券的人頭貼淡入，下方依任務列出合格人數。</span></li>
+        <li><b>開獎當下就出結果<span class="st soon">年會前上線</span></b><span>中獎者立即上螢幕，發獎與 LINE 通知改在背景處理。</span></li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 名牌與分會 -->
+<section class="slide" id="s10" data-title="名牌現場列印與分會主檔" aria-label="名牌現場列印與分會主檔">
+  <div class="eyebrow"><span class="idx">10</span>名牌＋分會主檔<span class="st soon">年會前上線</span></div>
+  <h2 class="rise">名牌直接印，分會名稱寫法不同也能對上</h2>
+  <div class="badge-grid">
+    <div class="rise">
+      <div class="sheet" role="img" aria-label="名牌列印頁示意：每張名牌有姓名、分會、產業、桌號與名片 QR">
+        <div class="bdg"><div><b>王小明</b><span>範例分會 A</span><span>室內設計</span><em>第 1 輪 第 12 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
+        <div class="bdg"><div><b>Alice Chen</b><span>範例分會 C</span><span>建築營造</span><em>第 1 輪 第 3 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
+        <div class="bdg"><div><b>陳大文</b><span>範例分會 D</span><span>房屋仲介</span><em>第 1 輪 第 27 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
+        <div class="bdg"><div><b>林美華</b><span>範例分會 B</span><span>會計師</span><em>第 1 輪 第 8 桌</em></div><svg><use href="#i-qrfake"/></svg></div>
+      </div>
+      <p class="vis-cap">版型：A4 一頁 4／8／10 張，或標籤紙 90×60、100×70 mm。名牌只印名片設為公開的欄位；QR 就是個人名片。</p>
+    </div>
+    <div class="rise">
+      <ul class="points">
+        <li><b>報到時才印，也可以事先整批印</b><span>桌號優先用活動設定的固定桌位，沒有就印分桌結果第 1 輪的桌次。</span></li>
+        <li><b>分會主檔：一個分會一個正式名稱</b><span>會員自己輸入的分會名稱寫法不一，系統自動去掉「分會」「Chapter」後綴、開頭的 BNI、全半形與空白差異，再對到主檔。</span></li>
+      </ul>
+      <div class="alias" aria-label="分會名稱對應示意">
+        <ul><li>範例白金分會</li><li>BNI 範例白金</li><li>範例白金 Chapter</li></ul>
+        <svg viewBox="0 0 40 100" aria-hidden="true"><path d="M2 14C24 14 18 50 38 50M2 50h36M2 86C24 86 18 50 38 50" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <div class="to">範例白金<small>分會主檔</small></div>
+      </div>
+      <p class="vis-cap">報到看板、儀表板、引薦單統計與名牌都用主檔名稱；名片上本人填的原文不會被改。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 聯絡人包 -->
+<section class="slide" id="s11" data-title="會後聯絡人包" aria-label="會後聯絡人包">
+  <div class="split">
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">11</span>會後聯絡人包<span class="st soon">年會前上線</span></div>
+      <h2 class="rise">散場前一鍵存好，<br>今天認識的人都在通訊錄</h2>
+      <p class="lead rise">主辦在後台一鍵推播連結。每位與會者看到的是「這次認識的人」，只含對方名片設為公開的資料。</p>
+      <ul class="points rise">
+        <li><b>三種來源自動整理</b><span>同桌過（依分桌結果）、交換過名片、收發過引薦單；每位註明怎麼認識的。</span></li>
+        <li><b>存進通訊錄或下載 Excel</b><span>通訊錄檔為 vCard（.vcf），Excel 檔為 CSV；下載連結 10 分鐘內有效。</span></li>
+        <li><b>iPhone 的 LINE 內建瀏覽器也能存</b><span>下載改用外部瀏覽器開啟，避免 LINE 內建瀏覽器存不下檔案。</span></li>
+      </ul>
+    </div>
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="pack" aria-label="這次認識的人">
+          <div class="sbar" style="background:#0f172a;color:#fff"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>聯絡人包</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd" style="padding-bottom:24px"><span class="kick">BNI 年會（範例）</span><h4>這次認識的人</h4><p style="font-size:11px;color:#cbd5e1;margin-top:2px">共 4 位：同桌過、交換過名片、收發過引薦單的夥伴</p></div>
+            <div class="lmain">
+              <div class="blk" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <button type="button" class="pbtn sm" data-to="done"><svg><use href="#i-dl"/></svg>存進通訊錄</button>
+                <button type="button" class="pbtn sm ghost" data-to="done">下載 Excel</button>
+              </div>
+              <div class="blk"><div class="person"><span class="av a1" style="width:32px;height:32px;font-size:11px">AC</span><div style="min-width:0"><b>Alice Chen</b><small>範例建設・範例分會 C</small><small style="color:#94a3b8">第 2 輪第 5 桌同桌、你引薦給他 1 張</small></div></div></div>
+              <div class="blk"><div class="person"><span class="av a3" style="width:32px;height:32px;font-size:11px">陳</span><div style="min-width:0"><b>陳大文</b><small>範例不動產・範例分會 D</small><small style="color:#94a3b8">第 1 輪第 12 桌同桌、交換名片</small></div></div></div>
+              <div class="blk"><div class="person"><span class="av a4" style="width:32px;height:32px;font-size:11px">DL</span><div style="min-width:0"><b>David Lee</b><small>範例家具・範例分會 E</small><small style="color:#94a3b8">交換名片</small></div></div></div>
+              <div class="blk"><div class="person"><span class="av a5" style="width:32px;height:32px;font-size:11px">林</span><div style="min-width:0"><b>林美華</b><small>範例會計師事務所・範例分會 B</small><small style="color:#94a3b8">他引薦給你 1 張</small></div></div></div>
+            </div>
+          </div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="done" aria-label="已開啟下載">
+          <div class="sbar" style="background:#0f172a;color:#fff"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>聯絡人包</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd" style="padding-bottom:24px"><span class="kick">BNI 年會（範例）</span><h4>這次認識的人</h4></div>
+            <div class="lmain">
+              <div class="blk"><div class="ok-msg"><svg><use href="#i-check"/></svg>已開啟下載</div><p style="margin-top:6px">iPhone 會跳出「加入聯絡人」；Android 請開啟下載的檔案匯入。連結 10 分鐘內有效。</p></div>
+              <div class="blk"><h5>通訊錄預覽</h5>
+                <div class="rowl"><span>Alice Chen</span><em class="g">範例建設</em></div>
+                <div class="rowl"><span>陳大文</span><em class="g">範例不動產</em></div>
+                <div class="rowl"><span>David Lee</span><em class="g">範例家具</em></div>
+              </div>
+              <button type="button" class="pbtn ghost" data-to="pack">回到名單</button>
+            </div>
+          </div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="pack">名單</button><button type="button" class="ptab" data-to="done">存進通訊錄</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 海外會員 -->
+<section class="slide" id="s12" data-title="海外會員：Google／Email 登入與雙語" aria-label="海外會員：Google／Email 登入與雙語">
+  <div class="split rev">
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="login" aria-label="登入 / Sign in">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>登入 / Sign in</b><small>瀏覽器</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd"><span class="kick">BNI 年會 / BNI Event</span><h4>登入 / Sign in</h4></div>
+            <div class="lmain">
+              <div class="blk" style="display:grid;gap:7px">
+                <span class="pbtn line"><svg><use href="#i-line"/></svg>用 LINE 登入 / Sign in with LINE</span>
+                <span class="pbtn ghost"><svg><use href="#i-globe"/></svg>用 Google 登入 / Sign in with Google</span>
+                <button type="button" class="pbtn ghost" data-to="email"><svg><use href="#i-mail"/></svg>用 Email 登入 / Sign in with Email</button>
+              </div>
+              <p style="font-size:10.5px;color:#64748b;padding:0 4px">Google、Email 登入由主辦開關；關閉時只顯示 LINE。</p>
+            </div>
+          </div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="email" aria-label="Email 驗證碼">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>登入 / Sign in</b><small>瀏覽器</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd"><span class="kick">BNI 年會 / BNI Event</span><h4>登入 / Sign in</h4></div>
+            <div class="lmain">
+              <div class="blk">
+                <label class="fld"><i>Email</i><span>alice@example.com</span></label>
+                <p style="font-size:10.5px;color:#0f766e;margin-top:6px">驗證碼已寄到 a***@example.com，10 分鐘內有效。 / Code sent, valid for 10 minutes.</p>
+                <p style="font-size:10.5px;color:#475569;margin-top:6px">驗證碼 / Code</p>
+                <div class="code"><span>4</span><span>8</span><span>1</span><span>2</span><span>0</span><span>7</span></div>
+                <button type="button" class="pbtn" data-to="en">登入 / Sign in</button>
+              </div>
+            </div>
+          </div>
+          <div class="homebar" style="background:#f1f5f9"></div>
+        </div>
+        <div class="screen" data-s="en" aria-label="英文名片">
+          <div class="sbar"><span>9:43</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>My card</b><small>瀏覽器</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody">
+            <div class="lhd" style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div><span class="kick">BNI Conference Card</span><h4>My card</h4></div><span class="lang" role="img" aria-label="語言：EN"><span>中文</span><span class="on">EN</span></span></div>
+            <div class="lmain">
+              <div class="blk"><h5>Basic info</h5>
+                <label class="fld"><i>Display name</i><span>Alice Chen</span></label>
+                <label class="fld"><i>Chapter</i><span>Sample Chapter C</span></label>
+                <label class="fld"><i>What I am looking for</i><span>Interior designers for show units</span></label>
+              </div>
+              <span class="pbtn sm ghost"><svg><use href="#i-ai"/></svg>Write with AI</span>
+            </div>
+          </div>
+          <div class="savebar"><span>Signed in with Email</span><span class="pbtn">Save</span></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="login">選登入方式</button><button type="button" class="ptab" data-to="email">Email 驗證碼</button><button type="button" class="ptab" data-to="en">英文介面</button></div>
+    </div>
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">12</span>海外會員<span class="st soon">年會前上線</span></div>
+      <h2 class="rise">沒有 LINE 的海外會員，<br>用 Google 或 Email 一樣參加</h2>
+      <p class="lead rise">名片、引薦單都能用；之後想綁 LINE，名片與引薦單會併進同一位會員。</p>
+      <ul class="points rise">
+        <li><b>主辦決定開不開</b><span>後台開關 Google／Email 登入；沒開時登入頁只顯示 LINE。</span></li>
+        <li><b>Email 驗證碼 6 碼</b><span>10 分鐘內有效，限制寄送與輸入錯誤次數，防止被濫用。</span></li>
+        <li><b>中英雙語，一鍵切換</b><span>會員端名片、引薦單頁面有「中文／EN」切換；本人填的名片內容不翻譯。</span></li>
+        <li><b>綁 LINE 要本人確認</b><span>合併帳號時必須同時通過 LINE 驗證與原本的 Google／Email 驗證，不憑自己填的 Email 合併。</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 13 個資 -->
+<section class="slide" id="s13" data-title="個資與安全" aria-label="個資與安全">
+  <div class="eyebrow"><span class="idx">13</span>個資與安全</div>
+  <h2 class="rise">與會者的資料，只給他願意給的人看</h2>
+  <ul class="guard rise">
+    <li><svg><use href="#i-eye"/></svg><div><b>公開欄位由本人決定</b><span>別人掃名片只看得到本人打開的項目；電話、Email 預設不公開。名牌與聯絡人包也只用公開欄位。</span></div></li>
+    <li><svg><use href="#i-ai"/></svg><div><b>AI 媒合不接收姓名與聯絡方式<span class="st soon">年會前上線</span></b><span>送給 AI 的只有產業、職稱、能提供什麼、在找什麼，以代號區分；健康、宗教、政治等內容先過濾。</span></div></li>
+    <li><svg><use href="#i-wall"/></svg><div><b>跨活動不外洩</b><span>推薦名單與聯絡人包只列同一場活動的與會者；不同品牌、不同帳號的資料彼此隔離。</span></div></li>
+    <li><svg><use href="#i-line"/></svg><div><b>LINE 身分驗證</b><span>名片、引薦單、推薦頁都只認 LINE 驗證過的身分，不能冒用別人的帳號送出。</span></div></li>
+    <li><svg><use href="#i-mask"/></svg><div><b>投影與後台預設遮蔽</b><span>報到看板公開投影時名字遮蔽；引薦單上的聯絡方式只有收件人看得到，後台預設遮蔽，要顯示會留紀錄。</span></div></li>
+    <li><svg><use href="#i-lock"/></svg><div><b>防濫用上限</b><span>引薦單每人每天、同一收件人都有張數上限；AI 簡介每人每天 5 次，避免現場被洗版。</span></div></li>
+  </ul>
+</section>
+
+<!-- 14 準備事項 -->
+<section class="slide" id="s14" data-title="主辦需要準備的事項與時程" aria-label="主辦需要準備的事項與時程">
+  <div class="eyebrow"><span class="idx">14</span>準備事項</div>
+  <h2 class="rise">主辦需要準備的事，和建議時程</h2>
+  <div class="prep">
+    <div class="rise">
+      <h3>請籌備團隊提供</h3>
+      <ul class="check">
+        <li><svg><use href="#i-cal"/></svg><div><b>年會日期與議程</b><span>換桌輪數、每輪時間、舞台抽獎時段</span></div></li>
+        <li><svg><use href="#i-contacts"/></svg><div><b>報名名單</b><span>姓名與電話，用來對應會員、產生報到 QR</span></div></li>
+        <li><svg><use href="#i-table"/></svg><div><b>分會名單</b><span>建立分會主檔，統一名稱寫法</span></div></li>
+        <li><svg><use href="#i-wifi"/></svg><div><b>場地網路與投影</b><span>報到處、舞台大螢幕的網路與投影機；斷線時報到可離線暫存</span></div></li>
+        <li><svg><use href="#i-line"/></svg><div><b>LINE 官方帳號</b><span>使用哪一個官方帳號、圖文選單入口</span></div></li>
+        <li><svg><use href="#i-gift"/></svg><div><b>問卷題目與獎項</b><span>回饋問卷、摸彩獎項與名額、要發的優惠券</span></div></li>
+      </ul>
+    </div>
+    <div class="rise">
+      <h3>建議時程（以年會日往前推）</h3>
+      <ol class="tl">
+        <li><span class="w">6～4 週前</span><div><b>確認日期、議程與官方帳號</b><span>決定輪數、每桌人數、是否開放 Google／Email 登入與 AI 媒合同桌</span></div></li>
+        <li><span class="w">4～3 週前</span><div><b>匯入名單、建立分會主檔</b><span>設定任務中心的問卷與獎項</span></div></li>
+        <li><span class="w">3～1 週前</span><div><b>推播邀請建立電子名片</b><span>名片填得越完整，換桌與推薦越準</span></div></li>
+        <li><span class="w">1 週前</span><div><b>現場演練</b><span>報到掃碼、大螢幕投影、名牌試印、斷線測試</span></div></li>
+        <li><span class="w">當天</span><div><b>報到、換桌、引薦、抽獎</b><span>每輪開始前依已報到者重排；儀表板即時看成果</span></div></li>
+        <li><span class="w">會後</span><div><b>推播聯絡人包</b><span>與會者一鍵存進通訊錄</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 15 結尾 -->
+<section class="slide end" id="s15" data-title="聯絡我們" aria-label="聯絡我們">
+  <picture class="brandmark rise"><source srcset="/ugo-logo-white.png" media="(prefers-color-scheme: dark)"><img src="/ugo-logo.png" alt="宇果國際行銷 UGO" width="1569" height="528"></picture>
+  <h2 class="rise">讓與會者把時間花在認識人，<br>其餘交給系統</h2>
+  <p class="lead rise">歡迎提供年會日期與規模，我們依實際場地與議程安排演練。</p>
+  <div class="end-grid rise">
+    <div><b>公司</b><span>宇果國際行銷有限公司</span></div>
+    <div><b>聯絡人</b><span>施雲漢 執行長</span></div>
+    <div><b>網站</b><span>ugomk.com</span></div>
+  </div>
+  <p class="note rise" style="margin-top:40px">本簡報中的人名、公司、分會名稱與畫面數字皆為示意。標示「年會前上線」的功能預計於年會前上線，上線時程以實際通知為準。</p>
+</section>
+
+<div class="chrome" aria-label="翻頁">
+  <span class="brand"><img class="foot-logo" src="/ugo-logo.png" alt="" width="1569" height="528">BNI 年會 INW 現場系統</span>
+  <span class="nav">
+    <span class="hint">左右鍵翻頁 · F 全螢幕 · Esc 總覽</span>
+    <button type="button" class="nb" data-nav="overview" aria-label="總覽"><svg><use href="#i-grid"/></svg></button>
+    <button type="button" class="nb" data-nav="-1" aria-label="上一頁"><svg><use href="#i-left"/></svg></button>
+    <span class="pg" data-pg aria-live="polite">01 / 15</span>
+    <button type="button" class="nb" data-nav="1" aria-label="下一頁"><svg><use href="#i-right"/></svg></button>
+  </span>
+</div>
+<div class="progress" aria-hidden="true"><i data-prog></i></div>
+
+</div>
+</div>
+
+<div class="overview" id="overview" hidden role="dialog" aria-modal="true" aria-label="投影片總覽">
+  <div class="ov-head"><h2>投影片總覽</h2><span>點選跳到該頁，Esc 關閉</span></div>
+  <div class="ov-grid" data-ov-grid></div>
+</div>
+
+<footer class="read-foot">宇果國際行銷有限公司 · BNI 年會 INW 現場系統簡報 · 人名、公司與畫面數字皆為示意</footer>
+
+<script>
+(function(){
+  var html=document.documentElement;
+  var stage=document.getElementById('stage');
+  var slides=[].slice.call(stage.querySelectorAll('.slide'));
+  var N=slides.length, cur=0;
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var deckMQ=window.matchMedia?matchMedia('(min-width: 901px) and (min-height: 520px)'):null;
+  var pg=stage.querySelector('[data-pg]'), prog=stage.querySelector('[data-prog]');
+  var ov=document.getElementById('overview'), ovGrid=ov.querySelector('[data-ov-grid]');
+  var enterHooks=[];
+  function pad(n){return (n<10?'0':'')+n;}
+
+  /* 封面座位 */
+  (function(){
+    var g=document.querySelector('[data-cover-seats]'); if(!g) return;
+    var cols=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)','var(--c1)','var(--c3)','var(--c4)','var(--c2)','var(--c5)'];
+    var s='';
+    for(var k=0;k<10;k++){var a=(-90+k*36)*Math.PI/180,x=260+160*Math.cos(a),y=260+160*Math.sin(a);
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="26" fill="'+cols[k]+'" stroke="var(--paper)" stroke-width="3"/>';}
+    for(var j=0;j<6;j++){var b=(-60+j*60)*Math.PI/180,u=260+236*Math.cos(b),v=260+236*Math.sin(b);
+      s+='<circle cx="'+u.toFixed(1)+'" cy="'+v.toFixed(1)+'" r="9" fill="var(--rule)"/>';}
+    g.innerHTML=s;
+  })();
+
+  /* 抽獎頭貼牆 */
+  (function(){
+    var w=document.querySelector('[data-wall]'); if(!w) return;
+    var cls=['f','g','','h','k','f','g','',''],s='';
+    for(var i=0;i<42;i++){var c=cls[(i*7)%cls.length]; if(i===9||i===23||i===31) c+=' new'; s+='<i class="'+c+'"></i>';}
+    w.innerHTML=s;
+  })();
+
+  /* ---------- 手機畫面 ---------- */
+  var phones=[];
+  [].slice.call(document.querySelectorAll('[data-phone]')).forEach(function(ph){
+    var screens=[].slice.call(ph.querySelectorAll('[data-s]'));
+    var order=screens.map(function(s){return s.getAttribute('data-s');});
+    var tabs=[].slice.call(ph.querySelectorAll('.ptab'));
+    var state={el:ph,cur:order[0],timer:null,touched:false};
+    function show(id){
+      var a=order.indexOf(state.cur), b=order.indexOf(id); if(b<0) return;
+      screens.forEach(function(s){
+        var on=s.getAttribute('data-s')===id;
+        s.classList.toggle('back', !on && b<a);
+        s.classList.toggle('on',on);
+        if(on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden','true');
+        [].forEach.call(s.querySelectorAll('button'),function(x){x.tabIndex=on?0:-1;});
+      });
+      tabs.forEach(function(t){t.setAttribute('aria-pressed',t.getAttribute('data-to')===id?'true':'false');});
+      state.cur=id;
+    }
+    state.show=show;
+    state.next=function(){show(order[(order.indexOf(state.cur)+1)%order.length]);};
+    state.start=function(){ state.stop(); if(reduce||state.touched||order.length<2) return; state.timer=setInterval(state.next,4200); };
+    state.stop=function(){ if(state.timer){clearInterval(state.timer);state.timer=null;} };
+    state.reset=function(){ state.touched=false; show(order[0]); };
+    ph.addEventListener('click',function(e){
+      var t=e.target.closest('[data-to]'); if(!t) return;
+      state.touched=true; state.stop(); show(t.getAttribute('data-to'));
+    });
+    show(order[0]);
+    phones.push(state);
+  });
+  enterHooks.push(function(slide){
+    phones.forEach(function(p){
+      if(slide.contains(p.el)){ p.reset(); if(html.classList.contains('deck')) p.start(); }
+      else p.stop();
+    });
+  });
+
+  /* ---------- 換桌示意：25 人 5 桌，第 r 輪 (分會 c, 編號 i) 坐第 (i + r·c) mod 5 桌 ---------- */
+  (function(){
+    var box=document.querySelector('[data-seating]'); if(!box) return;
+    var T=[[150,120],[410,120],[670,120],[280,345],[540,345]], R=82, cols=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'], L='ABCDE';
+    var tg=box.querySelector('[data-tables]'), pgp=box.querySelector('[data-people]'), s='';
+    T.forEach(function(p,t){s+='<circle class="tbl-c" cx="'+p[0]+'" cy="'+p[1]+'" r="54"/><text class="tbl-t" x="'+p[0]+'" y="'+(p[1]+5)+'" text-anchor="middle">第 '+(t+1)+' 桌</text>';});
+    tg.innerHTML=s;
+    var people=[],ps='';
+    for(var c=0;c<5;c++)for(var i=0;i<5;i++){
+      var me=(c===1&&i===0);
+      people.push({c:c,i:i,me:me});
+      ps+='<g class="pp'+(me?' me':'')+'" data-p="'+(c*5+i)+'"><circle class="halo" r="27"/><circle class="d" r="20" fill="'+cols[c]+'"/><text text-anchor="middle" dy="4">'+(me?'王':L[c])+'</text></g>';
+    }
+    pgp.innerHTML=ps;
+    var nodes=[].slice.call(pgp.querySelectorAll('.pp'));
+    var btns=[].slice.call(box.querySelectorAll('[data-round]'));
+    var playBtn=box.querySelector('[data-seat-play]');
+    var stats=box.parentNode.parentNode;
+    var elMet=stats.querySelector('[data-met]'),elRep=stats.querySelector('[data-repeat]'),elSame=stats.querySelector('[data-same]');
+    function table(p,r){return (p.i+r*p.c)%5;}
+    var round=0,timer=null;
+    function render(r){
+      round=r;
+      people.forEach(function(p,k){
+        var t=table(p,r), a=(-90+p.c*72)*Math.PI/180, x=T[t][0]+R*Math.cos(a), y=T[t][1]+R*Math.sin(a);
+        nodes[k].style.transform='translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px)';
+      });
+      var meIdx=5, meP=people[meIdx], met={}, now={};
+      for(var q=0;q<=r;q++){people.forEach(function(p,k){ if(k!==meIdx&&table(p,q)===table(meP,q)){met[k]=1; if(q===r) now[k]=1;} });}
+      nodes.forEach(function(n,k){n.classList.toggle('now',!!now[k]);n.classList.toggle('met',!!met[k]&&!now[k]);});
+      var pairs={},rep=0,same=0;
+      for(var q2=0;q2<=r;q2++){
+        for(var a1=0;a1<25;a1++)for(var b1=a1+1;b1<25;b1++){
+          if(table(people[a1],q2)!==table(people[b1],q2)) continue;
+          var key=a1+'-'+b1; if(pairs[key]) rep++; pairs[key]=1;
+          if(people[a1].c===people[b1].c) same++;
+        }
+      }
+      elMet.textContent=Object.keys(met).length; elRep.textContent=rep; elSame.textContent=same;
+      btns.forEach(function(b){b.setAttribute('aria-pressed',+b.getAttribute('data-round')===r?'true':'false');});
+    }
+    function setPlay(on){
+      if(timer){clearInterval(timer);timer=null;}
+      playBtn.setAttribute('aria-pressed',on?'true':'false');
+      playBtn.querySelector('use').setAttribute('href',on?'#i-pause':'#i-play');
+      playBtn.querySelector('span').textContent=on?'暫停':'自動播放';
+      if(on) timer=setInterval(function(){render((round+1)%5);},2600);
+    }
+    box.addEventListener('click',function(e){
+      var b=e.target.closest('[data-round]'); if(b){setPlay(false);render(+b.getAttribute('data-round'));return;}
+      if(e.target.closest('[data-seat-play]')) setPlay(playBtn.getAttribute('aria-pressed')!=='true');
+    });
+    render(0);
+    enterHooks.push(function(slide){
+      if(slide.contains(box)){ render(0); setPlay(!reduce && html.classList.contains('deck')); }
+      else setPlay(false);
+    });
+  })();
+
+  /* ---------- 簡報模式 ---------- */
+  function fit(){
+    var s=Math.min(window.innerWidth/1600, window.innerHeight/900);
+    stage.style.setProperty('--s', s.toFixed(4));
+  }
+  function go(i,opts){
+    opts=opts||{};
+    i=Math.max(0,Math.min(N-1,i));
+    cur=i;
+    slides.forEach(function(s,k){
+      var on=k===i; s.classList.toggle('on',on);
+      if(html.classList.contains('deck')){ if(on){s.removeAttribute('aria-hidden');s.inert=false;} else {s.setAttribute('aria-hidden','true');s.inert=true;} }
+    });
+    pg.textContent=pad(i+1)+' / '+N;
+    prog.style.width=((i+1)/N*100)+'%';
+    if(!opts.noHash){ try{history.replaceState(null,'','#'+(i+1));}catch(e){} }
+    enterHooks.forEach(function(h){h(slides[i]);});
+  }
+  function fromHash(){var n=parseInt((location.hash||'').replace('#',''),10);return isNaN(n)?0:n-1;}
+
+  function setMode(){
+    var deck=!deckMQ||deckMQ.matches;
+    html.classList.toggle('deck',deck);
+    if(deck){
+      fit(); go(cur,{noHash:true});
+    }else{
+      closeOverview();
+      slides.forEach(function(s){s.classList.add('on');s.removeAttribute('aria-hidden');s.inert=false;});
+      phones.forEach(function(p){p.stop();});
+      enterHooks.forEach(function(h){h(document.createElement('div'));});
+    }
+  }
+
+  /* 總覽 */
+  var built=false;
+  function buildOverview(){
+    if(built) return; built=true;
+    slides.forEach(function(s,k){
+      var b=document.createElement('button'); b.type='button'; b.className='thumb'; b.setAttribute('data-go',k);
+      var tv=document.createElement('div'); tv.className='tv';
+      var c=s.cloneNode(true); c.removeAttribute('id'); c.classList.add('on');
+      [].forEach.call(c.querySelectorAll('[id]'),function(x){x.removeAttribute('id');});
+      [].forEach.call(c.querySelectorAll('[data-to]'),function(x){x.removeAttribute('data-to');});
+      c.inert=true; c.setAttribute('aria-hidden','true');
+      tv.appendChild(c); b.appendChild(tv);
+      var tl=document.createElement('div'); tl.className='tlab'; tl.innerHTML='<b>'+pad(k+1)+'</b><span></span>'; tl.querySelector('span').textContent=s.getAttribute('data-title');
+      b.appendChild(tl); ovGrid.appendChild(b);
+    });
+  }
+  function sizeThumbs(){
+    [].forEach.call(ovGrid.querySelectorAll('.tv'),function(tv){var w=tv.clientWidth; var sl=tv.firstChild; if(sl&&w) sl.style.transform='scale('+(w/1600)+')';});
+  }
+  var lastFocus=null;
+  function openOverview(){
+    if(!html.classList.contains('deck')) return;
+    buildOverview(); ov.hidden=false; sizeThumbs();
+    [].forEach.call(ovGrid.querySelectorAll('.thumb'),function(t,k){t.setAttribute('aria-current',k===cur?'true':'false');});
+    lastFocus=document.activeElement;
+    var c=ovGrid.querySelectorAll('.thumb')[cur]; if(c){c.focus({preventScroll:true}); c.scrollIntoView({block:'nearest'});}
+  }
+  function closeOverview(){ if(ov.hidden) return; ov.hidden=true; if(lastFocus&&lastFocus.focus) lastFocus.focus({preventScroll:true}); }
+  ov.addEventListener('click',function(e){var t=e.target.closest('[data-go]'); if(t){closeOverview(); go(+t.getAttribute('data-go'));} else if(e.target===ov) closeOverview();});
+
+  /* 鍵盤 */
+  document.addEventListener('keydown',function(e){
+    if(e.altKey||e.ctrlKey||e.metaKey) return;
+    var deck=html.classList.contains('deck');
+    if(!ov.hidden){
+      if(e.key==='Escape'){e.preventDefault();closeOverview();}
+      return;
+    }
+    if(!deck) return;
+    var tag=(e.target.tagName||'').toLowerCase(), onCtl=(tag==='button'||tag==='a'||tag==='input');
+    var k=e.key;
+    if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey&&!onCtl)){e.preventDefault();go(cur+1);}
+    else if(k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey&&!onCtl)){e.preventDefault();go(cur-1);}
+    else if(k==='Home'){e.preventDefault();go(0);}
+    else if(k==='End'){e.preventDefault();go(N-1);}
+    else if(k==='f'||k==='F'){e.preventDefault();toggleFs();}
+    else if(k==='Escape'){ if(!document.fullscreenElement){e.preventDefault();openOverview();} }
+  });
+  function toggleFs(){
+    try{ if(document.fullscreenElement) document.exitFullscreen(); else if(html.requestFullscreen) html.requestFullscreen(); }catch(e){}
+  }
+
+  /* 點擊翻頁：點左側四分之一往回，其餘往後；點到按鈕、手機、示意區不翻頁 */
+  document.getElementById('viewport').addEventListener('click',function(e){
+    if(!html.classList.contains('deck')) return;
+    var nav=e.target.closest('[data-nav]');
+    if(nav){var v=nav.getAttribute('data-nav'); if(v==='overview') openOverview(); else go(cur+parseInt(v,10)); return;}
+    if(e.target.closest('button,a,input,[data-phone],[data-seating],.chrome')) return;
+    if(window.getSelection&&String(window.getSelection())) return;
+    if(e.clientX<window.innerWidth*0.25) go(cur-1); else go(cur+1);
+  });
+
+  window.addEventListener('resize',function(){ if(html.classList.contains('deck')){fit(); if(!ov.hidden) sizeThumbs();} });
+  window.addEventListener('hashchange',function(){ if(html.classList.contains('deck')){var n=fromHash(); if(n!==cur) go(n,{noHash:true});} });
+  if(deckMQ){ if(deckMQ.addEventListener) deckMQ.addEventListener('change',setMode); else if(deckMQ.addListener) deckMQ.addListener(setMode); }
+
+  cur=Math.max(0,Math.min(N-1,fromHash()));
+  setMode();
+  if(!html.classList.contains('deck') && cur>0){ var t=slides[cur]; if(t) t.scrollIntoView(); }
+})();
+</script>
+</body>
+</html>
