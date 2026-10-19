@@ -229,6 +229,21 @@ html:not(.deck) .read-foot{display:block;max-width:820px;margin:0 auto;padding:2
 .opt.on{border-color:#1b1b1d}.opt.on i{border:5px solid #1b1b1d}
 .lang{display:inline-flex;border:1px solid rgba(255,255,255,.35);border-radius:999px;overflow:hidden;font-size:14px;flex:0 0 auto}
 .lang span{padding:3px 10px;color:#d4d4d8}.lang span.on{background:#fff;color:#1b1b1d;font-weight:700}
+.pbar{height:10px;border-radius:999px;background:#e2e8f0;overflow:hidden;margin-top:8px}
+.pbar em{display:block;height:100%;background:#c8102e;border-radius:999px}
+.tk{display:flex;align-items:center;gap:10px;font-size:15px;padding:7px 0;border-bottom:1px solid #f1f5f9;color:#334155}
+.tk:last-child{border-bottom:0}
+.tk i{width:20px;height:20px;border-radius:50%;border:2px solid #cbd5e1;flex:0 0 auto;display:grid;place-items:center}
+.tk.done{color:#0f172a}.tk.done i{background:#0f766e;border-color:#0f766e;color:#fff}
+.tk i svg{width:12px;height:12px}
+.tk span{flex:1;min-width:0}
+.tk small{font-size:14px;color:#64748b}
+.rowl em.ok{background:#ecfdf5;color:#0f766e}
+.rowl em.done{background:#f1f5f9;color:#64748b}
+.zone{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:28px}
+.zone div{border:1px solid var(--rule);border-top:3px solid var(--brand);border-radius:8px;padding:12px 14px;background:var(--paper);min-width:0}
+.zone b{display:block;font-size:var(--small);font-weight:800}
+.zone span{display:block;font-size:var(--tiny);color:var(--muted);margin-top:4px;line-height:1.45}
 .homebar{flex:0 0 auto;height:20px;display:grid;place-items:center}
 .homebar::after{content:"";width:110px;height:5px;border-radius:3px;background:#0f172a;opacity:.85}
 
@@ -499,7 +514,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
     <li><span class="dot"><svg><use href="#i-card"/></svg></span><b>電子名片</b><p>同桌掃 QR 就看到</p></li>
     <li><span class="dot"><svg><use href="#i-table"/></svg></span><b>多輪換桌</b><p>每輪遇到新面孔</p></li>
     <li><span class="dot"><svg><use href="#i-ref"/></svg></span><b>電子引薦</b><p>手機填引薦單</p></li>
-    <li><span class="dot"><svg><use href="#i-gift"/></svg></span><b>任務抽獎</b><p>填問卷拿抽獎資格</p></li>
+    <li><span class="dot"><svg><use href="#i-gift"/></svg></span><b>任務集章</b><p>完成任務領獎、抽獎</p></li>
     <li><span class="dot"><svg><use href="#i-contacts"/></svg></span><b>會後聯絡人包</b><p>一鍵存進通訊錄</p></li>
   </ol>
   <div class="oneoa rise"><svg><use href="#i-line"/></svg>與會者只要加入官方帳號好友，不用下載 App。</div>
@@ -652,6 +667,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       </div>
       <p class="proof">實測 1,000 人、100 桌、5 輪，零重複</p>
       <p class="proof">可開啟：互相推薦的人安排同桌一次</p>
+      <p class="proof">臨時沒到或現場加入可補位，其他人桌號不變</p>
     </div>
   </div>
 </section>
@@ -754,11 +770,81 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
   </div>
 </section>
 
-<!-- 09 名牌＋聯絡人包 -->
-<section class="slide" id="s9" data-title="A6 名牌與會後聯絡人包" aria-label="A6 名牌與會後聯絡人包">
+<!-- 09 任務進程＋現場領取 -->
+<section class="slide" id="s9" data-title="任務進程與現場領取" aria-label="任務進程與現場領取">
+  <div class="split">
+    <div class="txt">
+      <div class="eyebrow"><span class="idx">09</span>任務進程＋現場領取</div>
+      <h2 class="rise">任務做到哪一目了然，<br>掃名牌就知道領過什麼</h2>
+      <ul class="pts rise">
+        <li>進度表列出當天任務，完成一項亮一格</li>
+        <li>全部完成自動拿抽獎資格，或到領取區領紀念品</li>
+        <li>掃名牌 QR 看到已領／可領，每項每人一次</li>
+      </ul>
+      <div class="zone rise" role="list" aria-label="各區域掃碼頁">
+        <div role="listitem"><b>報到區</b><span>掃了就是報到</span></div>
+        <div role="listitem"><b>領取區</b><span>掃了就是領贈品</span></div>
+        <div role="listitem"><b>打卡點</b><span>掃了就完成任務</span></div>
+      </div>
+    </div>
+    <div class="phone rise" data-phone>
+      <div class="device"><div class="screens">
+        <div class="screen on" data-s="prog" aria-label="我的任務進度">
+          <div class="sbar"><span>9:41</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-x"/></svg><div><b>我的任務</b><small>liff.line.me</small></div><svg><use href="#i-more"/></svg></div>
+          <div class="lbody"><div class="lmain">
+            <div class="blk"><h5>完成 4 / 6</h5><div class="pbar"><em style="width:67%"></em></div><p style="margin-top:8px;font-size:14px;color:#64748b">全部完成可領紀念品＋摸彩券 1 張</p></div>
+            <div class="blk">
+              <div class="tk done"><i><svg><use href="#i-check"/></svg></i><span>完成電子名片</span></div>
+              <div class="tk done"><i><svg><use href="#i-check"/></svg></i><span>現場報到</span></div>
+              <div class="tk done"><i><svg><use href="#i-check"/></svg></i><span>掃贊助商攤位打卡點</span></div>
+              <div class="tk done"><i><svg><use href="#i-check"/></svg></i><span>發出 1 張引薦單</span></div>
+              <div class="tk"><i></i><span>交換名片 5 張</span><small>3 / 5</small></div>
+              <div class="tk"><i></i><span>填寫年會回饋問卷</span></div>
+            </div>
+          </div></div>
+          <div class="savebar"><span>還差 2 項</span><button type="button" class="pbtn red" data-to="station">出示 QR</button></div>
+        </div>
+        <div class="screen" data-s="station" aria-label="領取區掃碼">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-left"/></svg><div><b>領取區</b><small>工作人員</small></div><span></span></div>
+          <div class="lbody"><div class="lmain">
+            <div class="blk"><div class="person"><span class="av a1">王</span><div><b>王小明</b><small>範例分會 A・室內設計</small></div></div></div>
+            <div class="blk">
+              <div class="rowl"><span>資料袋</span><em class="done">已領 08:52</em></div>
+              <div class="rowl"><span>午餐餐券</span><em class="ok">可領</em></div>
+              <div class="rowl"><span>紀念品</span><em>任務未完成</em></div>
+            </div>
+            <button type="button" class="pbtn" style="margin-top:auto" data-to="done">核銷可領的 1 項</button>
+          </div></div>
+          <div class="homebar"></div>
+        </div>
+        <div class="screen" data-s="done" aria-label="核銷完成">
+          <div class="sbar"><span>9:42</span><span class="ic"><svg><use href="#i-signal"/></svg></span></div>
+          <div class="lbar"><svg><use href="#i-left"/></svg><div><b>領取區</b><small>工作人員</small></div><span></span></div>
+          <div class="lbody"><div class="lmain">
+            <div class="ok-msg"><svg><use href="#i-check"/></svg>已發放：午餐餐券</div>
+            <div class="blk">
+              <div class="rowl"><span>資料袋</span><em class="done">已領 08:52</em></div>
+              <div class="rowl"><span>午餐餐券</span><em class="done">已領 09:42</em></div>
+              <div class="rowl"><span>紀念品</span><em>任務未完成</em></div>
+            </div>
+            <p style="font-size:15px;color:#475569;padding:0 4px">同一項再掃一次會顯示已領，不會重複發。</p>
+            <button type="button" class="pbtn" style="margin-top:auto" data-to="prog">掃下一位</button>
+          </div></div>
+          <div class="homebar"></div>
+        </div>
+      </div></div>
+      <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="prog">任務進度</button><button type="button" class="ptab" data-to="station">掃碼查領取</button><button type="button" class="ptab" data-to="done">核銷</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 名牌＋聯絡人包 -->
+<section class="slide" id="s10" data-title="A6 名牌與會後聯絡人包" aria-label="A6 名牌與會後聯絡人包">
   <div class="s9-grid">
     <div class="txt">
-      <div class="eyebrow"><span class="idx">09</span>名牌＋聯絡人包</div>
+      <div class="eyebrow"><span class="idx">10</span>名牌＋聯絡人包</div>
       <h2 class="rise">名牌事先統一印好，<br>散場一鍵存好人脈</h2>
       <ul class="pts rise">
         <li>會前依報名名單統一印好 A6 名牌，報到直接領取</li>
@@ -827,7 +913,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 10 海外會員＋個資 -->
-<section class="slide" id="s10" data-title="海外會員與個資安全" aria-label="海外會員與個資安全">
+<section class="slide" id="s11" data-title="海外會員與個資安全" aria-label="海外會員與個資安全">
   <div class="split rev">
     <div class="phone rise" data-phone>
       <div class="device"><div class="screens">
@@ -866,7 +952,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
       <div class="ptabs" role="group" aria-label="切換手機畫面"><button type="button" class="ptab" data-to="login">選登入方式</button><button type="button" class="ptab" data-to="en">英文介面</button></div>
     </div>
     <div class="txt">
-      <div class="eyebrow"><span class="idx">10</span>海外會員＋個資安全</div>
+      <div class="eyebrow"><span class="idx">11</span>海外會員＋個資安全</div>
       <h2 class="rise">海外會員也能參加，<br>資料只給本人同意的人看</h2>
       <ul class="pts rise">
         <li>沒有 LINE 可用 Google 或 Email 登入，主辦決定開不開</li>
@@ -879,8 +965,8 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 11 準備事項 -->
-<section class="slide" id="s11" data-title="主辦需要準備的事" aria-label="主辦需要準備的事">
-  <div class="eyebrow"><span class="idx">11</span>準備事項</div>
+<section class="slide" id="s12" data-title="主辦需要準備的事" aria-label="主辦需要準備的事">
+  <div class="eyebrow"><span class="idx">12</span>準備事項</div>
   <h2 class="rise">主辦需要準備的事，和建議時程</h2>
   <div class="prep">
     <div class="rise">
@@ -890,6 +976,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
         <li><svg><use href="#i-contacts"/></svg>報名名單與分會名單</li>
         <li><svg><use href="#i-wifi"/></svg>場地網路與投影設備</li>
         <li><svg><use href="#i-line"/></svg>LINE 官方帳號、問卷與獎項</li>
+        <li><svg><use href="#i-gift"/></svg>要發放的贈品品項與數量</li>
       </ul>
     </div>
     <div class="rise">
@@ -905,7 +992,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
 </section>
 
 <!-- 12 結尾 -->
-<section class="slide end" id="s12" data-title="聯絡我們" aria-label="聯絡我們">
+<section class="slide end" id="s13" data-title="聯絡我們" aria-label="聯絡我們">
   <picture class="brandmark rise"><source srcset="/ugo-logo-white.png" media="(prefers-color-scheme: dark)"><img src="/ugo-logo.png" alt="宇果國際行銷 UGO" width="1569" height="528"></picture>
   <h2 class="rise">讓與會者把時間花在認識人，<br>其餘交給系統</h2>
   <p class="lead rise">提供年會日期與規模，我們依實際場地安排演練。</p>
@@ -923,7 +1010,7 @@ html:not(.deck) .seatbox{padding:12px 10px 8px}
     <span class="hint">左右鍵翻頁・F 全螢幕・Esc 總覽</span>
     <button type="button" class="nb" data-nav="overview" aria-label="總覽"><svg><use href="#i-grid"/></svg></button>
     <button type="button" class="nb" data-nav="-1" aria-label="上一頁"><svg><use href="#i-left"/></svg></button>
-    <span class="pg" data-pg aria-live="polite">01 / 12</span>
+    <span class="pg" data-pg aria-live="polite">01 / 13</span>
     <button type="button" class="nb" data-nav="1" aria-label="下一頁"><svg><use href="#i-right"/></svg></button>
   </span>
 </div>
