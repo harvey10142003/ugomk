@@ -33,7 +33,11 @@ export interface KitItem {
   file_url?: string;
   file_kind?: 'image' | 'pdf';
   share_text?: string;
-  qa?: Array<{ q: string; a: string }>;
+  /** 簡報的客戶分享網址（ugomk.com/d/<code>）；停用時沒有 */
+  share_url?: string;
+  /** DM：PDF 主檔另附的 PNG */
+  preview_url?: string;
+  qa?: Array<{ q: string; a: string; kind?: 'faq' | 'objection' }>;
 }
 
 export interface KitModule {
@@ -41,7 +45,60 @@ export interface KitModule {
   slug: string;
   name: string;
   summary: string;
+  category?: string;
   items: KitItem[];
+}
+
+/* ── 簡報客戶分享（第二期）：ugomk.com/d/<code> ───────────────────────── */
+
+export const SHARE_CODE_RE = /^[A-Za-z0-9_-]{16,64}$/;
+
+export interface SharedDeck {
+  item: { id: string; title: string; summary: string; version: number; entry_url: string };
+  module: { id: string; slug: string; name: string };
+  og_image: string | null;
+}
+
+/** LINE／社群貼連結時的預覽爬蟲不算一次瀏覽 */
+const PREVIEW_BOT_RE = /bot|crawl|spider|facebookexternalhit|preview|slack|discord|telegram|whatsapp|skype|embedly|vkshare|pinterest/i;
+
+export function isPreviewBot(ua: string | null | undefined): boolean {
+  return !!ua && PREVIEW_BOT_RE.test(ua);
+}
+
+export type ShareLoad = { state: 'ok'; deck: SharedDeck } | { state: 'not_found' } | { state: 'unavailable' };
+
+/** 分享碼對得到才回；record＝這次要不要記一筆「開啟」（真人瀏覽才記） */
+export async function loadSharedDeck(code: string, record: boolean): Promise<ShareLoad> {
+  if (!SHARE_CODE_RE.test(code)) return { state: 'not_found' };
+  let res: Response;
+  try {
+    const h: Record<string, string> = { accept: 'application/json', 'x-sales-kit-share-code': code };
+    const secret = process.env.SALES_KIT_PROXY_SECRET?.trim();
+    if (secret) {
+      h['x-sales-kit-proxy-key'] = secret;
+      const ip = visitorIp();
+      if (ip) h['x-sales-kit-client-ip'] = ip;
+    }
+    if (record) h['x-sales-kit-record'] = '1';
+    res = await fetch(`${CRM_BASE}/api/sales-kit/public/share`, { headers: h, cache: 'no-store', signal: AbortSignal.timeout(TIMEOUT_MS) });
+  } catch {
+    return { state: 'unavailable' };
+  }
+  if (res.status === 404) return { state: 'not_found' };
+  if (!res.ok) return { state: 'unavailable' };
+  const body = (await res.json().catch(() => null)) as { success?: boolean; data?: SharedDeck } | null;
+  if (!body?.success || !body.data?.item?.entry_url) return { state: 'unavailable' };
+  return { state: 'ok', deck: body.data };
+}
+
+/** 圖卡文案裡的 {deck_link} 換成該模組第一份簡報的客戶分享網址；沒有就拿掉這個位置 */
+export function fillDeckLink(text: string, deckLink: string | null | undefined): string {
+  return text.replace(/\{deck_link\}/g, deckLink || '').replace(/[ \t]+\n/g, '\n').trim();
+}
+
+export function lineShareUrl(text: string): string {
+  return `https://line.me/R/share?text=${encodeURIComponent(text)}`;
 }
 
 export interface Kit {

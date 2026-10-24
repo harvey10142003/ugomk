@@ -15,7 +15,8 @@ import { ChevronLeft, Maximize } from 'lucide-react';
  * - `referrerPolicy="no-referrer"`：載簡報時不把含通行證的網址送給 R2。
  * 參考 [[reference_web_redirect_and_micro_page_sandbox]]：allow-scripts 與 allow-same-origin 不可同時給。
  */
-export function DeckPlayer({ src, title, backHref }: { src: string; title: string; backHref: string }) {
+/** backHref 不給 ＝ 客戶分享頁（/d/<code>）：左上只放公司名，不連回業務資源網站 */
+export function DeckPlayer({ src, title, backHref }: { src: string; title: string; backHref?: string }) {
   const wrap = useRef<HTMLDivElement>(null);
   const [fsError, setFsError] = useState(false);
 
@@ -34,10 +35,14 @@ export function DeckPlayer({ src, title, backHref }: { src: string; title: strin
   return (
     <div className="flex h-[100dvh] flex-col bg-ink-900">
       <div className="flex items-center justify-between gap-2 px-3 py-2 text-white sm:px-4">
-        <Link href={backHref} className="inline-flex min-h-[40px] items-center gap-1 text-sm font-medium text-white/85 hover:text-white">
-          <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-          返回
-        </Link>
+        {backHref ? (
+          <Link href={backHref} className="inline-flex min-h-[40px] items-center gap-1 text-sm font-medium text-white/85 hover:text-white">
+            <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+            返回
+          </Link>
+        ) : (
+          <span className="hidden text-xs font-semibold tracking-wide text-white/70 sm:inline">宇果國際行銷</span>
+        )}
         <p className="min-w-0 flex-1 truncate text-center text-sm font-semibold">{title}</p>
         <button
           type="button"

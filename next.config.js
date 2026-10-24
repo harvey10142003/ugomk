@@ -31,8 +31,9 @@ const nextConfig = {
       },
       // 業務資源網站（2026-10-24）：網址裡就是通行證 —— 不收錄、不快取、不帶 Referer 出去、不准被別的網站框住。
       // 頁面本身（app/kit/layout.tsx）也宣告 meta robots／referrer，兩邊同時宣告。
-      {
-        source: '/kit/:path*',
+      // 簡報客戶分享頁（2026-10-24 第二期）：同一組規則
+      ...['/kit/:path*', '/d/:path*'].map((source) => ({
+        source,
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive' },
           { key: 'Referrer-Policy', value: 'no-referrer' },
@@ -40,7 +41,7 @@ const nextConfig = {
           { key: 'X-Frame-Options', value: 'DENY' },
           { key: 'Content-Security-Policy', value: "frame-ancestors 'none'" }
         ]
-      }
+      }))
     ];
   },
   async redirects() {
