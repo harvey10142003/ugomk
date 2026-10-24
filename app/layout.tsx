@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer';
 import { JsonLd } from '@/components/JsonLd';
 import { GoogleTagManager, GoogleTagManagerNoScript } from '@/components/GoogleTagManager';
 import { OutboundClickTracker } from '@/components/OutboundClickTracker';
+import { HideOnPrivatePages } from '@/components/SiteChrome';
 import { organizationLd, websiteLd } from '@/lib/jsonld';
 import { site } from '@/lib/data/site';
 import './fonts.css';
@@ -68,14 +69,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col">
         {/* GTM 的 noscript 備援要在 body 的最前面（官方要求）；未設容器 ID 時不渲染 */}
-        <GoogleTagManagerNoScript />
-        <JsonLd data={[organizationLd, websiteLd]} />
-        {/* 全站 LINE / 電話 / Email 點擊追蹤 —— 委派式，不需要逐頁改 CTA */}
-        <OutboundClickTracker />
-        <Header />
+        {/* 不公開頁（/kit 業務資源）不顯示官網外框、不載追蹤：網址裡有通行證，不能送進 GTM（components/SiteChrome.tsx） */}
+        <HideOnPrivatePages>
+          <GoogleTagManagerNoScript />
+          <JsonLd data={[organizationLd, websiteLd]} />
+          {/* 全站 LINE / 電話 / Email 點擊追蹤 —— 委派式，不需要逐頁改 CTA */}
+          <OutboundClickTracker />
+          <Header />
+        </HideOnPrivatePages>
         <main className="flex-1">{children}</main>
-        <Footer />
-        <GoogleTagManager />
+        <HideOnPrivatePages>
+          <Footer />
+          <GoogleTagManager />
+        </HideOnPrivatePages>
       </body>
     </html>
   );
