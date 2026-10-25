@@ -28,7 +28,9 @@ export default async function KitModulePage({ params }: { params: { token: strin
   const cards = of('card');
   const firstDeck = decks.find((d) => d.share_url) ?? decks[0] ?? null;
   const firstDeckShare = safeHttpsUrl(decks.find((d) => d.share_url)?.share_url);
-  const heroImg = safeHttpsUrl(cards.find((c) => safeHttpsUrl(c.file_url))?.file_url) ?? safeHttpsUrl(dms[0]?.preview_url ?? dms[0]?.file_url);
+  // 頁首圖：模組專屬縮圖（3:2、完整顯示）優先，沒有才用第一張圖卡／DM（取上方主視覺）
+  const ownThumb = safeHttpsUrl(mod.thumbnail_url);
+  const heroImg = ownThumb ?? safeHttpsUrl(cards.find((c) => safeHttpsUrl(c.file_url))?.file_url) ?? safeHttpsUrl(dms[0]?.preview_url ?? dms[0]?.file_url);
   const qaTotal = qas.reduce((s, q) => s + (q.qa?.length ?? 0), 0);
 
   const jump = [
@@ -76,7 +78,8 @@ export default async function KitModulePage({ params }: { params: { token: strin
             fallbackLabel={mod.name}
             sizes="(max-width: 1023px) 100vw, 400px"
             priority
-            className="aspect-[16/9] w-full rounded-lg lg:aspect-[3/2]"
+            position={ownThumb ? 'center' : 'top'}
+            className={`w-full rounded-lg lg:aspect-[3/2] ${ownThumb ? 'aspect-[3/2]' : 'aspect-[16/9]'}`}
           />
         </div>
       </section>

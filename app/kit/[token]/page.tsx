@@ -5,7 +5,7 @@ import type { QaEntry } from '@/components/kit/QaBrowser';
 import { loadKit, safeHttpsUrl, type KitModule } from '@/lib/kit';
 import { KIT_CATEGORIES, KIT_CATEGORY_OTHER, kitCategoryOf } from '@/lib/kit-media';
 
-/** 模組縮圖：第一張分享圖卡 → DM 預覽（PNG 主檔或 PDF 附的 PNG）→ 沒有就用名稱字塊 */
+/** 模組縮圖退路（沒有專屬縮圖時）：第一張分享圖卡 → DM 預覽（PNG 主檔或 PDF 附的 PNG）→ 沒有就用名稱字塊 */
 function thumbOf(m: KitModule): string | null {
   const card = m.items.find((i) => i.type === 'card' && safeHttpsUrl(i.file_url));
   if (card) return safeHttpsUrl(card.file_url);
@@ -41,7 +41,9 @@ export default async function KitHome({ params }: { params: { token: string } })
       name: m.name,
       summary: m.summary,
       categoryId: kitCategoryOf(m.category).id,
-      thumb: thumbOf(m),
+      // 專屬縮圖優先（CRM thumbnail_url）；沒有才退回圖卡／DM／字塊
+      ownThumb: safeHttpsUrl(m.thumbnail_url),
+      thumb: safeHttpsUrl(m.thumbnail_url) ?? thumbOf(m),
       meta: metaOf(m),
       deck: deck ? { title: deck.title, shareUrl: safeHttpsUrl(deck.share_url) } : null,
     };

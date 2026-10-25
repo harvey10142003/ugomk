@@ -20,6 +20,8 @@ export interface HomeModule {
   summary: string;
   categoryId: string;
   thumb: string | null;
+  /** 模組專屬縮圖（3:2、圖上有模組名稱）；有的話完整顯示、不裁上方，桌機卡片不再重複印名稱 */
+  ownThumb: string | null;
   /** 這個模組有什麼素材（給卡片上的灰字一行） */
   meta: string;
   deck: { title: string; shareUrl: string | null } | null;
@@ -144,11 +146,17 @@ export function KitHomeBrowser({
  * 縮圖與名稱連到模組頁；分享鈕不在連結裡（避免巢狀互動元素）。
  */
 function ModuleCard({ m, href, category, priority }: { m: HomeModule; href: string; category: string; priority: boolean }) {
+  const own = !!m.ownThumb && m.thumb === m.ownThumb;
   return (
     <article className="group flex h-full gap-3 rounded-lg border border-mist-300 bg-white p-3 transition-colors hover:border-mist-400 sm:flex-col sm:gap-0 sm:p-0">
-      <Link href={href} tabIndex={-1} aria-hidden="true" className="block shrink-0 sm:overflow-hidden sm:rounded-t-lg">
+      <Link
+        href={href}
+        {...(own ? { 'aria-label': m.name } : { tabIndex: -1, 'aria-hidden': true })}
+        className="block shrink-0 sm:overflow-hidden sm:rounded-t-lg"
+      >
         <KitImage
           src={m.thumb}
+          position={own ? 'center' : 'top'}
           alt=""
           fallbackLabel={m.name}
           sizes="(max-width: 639px) 112px, (max-width: 1023px) 46vw, 380px"
@@ -157,13 +165,15 @@ function ModuleCard({ m, href, category, priority }: { m: HomeModule; href: stri
         />
       </Link>
       <div className="flex min-w-0 flex-1 flex-col sm:p-4">
-        <h3 className="text-[16px] font-bold leading-snug text-ink-900">
+        {/* 有專屬縮圖時，桌機的名稱已在圖上 ⇒ 只留給螢幕閱讀器；手機縮圖太小讀不到圖上的字，照常顯示 */}
+        {own && <h3 className="sr-only hidden sm:block">{m.name}</h3>}
+        <h3 className={`text-[16px] font-bold leading-snug text-ink-900 ${own ? 'sm:hidden' : ''}`}>
           <Link href={href} className="inline-flex items-start gap-1 hover:text-brand-800">
             <span>{m.name}</span>
             <IconChevronRight className="mt-[3px] h-4 w-4 shrink-0 text-ink-400 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" aria-hidden="true" />
           </Link>
         </h3>
-        {m.summary && <p className="mt-1 line-clamp-2 text-[14px] leading-relaxed text-ink-500">{m.summary}</p>}
+        {m.summary && <p className={`mt-1 line-clamp-2 text-[14px] leading-relaxed text-ink-500 ${own ? 'sm:mt-0' : ''}`}>{m.summary}</p>}
         <p className="mt-1.5 text-[13px] text-ink-400">
           <span className="text-brand-800">{category}</span>
           <span aria-hidden="true">・</span>

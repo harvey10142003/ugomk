@@ -46,6 +46,8 @@ export interface KitModule {
   name: string;
   summary: string;
   category?: string;
+  /** 模組專屬縮圖（1200×800、3:2，圖上已排好模組名稱）；舊資料沒有這個欄位或為 null */
+  thumbnail_url?: string | null;
   items: KitItem[];
 }
 
