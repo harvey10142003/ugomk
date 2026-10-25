@@ -105,12 +105,15 @@ const config: Config = {
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out',
         'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-        'pulse-soft': 'pulseSoft 3s ease-in-out infinite'
+        'pulse-soft': 'pulseSoft 3s ease-in-out infinite',
+        // 業務資源網站簡報載入條（components/kit/DeckPlayer.tsx）
+        kitload: 'kitload 1.2s ease-in-out infinite'
       },
       keyframes: {
         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
         slideUp: { '0%': { opacity: '0', transform: 'translateY(32px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-        pulseSoft: { '0%, 100%': { opacity: '0.6' }, '50%': { opacity: '1' } }
+        pulseSoft: { '0%, 100%': { opacity: '0.6' }, '50%': { opacity: '1' } },
+        kitload: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(300%)' } }
       }
     }
   },

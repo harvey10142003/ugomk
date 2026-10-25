@@ -1,66 +1,69 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
 import { KitShell, KitUnavailable } from '@/components/kit/KitShell';
-import { KitQaSearch, type QaEntry } from '@/components/kit/QaBrowser';
-import { ITEM_TYPE_LABEL, loadKit, type KitItemType } from '@/lib/kit';
+import { KitHomeBrowser, type HomeCategory, type HomeModule } from '@/components/kit/KitHomeBrowser';
+import type { QaEntry } from '@/components/kit/QaBrowser';
+import { loadKit, safeHttpsUrl, type KitModule } from '@/lib/kit';
+import { KIT_CATEGORIES, KIT_CATEGORY_OTHER, kitCategoryOf } from '@/lib/kit-media';
 
-/** 業務資源首頁：這個連結看得到的模組清單 */
+/** 模組縮圖：第一張分享圖卡 → DM 預覽（PNG 主檔或 PDF 附的 PNG）→ 沒有就用名稱字塊 */
+function thumbOf(m: KitModule): string | null {
+  const card = m.items.find((i) => i.type === 'card' && safeHttpsUrl(i.file_url));
+  if (card) return safeHttpsUrl(card.file_url);
+  const dm = m.items.find((i) => i.type === 'dm');
+  if (dm) return safeHttpsUrl(dm.file_kind === 'pdf' ? dm.preview_url : dm.file_url);
+  return null;
+}
+
+function metaOf(m: KitModule): string {
+  const n = (t: string) => m.items.filter((i) => i.type === t).length;
+  const qa = m.items.filter((i) => i.type === 'qa').reduce((s, i) => s + (i.qa?.length ?? 0), 0);
+  const parts = [
+    n('deck') ? `簡報${n('deck') > 1 ? ` ${n('deck')}` : ''}` : '',
+    qa ? `QA ${qa} 題` : '',
+    n('dm') ? `DM${n('dm') > 1 ? ` ${n('dm')}` : ''}` : '',
+    n('card') ? `圖卡 ${n('card')}` : '',
+  ].filter(Boolean);
+  return parts.length ? parts.join('・') : '素材準備中';
+}
+
+/** 業務資源首頁：這個連結看得到的模組（依分類分區，附縮圖與快速分享）＋全站 QA 搜尋 */
 export default async function KitHome({ params }: { params: { token: string } }) {
   const r = await loadKit(params.token);
   if (r.state === 'not_found') notFound();
   if (r.state === 'unavailable') return <KitUnavailable />;
   const { kit } = r;
   const base = `/kit/${params.token}`;
+
+  const modules: HomeModule[] = kit.modules.map((m) => {
+    const deck = m.items.find((i) => i.type === 'deck' && i.share_url) ?? m.items.find((i) => i.type === 'deck');
+    return {
+      slug: m.slug,
+      name: m.name,
+      summary: m.summary,
+      categoryId: kitCategoryOf(m.category).id,
+      thumb: thumbOf(m),
+      meta: metaOf(m),
+      deck: deck ? { title: deck.title, shareUrl: safeHttpsUrl(deck.share_url) } : null,
+    };
+  });
+  const categories: HomeCategory[] = [...KIT_CATEGORIES, KIT_CATEGORY_OTHER].filter((c) => modules.some((m) => m.categoryId === c.id));
+
   // 全站 QA 搜尋的資料（伺服器端攤平；搜尋在瀏覽器做）
-  const qaEntries: QaEntry[] = kit.modules.flatMap((m) =>
+  const qa: QaEntry[] = kit.modules.flatMap((m) =>
     m.items
       .filter((i) => i.type === 'qa')
       .flatMap((i) => (i.qa ?? []).map((p) => ({ q: p.q, a: p.a, kind: p.kind, moduleName: m.name, href: `${base}/${m.slug}/qa/${i.id}` }))),
   );
+  const decks = kit.modules.reduce((s, m) => s + m.items.filter((i) => i.type === 'deck').length, 0);
+  const cards = kit.modules.reduce((s, m) => s + m.items.filter((i) => i.type === 'card').length, 0);
 
   return (
     <KitShell
       title="產品資源"
-      subtitle="各產品模組的簡報、客戶 QA、DM 與分享圖卡。這是業務內部用的網址，請不要轉給客戶；要給客戶看，請用每份簡報的「客戶分享連結」。"    >
-      <KitQaSearch entries={qaEntries} />
-      {qaEntries.length > 0 && kit.modules.length > 0 && <h2 className="mb-3 text-lg font-bold text-ink-900">產品模組</h2>}
-      {kit.modules.length === 0 ? (
-        <p className="rounded-lg border border-mist-400 bg-white px-4 py-6 text-sm text-ink-500">目前還沒有可以看的模組。</p>
-      ) : (
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {kit.modules.map((m) => {
-            const counts = (['deck', 'qa', 'dm', 'card'] as KitItemType[])
-              .map((t) => ({ t, n: m.items.filter((i) => i.type === t).length }))
-              .filter((x) => x.n > 0);
-            return (
-              <li key={m.id}>
-                <Link
-                  href={`${base}/${m.slug}`}
-                  className="group flex h-full flex-col rounded-xl border border-mist-400 bg-white p-4 transition-colors hover:border-brand-300"
-                >
-                  <span className="flex items-start justify-between gap-3">
-                    <span className="text-base font-bold text-ink-900">{m.name}</span>
-                    <ChevronRight className="mt-0.5 h-5 w-5 shrink-0 text-ink-300 group-hover:text-brand-600" aria-hidden="true" />
-                  </span>
-                  {m.summary && <span className="mt-1 line-clamp-3 text-sm leading-relaxed text-ink-500">{m.summary}</span>}
-                  <span className="mt-3 flex flex-wrap gap-1.5">
-                    {counts.length === 0 ? (
-                      <span className="text-xs text-ink-400">素材準備中</span>
-                    ) : (
-                      counts.map(({ t, n }) => (
-                        <span key={t} className="rounded-full bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
-                          {ITEM_TYPE_LABEL[t]} {n}
-                        </span>
-                      ))
-                    )}
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+      subtitle={`${kit.modules.length} 個模組・簡報 ${decks} 份・客戶 QA ${qa.length} 題・圖卡 ${cards} 張`}
+      note="這是業務內部網址，請不要轉給客戶。給客戶請按「複製連結」或「LINE 傳送」，客戶只看得到那份簡報。"
+    >
+      <KitHomeBrowser base={base} modules={modules} categories={categories} qa={qa} />
     </KitShell>
   );
 }

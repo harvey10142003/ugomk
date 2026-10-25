@@ -15,7 +15,13 @@ export default async function KitQaPage({ params }: { params: { token: string; m
   await recordOpen(params.token, item.id);
 
   return (
-    <KitShell backHref={`/kit/${params.token}/${mod.slug}`} backLabel={mod.name} eyebrow="客戶 QA（內部用）" title={item.title} subtitle={item.summary}>
+    <KitShell
+      backHref={`/kit/${params.token}/${mod.slug}`}
+      backLabel={mod.name}
+      crumb="客戶 QA"
+      title={item.title}
+      subtitle={item.summary || '內部用：點題目看建議回答，單題回答可以複製貼給客戶；不要把整份轉給客戶。'}
+    >
       <QaBrowser entries={(item.qa ?? []).map((p) => ({ q: p.q, a: p.a, kind: p.kind }))} />
     </KitShell>
   );

@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { DeckPlayer } from '@/components/kit/DeckPlayer';
+import { site } from '@/lib/data/site';
 import { isPreviewBot, loadSharedDeck, safeHttpsUrl } from '@/lib/kit';
+import { ShareMessage } from '@/components/kit/ShareMessage';
 
 /**
  * 簡報客戶分享頁：分享碼對得到才播，其餘（停用、不存在、模組下架、未發布）一律同一個 404。
@@ -36,13 +38,9 @@ export default async function SharedDeckPage({ params }: Props) {
   const r = await loadSharedDeck(params.code, record);
   if (r.state === 'not_found') notFound();
   if (r.state === 'unavailable') {
-    return (
-      <div className="flex min-h-screen items-center justify-center px-4 text-center text-white/80">
-        <p className="text-sm">簡報暫時無法讀取，請稍後重新整理。</p>
-      </div>
-    );
+    return <ShareMessage title="簡報暫時無法讀取" body="請稍後重新整理。若一直無法開啟，請聯絡提供連結的業務，或用 LINE 洽詢宇果國際行銷。" />;
   }
   const src = safeHttpsUrl(r.deck.item.entry_url);
   if (!src) notFound();
-  return <DeckPlayer src={src} title={r.deck.item.title} />;
+  return <DeckPlayer src={src} title={r.deck.item.title} contactUrl={site.contact.lineUrl} />;
 }

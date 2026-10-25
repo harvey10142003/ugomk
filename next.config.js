@@ -4,8 +4,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'images.unsplash.com' },
-      { protocol: 'https', hostname: 'ui-avatars.com' }
-    ]
+      { protocol: 'https', hostname: 'ui-avatars.com' },
+      // 業務資源網站的模組縮圖（圖卡／DM 原檔在 R2）：只放行這個 bucket 的 sales-kit/ 路徑，
+      // 不開 *.r2.dev（否則誰的 R2 都能拿我們的伺服器當縮圖代理）。與 lib/kit-media.ts 的 KIT_IMAGE_HOSTS 一致。
+      { protocol: 'https', hostname: 'pub-5f2592935ed445a8a9c1c543a6380c1d.r2.dev', pathname: '/sales-kit/**' }
+    ],
+    formats: ['image/webp'],
+    // R2 上的素材檔名帶時間戳與亂數（換檔就換網址），縮圖可以放心快取一天，不必每分鐘重算
+    minimumCacheTTL: 86400
   },
   async rewrites() {
     // 未對外公開的提案頁（進銷存 ERP 說明）。檔案放在 public/p/<slug>/index.html，
