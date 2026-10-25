@@ -112,6 +112,15 @@ export function isKitToken(v: unknown): v is string {
   return typeof v === 'string' && KIT_TOKEN_RE.test(v);
 }
 
+/** 好記的別名（/kit/sale）→ 換成環境變數裡的真 token；沒設就維持原值（會 404） */
+const KIT_ALIASES: Record<string, string | undefined> = {
+  sale: process.env.SALES_KIT_SALE_TOKEN?.trim(),
+};
+
+export function resolveKitToken(v: string): string {
+  return KIT_ALIASES[v] || v;
+}
+
 /** 訪客真實 IP：X-Forwarded-For 最後一段（Zeabur ingress 追加在尾端，前面幾段是訪客自己可以亂填的） */
 function visitorIp(): string {
   const xff = headers().get('x-forwarded-for') || '';
@@ -120,7 +129,7 @@ function visitorIp(): string {
 }
 
 function crmHeaders(token: string): Record<string, string> {
-  const h: Record<string, string> = { 'x-sales-kit-token': token, accept: 'application/json' };
+  const h: Record<string, string> = { 'x-sales-kit-token': resolveKitToken(token), accept: 'application/json' };
   const secret = process.env.SALES_KIT_PROXY_SECRET?.trim();
   if (secret) {
     h['x-sales-kit-proxy-key'] = secret;
@@ -141,7 +150,7 @@ export class KitUnavailableError extends Error {
  * 取這個連結看得到的內容。token 無效 → null（呼叫端 notFound()）；CRM 掛掉 → 丟 KitUnavailableError（顯示稍後再試）。
  */
 export async function fetchKit(token: string): Promise<Kit | null> {
-  if (!isKitToken(token)) return null;
+  if (!isKitToken(resolveKitToken(token))) return null;
   let res: Response;
   try {
     res = await fetch(`${CRM_BASE}/api/sales-kit/public/kit`, {
