@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { KitPasswordGate } from '@/components/kit/KitPasswordGate';
 import { KitShell, KitUnavailable } from '@/components/kit/KitShell';
 import { QaBrowser } from '@/components/kit/QaBrowser';
 import { findItem, findModule, loadKit, recordOpen } from '@/lib/kit';
@@ -7,6 +8,7 @@ import { findItem, findModule, loadKit, recordOpen } from '@/lib/kit';
 export default async function KitQaPage({ params }: { params: { token: string; module: string; item: string } }) {
   const r = await loadKit(params.token);
   if (r.state === 'not_found') notFound();
+  if (r.state === 'password') return <KitPasswordGate token={params.token} />;
   if (r.state === 'unavailable') return <KitUnavailable />;
   const mod = findModule(r.kit, params.module);
   const item = mod ? findItem(mod, params.item, 'qa') : null;

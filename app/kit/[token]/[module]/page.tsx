@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { KitPasswordGate } from '@/components/kit/KitPasswordGate';
 import { KitImage } from '@/components/kit/KitImage';
 import { KitShell, KitUnavailable } from '@/components/kit/KitShell';
 import { CardActions, DeckShareActions, DmActions } from '@/components/kit/actions';
@@ -16,6 +17,7 @@ import { kitCategoryOf } from '@/lib/kit-media';
 export default async function KitModulePage({ params }: { params: { token: string; module: string } }) {
   const r = await loadKit(params.token);
   if (r.state === 'not_found') notFound();
+  if (r.state === 'password') return <KitPasswordGate token={params.token} />;
   if (r.state === 'unavailable') return <KitUnavailable />;
   const mod = findModule(r.kit, params.module);
   if (!mod) notFound();

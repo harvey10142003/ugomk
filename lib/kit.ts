@@ -1,4 +1,4 @@
-import { headers } from 'next/headers';
+import { cookies, headers } from 'next/headers';
 
 /**
  * 業務資源網站（/kit/<token>）的資料來源 —— 只在伺服器端跑（2026-10-24 第一期）。
@@ -9,6 +9,12 @@ import { headers } from 'next/headers';
  *   GET  {CRM}/api/sales-kit/public/kit          header x-sales-kit-token
  *   POST {CRM}/api/sales-kit/public/kit/events   { item_id, event: 'open' }
  *   token 錯／停用／過期 → 404（同一個形狀）；這邊一律轉成 notFound()，畫面上分不出差別。
+ *
+ * ## 連結密碼（2026-10-25）
+ *   POST {CRM}/api/sales-kit/public/kit/unlock   { password } → { session, expires_at }
+ *   連結有設密碼時，上面兩支要帶 header x-sales-kit-session，沒帶／過期／改過密碼 → 401 KIT_PASSWORD_REQUIRED
+ *   ⇒ 頁面顯示密碼頁（components/kit/KitPasswordGate）。session 存在 httpOnly cookie（path=/kit、30 天），
+ *   只在伺服器端讀出來轉給 CRM；瀏覽器端 JS 讀不到。客戶分享頁 /d/<code> 不受影響。
  *
  * ## 代理金鑰（SALES_KIT_PROXY_SECRET，兩邊要設同一組）
  *   有設：CRM 只收帶對金鑰的請求，並信我們轉過去的訪客 IP（x-sales-kit-client-ip）做限流 ——
@@ -128,7 +134,16 @@ function visitorIp(): string {
   return hops[hops.length - 1] || headers().get('x-real-ip') || '';
 }
 
-function crmHeaders(token: string): Record<string, string> {
+/** 登入憑證 cookie（httpOnly、path=/kit）；值是 CRM 簽的 session，不含密碼 */
+export const KIT_SESSION_COOKIE = 'kit_session';
+const KIT_SESSION_RE = /^v1\.\d{1,9}\.\d{1,12}\.[A-Za-z0-9_-]{43}$/;
+
+export function readKitSession(): string | null {
+  const v = cookies().get(KIT_SESSION_COOKIE)?.value;
+  return v && KIT_SESSION_RE.test(v) ? v : null;
+}
+
+function crmHeaders(token: string, withSession = true): Record<string, string> {
   const h: Record<string, string> = { 'x-sales-kit-token': resolveKitToken(token), accept: 'application/json' };
   const secret = process.env.SALES_KIT_PROXY_SECRET?.trim();
   if (secret) {
@@ -136,7 +151,54 @@ function crmHeaders(token: string): Record<string, string> {
     const ip = visitorIp();
     if (ip) h['x-sales-kit-client-ip'] = ip;
   }
+  const session = withSession ? readKitSession() : null;
+  if (session) h['x-sales-kit-session'] = session;
   return h;
+}
+
+/** CRM 回 401 且 code 是 KIT_PASSWORD_REQUIRED ⇒ 要顯示密碼頁 */
+async function isPasswordRequired(res: Response): Promise<boolean> {
+  if (res.status !== 401) return false;
+  const body = (await res.clone().json().catch(() => null)) as { data?: { code?: string } } | null;
+  return body?.data?.code === 'KIT_PASSWORD_REQUIRED';
+}
+
+export type UnlockFailReason = 'empty' | 'wrong' | 'locked' | 'not_found' | 'unavailable' | 'no_password';
+export type UnlockResult = { ok: true; session: string; maxAgeSec: number } | { ok: false; reason: UnlockFailReason };
+
+/** CRM unlock 回應 → 結果（純函式） */
+export function parseUnlockResponse(status: number, body: unknown, nowMs = Date.now()): UnlockResult {
+  const b = body as { success?: boolean; data?: { code?: string; session?: string | null; expires_at?: string | null; password_required?: boolean } } | null;
+  if (status === 404) return { ok: false, reason: 'not_found' };
+  if (status === 429) return { ok: false, reason: 'locked' };
+  if (status === 401 && b?.data?.code === 'KIT_PASSWORD_WRONG') return { ok: false, reason: 'wrong' };
+  if (status < 200 || status >= 300 || !b?.success) return { ok: false, reason: 'unavailable' };
+  if (b.data?.password_required === false) return { ok: false, reason: 'no_password' };
+  const session = b.data?.session;
+  if (typeof session !== 'string' || !KIT_SESSION_RE.test(session)) return { ok: false, reason: 'unavailable' };
+  const exp = Date.parse(b.data?.expires_at || '');
+  const maxAgeSec = Number.isFinite(exp) ? Math.max(60, Math.floor((exp - nowMs) / 1000)) : 30 * 24 * 60 * 60;
+  return { ok: true, session, maxAgeSec };
+}
+
+/** 送密碼給 CRM 換登入憑證（只在伺服器端跑；密碼不寫 log） */
+export async function unlockKit(token: string, password: string): Promise<UnlockResult> {
+  if (!password.trim()) return { ok: false, reason: 'empty' };
+  if (!isKitToken(resolveKitToken(token))) return { ok: false, reason: 'not_found' };
+  let res: Response;
+  try {
+    res = await fetch(`${CRM_BASE}/api/sales-kit/public/kit/unlock`, {
+      method: 'POST',
+      headers: { ...crmHeaders(token, false), 'content-type': 'application/json' },
+      body: JSON.stringify({ password: password.slice(0, 200) }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+  } catch {
+    return { ok: false, reason: 'unavailable' };
+  }
+  const body = await res.json().catch(() => null);
+  return parseUnlockResponse(res.status, body);
 }
 
 export class KitUnavailableError extends Error {
@@ -147,9 +209,10 @@ export class KitUnavailableError extends Error {
 }
 
 /**
- * 取這個連結看得到的內容。token 無效 → null（呼叫端 notFound()）；CRM 掛掉 → 丟 KitUnavailableError（顯示稍後再試）。
+ * 取這個連結看得到的內容。token 無效 → null（呼叫端 notFound()）；連結有密碼但沒登入 → 'password'；
+ * CRM 掛掉 → 丟 KitUnavailableError（顯示稍後再試）。
  */
-export async function fetchKit(token: string): Promise<Kit | null> {
+export async function fetchKit(token: string): Promise<Kit | null | 'password'> {
   if (!isKitToken(resolveKitToken(token))) return null;
   let res: Response;
   try {
@@ -162,6 +225,7 @@ export async function fetchKit(token: string): Promise<Kit | null> {
     throw new KitUnavailableError('CRM 連線失敗');
   }
   if (res.status === 404) return null;
+  if (await isPasswordRequired(res)) return 'password';
   if (!res.ok) throw new KitUnavailableError(`CRM 回應 ${res.status}`);
   const body = (await res.json().catch(() => null)) as { success?: boolean; data?: Kit } | null;
   if (!body?.success || !body.data || !Array.isArray(body.data.modules)) throw new KitUnavailableError('CRM 回應格式不正確');
@@ -214,12 +278,13 @@ export function safeHttpsUrl(u: string | undefined | null): string | null {
   }
 }
 
-export type KitLoad = { state: 'ok'; kit: Kit } | { state: 'not_found' } | { state: 'unavailable' };
+export type KitLoad = { state: 'ok'; kit: Kit } | { state: 'not_found' } | { state: 'password' } | { state: 'unavailable' };
 
 /** 頁面用：不在 try 裡呼叫 notFound()（它是靠丟例外運作的，包在 try 會被吃掉） */
 export async function loadKit(token: string): Promise<KitLoad> {
   try {
     const kit = await fetchKit(token);
+    if (kit === 'password') return { state: 'password' };
     return kit ? { state: 'ok', kit } : { state: 'not_found' };
   } catch (err) {
     if (err instanceof KitUnavailableError) return { state: 'unavailable' };

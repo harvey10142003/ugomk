@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { KitPasswordGate } from '@/components/kit/KitPasswordGate';
 import { KitShell, KitUnavailable } from '@/components/kit/KitShell';
 import { KitHomeBrowser, type HomeCategory, type HomeModule } from '@/components/kit/KitHomeBrowser';
 import type { QaEntry } from '@/components/kit/QaBrowser';
@@ -30,6 +31,7 @@ function metaOf(m: KitModule): string {
 export default async function KitHome({ params }: { params: { token: string } }) {
   const r = await loadKit(params.token);
   if (r.state === 'not_found') notFound();
+  if (r.state === 'password') return <KitPasswordGate token={params.token} />;
   if (r.state === 'unavailable') return <KitUnavailable />;
   const { kit } = r;
   const base = `/kit/${params.token}`;
