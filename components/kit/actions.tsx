@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent as ReactMouseEvent } from 'react';
 import { IconCheck, IconCopy, IconDownload, IconLink, IconMessage } from '@/components/kit/icons';
 import { btnLine, btnPrimary, btnSecondary } from '@/components/kit/styles';
 
@@ -13,6 +13,24 @@ import { btnLine, btnPrimary, btnSecondary } from '@/components/kit/styles';
 
 function lineShareUrl(text: string): string {
   return `https://line.me/R/share?text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * line.me/R/share 只在手機有用；電腦開會被 302 回 line.me 首頁（10-25 實測）。
+ * ⇒ 電腦改開 LINE 網頁版分享頁 social-plugins.line.me/lineit/share（登入後可選聊天室）。
+ * href 仍放手機版（伺服器端算不出裝置），點下去時在瀏覽器判斷。
+ */
+function isMobileUa(): boolean {
+  if (typeof navigator === 'undefined') return true;
+  return /Android|iPhone|iPad|iPod|Mobile|Line\//i.test(navigator.userAgent);
+}
+
+function onLineShareClick(e: ReactMouseEvent<HTMLAnchorElement>, text: string, url?: string | null) {
+  if (isMobileUa()) return;
+  e.preventDefault();
+  const link = url || (text.match(/https?:\/\/\S+/) || [])[0] || '';
+  const desktop = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+  window.open(desktop, '_blank', 'noopener,noreferrer,width=560,height=640');
 }
 
 function useCopy() {
@@ -69,7 +87,7 @@ export function DeckShareActions({ title, shareUrl }: { title: string; shareUrl:
         <button type="button" onClick={() => copy('link', shareUrl)} className={btnSecondary}>
           <CopiedLabel on={copied === 'link'} idle="複製客戶連結" />
         </button>
-        <a href={lineShareUrl(`${title}\n${shareUrl}`)} target="_blank" rel="noopener noreferrer" className={btnLine}>
+        <a href={lineShareUrl(`${title}\n${shareUrl}`)} onClick={(e) => onLineShareClick(e, title, shareUrl)} target="_blank" rel="noopener noreferrer" className={btnLine}>
           <IconMessage className="h-4 w-4" aria-hidden="true" />
           用 LINE 傳給客戶
         </a>
@@ -101,6 +119,7 @@ export function QuickShare({ title, shareUrl }: { title: string; shareUrl: strin
         </button>
         <a
           href={lineShareUrl(`${title}\n${shareUrl}`)}
+          onClick={(e) => onLineShareClick(e, title, shareUrl)}
           target="_blank"
           rel="noopener noreferrer"
           className={`${small} bg-line-700 text-white hover:bg-line-800`}
@@ -134,7 +153,7 @@ export function CardActions({ title, shareText, imageUrl, filename }: { title: s
             </span>
           </button>
         )}
-        <a href={lineShareUrl(lineText)} target="_blank" rel="noopener noreferrer" className={btnLine}>
+        <a href={lineShareUrl(lineText)} onClick={(e) => onLineShareClick(e, lineText)} target="_blank" rel="noopener noreferrer" className={btnLine}>
           <IconMessage className="h-4 w-4" aria-hidden="true" />
           LINE 分享
         </a>
