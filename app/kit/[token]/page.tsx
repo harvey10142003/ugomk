@@ -5,6 +5,7 @@ import { KitHomeBrowser, type HomeCategory, type HomeModule } from '@/components
 import type { QaEntry } from '@/components/kit/QaBrowser';
 import { loadKit, safeHttpsUrl, type KitModule } from '@/lib/kit';
 import { KIT_CATEGORIES, KIT_CATEGORY_OTHER, kitCategoryOf } from '@/lib/kit-media';
+import { kitPickerUrl } from '@/lib/kit-share';
 
 /** 模組縮圖退路（沒有專屬縮圖時）：第一張分享圖卡 → DM 預覽（PNG 主檔或 PDF 附的 PNG）→ 沒有就用名稱字塊 */
 function thumbOf(m: KitModule): string | null {
@@ -47,7 +48,7 @@ export default async function KitHome({ params }: { params: { token: string } })
       ownThumb: safeHttpsUrl(m.thumbnail_url),
       thumb: safeHttpsUrl(m.thumbnail_url) ?? thumbOf(m),
       meta: metaOf(m),
-      deck: deck ? { title: deck.title, shareUrl: safeHttpsUrl(deck.share_url) } : null,
+      deck: deck ? { title: deck.title, shareUrl: safeHttpsUrl(deck.share_url), pickerUrl: kitPickerUrl(safeHttpsUrl(deck.share_url)) } : null,
     };
   });
   const categories: HomeCategory[] = [...KIT_CATEGORIES, KIT_CATEGORY_OTHER].filter((c) => modules.some((m) => m.categoryId === c.id));
@@ -65,7 +66,7 @@ export default async function KitHome({ params }: { params: { token: string } })
     <KitShell
       title="產品資源"
       subtitle={`${kit.modules.length} 個模組・簡報 ${decks} 份・客戶 QA ${qa.length} 題・圖卡 ${cards} 張`}
-      note="這是業務內部網址，請不要轉給客戶。給客戶請按「複製連結」或「LINE 傳送」，客戶只看得到那份簡報。"
+      note="這是業務內部網址，請不要轉給客戶。給客戶請按「複製連結」或「傳給好友」，客戶只看得到那份簡報。"
     >
       <KitHomeBrowser base={base} modules={modules} categories={categories} qa={qa} />
     </KitShell>

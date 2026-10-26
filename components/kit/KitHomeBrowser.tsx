@@ -11,7 +11,7 @@ import { IconChevronRight } from '@/components/kit/icons';
  * 業務資源首頁（2026-10-25 UI v2）：一個搜尋框（模組＋客戶 QA）、一排分類、依分類分區的模組卡。
  *
  * 這一頁要回答的一件事：「客戶要的那個模組在哪，我怎麼最快傳給他？」
- * ⇒ 模組卡是畫面上最大的東西，卡上有縮圖（認得出是哪個模組）與「複製連結／LINE 傳送」（最常做的事一下就到）。
+ * ⇒ 模組卡是畫面上最大的東西，卡上有縮圖（認得出是哪個模組）與「複製連結／傳給好友」（最常做的事一下就到）。
  */
 
 export interface HomeModule {
@@ -24,7 +24,8 @@ export interface HomeModule {
   ownThumb: string | null;
   /** 這個模組有什麼素材（給卡片上的灰字一行） */
   meta: string;
-  deck: { title: string; shareUrl: string | null } | null;
+  /** pickerUrl：「傳給 LINE 好友」的 LIFF 網址（伺服器端組好；沒有就退回文字分享） */
+  deck: { title: string; shareUrl: string | null; pickerUrl?: string | null } | null;
 }
 
 export interface HomeCategory {
@@ -179,7 +180,7 @@ function ModuleCard({ m, href, category, priority }: { m: HomeModule; href: stri
           <span aria-hidden="true">・</span>
           {m.meta}
         </p>
-        <div className="mt-auto pt-3">{m.deck ? <QuickShare title={m.deck.title} shareUrl={m.deck.shareUrl} /> : <p className="text-[13px] text-ink-400">尚無簡報</p>}</div>
+        <div className="mt-auto pt-3">{m.deck ? <QuickShare title={m.deck.title} shareUrl={m.deck.shareUrl} pickerUrl={m.deck.pickerUrl} /> : <p className="text-[13px] text-ink-400">尚無簡報</p>}</div>
       </div>
     </article>
   );

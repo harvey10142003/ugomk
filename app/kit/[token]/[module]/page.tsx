@@ -8,6 +8,7 @@ import { btnPrimary } from '@/components/kit/styles';
 import { IconArrowUpRight, IconChevronRight, IconPlay } from '@/components/kit/icons';
 import { fillDeckLink, findModule, loadKit, safeHttpsUrl, type KitItem } from '@/lib/kit';
 import { kitCategoryOf } from '@/lib/kit-media';
+import { kitPickerUrl } from '@/lib/kit-share';
 
 /**
  * 模組頁（2026-10-25 UI v2）：上方是模組名稱、說明與「播放／傳給客戶」（最常做的事），右側主視覺；
@@ -55,7 +56,7 @@ export default async function KitModulePage({ params }: { params: { token: strin
                 <IconPlay className="h-4 w-4" aria-hidden="true" />
                 播放簡報
               </Link>
-              <DeckShareActions title={firstDeck.title} shareUrl={safeHttpsUrl(firstDeck.share_url)} />
+              <DeckShareActions title={firstDeck.title} shareUrl={safeHttpsUrl(firstDeck.share_url)} pickerUrl={kitPickerUrl(safeHttpsUrl(firstDeck.share_url))} />
             </div>
           )}
           {firstDeck && decks.length === 1 && (
@@ -92,7 +93,7 @@ export default async function KitModulePage({ params }: { params: { token: strin
 
       {/* 只有一份簡報時，上方標題區已經有播放與分享，不再重複一區 */}
       {decks.length > 1 && (
-        <Section id="decks" title="網頁簡報" hint="自己看或投影用「播放」；給客戶請用「複製客戶連結」或「用 LINE 傳給客戶」，客戶只看得到這份簡報。">
+        <Section id="decks" title="網頁簡報" hint="自己看或投影用「播放」；給客戶請用「複製客戶連結」或「傳給 LINE 好友」，客戶只看得到這份簡報。">
           <ul className="divide-y divide-mist-300 rounded-lg border border-mist-300 bg-white">
             {decks.map((d) => (
               <li key={d.id} className="flex flex-col gap-4 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between">
@@ -106,7 +107,7 @@ export default async function KitModulePage({ params }: { params: { token: strin
                     <IconPlay className="h-4 w-4" aria-hidden="true" />
                     播放
                   </Link>
-                  <DeckShareActions title={d.title} shareUrl={safeHttpsUrl(d.share_url)} />
+                  <DeckShareActions title={d.title} shareUrl={safeHttpsUrl(d.share_url)} pickerUrl={kitPickerUrl(safeHttpsUrl(d.share_url))} />
                 </div>
               </li>
             ))}
@@ -190,7 +191,7 @@ export default async function KitModulePage({ params }: { params: { token: strin
       )}
 
       {cards.length > 0 && (
-        <Section id="cards" title="分享圖卡" hint="下載圖卡，搭配文案傳到 LINE 或社群；文案裡已經帶好簡報的客戶分享連結。">
+        <Section id="cards" title="分享圖卡" hint="「傳給 LINE 好友」直接送出圖卡與「查看簡報」按鈕；也可以下載圖卡，搭配文案傳到社群（文案裡已經帶好簡報的客戶分享連結）。">
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cards.map((c, i) => {
               const url = safeHttpsUrl(c.file_url);
@@ -205,7 +206,7 @@ export default async function KitModulePage({ params }: { params: { token: strin
                     <p className="text-[15px] font-semibold text-ink-900">{c.title}</p>
                     {text && <p className="whitespace-pre-line break-words rounded-md bg-mist-100 p-3 text-[14px] leading-relaxed text-ink-700">{text}</p>}
                     <div className="mt-auto">
-                      <CardActions title={c.title} shareText={text} imageUrl={url} filename={`${mod.slug}-card-${i + 1}.png`} />
+                      <CardActions title={c.title} shareText={text} imageUrl={url} filename={`${mod.slug}-card-${i + 1}.png`} pickerUrl={kitPickerUrl(firstDeckShare, c.id)} />
                     </div>
                   </div>
                 </li>

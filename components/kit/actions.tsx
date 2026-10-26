@@ -6,7 +6,9 @@ import { btnLine, btnPrimary, btnSecondary } from '@/components/kit/styles';
 
 /**
  * 業務資源網站的動作按鈕（2026-10-24 第二期；2026-10-25 UI v2 改外觀、加首頁快速分享與複製回答）。
- * 「用 LINE 分享」一律走 line.me/R/share?text=…（手機開 LINE 選聊天室；電腦開 LINE 網頁版）。
+ * 2026-10-26：主按鈕改「傳給 LINE 好友」——開 LIFF（liff.line.me/…/m/kit-share/<簡報分享碼>）叫出 LINE 好友／群組選擇器，
+ * 送出一張 Flex 圖卡（圖＋標題＋「查看簡報」按鈕）。網址只帶簡報的公開分享碼與圖卡 id（lib/kit-share.ts）。
+ * 原本的文字分享（line.me/R/share?text=…；電腦開 LINE 網頁版）收成次要連結「分享到聊天室（文字）」。
  * 分享出去的只有：簡報的客戶分享連結（ugomk.com/d/…）、圖卡圖片網址與文案、QA 回答文字 ——
  * 業務資源網站本身的網址不會出現在任何分享內容裡。
  */
@@ -77,8 +79,23 @@ function CopiedLabel({ on, idle, done = '已複製' }: { on: boolean; idle: stri
   );
 }
 
-/** 簡報：複製客戶分享連結／用 LINE 分享 */
-export function DeckShareActions({ title, shareUrl }: { title: string; shareUrl: string | null }) {
+/** 次要：舊的文字分享（手機 line.me/R/share、電腦 LINE 網頁版分享頁） */
+function TextShareLink({ text, url }: { text: string; url?: string | null }) {
+  return (
+    <a
+      href={lineShareUrl(text)}
+      onClick={(e) => onLineShareClick(e, text, url)}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-[13px] text-ink-500 underline underline-offset-4 hover:text-ink-900"
+    >
+      分享到聊天室（文字）
+    </a>
+  );
+}
+
+/** 簡報：複製客戶分享連結／傳給 LINE 好友（圖卡）／分享到聊天室（文字） */
+export function DeckShareActions({ title, shareUrl, pickerUrl }: { title: string; shareUrl: string | null; pickerUrl?: string | null }) {
   const { copied, failed, copy } = useCopy();
   if (!shareUrl) return <p className="text-[13px] text-ink-400">這份簡報目前沒有開放客戶分享。</p>;
   return (
@@ -87,11 +104,23 @@ export function DeckShareActions({ title, shareUrl }: { title: string; shareUrl:
         <button type="button" onClick={() => copy('link', shareUrl)} className={btnSecondary}>
           <CopiedLabel on={copied === 'link'} idle="複製客戶連結" />
         </button>
-        <a href={lineShareUrl(`${title}\n${shareUrl}`)} onClick={(e) => onLineShareClick(e, title, shareUrl)} target="_blank" rel="noopener noreferrer" className={btnLine}>
-          <IconMessage className="h-4 w-4" aria-hidden="true" />
-          用 LINE 傳給客戶
-        </a>
+        {pickerUrl ? (
+          <a href={pickerUrl} target="_blank" rel="noopener noreferrer" className={btnLine}>
+            <IconMessage className="h-4 w-4" aria-hidden="true" />
+            傳給 LINE 好友
+          </a>
+        ) : (
+          <a href={lineShareUrl(`${title}\n${shareUrl}`)} onClick={(e) => onLineShareClick(e, title, shareUrl)} target="_blank" rel="noopener noreferrer" className={btnLine}>
+            <IconMessage className="h-4 w-4" aria-hidden="true" />
+            用 LINE 傳給客戶
+          </a>
+        )}
       </div>
+      {pickerUrl && (
+        <p className="mt-2">
+          <TextShareLink text={`${title}\n${shareUrl}`} url={shareUrl} />
+        </p>
+      )}
       {failed && <p className="mt-2 break-all text-[13px] text-ink-500">無法自動複製，請長按複製：{shareUrl}</p>}
     </div>
   );
@@ -101,7 +130,7 @@ export function DeckShareActions({ title, shareUrl }: { title: string; shareUrl:
  * 首頁模組卡片上的快速分享（最常做的事：把簡報傳給客戶，一下就到）。
  * 窄版：兩顆等寬按鈕；沒有可分享的簡報就說一句，不留空白按鈕。
  */
-export function QuickShare({ title, shareUrl }: { title: string; shareUrl: string | null }) {
+export function QuickShare({ title, shareUrl, pickerUrl }: { title: string; shareUrl: string | null; pickerUrl?: string | null }) {
   const { copied, failed, copy } = useCopy();
   if (!shareUrl) return <p className="text-[13px] text-ink-400">簡報尚未開放客戶分享</p>;
   const small =
@@ -118,15 +147,15 @@ export function QuickShare({ title, shareUrl }: { title: string; shareUrl: strin
           <CopiedLabel on={copied === 'link'} idle="複製連結" />
         </button>
         <a
-          href={lineShareUrl(`${title}\n${shareUrl}`)}
-          onClick={(e) => onLineShareClick(e, title, shareUrl)}
+          href={pickerUrl || lineShareUrl(`${title}\n${shareUrl}`)}
+          onClick={pickerUrl ? undefined : (e) => onLineShareClick(e, title, shareUrl)}
           target="_blank"
           rel="noopener noreferrer"
           className={`${small} bg-line-700 text-white hover:bg-line-800`}
-          aria-label={`用 LINE 傳「${title}」給客戶`}
+          aria-label={pickerUrl ? `把「${title}」傳給 LINE 好友` : `用 LINE 傳「${title}」給客戶`}
         >
           <IconMessage className="h-4 w-4 shrink-0" aria-hidden="true" />
-          LINE 傳送
+          {pickerUrl ? '傳給好友' : 'LINE 傳送'}
         </a>
       </div>
       {failed && <p className="mt-2 break-all text-[12px] text-ink-500">請長按複製：{shareUrl}</p>}
@@ -134,8 +163,11 @@ export function QuickShare({ title, shareUrl }: { title: string; shareUrl: strin
   );
 }
 
-/** 圖卡：下載／複製文案／LINE 分享（文案裡的 {deck_link} 已在伺服器端換成簡報分享網址） */
-export function CardActions({ title, shareText, imageUrl, filename }: { title: string; shareText: string; imageUrl: string; filename: string }) {
+/**
+ * 圖卡：下載／複製文案／傳給 LINE 好友（送出這張圖卡＋「查看簡報」按鈕）／分享到聊天室（文字）。
+ * 文案裡的 {deck_link} 已在伺服器端換成簡報分享網址；pickerUrl 沒有（模組沒有開放分享的簡報）就只剩文字分享。
+ */
+export function CardActions({ title, shareText, imageUrl, filename, pickerUrl }: { title: string; shareText: string; imageUrl: string; filename: string; pickerUrl?: string | null }) {
   const { copied, failed, copy } = useCopy();
   const lineText = shareText || title;
   return (
@@ -153,12 +185,25 @@ export function CardActions({ title, shareText, imageUrl, filename }: { title: s
             </span>
           </button>
         )}
-        <a href={lineShareUrl(lineText)} onClick={(e) => onLineShareClick(e, lineText)} target="_blank" rel="noopener noreferrer" className={btnLine}>
-          <IconMessage className="h-4 w-4" aria-hidden="true" />
-          LINE 分享
-        </a>
+        {pickerUrl ? (
+          <a href={pickerUrl} target="_blank" rel="noopener noreferrer" className={btnLine}>
+            <IconMessage className="h-4 w-4" aria-hidden="true" />
+            傳給 LINE 好友
+          </a>
+        ) : (
+          <a href={lineShareUrl(lineText)} onClick={(e) => onLineShareClick(e, lineText)} target="_blank" rel="noopener noreferrer" className={btnLine}>
+            <IconMessage className="h-4 w-4" aria-hidden="true" />
+            LINE 分享
+          </a>
+        )}
       </div>
-      <p className="mt-2 text-[13px] leading-relaxed text-ink-400">LINE 分享會帶文案與連結；圖片請先下載再一起傳。</p>
+      {pickerUrl ? (
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-400">
+          「傳給 LINE 好友」會送出這張圖卡和「查看簡報」按鈕。只要傳文字：<TextShareLink text={lineText} />
+        </p>
+      ) : (
+        <p className="mt-2 text-[13px] leading-relaxed text-ink-400">LINE 分享會帶文案與連結；圖片請先下載再一起傳。</p>
+      )}
       {failed && <p className="mt-1 text-[13px] text-ink-500">無法自動複製，請長按上面的文字自行複製。</p>}
     </div>
   );
