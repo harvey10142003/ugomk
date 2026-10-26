@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>保客+ 業務實戰課</title>
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* 簡報檢視器：每頁 1920×1080 依視窗等比縮放；左右鍵／點擊／滑動翻頁，#數字 跳頁，備註預設隱藏 */
+:root { --chrome: #0b0f17; --bar: #121826; --bar-line: #263044; --txt: #e6ebf3; --muted: #9aa6ba; --accent: #E07A3A; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { background: var(--chrome); color: var(--txt); font-family: "Noto Sans TC", system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+.app { position: fixed; inset: 0; display: flex; flex-direction: column; }
+.viewport { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: pan-y; cursor: pointer; }
+.stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: 0 0; background: #000; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+.stage > section { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; margin: 0; overflow: hidden; box-sizing: border-box; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; }
+.stage > section.active { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+.stage section * { box-sizing: border-box; }
+.stage section :is(h1, h2, h3, h4, h5, h6, p, ul, ol, figure, blockquote) { margin: 0; }
+.stage section table { border-collapse: collapse; }
+.stage section aside { display: none; }
+x-icon { display: inline-block; flex-shrink: 0; line-height: 0; }
+x-icon svg { display: block; width: 100%; height: 100%; }
+x-shape, x-connector { display: block; flex-shrink: 0; }
+x-shape[kind="ellipse"], x-shape[kind="circle"] { border-radius: 50%; }
+x-shape[kind="arrow-right"] { clip-path: polygon(0 30%, 60% 30%, 60% 0, 100% 50%, 60% 100%, 60% 70%, 0 70%); }
+x-shape[kind="arrow-left"] { clip-path: polygon(100% 30%, 40% 30%, 40% 0, 0 50%, 40% 100%, 40% 70%, 100% 70%); }
+x-shape[kind="arrow-up"] { clip-path: polygon(30% 100%, 30% 40%, 0 40%, 50% 0, 100% 40%, 70% 40%, 70% 100%); }
+x-shape[kind="arrow-down"] { clip-path: polygon(30% 0, 30% 60%, 0 60%, 50% 100%, 100% 60%, 70% 60%, 70% 0); }
+x-shape[kind="triangle"] { clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+x-shape[kind="diamond"] { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.notes { display: none; flex: 0 0 auto; max-height: 30vh; overflow-y: auto; padding: 14px max(16px, env(safe-area-inset-left, 0px)); background: var(--bar); border-top: 1px solid var(--bar-line); font-size: 17px; line-height: 1.7; }
+.notes .lbl { font-size: 13px; color: var(--accent); font-weight: 700; letter-spacing: .08em; margin-bottom: 4px; }
+.app.show-notes .notes { display: block; }
+.bar { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); background: var(--bar); border-top: 1px solid var(--bar-line); }
+.bar .title { flex: 1; min-width: 0; font-size: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .right { flex: 1; display: flex; justify-content: flex-end; gap: 8px; }
+.btn { font: inherit; font-size: 14px; color: var(--txt); background: transparent; border: 1px solid var(--bar-line); border-radius: 8px; min-width: 40px; height: 36px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; }
+.btn:hover { background: #1b2335; }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+.btn svg { width: 18px; height: 18px; }
+.page { font-size: 15px; font-variant-numeric: tabular-nums; min-width: 72px; text-align: center; }
+@media (max-width: 640px) { .bar .title { display: none; } .bar .right { flex: 0 0 auto; } .btn .t { display: none; } }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <div class="viewport" id="vp" aria-label="簡報">
+    <div class="stage" id="stage">
+<section id="s01" data-transition="fade" style="background:#14213D;color:#F7F4EE;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="width:120px;height:8px;background:#E07A3A;border-radius:4px"></div>
+<p style="font-size:32px;font-weight:500;color:#F0A066;letter-spacing:4px">保險人的 LINE 智慧管家</p>
+<h1 style="font-size:120px;font-weight:900;line-height:1.1;color:#F7F4EE">保客+ 業務實戰課</h1>
+<p style="font-size:44px;font-weight:500;line-height:1.4;color:#D6DEEA">LINE 帳號安全｜保客+ 個人版上手</p>
+<p style="font-size:32px;line-height:1.5;color:#BCC7D8">把繁瑣交給系統，把關係留給你。</p>
+<p style="position:absolute;left:128px;bottom:96px;width:1664px;font-size:32px;font-weight:500;color:#F7F4EE">講師　施允瀚｜宇果國際行銷</p>
+<aside>自我介紹：宇果國際行銷執行長、LINE 行銷顧問。今天 3.5 小時：先 30 分鐘把帳號守好，再 3 小時把保客+ 接起來用。</aside>
+</section>
+<section id="s02" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">開場</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">今天的流程</h2></div>
+<div style="flex:1;display:flex;gap:20px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF9;padding:36px 28px;border-radius:20px;border-top:8px solid #14213D"><p style="font-size:44px;font-weight:700;color:#B4541E">30 分</p><p style="font-size:32px;line-height:1.4;font-weight:500">LINE 帳號安全</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF9;padding:36px 28px;border-radius:20px;border-top:8px solid #14213D"><p style="font-size:44px;font-weight:700;color:#B4541E">15 分</p><p style="font-size:32px;line-height:1.4;font-weight:500">業務的一天</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF9;padding:36px 28px;border-radius:20px;border-top:8px solid #14213D"><p style="font-size:44px;font-weight:700;color:#B4541E">50 分</p><p style="font-size:32px;line-height:1.4;font-weight:500">現場串接官方帳號</p></div>
+<div style="width:132px;display:flex;flex-direction:column;align-items:center;gap:12px;background:#EAF0F6;padding:36px 12px;border-radius:20px;border:2px dashed #AEB9C8"><p style="font-size:24px;font-weight:700;color:#4A5568;text-align:center">休息</p><p style="font-size:24px;color:#4A5568;text-align:center">10 分</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF9;padding:36px 28px;border-radius:20px;border-top:8px solid #14213D"><p style="font-size:44px;font-weight:700;color:#B4541E">75 分</p><p style="font-size:32px;line-height:1.4;font-weight:500">功能實作與合規紅線</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FFFDF9;padding:36px 28px;border-radius:20px;border-top:8px solid #14213D"><p style="font-size:44px;font-weight:700;color:#B4541E">30 分</p><p style="font-size:32px;line-height:1.4;font-weight:500">演練、作業與 Q&amp;A</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　02 / 54</p>
+<aside>中間休息 10 分。串接時間給得很寬，先做完的人有練習卡，不用等。最後一段是實戰演練 20 分，加上作業說明與 Q&amp;A 10 分。</aside>
+</section>
+<section id="s03" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">你的 LINE，就是客戶名單的鑰匙</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Key" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 20 3M16 7l3 3M13.5 9.5l2 2"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">等一下個人 LINE 會綁成業務工作台</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Users" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">手機被盜<br>＝客戶資料被看光</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Warning" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">官方帳號被盜<br>＝有人用你的名義傳訊息</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　03 / 54</p>
+<aside>這是今天先講安全的原因。官方帳號被拿去發詐騙或亂發商品訊息，招攬規範與個資責任都在你身上。</aside>
+</section>
+<section id="s04" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">最常見的盜號入口</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><p style="font-size:44px;font-weight:700;color:#B4541E">01</p><p style="font-size:32px;line-height:1.5;font-weight:500">把簡訊驗證碼給了別人</p><p style="font-size:24px;line-height:1.5;color:#4A5568;background:#EAF0F6;padding:20px 24px;border-radius:16px">示意對話：「幫我收一下驗證碼，傳給我」</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><p style="font-size:44px;font-weight:700;color:#B4541E">02</p><p style="font-size:32px;line-height:1.5;font-weight:500">點了「登入領好康」的連結</p><p style="font-size:24px;line-height:1.5;color:#4A5568;background:#EAF0F6;padding:20px 24px;border-radius:16px">示意對話：「幫我投一票，登入就送點數」</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><p style="font-size:44px;font-weight:700;color:#B4541E">03</p><p style="font-size:32px;line-height:1.5;font-weight:500">被要求綁定指定的 Apple／Google 帳號</p><p style="font-size:24px;line-height:1.5;color:#4A5568;background:#EAF0F6;padding:20px 24px;border-radius:16px">示意對話：「綁這個帳號才能領獎」</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　04 / 54</p>
+<aside>問台下：誰收過朋友借錢、要點數卡的訊息？大部分盜號不是技術，是被騙說出驗證碼。2026 年初媒體報導過以好康誘導綁定 Apple／Google 帳號再索取驗證碼的手法。卡片中的對話是自製示意，人物虛構。</aside>
+</section>
+<section id="s05" data-transition="fade" style="background:#14213D;color:#F7F4EE;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:32px;font-weight:700;color:#F0A066;letter-spacing:4px">一句話守住</p>
+<h1 style="font-size:120px;font-weight:900;line-height:1.15;color:#F7F4EE">驗證碼不給任何人</h1>
+<div style="width:120px;height:8px;background:#E07A3A;border-radius:4px"></div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:32px;line-height:1.5;color:#D6DEEA">包括自稱 LINE 客服、朋友、活動主辦</p>
+<p style="font-size:32px;line-height:1.5;color:#D6DEEA">LINE 的登入網頁不會要你輸入簡訊驗證碼</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#BCC7D8">保客+ 業務實戰課　05 / 54</p>
+<aside>請大家跟著唸一次：驗證碼不給任何人。這句話比所有設定都重要。</aside>
+</section>
+<section id="s06" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">帳號基本三件：密碼、Email、電話</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">密碼夠長、不跟其他網站共用</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Email 綁定並確認收得到信</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">電話收得到簡訊；語音信箱用不到就關</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Settings" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：LINE「設定 → 我的帳號」，標示密碼、Email、電話三處</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　06 / 54</p>
+<aside>位置：設定 → 我的帳號。曾有利用電信語音信箱取得驗證碼的手法，電信業者已加強，但用不到就關最保險。</aside>
+</section>
+<section id="s07" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">綁定 Apple 或 Google 帳號</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">被盜時較有機會找回原帳號</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">沒綁的多半只能建新帳號</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">付費貼圖等補回約需 7～14 個工作天</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Link" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：設定頁中 Apple／Google 帳號綁定的位置</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　07 / 54</p>
+<aside>依 2026-04 媒體報導 LINE 客服的處理方式。提醒：綁定要自己在設定裡做，任何人叫你綁「他指定的」帳號都是詐騙。</aside>
+</section>
+<section id="s08" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">關掉「允許自其他裝置登入」</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">平常關閉，要用電腦版時再打開</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">定期看「登入中的裝置」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">看到不認得的：登出＋改密碼</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Lock" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：「允許自其他裝置登入」開關與「登入中的裝置」清單</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　08 / 54</p>
+<aside>位置：設定 → 我的帳號。這是最直接擋住別人用電腦登入你帳號的開關。電腦版、iPad 用 QR Code 登入，不在公用電腦登入；手機有 Face ID／指紋可關閉密碼登入，之後電腦版只能掃碼。</aside>
+</section>
+<section id="s09" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">隱私與加好友設定</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Letter Sealing 保持開啟</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">關閉「自動加入好友」「允許被加入好友」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">可開啟「阻擋訊息」</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Trust" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 15.5 9.2 12.7a1.8 1.8 0 0 1 2.8-2.3 1.8 1.8 0 0 1 2.8 2.3z"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：「隱私設定」與「好友」設定頁</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　09 / 54</p>
+<aside>依媒體報導，Letter Sealing 自 2026 年 4 月起改為預設且無法關閉，大家確認即可。加好友設定是為了減少陌生帳號與假帳號主動找上門。假冒官方帳號：從公司官網或名片 QR Code 加入，不從陌生訊息的連結加；也教你的客戶這樣分辨你的帳號。</aside>
+</section>
+<section id="s10" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">官方帳號：二階段驗證與權限</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3">
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Lock" style="color:#E07A3A;width:56px;height:56px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></x-icon><h3 style="font-size:44px;font-weight:700">二階段驗證</h3></div>
+<p style="font-size:32px;line-height:1.5;font-weight:500">Business ID 開二階段驗證，備用碼存好</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3">
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Users" style="color:#E07A3A;width:56px;height:56px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><h3 style="font-size:44px;font-weight:700">權限管理</h3></div>
+<p style="font-size:32px;line-height:1.5;font-weight:500">管理員只給自己或最信任的一人</p>
+<p style="font-size:32px;line-height:1.5;font-weight:500">助理小編給操作人員，離職當天移除</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　10 / 54</p>
+<aside>以 Email 註冊的 Business ID 自 2024-09-03 起預設開啟二階段驗證（Email 驗證碼或驗證器 App）。權限：管理員（全部功能、能管成員）、操作人員（群發、聊天、看分析），操作人員還可限制傳送或查看分析；名稱以後台實際畫面為準。示範畫面：左邊二階段驗證設定，右邊「設定 → 權限管理」。</aside>
+</section>
+<section id="s11" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">官方帳號被盜的徵兆</h2></div>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Users" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">出現你沒加的成員</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="PaperPlane" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">群發紀錄有你沒發的訊息</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Settings" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">自動回應、圖文選單被改</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Warning" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">收到陌生登入通知</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　11 / 54</p>
+<aside>另外提醒：LINE Developers Console 的 Provider 成員也要檢查，那裡拿得到 Channel Secret 和 Access Token。</aside>
+</section>
+<section id="s12" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">個人 LINE 被盜：照順序做</h2></div>
+<div style="flex:1;display:flex;gap:24px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 1</p><p style="font-size:32px;line-height:1.5;font-weight:500">能登入：改密碼、登出陌生裝置、關其他裝置登入</p></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 2</p><p style="font-size:32px;line-height:1.5;font-weight:500">不能登入：客服表單選「不登入並繼續操作」</p></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 3</p><p style="font-size:32px;line-height:1.5;font-weight:500">用其他管道通知好友與客戶</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　12 / 54</p>
+<aside>客服表單類別選帳號被盜用，由本人填寫。通知客戶的話術：這段時間收到我要錢、要點數、傳連結的訊息都不是我。</aside>
+</section>
+<section id="s13" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">官方帳號被盜：照順序做</h2></div>
+<div style="flex:1;display:flex;gap:24px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 1</p><p style="font-size:32px;line-height:1.5;font-weight:500">移除可疑成員、改密碼、確認二階段驗證</p></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 2</p><p style="font-size:32px;line-height:1.5;font-weight:500">進不去：聯絡官方帳號客服，必要時請 LINE 停用</p></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">步驟 3</p><p style="font-size:32px;line-height:1.5;font-weight:500">Developers Console 重發 Access Token 與 Secret</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　13 / 54</p>
+<aside>重發長期 Access Token 後舊的立刻失效。也要看 Webhook 網址有沒有被改。</aside>
+</section>
+<section id="s14" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">保客+ 這邊要做的事</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">新金鑰貼回「系統設定 → LINE 串接 → LINE 參數」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">按「儲存並驗證」，再「測試連線」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">換手機或 LINE 被盜：重新產生綁定連結</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Key" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 20 3M16 7l3 3M13.5 9.5l2 2"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：後台 LINE 參數頁，標出 Token 欄位、「儲存並驗證」、「測試連線」</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　14 / 54</p>
+<aside>只換 Token 的話，其他欄位留空就是不變更。綁定連結在「我的業務資料」產生，新 LINE 綁好後舊的自動解除。手機日曆訂閱網址也重新產生，後台密碼一起換。注意：換成另一個官方帳號，跟同一帳號換金鑰不同，換帳號的話業務綁定要全部重做。</aside>
+</section>
+<section id="s15" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">LINE 帳號安全｜實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">實作：4 分鐘檢查自己的設定</h2></div>
+<div style="flex:1;display:flex;gap:48px;align-items:center">
+<div style="width:520px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#14213D;padding:56px 32px;border-radius:24px"><p style="font-size:200px;font-weight:900;line-height:1;color:#F0A066">4</p><p style="font-size:44px;font-weight:700;color:#F7F4EE">分鐘</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;gap:24px;align-items:center;background:#FFFDF9;padding:32px 40px;border-radius:20px"><x-icon name="Book" style="color:#E07A3A;width:56px;height:56px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">拿出講義的 LINE 安全檢查清單</p></div>
+<div style="display:flex;gap:24px;align-items:center;background:#FFFDF9;padding:32px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#E07A3A;width:56px;height:56px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">逐項打勾，至少完成 5 項</p></div>
+<div style="display:flex;gap:24px;align-items:center;background:#FFFDF9;padding:32px 40px;border-radius:20px"><x-icon name="ThumbsUp" style="color:#E07A3A;width:56px;height:56px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H3V10z"/><path d="M7 10l4-8a2.5 2.5 0 0 1 3 2.5V9h5.5a2 2 0 0 1 2 2.3l-1.4 8A2 2 0 0 1 18.1 21H7"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">完成舉手</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　15 / 54</p>
+<aside>開始 4 分鐘倒數。助教巡場幫忙找選單。沒完成的列入課後作業。</aside>
+</section>
+<section id="s16" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">業務的一天</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">業務的四個痛</h2></div>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Book" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">生日、週年、繳費日記在本子常漏</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Database" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">一家人保單散在各家公司</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Chat" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">訊息怕講錯話</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:40px 48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Lock" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">個資要求多，不知道怎麼留紀錄</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　16 / 54</p>
+<aside>請大家在講義寫下自己最想先解決的一個。</aside>
+</section>
+<section id="s17" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">業務的一天</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D"><span style="color:#B4541E">07:30</span>　一則早報開始一天</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">今日行程</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">今天先處理這幾位</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">到期提醒、待確認祝福、久未聯絡</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Clock" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：手機 LINE 收到的早報訊息（示意資料）</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　17 / 54</p>
+<aside>一位業務一天一則。沒有任何事項的那天不發。時間可以在後台改。</aside>
+</section>
+<section id="s18" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">業務的一天</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">白天：拿著保障總表談</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">一家人一張表，每人一欄</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">缺口綠黃紅一眼看懂</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">談完回來記一筆拜訪</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Chart" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V7M18 17v-8"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：家庭保障總表（示意資料）</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　18 / 54</p>
+<aside>總表不顯示任何商品推薦，只供當面討論保障規劃。</aside>
+</section>
+<section id="s19" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">業務的一天</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">客戶自己在 LINE 查保單</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">「我下次什麼時候繳費？」系統依保單回答</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">理賠、條款問題轉給你</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">新訊息通知你本人</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Chat" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：客戶端問答卡片</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　19 / 54</p>
+<aside>業務少接很多重複問題，但會賠不會賠這類一定回到你手上。</aside>
+</section>
+<section id="s20" data-transition="fade" style="background:#14213D;color:#F7F4EE;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#F0A066;letter-spacing:2px">業務的一天</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#F7F4EE">三條底線</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;background:#1F2F52;padding:56px 48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:44px;font-weight:700;color:#F0A066">01</p><p style="font-size:44px;line-height:1.35;font-weight:700;color:#F7F4EE">不收健康資料</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;background:#1F2F52;padding:56px 48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:44px;font-weight:700;color:#F0A066">02</p><p style="font-size:44px;line-height:1.35;font-weight:700;color:#F7F4EE">AI 只出草稿，你確認才生效</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px;background:#1F2F52;padding:56px 48px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:44px;font-weight:700;color:#F0A066">03</p><p style="font-size:44px;line-height:1.35;font-weight:700;color:#F7F4EE">對外訊息自動附姓名與所屬機構</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#BCC7D8">保客+ 業務實戰課　20 / 54</p>
+<aside>個人版：你是管理者也是業務，官方帳號、好友、訊息費用都是你的，資料控制者是你本人；已在經營的官方帳號可直接接，好友全部保留。這三條底線貫穿今天所有操作，最後一段會完整整理。</aside>
+</section>
+<section id="s21" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">接下來 50 分鐘：把你的 LINE 接上</h2></div>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;padding:36px 40px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">第一站</p><h3 style="font-size:44px;font-weight:700">Messaging</h3></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;padding:36px 40px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">第二站</p><h3 style="font-size:44px;font-weight:700">Login 與 LIFF</h3></div>
+<x-shape kind="arrow-right" style="background:#E07A3A;width:64px;height:32px"></x-shape>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;background:#FFFDF9;padding:36px 40px;border-radius:24px;border-top:8px solid #E07A3A"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">第三站</p><h3 style="font-size:44px;font-weight:700">首次設定</h3></div>
+</div>
+<p style="font-size:32px;line-height:1.5;font-weight:500">兩人一組，互當測試客戶</p>
+<div style="display:flex;gap:24px">
+<div style="flex:1;display:flex;gap:20px;align-items:center;background:#FFFDF9;padding:28px 32px;border-radius:20px"><x-shape kind="ellipse" style="background:#2F8F5B;width:40px;height:40px"></x-shape><p style="flex:1;font-size:28px;line-height:1.4"><b>綠牌</b>　全部完成</p></div>
+<div style="flex:1;display:flex;gap:20px;align-items:center;background:#FFFDF9;padding:28px 32px;border-radius:20px"><x-shape kind="ellipse" style="background:#E0B43A;width:40px;height:40px"></x-shape><p style="flex:1;font-size:28px;line-height:1.4"><b>黃牌</b>　卡住超過 5 分鐘</p></div>
+<div style="flex:1;display:flex;gap:20px;align-items:center;background:#FFFDF9;padding:28px 32px;border-radius:20px"><x-shape kind="ellipse" style="background:#C8483A;width:40px;height:40px"></x-shape><p style="flex:1;font-size:28px;line-height:1.4"><b>紅牌</b>　沒有金鑰</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　21 / 54</p>
+<aside>先看我示範一遍約 8 分鐘，再自己做。助教各帶一組，另有補救站。先做完的人拿練習卡往下做。桌上要有：後台帳密、Messaging 的 Channel ID／Secret／長期 Token、Login 的 Channel ID／Secret、LIFF ID。金鑰不拍照、不傳群組，用 LINE 傳給自己的話貼完立刻刪。沒有金鑰的人舉紅牌。</aside>
+</section>
+<section id="s22" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第一站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第一站：貼上 Messaging 金鑰</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">系統設定 → LINE 串接 → LINE 參數</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">貼 Channel ID、Secret、長期 Token</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">按「儲存並驗證」，看到綠色與帳號名稱</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Key" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 20 3M16 7l3 3M13.5 9.5l2 2"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：LINE 參數頁 Messaging 區塊，三個欄位與按鈕</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　22 / 54</p>
+<aside>紅色是憑證有誤，多半是 Token 跟 Channel ID 不是同一個 channel；灰色是連不上 LINE，換網路再試，不要去重發 Token。</aside>
+</section>
+<section id="s23" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第一站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第一站：Webhook 貼回 LINE</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">複製後台的 Webhook URL</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Developers Console → Messaging API 分頁貼上</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">打開 Use webhook，按 Verify</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">04</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">官方帳號後台「回應設定」關閉自動回應</p></div>
+</div>
+<div style="width:560px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Link" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：左邊後台 Webhook URL 複製鈕，右邊 Developers Console 的 Webhook 設定</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　23 / 54</p>
+<aside>Verify 失敗：網址少字，或 Secret 填錯造成簽章對不上。自動回應不關，客戶會同時收到制式回應，跟系統回覆打架。</aside>
+</section>
+<section id="s24" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第二站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第二站：LINE Login 與 LIFF</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">貼 Login Channel ID、Secret、LIFF ID</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">按「儲存」，再「測試連線」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">LIFF ID＝Login Channel ID-八碼英數</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Key" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3 20 3M16 7l3 3M13.5 9.5l2 2"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：LINE 參數頁 Login 區塊</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　24 / 54</p>
+<aside>LIFF ID 前綴必須是 Login Channel ID，貼成 Messaging 的會被擋。</aside>
+</section>
+<section id="s25" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第二站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第二站：LIFF 設定與發布</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">LIFF Endpoint URL、Callback URL 從後台複製貼回（Callback 結尾斜線不能少）</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Size Full；Scopes profile、openid、chat_message.write</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Bot link 指向自己的官方帳號</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">04</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:700;color:#B4541E">Login channel 改成 Published</p></div>
+</div>
+<div style="width:480px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Settings" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：LIFF 設定頁四處框線，Login channel 狀態切換</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　25 / 54</p>
+<aside>Published 這一步最常漏，而且開發者本人測永遠正常，其他人才會看到 400。所以等一下一定用夥伴的手機驗。Login channel 必須和 Messaging 在同一個 Provider。</aside>
+</section>
+<section id="s26" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第三站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第三站：首次設定（一定要本人）</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">保險業務 → 團隊與業績 → 我的業務資料</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">職業別、本人資料、資料控制者</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">逐項勾選開通確認 → 完成設定</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Verified" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="8.5 12 11 14.5 15.5 10"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：首次設定頁，四個步驟編號</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　26 / 54</p>
+<aside>所屬機構、登錄字號系統不驗證，由你本人負責，會用在簽名檔與報表頁尾。開通確認平台人員代登入不能代勾，所以課前我們沒有幫你做。沒完成前不能建客戶。</aside>
+</section>
+<section id="s27" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜第三站</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">第三站：綁定工作台、加好友</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">綁定連結傳到自己 LINE，打開按「確認綁定」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">自己的 LINE 加自己的官方帳號</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">夥伴加你的官方帳號，傳一句「測試」</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Home" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：手機綁定確認畫面與工作台首頁</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　27 / 54</p>
+<aside>綁定連結 72 小時有效、只能用一次。夥伴傳的訊息在後台會員留言看得到就代表 webhook 通了；夥伴打開頁面出現 400 就是 Login channel 沒發布。</aside>
+</section>
+<section id="s28" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜驗收</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">全場驗收：五個綠燈</h2></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px">
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:20px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#2F8F5B;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Messaging 已驗證、Webhook Verify 成功</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:20px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#2F8F5B;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">Login 與 LIFF 已存、已發布</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:20px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#2F8F5B;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">首次設定完成</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:20px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#2F8F5B;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">工作台已綁定、已加好友</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:20px 40px;border-radius:20px"><x-icon name="CheckCircle" style="color:#2F8F5B;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">夥伴訊息看得到</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　28 / 54</p>
+<aside>對講義的串接完成清單打勾，全部完成舉綠牌。黃牌紅牌名單交補救站，休息時間繼續處理。</aside>
+</section>
+<section id="s29" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">現場串接｜速查</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">卡住了？先查這幾個</h2></div>
+<table style="font-size:32px;color:#14213D;background:#FFFDF9;border:1px solid #E4DED3;border-radius:20px">
+<tr style="background:#14213D"><th style="width:45%;color:#F7F4EE;text-align:left;padding:24px 40px">看到什麼</th><th style="width:55%;color:#F7F4EE;text-align:left">先查這個</th></tr>
+<tr><td>紅色：憑證有誤</td><td>重新複製長期 Token</td></tr>
+<tr style="background:#F3EEE5"><td>Verify 失敗</td><td>網址或 Secret</td></tr>
+<tr><td>夥伴看到 400</td><td>Login 沒發布</td></tr>
+<tr style="background:#F3EEE5"><td>連結失效</td><td>重新產生綁定連結</td></tr>
+</table>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　29 / 54</p>
+<aside>完整表格在講義。沒有官方帳號的人今天不現場申請，先在後台練習，課後 1 對 1 陪同。</aside>
+</section>
+<section id="s30" data-transition="fade" style="background:#E07A3A;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<x-icon name="Clock" style="color:#14213D;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></x-icon>
+<h1 style="font-size:120px;font-weight:900;line-height:1.15;color:#14213D">休息 10 分鐘</h1>
+<div style="display:flex;flex-direction:column;gap:20px">
+<p style="font-size:44px;line-height:1.4;font-weight:500;color:#14213D">黃牌、紅牌的同學請留在座位</p>
+<p style="font-size:44px;line-height:1.4;font-weight:500;color:#14213D">助教會到你旁邊</p>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#14213D">保客+ 業務實戰課　30 / 54</p>
+<aside>開始倒數 10 分鐘。講師同時確認全場燈號，決定後段是否壓縮。</aside>
+</section>
+<section id="s31" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">以家庭為單位建客戶</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">一家人一個畫面</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">沒有 LINE 的小孩、長輩也建成員</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">分級 A～D 由你判斷</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Users" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：工作台家庭明細（示意資料）</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　31 / 54</p>
+<aside>分級決定久未聯絡多久提醒：預設 A 30 天、B 60 天、C 90 天、D 不提醒。年收入級距會影響壽險缺口建議。</aside>
+</section>
+<section id="s32" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">新增成員一定要勾同意</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">勾「已說明告知事項並取得同意」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">選方式：書面、口頭、LINE 對話</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">未成年、長輩可由同戶家人代為同意</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;gap:32px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px">
+<div style="display:flex;gap:20px;align-items:center;background:#FFFDF9;padding:28px;border-radius:16px;border:3px solid #E07A3A"><x-icon name="Check" style="color:#B4541E;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></x-icon><p style="flex:1;font-size:28px;line-height:1.4;font-weight:700">已說明告知事項並取得同意</p></div>
+<p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：新增成員表單，同意勾選框放大</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　32 / 54</p>
+<aside>實作：建示範家，三位成員，其中一位生日設在未來 7 天內，明天早報才會有內容。備註故意打「高血壓」看提醒，再刪掉。</aside>
+</section>
+<section id="s33" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">登錄保單：保障明細是關鍵</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">各家保險公司都能登</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">主約、附約、保額逐列填</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">繳費方式只記類別，不記卡號</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Book" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：保單表單與保障明細區塊</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　33 / 54</p>
+<aside>沒有保障明細的保單只會出現在清單，不會進保障總表。實作用講師發的示意保單，不要拿真客戶的保單上課。</aside>
+</section>
+<section id="s34" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">拍照讀保單：草稿由你核對</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">只拍保單首頁，不拍健康告知書</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">每欄標示請核對，看不清楚的不預填</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">按「確認儲存」才建立</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Search" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：拍照讀取的草稿，每欄有狀態標籤</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　34 / 54</p>
+<aside>一次最多 6 張：首頁、附約明細、保險存摺截圖、繳費通知單。偵測到健康告知頁整張丟棄。每月有使用上限。（若課前實測未通過，此頁改以截圖說明，現場只做手動登錄。）</aside>
+</section>
+<section id="s35" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">家庭保障總表</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">每位家人一欄：壽險、重疾、意外、失能、長照、日額</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">缺口綠黃紅</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">不顯示任何商品推薦</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Chart" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V7M18 17v-8"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：保障總表與列印版頁尾</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　35 / 54</p>
+<aside>列印：LINE 裡多半不能印，用手機瀏覽器或後台「列印／存成 PDF」。頁尾自動附免責文字與你的姓名、所屬機構、登錄字號。</aside>
+</section>
+<section id="s36" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">提醒：該聯絡誰，系統先想好</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">生日、年齡里程碑、保單週年、繳費日、滿期</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">也能自訂提醒</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">已處理／延後（最多 90 天）／略過</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Activity" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：工作台「提醒」頁</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　36 / 54</p>
+<aside>年齡里程碑：6、12、18、22、40、50、60、65 歲。提醒處理的備註一樣不收健康資料。</aside>
+</section>
+<section id="s37" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">祝福：早上一鍵確認</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">系統先寫好草稿</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">逐則看、可改字，按確認</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">預設 09:00 從你的官方帳號送出</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Star" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 15.1 8.3 22 9.3 17 14.1 18.2 21 12 17.8 5.8 21 7 14.1 2 9.3 8.9 8.3"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：工作台「祝福」頁與「全部確認」按鈕</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　37 / 54</p>
+<aside>沒確認就不發；也可選自動發送。只有連了 LINE 的客戶會產生草稿。場合：國曆／農曆生日、20 個台灣節日、紀念日、保單週年、繳費提醒。改字遇健康字詞直接擋。早報與祝福會用到你官方帳號方案的訊息則數。行事曆：日週月檢視，可用私密網址單向訂閱到 Google 或 iPhone 日曆，網址只顯示一次、預設姓名遮罩。</aside>
+</section>
+<section id="s38" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">讓客戶連到 LINE</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">家庭明細 → 客戶旁「LINE 連結」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">一次性連結：72 小時、只能用一次</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">客戶同意告知事項後完成連結</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Link" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：連結產生畫面與客戶端告知同意畫面</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　38 / 54</p>
+<aside>告知事項上的資料控制者就是你首次設定填的。兩人一組：A 替 B 建測試家庭與示意保單，把連結傳給 B。一律用夥伴的 LINE 當客戶。客戶看得到：本人與未成年子女的保單；家庭共享要雙方都開，配偶替成年子女投保的要成年子女本人也開；保單號碼只顯示末 4 碼，看不到照片與備註。</aside>
+</section>
+<section id="s39" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">客戶問保單，系統先回答</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">保額、日額、下次繳費日、滿期日</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">每則附「實際權益以保單條款為準」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">理賠、條款不回答 → 轉真人</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Chat" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：聊天室中的問答卡片與「轉真人」按鈕</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　39 / 54</p>
+<aside>實作：B 在 A 的官方帳號打「下次什麼時候繳費」，再打「這樣會不會賠」按轉真人。系統不保存問題原文。</aside>
+</section>
+<section id="s40" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">回覆客戶：合規副駕在旁邊</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">「保證、穩賺、最高」先提醒</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">可改寫，或仍要送出</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">健康字詞直接擋，沒有仍要送出</p></div>
+</div>
+<div style="width:600px;display:flex;flex-direction:column;justify-content:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px">
+<p style="font-size:28px;line-height:1.5;background:#FFFDF9;padding:24px 28px;border-radius:16px">保證理賠沒問題</p>
+<div style="display:flex;gap:16px;align-items:center;background:#FBEBDD;padding:24px 28px;border-radius:16px;border:2px solid #E07A3A"><x-icon name="Warning" style="color:#B4541E;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></x-icon><p style="flex:1;font-size:24px;line-height:1.5;font-weight:700;color:#14213D">提醒：「保證」屬招攬規範注意字詞</p></div>
+<p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：工作台「客戶訊息」回覆與提醒框</p>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　40 / 54</p>
+<aside>新訊息通知不含內容，晚上 10 點到早上 7 點不推。實作：A 先打「保證理賠沒問題」看提醒，再改寫送出。</aside>
+</section>
+<section id="s41" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">AI 助理：在聊天室說就好</h2></div>
+<div style="flex:1;display:flex;gap:64px;align-items:center">
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;gap:24px;align-items:center"><p style="width:120px;font-size:24px;font-weight:700;color:#B4541E">查</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500;background:#FFFDF9;padding:28px 40px;border-radius:28px;border:1px solid #E4DED3">「查王小明」</p></div>
+<div style="display:flex;gap:24px;align-items:center"><p style="width:120px;font-size:24px;font-weight:700;color:#B4541E">記</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500;background:#FFFDF9;padding:28px 40px;border-radius:28px;border:1px solid #E4DED3">「記：王小明想了解退休規劃」</p></div>
+<div style="display:flex;gap:24px;align-items:center"><p style="width:120px;font-size:24px;font-weight:700;color:#B4541E">約</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500;background:#FFFDF9;padding:28px 40px;border-radius:28px;border:1px solid #E4DED3">「下週二下午三點約王小明」</p></div>
+</div>
+<div style="width:480px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:24px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:48px"><x-icon name="Lightbulb" style="color:#7D8AA0;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">示意畫面：聊天室助理回覆，草稿到工作台確認</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　41 / 54</p>
+<aside>用你綁定業務的 LINE，在自己的官方帳號聊天室打字。草稿要到工作台「助理」頁按確認才存。這些對話不會進客戶訊息。（需要呼叫 AI 的約時間、早報理由句，課前未實測通過就只示範「查」「記」。）王小明為示意人物。</aside>
+</section>
+<section id="s42" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">AI 的界線</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="CheckCircle" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">只出草稿，你確認才生效</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Lock" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">送出前先遮蔽姓名、地址、保單號碼</p><p style="font-size:24px;line-height:1.5;color:#4A5568;background:#EAF0F6;padding:20px 24px;border-radius:16px">示意：王小明 → ○○○</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Warning" style="color:#E07A3A;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></x-icon><p style="font-size:32px;line-height:1.5;font-weight:500">不推薦商品、不給投資建議</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　42 / 54</p>
+<aside>含健康字詞的內容不送 AI。語音面談整理預設關閉，要開須本人在後台看告知並勾選，也要先跟客戶說明錄音會送雲端 AI 轉文字、轉完即丟。每人每天有額度。</aside>
+</section>
+<section id="s43" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">功能實作</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">名片、轉介紹、匯入舊名單</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #14213D"><h3 style="font-size:44px;font-weight:700">名片</h3><p style="font-size:32px;line-height:1.5;font-weight:500">一定標示所屬機構，誇大字詞直接擋</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #14213D"><h3 style="font-size:44px;font-weight:700">轉介紹</h3><p style="font-size:32px;line-height:1.5;font-weight:500">只送關懷禮</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border-top:8px solid #14213D"><h3 style="font-size:44px;font-weight:700">匯入舊名單</h3><p style="font-size:32px;line-height:1.5;font-weight:500">Excel／CSV 匯入，本人勾選已取得同意</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　43 / 54</p>
+<aside>名片擋的字：保證、穩賺、保本、最高、唯一、報酬率、退佣、保費折扣、優惠、限時。轉介紹擋退佣、保費、折扣、現金、紅包、禮金、點數。三種來源都記誰介紹的。匯入：保險業務 → 資料與設定 → 匯入客戶與保單，最多 2000 列、2 MB；有病史、體檢、身分證字號、帳號卡號欄位整份擋下。</aside>
+</section>
+<section id="s44" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">合規紅線　1／5</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">紅線一：不收健康資料</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="width:400px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:#14213D;padding:48px;border-radius:24px"><p style="font-size:120px;font-weight:900;line-height:1;color:#F0A066">01</p><p style="font-size:44px;font-weight:700;line-height:1.3;color:#F7F4EE">健康資料<br>不進系統</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">病歷、醫療、健康檢查是特種個資</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">不寫在備註、拜訪、行事曆、訊息</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">字詞清單是防呆，不是判斷</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　44 / 54</p>
+<aside>個資法第 6 條。備註遇疾病字詞先攔下（筆記類可堅持送出並留紀錄）；客戶會收到的訊息直接擋。不在清單上的也可能是健康資料，責任在你。核保交給保險公司的健康告知書。</aside>
+</section>
+<section id="s45" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">合規紅線　2／5</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">紅線二：每位客戶都有同意紀錄</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="width:400px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:#14213D;padding:48px;border-radius:24px"><p style="font-size:120px;font-weight:900;line-height:1;color:#F0A066">02</p><p style="font-size:44px;font-weight:700;line-height:1.3;color:#F7F4EE">同意<br>要留紀錄</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">新增時勾選並選取得方式</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">告知事項改版 →「需重新同意」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">向客戶說明後按「補登同意」</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　45 / 54</p>
+<aside>成員旁會顯示三種同意狀態標籤。內建告知範本僅供參考，正式使用前請所屬公司法遵或律師覆核。</aside>
+</section>
+<section id="s46" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">合規紅線　3／5</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">紅線三：招攬規範</h2></div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">附姓名與所屬機構</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">不寫保證、穩賺、最高、第一、唯一</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">不提特定商品、報酬、優惠；不送退佣保費現金</p></div>
+</div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#FBEBDD;padding:36px 40px;border-radius:24px;border-left:8px solid #C8483A"><p style="font-size:24px;font-weight:700;color:#9E2F24">違規寫法</p><p style="font-size:32px;line-height:1.5;font-weight:500">這張保單保證穩賺，報酬全市場最高！</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px;background:#E6F1EA;padding:36px 40px;border-radius:24px;border-left:8px solid #2F8F5B"><p style="font-size:24px;font-weight:700;color:#226B43">改寫後</p><p style="font-size:32px;line-height:1.5;font-weight:500">保障內容我可以當面跟您說明，實際權益以保單條款為準。[姓名]｜[所屬機構]</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　46 / 54</p>
+<aside>保險業務員管理規則第 19 條。銀行理專另依金融消費者保護法與所屬銀行規定；獨立理財顧問未取得投顧執照不得提供特定有價證券的投資建議。下方兩句是自擬示意文案。</aside>
+</section>
+<section id="s47" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">合規紅線　4／5</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">紅線四：尊重當事人權利</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="width:400px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:#14213D;padding:48px;border-radius:24px"><p style="font-size:120px;font-weight:900;line-height:1;color:#F0A066">04</p><p style="font-size:44px;font-weight:700;line-height:1.3;color:#F7F4EE">客戶要求<br>照做留紀錄</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">要查閱或副本 →「匯出資料」</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">要刪除 →「刪除」（無法復原）</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">每次都留紀錄</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　47 / 54</p>
+<aside>按鈕在後台成員列上的「匯出資料」與「刪除」。刪除會一併刪保單、照片、提醒、傳給他的訊息全文；拜訪紀錄去識別保留。銀行理專請先確認所屬銀行允許以本系統保存客戶資料。</aside>
+</section>
+<section id="s48" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">合規紅線　5／5</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">紅線五：代登入不能代表你</h2></div>
+<div style="flex:1;display:flex;gap:64px">
+<div style="width:400px;display:flex;flex-direction:column;justify-content:center;gap:16px;background:#14213D;padding:48px;border-radius:24px"><p style="font-size:120px;font-weight:900;line-height:1;color:#F0A066">05</p><p style="font-size:44px;font-weight:700;line-height:1.3;color:#F7F4EE">本人意思<br>本人按</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">同意聲明、資料控制者、開通確認</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">開啟語音面談整理</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><x-shape kind="rect" style="background:#E07A3A;width:16px;height:16px"></x-shape><p style="flex:1;font-size:32px;line-height:1.5;font-weight:700;color:#B4541E">都只能你本人登入操作</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　48 / 54</p>
+<aside>畫面上會看到「必須由本人登入後台操作」的提示。我們協助你查問題時可以看、可以做一般操作，但需要你本人表示意思的動作一律不能代按。</aside>
+</section>
+<section id="s49" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">實戰演練　情境卡 1／3</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">情境一：陳先生一家四口</h2></div>
+<div style="flex:1;display:flex;gap:48px;background:#FFFDF9;padding:56px;border-radius:24px;border-top:8px solid #E07A3A">
+<div style="width:280px;display:flex;flex-direction:column;gap:16px"><x-icon name="Users" style="color:#E07A3A;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">兩人一組</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:36px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">夫妻、10 歲女兒、70 歲母親（虛構）</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">建家庭、口頭同意、登錄壽險與醫療附約</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">看缺口，確認女兒的生日祝福</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　49 / 54</p>
+<aside>實戰演練共 20 分鐘，兩人一組，三張情境卡做完換下一張，時間不夠刪情境三。檢核：同意方式有選、未成年由家人代為同意、保障明細有填、祝福沒有商品字眼。</aside>
+</section>
+<section id="s50" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">實戰演練　情境卡 2／3</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">情境二：「我上個月住院，這張會賠嗎？」</h2></div>
+<div style="flex:1;display:flex;gap:48px;background:#FFFDF9;padding:56px;border-radius:24px;border-top:8px solid #E07A3A">
+<div style="width:280px;display:flex;flex-direction:column;gap:16px"><x-icon name="Chat" style="color:#E07A3A;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></x-icon><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">夥伴扮客戶</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:36px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">系統不自動回答理賠</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">回覆不寫病名（會被擋）</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">不承諾理賠結果，改電話確認</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　50 / 54</p>
+<aside>夥伴扮客戶在你的官方帳號打這句。看大家怎麼回，挑一兩組分享。</aside>
+</section>
+<section id="s51" data-transition="fade" style="background:#EAF0F6;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">實戰演練　情境卡 3／3</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">情境三：早上發現 LINE 被登出</h2></div>
+<div style="flex:1;display:flex;gap:48px;background:#FFFDF9;padding:56px;border-radius:24px;border-top:8px solid #E07A3A">
+<div style="width:280px;display:flex;flex-direction:column;gap:16px"><x-icon name="Warning" style="color:#E07A3A;width:96px;height:96px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></x-icon><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">排出順序</p></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:36px">
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">01</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">朋友說收到你借錢的訊息</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">02</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">兩人排出處置順序</p></div>
+<div style="display:flex;gap:28px;align-items:baseline"><p style="font-size:32px;font-weight:700;color:#B4541E">03</p><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">保客+ 要重新綁定與重產行事曆網址</p></div>
+</div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　51 / 54</p>
+<aside>答案順序：改密碼或報客服 → 通知好友客戶 → 我的業務資料產生新綁定連結 → 行事曆網址重產 → 後台密碼更換。</aside>
+</section>
+<section id="s52" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">收尾</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">課後作業（一週內）</h2></div>
+<div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px">
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:28px 40px;border-radius:20px;border:1px solid #E4DED3"><x-icon name="CheckCircle" style="color:#E07A3A;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">明早 07:30 確認收到早報、確認一則祝福</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:28px 40px;border-radius:20px;border:1px solid #E4DED3"><x-icon name="CheckCircle" style="color:#E07A3A;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">建 10 戶真實客戶，每位都有同意紀錄</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:28px 40px;border-radius:20px;border:1px solid #E4DED3"><x-icon name="CheckCircle" style="color:#E07A3A;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">3 位客戶完成 LINE 連結</p></div>
+<div style="display:flex;gap:28px;align-items:center;background:#FFFDF9;padding:28px 40px;border-radius:20px;border:1px solid #E4DED3"><x-icon name="CheckCircle" style="color:#E07A3A;width:48px;height:48px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="8 12 11 15 16 9"/></svg></x-icon><p style="flex:1;font-size:32px;line-height:1.5;font-weight:500">完成安全檢查清單</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　52 / 54</p>
+<aside>另外：對助理說查、記各一次。上課建的示範家庭與夥伴測試家庭，回去在後台徹底刪除。</aside>
+</section>
+<section id="s53" data-transition="fade" style="background:#F7F4EE;color:#14213D;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;gap:56px">
+<div style="display:flex;flex-direction:column;gap:16px"><p style="font-size:24px;font-weight:700;color:#B4541E;letter-spacing:2px">收尾</p><h2 style="font-size:72px;font-weight:700;line-height:1.15;color:#14213D">我們怎麼支援你</h2></div>
+<div style="flex:1;display:flex;gap:32px">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Chat" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg></x-icon><h3 style="font-size:32px;font-weight:700">問題回報管道</h3><p style="font-size:32px;line-height:1.5;color:#4A5568">（課堂公布）</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Clock" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></x-icon><h3 style="font-size:32px;font-weight:700">回覆時段</h3><p style="font-size:32px;line-height:1.5;color:#4A5568">（課堂公布）</p></div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px;background:#FFFDF9;padding:48px;border-radius:24px;border:1px solid #E4DED3"><x-icon name="Users" style="color:#E07A3A;width:64px;height:64px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.1a4 4 0 0 1 0 7.8M22 21v-2a4 4 0 0 0-3-3.9"/></svg></x-icon><h3 style="font-size:32px;font-weight:700">串接未完成</h3><p style="font-size:32px;line-height:1.5;font-weight:500">課後 1 對 1</p></div>
+<div style="width:320px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;background:#EAF0F6;border:2px dashed #AEB9C8;border-radius:24px;padding:40px"><x-icon name="Link" style="color:#7D8AA0;width:72px;height:72px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></x-icon><p style="font-size:24px;line-height:1.5;color:#4A5568;text-align:center">聯絡方式 QR Code（待提供）</p></div>
+</div>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#5A6478">保客+ 業務實戰課　53 / 54</p>
+<aside>請 Shark 上課前把管道與時段填上。被問價格：依方案規劃，課後個別說明。</aside>
+</section>
+<section id="s54" data-transition="fade" style="background:#14213D;color:#F7F4EE;font-family:'Noto Sans TC', Arial, sans-serif;padding:128px 128px 160px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:32px;font-weight:700;color:#F0A066;letter-spacing:4px">保客+ 業務實戰課</p>
+<h1 style="font-size:120px;font-weight:900;line-height:1.1;color:#F7F4EE">Q&amp;A</h1>
+<div style="width:120px;height:8px;background:#E07A3A;border-radius:4px"></div>
+<p style="font-size:44px;line-height:1.4;font-weight:500;color:#D6DEEA">把繁瑣交給系統，把關係留給你。</p>
+<p style="position:absolute;left:128px;bottom:64px;width:1664px;font-size:24px;color:#BCC7D8">講師　施允瀚｜宇果國際行銷　54 / 54</p>
+<aside>常見問題在講義最後一節：病歷、刪除、推薦商品、祝福確認、線上投保、佣金、官方帳號歸屬。</aside>
+</section>
+    </div>
+  </div>
+  <div class="notes" id="notes" aria-live="polite"><div class="lbl">講者備註</div><div id="notes-text"></div></div>
+  <div class="bar">
+    <div class="title">保客+ 業務實戰課</div>
+    <button class="btn" id="prev" type="button" aria-label="上一頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+    <span class="page" id="page">1 / 1</span>
+    <button class="btn" id="next" type="button" aria-label="下一頁"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    <div class="right">
+      <button class="btn" id="btn-notes" type="button" aria-pressed="false" title="講者備註（N）"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/></svg><span class="t">備註</span></button>
+      <button class="btn" id="btn-fs" type="button" title="全螢幕（F）"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/></svg><span class="t">全螢幕</span></button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var app = document.getElementById('app');
+  var vp = document.getElementById('vp');
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(stage.children).filter(function (n) { return n.tagName === 'SECTION'; });
+  var total = slides.length;
+  var cur = 0;
+  var notesText = document.getElementById('notes-text');
+  var btnNotes = document.getElementById('btn-notes');
+
+  function fit() {
+    var w = vp.clientWidth, h = vp.clientHeight;
+    var s = Math.min(w / 1920, h / 1080) * 0.98;
+    stage.style.transform = 'scale(' + s + ') translate(-50%, -50%)';
+  }
+  function go(i, fromHash) {
+    i = Math.max(0, Math.min(total - 1, i));
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    document.getElementById('page').textContent = (cur + 1) + ' / ' + total;
+    var aside = slides[cur].querySelector('aside');
+    notesText.textContent = aside ? aside.textContent.trim() : '（本頁沒有備註）';
+    if (!fromHash) {
+      try { history.replaceState(null, '', '#' + (cur + 1)); } catch (e) {}
+    }
+  }
+  function fromHash() {
+    var m = /^#(\d+)$/.exec(location.hash);
+    return m ? parseInt(m[1], 10) - 1 : 0;
+  }
+  function toggleNotes() {
+    var on = !app.classList.contains('show-notes');
+    app.classList.toggle('show-notes', on);
+    btnNotes.setAttribute('aria-pressed', on ? 'true' : 'false');
+    fit();
+  }
+  function toggleFs() {
+    try {
+      if (document.fullscreenElement) { var x = document.exitFullscreen(); if (x && x.catch) x.catch(function () {}); }
+      else if (document.documentElement.requestFullscreen) { var p = document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(function () {}); }
+    } catch (e) {}
+  }
+
+  document.getElementById('prev').addEventListener('click', function () { go(cur - 1); });
+  document.getElementById('next').addEventListener('click', function () { go(cur + 1); });
+  btnNotes.addEventListener('click', toggleNotes);
+  document.getElementById('btn-fs').addEventListener('click', toggleFs);
+  vp.addEventListener('click', function (e) {
+    var r = vp.getBoundingClientRect();
+    if (e.clientX - r.left < r.width / 3) go(cur - 1); else go(cur + 1);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter') { e.preventDefault(); go(cur + 1); }
+    else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); go(cur - 1); }
+    else if (k === 'Home') { go(0); }
+    else if (k === 'End') { go(total - 1); }
+    else if (k === 'n' || k === 'N') { toggleNotes(); }
+    else if (k === 'f' || k === 'F') { toggleFs(); }
+  });
+  var tx = null, ty = null;
+  vp.addEventListener('touchstart', function (e) { if (e.touches.length === 1) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; } }, { passive: true });
+  vp.addEventListener('touchend', function (e) {
+    if (tx === null) return;
+    var dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    tx = ty = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { e.preventDefault(); go(dx < 0 ? cur + 1 : cur - 1); }
+  });
+  window.addEventListener('hashchange', function () { go(fromHash(), true); });
+  window.addEventListener('resize', fit);
+  document.addEventListener('fullscreenchange', fit);
+  slides.forEach(function (s) { s.classList.remove('active'); });
+  slides[0].classList.add('active');
+  go(fromHash(), true);
+  fit();
+})();
+</script>
+</body>
+</html>
