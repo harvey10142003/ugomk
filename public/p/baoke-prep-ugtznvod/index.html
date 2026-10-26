@@ -104,6 +104,8 @@ figcaption .c { display: flex; gap: 8px; }
 figcaption .c b { flex: none; display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 11px; background: var(--mark); color: #fff; font-size: 12px; margin-top: 2px; padding: 0 5px; }
 .pending { border: 2px dashed var(--line); border-radius: 10px; padding: 18px; color: var(--ink-soft); background: var(--card); font-size: 0.95rem; }
 .pending strong { color: var(--amber); }
+details { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; margin: 14px 0; background: var(--card); }
+details > summary { cursor: pointer; font-weight: 700; color: var(--teal); }
 
 .note, .warnbox, .tip { border-radius: 10px; padding: 12px 14px; margin: 14px 0; font-size: 0.97rem; }
 .note { background: var(--wave-bg); }
@@ -174,7 +176,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <li><a href="#s3"><span class="n">3</span>開啟 Messaging API<span class="ok" data-ok="s3"></span></a></li>
       <li><a href="#s4"><span class="n">4</span>找到 Channel secret、發 Access token<span class="ok" data-ok="s4"></span></a></li>
       <li><a href="#s5"><span class="n">5</span>建立 LINE Login channel<span class="ok" data-ok="s5"></span></a></li>
-      <li><a href="#s6"><span class="n">6</span>建立 LIFF（有專屬代號再做）<span class="ok" data-ok="s6"></span></a></li>
+      <li><a href="#s6"><span class="n">6</span>LIFF（課堂系統自動建立，課前不必做）<span class="ok" data-ok="s6"></span></a></li>
       <li><a href="#s7"><span class="n">7</span>準備清單：資料在哪裡<span class="ok" data-ok="s7"></span></a></li>
       <li><a href="#s8"><span class="n">8</span>常見問題與卡關處理<span class="ok" data-ok="s8"></span></a></li>
       <li><a href="#s9"><span class="n">9</span>安全提醒（必讀）</a></li>
@@ -265,7 +267,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <li>右上角按 <span class="btn-name">設定</span>，左側選 <span class="btn-name">回應設定</span>。</li>
       <li><strong>加入好友的歡迎訊息</strong>：切成關閉（改由保客+ 發）。</li>
       <li><strong>自動回應訊息</strong>：切成關閉。</li>
-      <li><strong>Webhook</strong>：課前先不用動。這個開關要等第 3 節開好 Messaging API、課堂填好網址後才能開。</li>
+      <li><strong>Webhook</strong>：課前先不用動。網址課堂上由系統自動設定，你只要在 LINE Developers 把「Use webhook」打開（第 4 節說明）。</li>
       <li><strong>聊天</strong>：可以保持開啟，方便你用手機「LINE 官方帳號」App 手動回覆客戶。</li>
     </ol>
     <figure>
@@ -287,7 +289,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
         <span class="c"><b>2</b>設定 → 回應設定。</span>
         <span class="c"><b>3</b>加入好友的歡迎訊息：關閉（截圖範例目前是開著，要切掉）。</span>
         <span class="c"><b>4</b>自動回應訊息：關閉（截圖範例目前是開著，要切掉）。</span>
-        <span class="c"><b>5</b>Webhook：課堂上再開，課前不動。</span>
+        <span class="c"><b>5</b>Webhook：課前不動，課堂上系統設好網址後再開。</span>
       </figcaption>
     </figure>
     <label class="done" data-sec="s2"><input type="checkbox" id="done-s2"> 歡迎訊息、自動回應訊息都已關閉</label>
@@ -344,7 +346,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <figcaption>
         <span class="c"><b>1</b>設定 → Messaging API。</span>
         <span class="c"><b>2</b>啟用後狀態顯示「使用中」。</span>
-        <span class="c"><b>3</b>Channel ID、Channel secret 會顯示在這裡（截圖已遮蔽）。只要知道位置，不用抄。下方「Webhook網址」課堂再填。</span>
+        <span class="c"><b>3</b>Channel ID、Channel secret 會顯示在這裡（截圖已遮蔽）。只要知道位置，不用抄。下方「Webhook網址」課堂由系統自動設定，不必自己填。</span>
       </figcaption>
     </figure>
     <label class="done" data-sec="s3"><input type="checkbox" id="done-s3"> Messaging API 狀態是「使用中」</label>
@@ -420,7 +422,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
         <img src="/p/baoke-prep-ugtznvod/img/10-dev-msg-webhook.png" alt="Messaging API 分頁的 Webhook settings，QR code 已模糊" loading="lazy">
         <div class="m warn" style="left:20.2%;top:70.4%;width:17.4%;height:16.6%"><span>課</span></div>
       </div>
-      <figcaption><span class="c"><b>課</b>Webhook URL 課堂上才填：先把資料貼進保客+ 後台，後台會顯示你專屬的 Webhook 網址，再貼回這裡、打開「Use webhook」、按「Verify」。</span></figcaption>
+      <figcaption><span class="c"><b>課</b>Webhook URL 不用自己填：課堂上把 Messaging 三項資料貼進保客+ 後台、按儲存，系統會自動把 Webhook 網址設好，並請 LINE 送一次測試。你只需要回到這個畫面，把「Use webhook」開關打開（LINE 規定這個開關只能本人點）。不必按 Verify，後台的燈號會告訴你結果。</span></figcaption>
     </figure>
     <label class="done" data-sec="s4"><input type="checkbox" id="done-s4"> 找到 Channel secret，也發好 long-lived access token</label>
   </section>
@@ -557,19 +559,23 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
 
   <!-- 6 -->
   <section class="step" id="s6">
-    <div class="step-head"><span class="step-no">6</span><h2>建立 LIFF（收到專屬代號再做）</h2><span class="time">約 4 分鐘</span></div>
-    <p>LIFF 是「在 LINE 裡打開的網頁」，客戶的「我的保單」、你的業務工作台都是靠它開啟。建立時要填你專屬的網址，所以<strong>收到講師給的專屬網址代號才做</strong>；沒收到就課堂再一起做。</p>
-    <ol class="do">
-      <li>LINE Login channel → <span class="btn-name">LIFF</span> 分頁 → <span class="btn-name">Add</span>。</li>
-      <li><strong>LIFF app name</strong>：例如「保客+」。</li>
-      <li><strong>Size</strong>：選 <code>Full</code>。</li>
-      <li><strong>Endpoint URL</strong>：<code>https://你的代號.ugomkcrm.com/lindex</code>（結尾是 <code>/lindex</code>）。</li>
-      <li><strong>Scopes</strong>：三個都勾：<code>openid</code>、<code>profile</code>、<code>chat_message.write</code>（客戶從保單頁轉真人客服要用）。</li>
-      <li><strong>Add friend option</strong>：選 <code>On (Aggressive)</code>，客戶登入時會一併提示加你為好友。</li>
-      <li><strong>Scan QR</strong>：維持關閉。按 <span class="btn-name">Add</span>。</li>
-      <li>建好後，LIFF 列表會出現 <strong>LIFF ID</strong>（格式是「Login Channel ID-一串英數字」），知道位置就好。</li>
-    </ol>
-    <div class="note"><p>畫面上方有一段英文說 LIFF 將整合進「LINE MINI App」。台灣一般帳號照常使用 LIFF，照這份講義建立即可。</p></div>
+    <div class="step-head"><span class="step-no">6</span><h2>LIFF：課堂上系統自動建立，課前不必做</h2><span class="time">課前 0 分鐘</span></div>
+    <p>LIFF 是「在 LINE 裡打開的網頁」，客戶的「我的保單」、你的業務工作台都是靠它開啟。以前要自己手動填網址、勾選項；現在<strong>課堂上把 LINE Login 的兩項資料貼進保客+ 後台，按「自動建立 LIFF」，系統就會用正確的設定建好，並把 LIFF ID 自動存回去</strong>。所以這一節課前什麼都不用做，LIFF 的專屬網址也不用自己組。</p>
+    <div class="note"><p><strong>課堂上你還要自己動手的只有幾件事</strong>（LINE 沒有開放讓系統代做）：在 LIFF 分頁打開 <strong>shareTargetPicker</strong>、在 Login channel 連結官方帳號（<strong>Linked LINE Official Account</strong>）、確認 channel 的 <strong>Region 是 Taiwan</strong>、把 Login channel 改成 <strong>Published</strong>（第 5 節已教過，課前做完最好）。「自動建立 LIFF」後畫面會逐項列出還缺哪些。</p></div>
+    <details>
+      <summary>備案：自動建立失敗時，才需要手動建 LIFF（點開看做法）</summary>
+      <p>通常是 Login 的 Channel ID／Secret 貼錯，或 LINE 暫時連不上。先回頭檢查那兩項再按一次；仍失敗就照下面手動建立，建好後把 LIFF ID 貼進後台。建立時要填你專屬的網址，所以收到講師給的專屬網址代號才做。</p>
+      <ol class="do">
+        <li>LINE Login channel → <span class="btn-name">LIFF</span> 分頁 → <span class="btn-name">Add</span>。</li>
+        <li><strong>LIFF app name</strong>：例如「保客+」。</li>
+        <li><strong>Size</strong>：選 <code>Full</code>。</li>
+        <li><strong>Endpoint URL</strong>：<code>https://你的代號.ugomkcrm.com/lindex</code>（結尾是 <code>/lindex</code>）。</li>
+        <li><strong>Scopes</strong>：三個都勾：<code>openid</code>、<code>profile</code>、<code>chat_message.write</code>（客戶從保單頁轉真人客服要用）。</li>
+        <li><strong>Add friend option</strong>：選 <code>On (Aggressive)</code>，客戶登入時會一併提示加你為好友（需先連結官方帳號才選得到）。</li>
+        <li><strong>Scan QR</strong>：維持關閉。按 <span class="btn-name">Add</span>。</li>
+        <li>建好後，LIFF 列表會出現 <strong>LIFF ID</strong>（格式是「Login Channel ID-一串英數字」），貼進保客+ 後台的 LIFF ID 欄。</li>
+      </ol>
+      <div class="note"><p>畫面上方有一段英文說 LIFF 將整合進「LINE MINI App」。台灣一般帳號照常使用 LIFF，照這份講義建立即可。</p></div>
     <figure>
       <div class="shot">
         <img src="/p/baoke-prep-ugtznvod/img/23-dev-liff-add-1.png" alt="Add a LIFF app 表單上半部：名稱、Size、Endpoint URL、Scopes" loading="lazy">
@@ -604,7 +610,8 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       </div>
       <figcaption><span class="c"><b>8</b>LIFF ID 在這裡（截圖已遮蔽），課堂上從這裡複製。</span></figcaption>
     </figure>
-    <label class="done" data-sec="s6"><input type="checkbox" id="done-s6"> LIFF 已建立（或：還沒收到代號，課堂再做）</label>
+    </details>
+    <label class="done" data-sec="s6"><input type="checkbox" id="done-s6"> 我知道課堂上 LIFF 由系統自動建立（課前不必做）</label>
   </section>
 
   <!-- 7 -->
@@ -620,20 +627,20 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
           <tr><td>3</td><td>Channel access token（long-lived）</td><td>Messaging API channel → Messaging API 分頁最下方</td><td>Channel Access Token（長期）</td><td><span class="fill">　</span></td></tr>
           <tr><td>4</td><td>LINE Login Channel ID（10 碼數字）</td><td>LINE Login channel → Basic settings 最上方</td><td>LINE Login Channel ID</td><td><span class="fill">　</span></td></tr>
           <tr><td>5</td><td>LINE Login Channel secret</td><td>LINE Login channel → Basic settings 往下捲</td><td>LINE Login Channel Secret</td><td><span class="fill">　</span></td></tr>
-          <tr><td>6</td><td>LIFF ID</td><td>LINE Login channel → LIFF 分頁列表</td><td>LIFF ID</td><td><span class="fill">　</span></td></tr>
+          <tr><td>6</td><td>LIFF ID</td><td>不用準備：課堂上按「自動建立 LIFF」，系統會自動帶入。只有自動建立失敗時，才到 LINE Login channel → LIFF 分頁列表複製</td><td>LIFF ID（自動帶入）</td><td><span class="fill">　</span></td></tr>
           <tr><td>7</td><td>保客+ 後台帳號、密碼</td><td>講師寄給你的開通通知</td><td>登入後台用</td><td><span class="fill">　</span></td></tr>
         </tbody>
       </table>
     </div>
-    <h3>由我們提供、課堂上要貼回 LINE 的網址</h3>
-    <p>這三個網址不用自己組，登入保客+ 後台後，在 LINE 參數頁會直接顯示，旁邊有複製鈕：</p>
+    <h3>由我們提供的網址</h3>
+    <p>登入保客+ 後台後，在 LINE 參數頁會直接顯示，旁邊有複製鈕。其中兩個現在由系統代辦，你只剩一個要自己貼：</p>
     <ul>
-      <li><strong>Webhook URL</strong>：貼到 Messaging API channel → Messaging API 分頁 → Webhook URL。</li>
-      <li><strong>Callback URL</strong>：<code>https://你的代號.ugomkcrm.com/</code>，貼到 LINE Login 分頁。</li>
-      <li><strong>LIFF Endpoint URL</strong>：<code>https://你的代號.ugomkcrm.com/lindex</code>，建 LIFF 時用。</li>
+      <li><strong>Webhook URL</strong>：存好 Messaging 三項後，系統自動設定，不必貼。</li>
+      <li><strong>LIFF Endpoint URL</strong>：按「自動建立 LIFF」時系統自動填好，不必貼。</li>
+      <li><strong>Callback URL</strong>：<code>https://你的代號.ugomkcrm.com/</code>，要自己貼到 LINE Login 分頁（LINE 沒有開放系統代設）。</li>
     </ul>
     <h3>課堂上的保客+ 畫面（示意）</h3>
-    <p>位置：保客+ 後台左側選單 <span class="btn-name">系統設定</span> → <span class="btn-name">LINE 參數</span>。由你本人登入後自己貼上、按儲存，系統會立刻向 LINE 驗證這組資料是不是你的。存好之後，畫面上只會顯示遮罩，不會再顯示完整金鑰。</p>
+    <p>位置：保客+ 後台左側選單 <span class="btn-name">系統設定</span> → <span class="btn-name">LINE 參數</span>。由你本人登入後自己貼上、按儲存，系統會立刻向 LINE 驗證這組資料是不是你的，並自動設定 Webhook。存好之後，畫面上只會顯示遮罩，不會再顯示完整金鑰。</p>
     <div class="mock" role="img" aria-label="保客+ 後台 LINE 參數設定頁示意">
       <div class="crumb">系統設定 › LINE 串接 › LINE 參數</div>
       <div class="mt">LINE 參數設定</div>
@@ -643,21 +650,25 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
         <div class="f"><label>Channel ID</label><div class="in hl">貼上第 1 項</div></div>
         <div class="f"><label>Channel Secret</label><div class="in hl">貼上第 2 項</div></div>
         <div class="f"><label>Channel Access Token（長期）</label><div class="in hl">貼上第 3 項</div></div>
-        <div><span class="btn">儲存</span> <span class="btn ghost">測試連線</span></div>
-        <div class="f"><label>Webhook URL（貼回 LINE Console → Messaging API）</label><div class="copy"><div class="in">https://crm.ugomk.com/webhook/（你的 Channel ID）</div><span class="btn ghost">複製</span></div></div>
+        <div><span class="btn">儲存並驗證</span> <span class="btn ghost">測試連線</span></div>
+        <div class="f"><label>Webhook 狀態（儲存後系統自動設定，不必自己貼網址）</label><div class="in">綠燈：Webhook 已自動設定完成 ／ 黃燈：Use webhook 開關目前是關閉的，請到 LINE Console 打開</div></div>
       </div>
       <div class="grp">
         <div class="mt">LINE Login Channel 與 LIFF</div>
-        <div class="f"><label>LIFF Endpoint URL（貼到 LIFF app 設定）</label><div class="copy"><div class="in">https://你的代號.ugomkcrm.com/lindex</div><span class="btn ghost">複製</span></div></div>
-        <div class="f"><label>Callback URL（貼到 LINE Login 設定，結尾斜線不能少）</label><div class="copy"><div class="in">https://你的代號.ugomkcrm.com/</div><span class="btn ghost">複製</span></div></div>
         <div class="f"><label>LINE Login Channel ID</label><div class="in hl">貼上第 4 項</div></div>
         <div class="f"><label>LINE Login Channel Secret</label><div class="in hl">貼上第 5 項</div></div>
-        <div class="f"><label>LIFF ID</label><div class="in hl">貼上第 6 項</div></div>
-        <div><span class="btn">儲存</span> <span class="btn ghost">測試連線</span></div>
+        <div><span class="btn">儲存</span> <span class="btn ghost">自動建立／校正 LIFF</span></div>
+        <div class="f"><label>LIFF ID（自動建立後系統自動帶入；失敗才手貼）</label><div class="in">1234567890-XXXXXXXX</div></div>
+        <div class="f"><label>Callback URL（貼到 LINE Login 設定，結尾斜線不能少）</label><div class="copy"><div class="in">https://你的代號.ugomkcrm.com/</div><span class="btn ghost">複製</span></div></div>
+      </div>
+      <div class="grp">
+        <div class="mt">上線前檢查：同一個 Provider、Login 已發布</div>
+        <div class="f"><label>步驟</label><div class="in">按「開始檢查」 → 用夥伴的手機加官方帳號好友 → 同一支手機打開畫面上的 LIFF 網址登入 → 回後台按「查看結果」</div></div>
+        <div><span class="btn">開始檢查</span> <span class="btn ghost">查看結果</span></div>
       </div>
     </div>
-    <div class="pending" style="margin-top:12px"><strong>截圖待補</strong>：保客+ 後台「LINE 參數」頁實機截圖。上圖是依系統實際欄位畫的示意，課堂畫面以實機為準。</div>
-    <label class="done" data-sec="s7"><input type="checkbox" id="done-s7"> 第 1～6 項我都知道在哪裡（不用抄下來）</label>
+    <div class="pending" style="margin-top:12px"><strong>上線後補截圖</strong>：保客+ 後台「LINE 參數」頁（Webhook 燈號、自動建立 LIFF、同 Provider 檢查）實機截圖。上圖是依系統功能畫的示意，課堂畫面以實機為準。</div>
+    <label class="done" data-sec="s7"><input type="checkbox" id="done-s7"> 第 1～5 項我都知道在哪裡（不用抄下來；LIFF ID 由系統自動帶入）</label>
   </section>
 
   <!-- 8 -->
@@ -691,6 +702,15 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <dt>要不要付費、要不要申請認證帳號？</dt>
       <dd>都不用。免費方案與一般帳號就能完成串接。</dd>
 
+      <dt>Webhook 燈號是黃燈或紅燈怎麼辦？</dt>
+      <dd>先看畫面上那一行字：<br>「Use webhook 開關目前是關閉的」：到 LINE Developers → Messaging API 分頁，把 Use webhook 打開，回後台按「檢查 Webhook」。這個開關只能本人點，系統無法代按。<br>「目前指向其他網址」：這個官方帳號原本接著別的系統，系統不會自動覆蓋；確定要改用保客+ 才按「改成本系統網址」。<br>「LINE 測試送到本系統失敗（HTTP 401）」：多半是 Channel secret 貼錯，重新複製貼上再存。<br>灰色「Webhook 狀態未能確認」：當下連不上 LINE，不是你設錯，稍後再按「檢查 Webhook」。<br>Webhook 沒過不影響金鑰已經存好，處理完再檢查一次即可。</dd>
+
+      <dt>「自動建立 LIFF」失敗，或提示 Add friend option 沒設上？</dt>
+      <dd>先確認 Login 的 Channel ID、Secret 沒貼錯。Add friend option 設不上，通常是還沒在 Login channel 連結官方帳號（Linked LINE Official Account），連結好再按一次「自動建立／校正 LIFF」。還是失敗就用第 6 節的手動做法，並告訴講師。</dd>
+
+      <dt>「同一個 Provider 檢查」顯示紅燈「查不到」怎麼辦？</dt>
+      <dd>先確認測試的那支手機真的已經加官方帳號為好友，再按一次。確定已加好友還是查不到，代表 Login channel 與 Messaging API 不在同一個 Provider：到 Messaging API 所在的 Provider 底下重建 LINE Login channel，並告訴講師。黃燈「還沒收到 LIFF 登入」是手機還沒登入完成；手機若看到 400 錯誤，就是 Login 還在 Developing，要改成 Published。檢查請用<strong>不是 LINE Developers 管理員</strong>的帳號（例如夥伴的手機），這樣也同時驗到 Published。</dd>
+
       <dt>網站上的「Delete」可以按嗎？</dt>
       <dd>不要按。刪掉 channel 後無法復原，客戶要重新加好友、重新登入。</dd>
     </dl>
@@ -723,9 +743,9 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <label><input type="checkbox" id="chk-msgapi"><span><strong>Messaging API 已開啟</strong>，狀態顯示「使用中」，Provider 是自己新建的。</span></label>
       <label><input type="checkbox" id="chk-token"><span><strong>Access token（long-lived）已發行</strong>（第 4 節）。</span></label>
       <label><input type="checkbox" id="chk-login"><span><strong>LINE Login channel 已建立</strong>，和 Messaging API 在同一個 Provider、已連結官方帳號、狀態為 Published。</span></label>
-      <label><input type="checkbox" id="chk-data"><span><strong>資料都找到位置了</strong>：第 7 節表格的 1～6 項都知道在哪裡，而且沒有抄下來或傳給任何人。</span></label>
+      <label><input type="checkbox" id="chk-data"><span><strong>資料都找到位置了</strong>：第 7 節表格的 1～5 項都知道在哪裡，而且沒有抄下來或傳給任何人。</span></label>
       <label><input type="checkbox" id="chk-admin"><span><strong>保客+ 後台帳號已收到</strong>，並能登入（沒收到請聯絡講師）。</span></label>
-      <label><input type="checkbox" id="chk-liff"><span>（選做）已收到專屬網址代號，並建好 LIFF、填好 Callback URL。</span></label>
+      <label><input type="checkbox" id="chk-liff"><span>（選做）已收到專屬網址代號，並填好 Callback URL。LIFF 課堂由系統自動建立，不用先做。</span></label>
     </div>
   </section>
 

@@ -178,40 +178,39 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <ul>
 <li>我們發的後台網址、帳號、密碼</li>
 <li>LINE 官方帳號的 Messaging API：Channel ID、Channel Secret、Channel Access Token（長期）</li>
-<li>LINE Login channel：Channel ID、Channel Secret</li>
-<li>LIFF ID</li>
+<li>LINE Login channel：Channel ID、Channel Secret（LIFF ID 不用準備，系統會自動建立）</li>
 <li>能登入 LINE Developers Console 與官方帳號後台的電腦或手機</li>
 <li>你的夥伴（坐隔壁的同學），等一下互相當「測試客戶」</li>
 </ul>
-<h3 id="第一站：messaging-api">第一站：Messaging API</h3>
+<h3 id="第一站：messaging-api-與-webhook">第一站：Messaging API 與 Webhook</h3>
 <ol>
 <li>登入自己的後台。</li>
 <li>進「系統設定 → LINE 串接 → LINE 參數」。</li>
 <li>在「Messaging API Channel」貼上 Channel ID、Channel Secret、Channel Access Token（長期）。</li>
 <li>按「儲存並驗證」，看到綠色「已驗證」和你的官方帳號名稱。</li>
-<li>按畫面上「Webhook URL」旁的複製。</li>
-<li>到 LINE Developers Console → 你的 Messaging API channel → Messaging API 分頁：<ul>
-<li>Webhook URL 貼上</li>
-<li>打開「Use webhook」</li>
-<li>按「Verify」，顯示成功</li>
+<li><strong>不用自己貼 Webhook 網址。</strong>儲存成功後，系統會自動把 Webhook 設好，並請 LINE 送一次測試，結果顯示在卡片下方：<ul>
+<li><strong>綠燈</strong>「Webhook 已自動設定完成」：完成，不用動。</li>
+<li><strong>黃燈</strong>「Use webhook 開關目前是關閉的」：到 LINE Developers Console → 你的 Messaging API channel → Messaging API 分頁，自己把「Use webhook」打開（LINE 規定這個開關只能本人點），再回後台按「檢查 Webhook」，直到綠燈。</li>
 </ul>
 </li>
 <li>到官方帳號後台「回應設定」，關閉自動回應訊息。</li>
 </ol>
-<h3 id="第二站：line-login-與-liff">第二站：LINE Login 與 LIFF</h3>
+<p>（上線後補截圖：Webhook 綠燈、黃燈畫面）</p>
+<h3 id="第二站：line-login-與自動建立-liff">第二站：LINE Login 與自動建立 LIFF</h3>
 <ol>
-<li>同一頁往下「LINE Login Channel 與 LIFF」，貼上 LINE Login Channel ID、Channel Secret、LIFF ID，按「儲存」，再按「測試連線」。</li>
-<li>複製畫面上的「LIFF Endpoint URL」，貼到 LINE Developers Console 的 LIFF app 設定。</li>
-<li>複製「Callback URL」，貼到 LINE Login 設定。<strong>結尾的斜線不能少。</strong></li>
-<li>LIFF app 再確認：<ul>
-<li>Size：Full</li>
-<li>Scopes：勾 profile、openid、chat_message.write</li>
-<li>加好友選項（Bot link）：開啟，指向你自己的官方帳號</li>
+<li>同一頁往下「LINE Login Channel 與 LIFF」，貼上 LINE Login Channel ID、Channel Secret，按「儲存」。LIFF ID 不用貼。</li>
+<li>按「自動建立／校正 LIFF」。系統會幫你建好 LIFF（Size＝Full、三個 Scopes、加好友選項、Endpoint 網址都設好），並把 LIFF ID 自動存回去。畫面會列出還要你手動做的項目。</li>
+<li>這三件事 LINE 不開放系統代做，要自己到 LINE Developers Console 做：<ul>
+<li>LIFF 分頁：打開 <strong>shareTargetPicker</strong>。</li>
+<li>LINE Login channel → Basic settings：把 <strong>Linked LINE Official Account</strong> 選成你自己的官方帳號。連結好之後，如果畫面提示加好友選項被先設成關閉，再按一次「自動建立／校正 LIFF」。</li>
+<li>複製畫面上的「Callback URL」，貼到 LINE Login 設定。<strong>結尾的斜線不能少。</strong></li>
+<li>順便確認 channel 的 Region 是 Taiwan（建立時選的，建好不能改）。</li>
 </ul>
 </li>
 <li><strong>LINE Login channel 狀態改成「已發布（Published）」。</strong>這一步最常漏，而且你自己測不出來，等一下要用夥伴的手機驗。</li>
 </ol>
-<h3 id="第三站：首次設定、綁定工作台、加好友">第三站：首次設定、綁定工作台、加好友</h3>
+<p>（上線後補截圖：自動建立 LIFF 的結果清單）</p>
+<h3 id="第三站：首次設定、綁定工作台、同-provider-檢查、加好友">第三站：首次設定、綁定工作台、同 Provider 檢查、加好友</h3>
 <ol>
 <li>後台「保險業務 → 團隊與業績 → 組織與業務」（頁名「我的業務資料」）：<ul>
 <li>選職業別（保險業務員／銀行理專／獨立理財顧問）</li>
@@ -224,17 +223,26 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 </li>
 <li>畫面出現「綁定連結」，傳到自己的 LINE，在手機打開，按「確認綁定」。連結 72 小時內有效、只能用一次。</li>
 <li>用自己的 LINE 加自己的官方帳號為好友（不加好友收不到早報）。</li>
-<li>請夥伴用他的 LINE 加你的官方帳號，傳一句「測試」。你在後台「訊息發送 → 會員留言」看得到，就代表接通了。</li>
+<li><strong>同一個 Provider 檢查</strong>（要用夥伴的手機，夥伴不是你這個 LINE Developers 的管理員，才測得出 Published）：<ol>
+<li>你在「LINE 參數」頁最下方按「開始檢查」（15 分鐘內有效）。</li>
+<li>夥伴用他的 LINE 加你的官方帳號為好友。</li>
+<li>夥伴用同一支手機打開卡片上顯示的 LIFF 網址，登入。如果手機出現 400 錯誤，代表 Login channel 還沒發布，回第二站第 4 步。</li>
+<li>你回後台按「查看結果」：<strong>綠色「通過」</strong>＝兩個 channel 在同一個 Provider，而且已發布；<strong>紅色「查不到」</strong>（確定夥伴已加好友）＝不在同一個 Provider，找助教；<strong>黃色「還沒收到 LIFF 登入」</strong>＝夥伴手機還沒登入完成。</li>
+<li>換你的手機，幫夥伴也檢查一次。</li>
 </ol>
+</li>
+<li>請夥伴傳一句「測試」。你在後台「訊息發送 → 會員留言」看得到，就代表接通了。</li>
+</ol>
+<p>（上線後補截圖：同 Provider 檢查綠燈、紅燈畫面）</p>
 <h3 id="串接完成清單">串接完成清單</h3>
 <ul>
 <li><input disabled="" type="checkbox"> Messaging API 顯示「已驗證」</li>
-<li><input disabled="" type="checkbox"> Webhook Verify 成功、Use webhook 已開</li>
+<li><input disabled="" type="checkbox"> Webhook 燈號綠色（Use webhook 已自己打開）</li>
 <li><input disabled="" type="checkbox"> 自動回應訊息已關</li>
-<li><input disabled="" type="checkbox"> LINE Login 與 LIFF 已儲存、Login channel 已發布</li>
+<li><input disabled="" type="checkbox"> LINE Login 已儲存、LIFF 已自動建立，shareTargetPicker、連結官方帳號、Callback URL 已手動設好，Login channel 已發布</li>
 <li><input disabled="" type="checkbox"> 首次設定已完成</li>
 <li><input disabled="" type="checkbox"> 自己的 LINE 已綁定工作台、是自己官方帳號的好友</li>
-<li><input disabled="" type="checkbox"> 夥伴已加你的官方帳號、傳的訊息看得到</li>
+<li><input disabled="" type="checkbox"> 夥伴已加你的官方帳號、同 Provider 檢查綠燈、傳的訊息看得到</li>
 </ul>
 <h3 id="卡關了先查這張表">卡關了先查這張表</h3>
 <table>
@@ -256,14 +264,29 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <td>換網路、稍後按「測試連線」，不要重發 Token</td>
 </tr>
 <tr>
-<td>Verify 失敗</td>
-<td>Webhook URL 少字，或 Secret 填錯</td>
-<td>從後台重新複製網址；重貼 Secret</td>
+<td>Webhook 黃燈「Use webhook 開關目前是關閉的」</td>
+<td>網址系統設好了，開關要你自己點</td>
+<td>Console → Messaging API 分頁打開 Use webhook，回後台按「檢查 Webhook」</td>
 </tr>
 <tr>
-<td>夥伴傳訊息後台看不到</td>
-<td>Use webhook 沒開</td>
-<td>打開 Use webhook</td>
+<td>Webhook 黃燈「目前指向其他網址」</td>
+<td>這個官方帳號原本接著別的系統，系統不會自動覆蓋</td>
+<td>確定要改用保客+ 才按「改成本系統網址」</td>
+</tr>
+<tr>
+<td>Webhook 黃燈「測試送到本系統失敗（HTTP 401）」</td>
+<td>多半是 Channel Secret 貼錯</td>
+<td>重新複製 Channel secret 貼上再存</td>
+</tr>
+<tr>
+<td>Webhook 灰燈「狀態未能確認」</td>
+<td>當下連不上 LINE，不是你設錯</td>
+<td>稍後按「檢查 Webhook」</td>
+</tr>
+<tr>
+<td>綠燈但夥伴傳訊息後台看不到</td>
+<td>自動回應沒關，或後台看錯帳號</td>
+<td>關閉自動回應；確認登入的是自己的後台</td>
 </tr>
 <tr>
 <td>夥伴收到官方帳號的制式自動回應</td>
@@ -271,12 +294,17 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <td>「回應設定」關閉</td>
 </tr>
 <tr>
-<td>LIFF ID 存不進去</td>
-<td>貼成 Messaging 的 ID</td>
-<td>LIFF ID 是「Login Channel ID-八碼英數」</td>
+<td>「自動建立 LIFF」失敗，或提示加好友選項沒設上</td>
+<td>Login 的 Channel ID／Secret 貼錯；或還沒連結官方帳號</td>
+<td>檢查兩項後再按；連結官方帳號後再按一次。仍失敗找助教</td>
 </tr>
 <tr>
-<td>自己打得開，夥伴打開出現 400</td>
+<td>同 Provider 檢查紅燈「查不到」</td>
+<td>夥伴還沒加好友；或兩個 channel 不在同一個 Provider</td>
+<td>先確認已加好友再按一次；仍查不到找助教</td>
+</tr>
+<tr>
+<td>自己打得開，夥伴打開出現 400（同 Provider 檢查黃燈）</td>
 <td>Login channel 還沒發布</td>
 <td>改成 Published</td>
 </tr>
@@ -305,7 +333,7 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <ul>
 <li><strong>還沒有官方帳號</strong>：今天先不要現場申請（Provider 選了不能換，匆忙選錯會很麻煩）。先在後台練習建客戶與保單（沒接 LINE 也能用後台），LINE 的部分跟夥伴一起看。課後我們陪你申請。</li>
 <li><strong>有官方帳號、沒開 Messaging API</strong>：到補救站，助教陪你從官方帳號後台啟用。</li>
-<li><strong>沒有 Login channel 或 LIFF</strong>：先完成第一站與首次設定，Login 與 LIFF 到補救站做。Login channel 一定要和 Messaging API 在<strong>同一個 Provider</strong> 底下。</li>
+<li><strong>沒有 Login channel</strong>：先完成第一站與首次設定，Login channel 到補救站建。Login channel 一定要和 Messaging API 在<strong>同一個 Provider</strong> 底下；建好後貼兩項，LIFF 仍按「自動建立」即可。</li>
 <li><strong>先做完的人</strong>：拿「提早完成練習卡」先往下做，或幫隔壁同學對照步驟（不碰別人的金鑰）。</li>
 </ul>
 <hr>
@@ -547,25 +575,25 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 </tr>
 <tr>
 <td>T+0:45</td>
-<td>50</td>
+<td>45</td>
 <td>現場串接（分組、三站、助教）</td>
 <td>實作</td>
 </tr>
 <tr>
-<td>T+1:35</td>
+<td>T+1:30</td>
 <td>10</td>
 <td>休息（卡關的人由助教繼續處理）</td>
 <td>休息</td>
 </tr>
 <tr>
-<td>T+1:45</td>
+<td>T+1:40</td>
 <td>10</td>
 <td>功能 1：客戶與家庭建檔、取得同意</td>
 <td>示範＋實作</td>
 </tr>
 <tr>
-<td>T+1:55</td>
-<td>15</td>
+<td>T+1:50</td>
+<td>20</td>
 <td>功能 2：保單登錄、拍照讀保單、家庭保障總表</td>
 <td>示範＋實作</td>
 </tr>
@@ -620,7 +648,7 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 </tbody></table>
 <p>時間預算說明：</p>
 <ul>
-<li>現場串接給 50 分鐘，比單人實際操作（約 15～20 分鐘）多一倍以上，用來吸收「金鑰貼錯、網路慢、Login channel 沒發布」等卡關。</li>
+<li>現場串接給 45 分鐘（原 50 分）：Webhook 網址與 LIFF 現在由系統自動設定，學員不必再手填網址，省下的 5 分鐘全部給「功能 2」讓學員實際登錄保單。45 分鐘仍保留足夠緩衝，吸收「金鑰貼錯、網路慢、Use webhook 忘了開、Login channel 沒發布」等卡關。</li>
 <li>先串好的人不用等，直接拿「提早完成練習卡」往下做（見第三節 2-5）。</li>
 <li>休息時間同時是第二段補救時間：還沒串好的人由助教繼續處理，不影響其他人休息。</li>
 <li>若現場 30 人、串接超時，優先砍「功能 6」與「實戰演練情境三」，不砍合規紅線。</li>
@@ -733,15 +761,15 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <li>學員做：聽；在講義寫下「我最想先解決的一個痛點」。</li>
 <li>示範畫面：業務工作台「今天」頁、早報訊息、家庭保障總表（示範帳號，示意資料）。</li>
 </ul>
-<h3 id="2-現場串接（50-分）">2. 現場串接（50 分）</h3>
+<h3 id="2-現場串接（45-分）">2. 現場串接（45 分）</h3>
 <h4 id="2-1-目標">2-1 目標</h4>
 <p>每位學員結束時達成：</p>
 <ol>
-<li>後台 LINE 參數兩段（Messaging、LINE Login／LIFF）儲存並驗證成功。</li>
-<li>LINE Developers Console 的 Webhook 已貼上、開啟、Verify 成功。</li>
-<li>完成個人版首次設定（本人勾選開通確認）。</li>
-<li>自己的 LINE 已綁定業務工作台、是自己官方帳號的好友。</li>
-<li>夥伴用另一支 LINE 加了你的官方帳號（為功能 4 準備）。</li>
+<li>後台「LINE 參數」Messaging 儲存並驗證成功，Webhook 燈號為綠色（系統自動設定網址，學員自己在 Console 打開「Use webhook」）。</li>
+<li>LINE Login 兩項儲存後，LIFF 已由系統「自動建立」；shareTargetPicker、連結官方帳號、Published 三項手動完成。</li>
+<li>完成個人版首次設定（本人勾選開通確認），自己的 LINE 已綁定業務工作台、是自己官方帳號的好友。</li>
+<li>夥伴用另一支 LINE 加了你的官方帳號，並通過「同一個 Provider 檢查」（綠燈）。</li>
+<li>夥伴傳「測試」，後台看得到訊息（為功能 4 準備）。</li>
 </ol>
 <h4 id="2-2-分組與助教">2-2 分組與助教</h4>
 <table>
@@ -774,23 +802,25 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <li>每組桌上放：講義、串接卡關排除表、紙本「完成燈號」（綠：完成／黃：卡住／紅：沒有金鑰）。</li>
 </ul>
 <h4 id="2-3-三站流程（每人自己的後台、自己的-line-後台）">2-3 三站流程（每人自己的後台、自己的 LINE 後台）</h4>
-<p>講師先用投影整段示範一次（8 分），學員再自己做（35 分），最後 7 分鐘全場驗收。</p>
-<p><strong>第一站：Messaging API（約 10 分）</strong></p>
+<p>講師先用投影整段示範一次（7 分），學員再自己做（31 分），最後 7 分鐘全場驗收。</p>
+<p><strong>第一站：Messaging API 與 Webhook（約 8 分）</strong></p>
 <ol>
 <li>用我們發的帳號登入自己的後台。</li>
 <li>進「系統設定 → LINE 串接 → LINE 參數」。</li>
 <li>「Messaging API Channel」貼上 Channel ID（10 碼數字）、Channel Secret、Channel Access Token（長期），按「儲存並驗證」，看到綠色「已驗證」與官方帳號名稱。</li>
-<li>複製畫面上的「Webhook URL」，到 LINE Developers Console → 該 Messaging API channel → Messaging API 分頁 → Webhook URL 貼上 → 開啟「Use webhook」→ 按「Verify」顯示成功。</li>
+<li>儲存成功後，系統會自動設定 Webhook：把網址設成你的專屬網址、讀回「Use webhook」開關、請 LINE 送一次測試。看卡片下方的燈號：綠色「Webhook 已自動設定完成」就完成；黃色「Use webhook 開關目前是關閉的」，就到 LINE Developers Console → 該 Messaging API channel → Messaging API 分頁，自己把「Use webhook」打開（LINE 沒有開放程式代按，一定要本人點），回後台按「檢查 Webhook」直到綠燈。不用再手動貼 Webhook URL，也不用按 Verify。其他黃、灰燈處理見卡關排除表。</li>
 <li>到 LINE 官方帳號後台「回應設定」關閉自動回應訊息（不關會跟系統回覆打架）。</li>
+<li>上線後補截圖：Webhook 綠燈與黃燈畫面。</li>
 </ol>
-<p><strong>第二站：LINE Login 與 LIFF（約 12 分）</strong></p>
+<p><strong>第二站：LINE Login 與自動建立 LIFF（約 10 分）</strong></p>
 <ol>
-<li>同一頁的「LINE Login Channel 與 LIFF」貼上 LINE Login Channel ID、Channel Secret、LIFF ID，按「儲存」，再按「測試連線」。</li>
-<li>把畫面上的「LIFF Endpoint URL」貼到 LIFF app 設定；「Callback URL」貼到 LINE Login 設定（結尾斜線不能少）。</li>
-<li>LIFF app 另需：Size＝Full；Scopes 勾 profile、openid、chat_message.write；加好友選項（Bot link）開啟並指向自己的官方帳號。</li>
+<li>同一頁的「LINE Login Channel 與 LIFF」貼上 LINE Login Channel ID、Channel Secret，按「儲存」。LIFF ID 不用貼。</li>
+<li>按「自動建立／校正 LIFF」：系統會用 LINE 的 API 建好 LIFF（Size＝Full、profile／openid／chat_message.write 三個 Scopes、加好友選項 On (Aggressive)、Endpoint 指向你的專屬網址），並把 LIFF ID 自動存回設定。畫面會逐項列出「還要你手動做」的項目。</li>
+<li>手動做這三項（LINE 沒有開放 API）：到 LIFF 分頁打開 shareTargetPicker；到 LINE Login channel 的 Basic settings 把 Linked LINE Official Account 選成自己的官方帳號（若系統因為還沒連結而把加好友選項先設成關閉，連結後再按一次「自動建立／校正 LIFF」）；把畫面上的 Callback URL 貼到 LINE Login 設定（結尾斜線不能少）。另確認 channel 的 Region 是 Taiwan（建立時選的，建好不能改）。</li>
 <li>LINE Login channel 狀態改成「已發布（Published）」。這一步最常漏，而且自己測不出來（開發者本人永遠正常），所以第三站要用夥伴的手機驗。</li>
+<li>上線後補截圖：自動建立 LIFF 的結果清單。</li>
 </ol>
-<p><strong>第三站：首次設定、綁定工作台、加好友（約 13 分）</strong></p>
+<p><strong>第三站：首次設定、綁定工作台、同 Provider 檢查、加好友（約 13 分）</strong></p>
 <ol>
 <li>後台「保險業務 → 團隊與業績 → 組織與業務」（個人版頁名是「我的業務資料」）完成首次設定：選職業別、填本人資料（姓名、手機、所屬機構、登錄字號選填）、資料控制者（預設帶自己的姓名與手機）、逐項勾選開通確認、按「完成設定」。<ul>
 <li>這一步必須本人登入勾選。平台人員代登入不能替你勾，所以課前我們不會先幫你做。</li>
@@ -798,12 +828,20 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 </li>
 <li>畫面出現綁定連結，傳到自己的 LINE，在手機上打開，按「確認綁定」，進到業務工作台。連結 72 小時有效、只能用一次。</li>
 <li>用自己的 LINE 加自己的官方帳號為好友（早報要好友才收得到）。</li>
-<li>夥伴用他的 LINE 掃你的官方帳號 QR Code 加好友，並傳一句「測試」。你到後台「訊息發送 → 會員留言」確認看得到這則訊息，代表 webhook 通了（此頁需開通訊息發送模組，開通組合待確認；沒有此頁時改看會員列表是否出現夥伴）。</li>
-<li>夥伴的手機若是 Login 頁面出現「400 Bad Request／developing status」，就是 Login channel 還沒發布，回第二站第 4 步。</li>
+<li>同一個 Provider 檢查（半自動，要用夥伴的手機，因為夥伴不是你這個 LINE Developers 的管理員，測得出 Published）：<ol>
+<li>你在 LINE 參數頁最下方按「開始檢查」（15 分鐘內有效）。</li>
+<li>夥伴用他的 LINE 掃你的官方帳號 QR Code 加好友。</li>
+<li>夥伴用同一支手機打開卡片上顯示的 LIFF 網址，登入。若手機出現「400 Bad Request／developing status」，就是 Login channel 還沒發布，回第二站第 4 步。</li>
+<li>你回後台按「查看結果」：綠色「通過」＝兩個 channel 在同一個 Provider，而且已發布；紅色「查不到」（確定已加好友）＝不在同一個 Provider，到補救站；黃色「還沒收到 LIFF 登入」＝夥伴手機還沒登入完。</li>
+<li>兩人互換再做一次。</li>
+</ol>
+</li>
+<li>夥伴傳一句「測試」。你到後台「訊息發送 → 會員留言」確認看得到這則訊息，代表 webhook 通了（此頁需開通訊息發送模組，開通組合待確認；沒有此頁時改看會員列表是否出現夥伴）。</li>
+<li>上線後補截圖：同 Provider 檢查的綠燈、紅燈畫面。</li>
 </ol>
 <h4 id="2-4-全場驗收（7-分）">2-4 全場驗收（7 分）</h4>
 <ul>
-<li>講師念五項，學員自己對講義的「串接完成清單」打勾，舉綠牌。</li>
+<li>講師念五項（2-1 的目標），學員自己對講義的「串接完成清單」打勾，舉綠牌。</li>
 <li>助教記錄黃牌、紅牌名單，休息時間繼續處理。</li>
 </ul>
 <h4 id="2-5-先完成的人：提早完成練習卡">2-5 先完成的人：提早完成練習卡</h4>
@@ -831,12 +869,12 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <td>助教帶到補救站，從官方帳號後台「設定 → Messaging API」啟用並選 Provider（約 5～10 分鐘），再發長期 Access Token</td>
 </tr>
 <tr>
-<td>有 Messaging、沒建 Login channel 或 LIFF</td>
-<td>先完成第一站與第三站第 1 步，Login 與 LIFF 在補救站建；注意 Login channel 必須建在與 Messaging 相同的 Provider</td>
+<td>有 Messaging、沒建 Login channel</td>
+<td>先完成第一站與第三站第 1 步，Login channel 在補救站建（必須建在與 Messaging 相同的 Provider）；建好後貼 Login 兩項，LIFF 仍按「自動建立」即可</td>
 </tr>
 <tr>
-<td>Login channel 建在別的 Provider</td>
-<td>不能搬，要在正確 Provider 下重建 Login channel 與 LIFF（否則加好友的身分與 LIFF 登入的身分對不起來）。補救站處理，來不及就課後</td>
+<td>Login channel 建在別的 Provider（同 Provider 檢查紅燈「查不到」）</td>
+<td>不能搬，要在正確 Provider 下重建 Login channel，貼進新的兩項後再按「自動建立 LIFF」（否則加好友的身分與 LIFF 登入的身分對不起來）。補救站處理，來不及就課後</td>
 </tr>
 <tr>
 <td>忘記 Business ID 密碼、收不到二階段驗證碼</td>
@@ -867,14 +905,29 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <td>換網路或稍後再按「測試連線」，不要去重發 Token</td>
 </tr>
 <tr>
-<td>Webhook 的 Verify 失敗</td>
-<td>Webhook URL 貼錯或少字；Channel Secret 填錯（簽章對不上）</td>
-<td>從後台重新複製 Webhook URL；重貼 Secret 後再 Verify</td>
+<td>Webhook 黃燈「Use webhook 開關目前是關閉的」</td>
+<td>網址系統已設好，但開關要本人點</td>
+<td>到 Console → Messaging API 分頁打開 Use webhook，回後台按「檢查 Webhook」</td>
 </tr>
 <tr>
-<td>Verify 成功但夥伴傳訊息後台看不到</td>
-<td>「Use webhook」沒開；後台看錯帳號</td>
-<td>開啟 Use webhook；確認登入的是自己的後台</td>
+<td>Webhook 黃燈「目前指向其他網址」</td>
+<td>這個官方帳號原本接著別的系統，系統不會自動覆蓋</td>
+<td>確定改用保客+ 才按「改成本系統網址」</td>
+</tr>
+<tr>
+<td>Webhook 黃燈「LINE 測試送到本系統失敗（HTTP 401）」</td>
+<td>簽章驗不過，多半是 Channel Secret 貼錯</td>
+<td>重新複製 Messaging 的 Channel secret 貼上再存</td>
+</tr>
+<tr>
+<td>Webhook 灰燈「狀態未能確認」</td>
+<td>當下連不上 LINE，不是設定錯</td>
+<td>稍後按「檢查 Webhook」</td>
+</tr>
+<tr>
+<td>綠燈但夥伴傳訊息後台看不到</td>
+<td>後台看錯帳號；官方帳號自動回應沒關</td>
+<td>確認登入的是自己的後台；關閉自動回應</td>
 </tr>
 <tr>
 <td>夥伴傳訊息後收到官方帳號的制式自動回應</td>
@@ -882,12 +935,17 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <td>「回應設定」關閉自動回應訊息</td>
 </tr>
 <tr>
-<td>LIFF ID 存不進去</td>
-<td>LIFF ID 前綴不是 Login Channel ID（貼成 Messaging 的）</td>
-<td>LIFF ID 格式是「Login Channel ID-八碼英數」，從 Login channel 的 LIFF 分頁複製</td>
+<td>「自動建立 LIFF」失敗，或提示加好友選項沒設上</td>
+<td>Login 的 Channel ID／Secret 貼錯；或還沒連結官方帳號（Linked LINE Official Account）</td>
+<td>檢查兩項後再按；連結官方帳號後再按一次「自動建立／校正 LIFF」。仍失敗才手動建 LIFF，並把 LIFF ID 貼進後台</td>
 </tr>
 <tr>
-<td>自己打得開工作台，夥伴打開 LIFF 頁 400</td>
+<td>同 Provider 檢查紅燈「查不到」</td>
+<td>夥伴還沒加好友；或兩個 channel 不在同一個 Provider</td>
+<td>先確認已加好友再按一次；仍查不到就是不同 Provider，補救站重建 Login channel</td>
+</tr>
+<tr>
+<td>自己打得開工作台，夥伴打開 LIFF 頁 400（同 Provider 檢查黃燈）</td>
 <td>Login channel 還在 Developing</td>
 <td>改成 Published，立即生效</td>
 </tr>
@@ -937,9 +995,10 @@ main{max-width:780px;margin:0 auto;padding-block:16px 64px;padding-left:max(16px
 <li>學員做：在工作台建「示範家」，加 3 位成員（本人、配偶、未成年子女），其中一位生日設在未來 7 天內（為明早的早報與祝福做準備）；備註故意打「高血壓」看提醒，再刪掉。</li>
 <li>示範畫面：工作台「我的家庭」→ 家庭明細 → 新增成員（同意勾選框）；健康字詞提醒。</li>
 </ul>
-<h4 id="功能-2：保單登錄、拍照讀保單、家庭保障總表（15-分）">功能 2：保單登錄、拍照讀保單、家庭保障總表（15 分）</h4>
+<h4 id="功能-2：保單登錄、拍照讀保單、家庭保障總表（20-分）">功能 2：保單登錄、拍照讀保單、家庭保障總表（20 分）</h4>
 <ul>
 <li>目標：登錄一張保單（含保障明細），看到保障總表與缺口燈號。</li>
+<li>時間說明：比原本多 5 分鐘，是串接省下來的，用在學員實際動手：多登錄一張保單，並用示意保單走一次拍照讀取的逐欄核對。</li>
 <li>講師說：<ul>
 <li>保單欄位：保險公司（各家都能登）、商品名稱、保單號碼、要保人、被保險人、生效日、滿期日、繳別、繳費年期、保費、幣別、繳費方式（只記類別，不記卡號帳號）、狀態。</li>
 <li>保障明細（主約、附約、保額、醫療記住院日額）才是保障總表計算的依據；沒填明細，保單只會出現在清單裡。</li>
