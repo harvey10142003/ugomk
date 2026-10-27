@@ -23,7 +23,8 @@ const nextConfig = {
     // 2026-10-19 加 BNI 年會 INW 系統介紹網頁簡報（inw-deck-mrqrjb0x），同樣規則。
     // 2026-10-20 加上海 2026 玩具展行程（sh2026-8d7ace44），同樣規則。
     // 2026-10-26 加 10/28 保客+ 業務實戰課三份：課前準備講義（baoke-prep-ugtznvod，截圖在 img/）、課程講義＋講師大綱（baoke-course-quf2oeik）、網頁簡報（baoke-deck-nbnz5tqh），同樣規則。
-    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0', 'platform-4ar69s', 'hb-hgeqxyffnuyb', 'hb-plan-z4ocaczd', 'inw-deck-mrqrjb0x', 'sh2026-8d7ace44', 'baoke-prep-ugtznvod', 'baoke-course-quf2oeik', 'baoke-deck-nbnz5tqh'].map((slug) => ({
+    // 2026-10-28 加保客+ 個人版操作說明書（baoke-manual-k7q2m9xd，截圖在 img/），同樣規則。
+    return ['erp-a7f3c1', 'retail-handbook-76ff92', 'retail-drill-ff551a', 'demo-runbook-5d42a0', 'platform-4ar69s', 'hb-hgeqxyffnuyb', 'hb-plan-z4ocaczd', 'inw-deck-mrqrjb0x', 'sh2026-8d7ace44', 'baoke-prep-ugtznvod', 'baoke-course-quf2oeik', 'baoke-deck-nbnz5tqh', 'baoke-manual-k7q2m9xd'].map((slug) => ({
       source: `/p/${slug}`,
       destination: `/p/${slug}/index.html`
     }));
