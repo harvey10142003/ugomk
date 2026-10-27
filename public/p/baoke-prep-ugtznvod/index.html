@@ -824,12 +824,12 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
             <span class="err" id="sf-oa-err" aria-live="polite"></span>
           </div>
           <div class="f">
-            <label for="sf-msgid">Messaging API 的 Channel ID<span class="opt">選填</span></label>
+            <label for="sf-msgid">第 1 項　Messaging API 的 Channel ID<span class="opt">選填</span></label>
             <input type="text" id="sf-msgid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
             <span class="err" id="sf-msgid-err" aria-live="polite"></span>
           </div>
           <div class="f">
-            <label for="sf-loginid">LINE Login 的 Channel ID<span class="opt">選填</span></label>
+            <label for="sf-loginid">第 4 項　LINE Login 的 Channel ID<span class="opt">選填</span></label>
             <input type="text" id="sf-loginid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
             <span class="err" id="sf-loginid-err" aria-live="polite"></span>
           </div>
@@ -841,21 +841,28 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       </fieldset>
 
       <fieldset>
-        <legend>Messaging API 金鑰</legend>
-        <p class="hint">位置見第 4 節。輸入時以遮罩顯示，可按「顯示」核對。還沒發行可以先空著，課堂上自己貼進後台也可以。</p>
+        <legend>LINE 金鑰</legend>
+        <p class="hint">位置見第 7 節表格。輸入時以遮罩顯示，可按「顯示」核對。還沒發行可以先空著，課堂上自己貼進後台也可以。</p>
         <div class="grid">
           <div class="f">
-            <label for="sf-secret">Channel secret<span class="opt">選填</span></label>
+            <label for="sf-secret">第 2 項　Messaging API 的 Channel secret<span class="opt">選填</span></label>
             <div class="pw">
               <input type="password" id="sf-secret" class="mono-in" maxlength="100" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
               <button type="button" data-toggle="sf-secret" aria-controls="sf-secret" aria-pressed="false">顯示</button>
             </div>
           </div>
           <div class="f">
-            <label for="sf-token">Channel access token（long-lived）<span class="opt">選填</span></label>
+            <label for="sf-token">第 3 項　Channel access token（long-lived）<span class="opt">選填</span></label>
             <div class="pw">
               <input type="password" id="sf-token" class="mono-in" maxlength="400" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
               <button type="button" data-toggle="sf-token" aria-controls="sf-token" aria-pressed="false">顯示</button>
+            </div>
+          </div>
+          <div class="f">
+            <label for="sf-loginsecret">第 5 項　LINE Login 的 Channel secret<span class="opt">選填</span></label>
+            <div class="pw">
+              <input type="password" id="sf-loginsecret" class="mono-in" maxlength="100" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
+              <button type="button" data-toggle="sf-loginsecret" aria-controls="sf-loginsecret" aria-pressed="false">顯示</button>
             </div>
           </div>
         </div>
@@ -865,7 +872,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
         <legend>個人資料蒐集告知</legend>
         <ul class="privacy">
           <li><strong>蒐集者</strong>：宇果國際行銷（保客+ 課程講師）。</li>
-          <li><strong>蒐集目的</strong>：開通你的課程用保客+ 後台帳號，以及完成 LINE 串接設定（包含上面的識別碼與 Messaging API 金鑰）。不做其他用途、不提供給第三方。</li>
+          <li><strong>蒐集目的</strong>：開通你的課程用保客+ 後台帳號，以及完成 LINE 串接設定（包含上面的識別碼與 LINE 金鑰）。不做其他用途、不提供給第三方。</li>
           <li><strong>保存期間</strong>：課程結束後 7 天內刪除；你也可以隨時在課程群組請講師刪除。</li>
           <li><strong>不提供的影響</strong>：基本資料沒填就無法替你開通後台帳號；LINE 欄位可以不填，課堂上自己貼。</li>
         </ul>
@@ -1012,8 +1019,9 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       '個資告知：已勾選同意（' + new Date().toLocaleString('zh-TW', { hour12: false }) + '）',
       '',
       '— 金鑰 —',
-      'Channel secret：' + (val('sf-secret') || '（未填）'),
-      'Channel access token：' + (val('sf-token') || '（未填）')
+      'Messaging API Channel secret：' + (val('sf-secret') || '（未填）'),
+      'Channel access token：' + (val('sf-token') || '（未填）'),
+      'LINE Login Channel secret：' + (val('sf-loginsecret') || '（未填）')
     ];
     return lines.join('\n');
   }
