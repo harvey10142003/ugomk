@@ -815,9 +815,9 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       </fieldset>
 
       <fieldset>
-        <legend>LINE 識別碼</legend>
-        <p class="hint">都在第 7 節表格寫的位置找得到。還沒申請好可以先空著。</p>
-        <div class="grid">
+        <legend>Messaging API Channel</legend>
+        <p class="hint">對應後台「LINE 參數設定」上半部的第 1～3 項，位置見第 7 節表格。金鑰欄位輸入時以遮罩顯示，可按「顯示」核對。還沒申請好可以先空著。</p>
+        <div class="grid" style="grid-template-columns:1fr">
           <div class="f">
             <label for="sf-oa">LINE 官方帳號 ID<span class="opt">選填</span></label>
             <input type="text" id="sf-oa" class="mono-in" maxlength="40" placeholder="@123abcde" autocapitalize="off" spellcheck="false">
@@ -828,22 +828,6 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
             <input type="text" id="sf-msgid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
             <span class="err" id="sf-msgid-err" aria-live="polite"></span>
           </div>
-          <div class="f">
-            <label for="sf-loginid">第 4 項　LINE Login 的 Channel ID<span class="opt">選填</span></label>
-            <input type="text" id="sf-loginid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
-            <span class="err" id="sf-loginid-err" aria-live="polite"></span>
-          </div>
-          <div class="f">
-            <label for="sf-liff">LIFF ID<span class="opt">選填</span></label>
-            <input type="text" id="sf-liff" class="mono-in" maxlength="40" placeholder="課堂系統會自動建立，可空著" autocapitalize="off" spellcheck="false">
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>LINE 金鑰</legend>
-        <p class="hint">位置見第 7 節表格。輸入時以遮罩顯示，可按「顯示」核對。還沒發行可以先空著，課堂上自己貼進後台也可以。</p>
-        <div class="grid">
           <div class="f">
             <label for="sf-secret">第 2 項　Messaging API 的 Channel secret<span class="opt">選填</span></label>
             <div class="pw">
@@ -858,12 +842,28 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
               <button type="button" data-toggle="sf-token" aria-controls="sf-token" aria-pressed="false">顯示</button>
             </div>
           </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>LINE Login Channel</legend>
+        <p class="hint">對應後台「LINE 參數設定」下半部的第 4～5 項。LIFF ID 課堂上系統會自動建立，可以空著。</p>
+        <div class="grid" style="grid-template-columns:1fr">
+          <div class="f">
+            <label for="sf-loginid">第 4 項　LINE Login 的 Channel ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-loginid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
+            <span class="err" id="sf-loginid-err" aria-live="polite"></span>
+          </div>
           <div class="f">
             <label for="sf-loginsecret">第 5 項　LINE Login 的 Channel secret<span class="opt">選填</span></label>
             <div class="pw">
               <input type="password" id="sf-loginsecret" class="mono-in" maxlength="100" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
               <button type="button" data-toggle="sf-loginsecret" aria-controls="sf-loginsecret" aria-pressed="false">顯示</button>
             </div>
+          </div>
+          <div class="f">
+            <label for="sf-liff">LIFF ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-liff" class="mono-in" maxlength="40" placeholder="課堂系統會自動建立，可空著" autocapitalize="off" spellcheck="false">
           </div>
         </div>
       </fieldset>
