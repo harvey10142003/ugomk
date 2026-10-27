@@ -146,6 +146,38 @@ td .fill { display: inline-block; min-width: 7em; border-bottom: 1px dashed var(
 dl.faq dt { font-weight: 700; margin-top: 16px; }
 dl.faq dd { margin: 4px 0 0; color: var(--ink); }
 footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
+
+/* 學員資料表單（第 11 節） */
+.sf { border: 2px solid var(--teal); border-radius: 12px; padding: 18px 16px; background: var(--card); }
+.sf fieldset { border: 0; margin: 0 0 18px; padding: 0; min-width: 0; }
+.sf legend { font-weight: 700; font-size: 1.02rem; padding: 0; margin-bottom: 4px; color: var(--teal); }
+.sf .hint { font-size: 0.88rem; color: var(--ink-soft); margin: 0 0 10px; }
+.sf .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.sf .f label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+.sf .f .req { color: var(--red); font-weight: 700; margin-left: 4px; font-size: 0.85rem; }
+.sf .f .opt { color: var(--ink-soft); font-weight: 400; margin-left: 4px; font-size: 0.85rem; }
+.sf input[type="text"], .sf input[type="email"], .sf input[type="tel"], .sf input[type="password"] {
+  width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px;
+  background: var(--paper); color: var(--ink); font: inherit; font-size: 16px;
+}
+.sf input.mono-in { font-family: var(--font-mono); font-size: 15px; }
+.sf input[aria-invalid="true"] { border: 2px solid var(--red); }
+.sf .pw { display: flex; gap: 6px; }
+.sf .pw input { flex: 1 1 auto; min-width: 0; }
+.sf .pw button { flex: none; min-height: 44px; min-width: 64px; border: 1px solid var(--teal); background: transparent; color: var(--teal); border-radius: 8px; font: inherit; font-size: 0.9rem; cursor: pointer; }
+.sf .err { display: block; color: var(--red); font-size: 0.85rem; margin-top: 4px; min-height: 0; }
+.sf .consent { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); cursor: pointer; font-size: 0.95rem; }
+.sf .consent input { width: 22px; height: 22px; margin-top: 3px; accent-color: var(--wave); flex: none; }
+.sf .privacy { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 10px; padding-left: 1.2em; }
+.sf .privacy li { margin: 2px 0; }
+.sf .submit { display: block; width: 100%; min-height: 48px; margin-top: 16px; border: 0; border-radius: 10px; background: var(--teal); color: var(--paper); font: inherit; font-weight: 700; font-size: 1.05rem; cursor: pointer; }
+.sf .submit[disabled] { opacity: .6; cursor: progress; }
+.sf .result { margin-top: 14px; border-radius: 10px; padding: 12px 14px; font-size: 0.97rem; }
+.sf .result[hidden] { display: none; }
+.sf .result.ok { background: var(--wave-bg); border-left: 4px solid var(--wave); }
+.sf .result.fail { background: var(--red-bg); border-left: 4px solid var(--red); }
+.sf .result > :last-child { margin-bottom: 0; }
+.sf .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 </style>
 </head>
 <body>
@@ -181,7 +213,8 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <li><a href="#s8"><span class="n">8</span>常見問題與卡關處理<span class="ok" data-ok="s8"></span></a></li>
       <li><a href="#s9"><span class="n">9</span>安全提醒（必讀）</a></li>
       <li><a href="#check"><span class="n">10</span>課前檢核表</a></li>
-      <li><a href="#help"><span class="n">11</span>卡關怎麼聯絡</a></li>
+      <li><a href="#signup"><span class="n">11</span>學員資料填寫</a></li>
+      <li><a href="#help"><span class="n">12</span>卡關怎麼聯絡</a></li>
     </ol>
   </nav>
 
@@ -196,7 +229,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <li><span class="key">講師寄給你的保客+ 後台帳號</span>（與你的「專屬網址代號」）。還沒收到也可以先做第 1～5 節。</li>
     </ol>
     <div class="note">
-      <p><strong>這份講義課前只做到「建好、找到」</strong>。官方帳號、Messaging API、LINE Login channel 建好，並知道每組資料放在哪裡就好。<strong>不用把任何金鑰抄下來或傳給別人</strong>，課堂上你會自己登入後台貼上。</p>
+      <p><strong>這份講義課前只做到「建好、找到」</strong>。官方帳號、Messaging API、LINE Login channel 建好，並知道每組資料放在哪裡就好。<strong>不用把任何金鑰抄下來或傳給別人</strong>，課堂上你會自己登入後台貼上。找好之後，請到<a href="#signup">第 11 節</a>填學員資料。</p>
     </div>
     <div class="tip">
       <p><strong>全程用同一個 LINE 帳號登入。</strong>申請官方帳號、LINE Developers、之後每次管理，都用你自己長期在用的那個 LINE 帳號。換帳號登入會看不到自己建的東西。</p>
@@ -617,7 +650,7 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
   <!-- 7 -->
   <section class="step" id="s7">
     <div class="step-head"><span class="step-no">7</span><h2>準備清單：資料在哪裡</h2></div>
-    <p>課堂上你會用到下面這些資料。<strong>只要確認每一項找得到，不要抄在紙上、手機備忘錄或傳到任何地方。</strong>上課時直接從 LINE 網站複製、貼到保客+ 後台。</p>
+    <p>課堂上你會用到下面這些資料。<strong>只要確認每一項找得到，不要抄在紙上、手機備忘錄或傳到任何地方。</strong>上課時直接從 LINE 網站複製、貼到保客+ 後台。唯一的例外是<a href="#signup">第 11 節</a>的學員資料表單（說明見第 9 節）。</p>
     <div class="tablebox">
       <table>
         <thead><tr><th>#</th><th>資料名稱</th><th>在哪裡找</th><th>課堂貼到保客+ 哪一格</th><th>找到了</th></tr></thead>
@@ -725,7 +758,8 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
     </div>
     <ul>
       <li><strong>不要</strong>貼到 LINE 群組（包括課程群組、通訊處群組）、私訊、Email、簡訊或任何雲端筆記。</li>
-      <li><strong>不要</strong>截圖傳給別人，也不要拍照留存。講師與工作人員<strong>不會</strong>跟你要這些金鑰；有人跟你要，請直接拒絕並告訴講師。</li>
+      <li><strong>不要</strong>截圖傳給別人，也不要拍照留存。講師與工作人員<strong>不會</strong>透過 LINE、Email、電話或簡訊跟你要這些金鑰；有人這樣跟你要，請直接拒絕並告訴講師。</li>
+      <li><strong>唯一例外</strong>：本頁<a href="#signup">第 11 節</a>的學員資料表單。它只會從這個網頁（網址是 <code>ugomk.com/p/…</code>）以加密連線（HTTPS）直接送進講師的保客+ 後台，用來課前替你預先檢查串接設定，課程結束後 7 天內刪除。不想給也可以空著，課堂上自己貼。</li>
       <li>課堂上由<strong>你本人</strong>登入保客+ 後台，在「系統設定 → LINE 參數」自己貼上。存進去之後只會以遮罩顯示。</li>
       <li>課堂結束後關閉瀏覽器分頁；用公用電腦的話記得登出 LINE 與保客+ 後台。</li>
       <li>懷疑外洩：到 LINE Developers 重新發行（Channel secret 的 Issue、Access token 的 Reissue），再把新的貼回保客+ 後台，並告訴講師。</li>
@@ -743,14 +777,120 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
       <label><input type="checkbox" id="chk-msgapi"><span><strong>Messaging API 已開啟</strong>，狀態顯示「使用中」，Provider 是自己新建的。</span></label>
       <label><input type="checkbox" id="chk-token"><span><strong>Access token（long-lived）已發行</strong>（第 4 節）。</span></label>
       <label><input type="checkbox" id="chk-login"><span><strong>LINE Login channel 已建立</strong>，和 Messaging API 在同一個 Provider、已連結官方帳號、狀態為 Published。</span></label>
-      <label><input type="checkbox" id="chk-data"><span><strong>資料都找到位置了</strong>：第 7 節表格的 1～5 項都知道在哪裡，而且沒有抄下來或傳給任何人。</span></label>
+      <label><input type="checkbox" id="chk-data"><span><strong>資料都找到位置了</strong>：第 7 節表格的 1～5 項都知道在哪裡，而且沒有抄下來或傳給任何人（第 11 節表單除外）。</span></label>
+      <label><input type="checkbox" id="chk-signup"><span><strong>學員資料已送出</strong>（第 11 節），畫面有顯示「已送出」。</span></label>
       <label><input type="checkbox" id="chk-admin"><span><strong>保客+ 後台帳號已收到</strong>，並能登入（沒收到請聯絡講師）。</span></label>
       <label><input type="checkbox" id="chk-liff"><span>（選做）已收到專屬網址代號，並填好 Callback URL。LIFF 課堂由系統自動建立，不用先做。</span></label>
     </div>
   </section>
 
+  <section class="step" id="signup">
+    <div class="step-head"><span class="step-no">11</span><h2>學員資料填寫</h2><span class="time">約 3 分鐘</span></div>
+    <p>講師會用這份資料替你開通保客+ 個人版後台帳號，並在課前先幫你檢查串接設定。標「必填」的一定要填；LINE 相關欄位<strong>還沒申請好可以先空著</strong>，課堂上再補。</p>
+    <form class="sf" id="signup-form" novalidate autocomplete="off">
+      <fieldset>
+        <legend>基本資料</legend>
+        <div class="grid">
+          <div class="f">
+            <label for="sf-name">姓名<span class="req">必填</span></label>
+            <input type="text" id="sf-name" maxlength="50" autocomplete="name" required>
+            <span class="err" id="sf-name-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-email">Email<span class="req">必填</span></label>
+            <input type="email" id="sf-email" maxlength="200" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required>
+            <span class="err" id="sf-email-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-phone">手機<span class="opt">選填</span></label>
+            <input type="tel" id="sf-phone" maxlength="30" autocomplete="tel" inputmode="tel">
+            <span class="err" id="sf-phone-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-org">單位／通訊處<span class="opt">選填</span></label>
+            <input type="text" id="sf-org" maxlength="100" autocomplete="organization">
+          </div>
+        </div>
+        <p class="hint" style="margin-top:8px">Email 會用來開你的保客+ 後台帳號，請填你常收信的那一個。</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>LINE 識別碼</legend>
+        <p class="hint">都在第 7 節表格寫的位置找得到。還沒申請好可以先空著。</p>
+        <div class="grid">
+          <div class="f">
+            <label for="sf-oa">LINE 官方帳號 ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-oa" class="mono-in" maxlength="40" placeholder="@123abcde" autocapitalize="off" spellcheck="false">
+            <span class="err" id="sf-oa-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-msgid">Messaging API 的 Channel ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-msgid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
+            <span class="err" id="sf-msgid-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-loginid">LINE Login 的 Channel ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-loginid" class="mono-in" maxlength="20" inputmode="numeric" placeholder="10 碼數字" autocapitalize="off" spellcheck="false">
+            <span class="err" id="sf-loginid-err" aria-live="polite"></span>
+          </div>
+          <div class="f">
+            <label for="sf-liff">LIFF ID<span class="opt">選填</span></label>
+            <input type="text" id="sf-liff" class="mono-in" maxlength="40" placeholder="課堂系統會自動建立，可空著" autocapitalize="off" spellcheck="false">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Messaging API 金鑰</legend>
+        <p class="hint">位置見第 4 節。輸入時以遮罩顯示，可按「顯示」核對。還沒發行可以先空著，課堂上自己貼進後台也可以。</p>
+        <div class="grid">
+          <div class="f">
+            <label for="sf-secret">Channel secret<span class="opt">選填</span></label>
+            <div class="pw">
+              <input type="password" id="sf-secret" class="mono-in" maxlength="100" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
+              <button type="button" data-toggle="sf-secret" aria-controls="sf-secret" aria-pressed="false">顯示</button>
+            </div>
+          </div>
+          <div class="f">
+            <label for="sf-token">Channel access token（long-lived）<span class="opt">選填</span></label>
+            <div class="pw">
+              <input type="password" id="sf-token" class="mono-in" maxlength="400" autocomplete="off" autocapitalize="off" spellcheck="false" data-lpignore="true" data-1p-ignore data-form-type="other">
+              <button type="button" data-toggle="sf-token" aria-controls="sf-token" aria-pressed="false">顯示</button>
+            </div>
+          </div>
+        </div>
+        <div class="tip" style="margin-bottom:0">
+          <p>課程結束後，建議到 LINE Developers 重新發行一次：Channel secret 按 <span class="btn-name">Issue</span>、Access token 按 <span class="btn-name">Reissue</span>，再把新的貼回保客+ 後台。這樣就算資料曾經經手別人，舊的也立刻失效。</p>
+        </div>
+      </fieldset>
+
+      <fieldset style="margin-bottom:0">
+        <legend>個人資料蒐集告知</legend>
+        <ul class="privacy">
+          <li><strong>蒐集者</strong>：宇果國際行銷（保客+ 課程講師）。</li>
+          <li><strong>蒐集目的</strong>：開通你的課程用保客+ 後台帳號，以及完成 LINE 串接設定（包含上面的識別碼與 Messaging API 金鑰）。不做其他用途、不提供給第三方。</li>
+          <li><strong>保存期間</strong>：課程結束後 7 天內刪除；你也可以隨時在課程群組請講師刪除。</li>
+          <li><strong>不提供的影響</strong>：基本資料沒填就無法替你開通後台帳號；LINE 欄位可以不填，課堂上自己貼。</li>
+        </ul>
+        <label class="consent" for="sf-agree">
+          <input type="checkbox" id="sf-agree">
+          <span>我已閱讀上述說明，同意提供以上資料作為課程開通與串接設定使用。</span>
+        </label>
+        <span class="err" id="sf-agree-err" aria-live="polite"></span>
+      </fieldset>
+
+      <div class="hp" aria-hidden="true">
+        <label for="sf-hp">請勿填寫</label>
+        <input type="text" id="sf-hp" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button type="submit" class="submit" id="sf-submit">送出學員資料</button>
+      <div class="result" id="sf-result" role="status" aria-live="polite" hidden></div>
+    </form>
+  </section>
+
   <section class="step" id="help">
-    <div class="step-head"><span class="step-no">11</span><h2>課前卡關怎麼聯絡</h2></div>
+    <div class="step-head"><span class="step-no">12</span><h2>課前卡關怎麼聯絡</h2></div>
     <div class="contact">
       <p><strong>聯絡講師</strong>：可直接在課程群組中詢問</p>
       <p>聯絡時請說明：卡在第幾節第幾步、畫面上的錯誤文字（可以打字描述）。<strong>請不要附上任何金鑰或含金鑰的截圖。</strong></p>
@@ -781,10 +921,167 @@ footer { margin-top: 48px; color: var(--ink-soft); font-size: 0.85rem; }
     document.getElementById('progress-bar').style.width = (n / secs.length * 100) + '%';
   }
   document.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+    // 學員資料表單裡的勾選（同意書）不存進瀏覽器
+    if (cb.form) return;
     cb.checked = !!state[cb.id];
     cb.addEventListener('change', function () { state[cb.id] = cb.checked; save(); render(); });
   });
   render();
+})();
+
+/* 學員資料表單（第 11 節）
+ * 送到保客+ 講師的 CRM 後台（ugomk 租戶「官網 → 名單」，類型＝報名）。
+ * 刻意直接打 CRM 公開端點，不走本站 /api/lead：/api/lead 會把整段內容推 LINE／寄 Email 通知，
+ * 這份表單含 Messaging API 金鑰，不能被通知帶出去。CRM 這支端點收到名單不發任何通知。
+ * 安全守則：欄位都沒有 name（就算 JS 沒跑，原生送出也帶不出任何值到網址）；
+ * 不存 localStorage、不寫 console、不放網址；送出成功即清空。 */
+(function () {
+  var form = document.getElementById('signup-form');
+  if (!form) return;
+  var ENDPOINT = 'https://crm.ugomk.com/api/site/public/ugomk/lead';
+  var TIMEOUT_MS = 15000;
+  var startedAt = 0;
+  var sending = false;
+  var btn = document.getElementById('sf-submit');
+  var result = document.getElementById('sf-result');
+  function $(id) { return document.getElementById(id); }
+  function val(id) { var el = $(id); return el ? el.value.trim() : ''; }
+
+  form.addEventListener('focusin', function () { if (!startedAt) startedAt = Date.now(); });
+
+  function maskAll() {
+    form.querySelectorAll('[data-toggle]').forEach(function (b) {
+      var input = $(b.getAttribute('data-toggle'));
+      if (input) input.type = 'password';
+      b.textContent = '顯示';
+      b.setAttribute('aria-pressed', 'false');
+    });
+  }
+  form.querySelectorAll('[data-toggle]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var input = $(b.getAttribute('data-toggle'));
+      if (!input) return;
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      b.textContent = show ? '隱藏' : '顯示';
+      b.setAttribute('aria-pressed', show ? 'true' : 'false');
+    });
+  });
+
+  function setErr(id, msg) {
+    var input = $(id);
+    var err = $(id + '-err');
+    if (err) err.textContent = msg || '';
+    if (input) input.setAttribute('aria-invalid', msg ? 'true' : 'false');
+    return !msg;
+  }
+
+  function showResult(kind, html) {
+    result.className = 'result ' + kind;
+    result.innerHTML = html;
+    result.hidden = false;
+  }
+
+  function validate() {
+    var ok = true;
+    var first = null;
+    function check(id, msg) { if (!setErr(id, msg)) { ok = false; if (!first) first = $(id); } }
+    check('sf-name', val('sf-name') ? '' : '請填姓名');
+    var email = val('sf-email');
+    check('sf-email', !email ? '請填 Email' : (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? '' : 'Email 格式看起來不對'));
+    var phoneDigits = val('sf-phone').replace(/\D/g, '');
+    check('sf-phone', !val('sf-phone') || (phoneDigits.length >= 8 && phoneDigits.length <= 15) ? '' : '手機號碼格式看起來不對');
+    var oa = val('sf-oa');
+    check('sf-oa', !oa || /^@[A-Za-z0-9._-]{2,}$/.test(oa) ? '' : '官方帳號 ID 要以 @ 開頭，例如 @123abcde');
+    check('sf-msgid', !val('sf-msgid') || /^\d{6,15}$/.test(val('sf-msgid')) ? '' : 'Channel ID 是一串數字');
+    check('sf-loginid', !val('sf-loginid') || /^\d{6,15}$/.test(val('sf-loginid')) ? '' : 'Channel ID 是一串數字');
+    var agree = $('sf-agree').checked;
+    $('sf-agree-err').textContent = agree ? '' : '請勾選同意後再送出';
+    if (!agree) { ok = false; if (!first) first = $('sf-agree'); }
+    if (first) first.focus();
+    return ok;
+  }
+
+  function buildMessage() {
+    // 第一行固定是標題：後台名單列表只預覽前 80 字，金鑰放最後面，不出現在列表預覽
+    var lines = [
+      '【保客+ 10/28 課程 學員資料】此筆含 LINE 金鑰，課程結束後 7 天內刪除。詳細內容只在點開後顯示，請勿轉傳或截圖。',
+      '',
+      '單位／通訊處：' + (val('sf-org') || '（未填）'),
+      'LINE 官方帳號 ID：' + (val('sf-oa') || '（未填）'),
+      'Messaging API Channel ID：' + (val('sf-msgid') || '（未填）'),
+      'LINE Login Channel ID：' + (val('sf-loginid') || '（未填）'),
+      'LIFF ID：' + (val('sf-liff') || '（未填）'),
+      '個資告知：已勾選同意（' + new Date().toLocaleString('zh-TW', { hour12: false }) + '）',
+      '',
+      '— 金鑰 —',
+      'Channel secret：' + (val('sf-secret') || '（未填）'),
+      'Channel access token：' + (val('sf-token') || '（未填）')
+    ];
+    return lines.join('\n');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (sending) return;
+    result.hidden = true;
+    if (!validate()) return;
+    sending = true;
+    btn.disabled = true;
+    btn.textContent = '送出中…';
+    maskAll();
+
+    var payload = {
+      form_type: 'enrollment',
+      name: val('sf-name'),
+      email: val('sf-email'),
+      phone: val('sf-phone'),
+      message: buildMessage(),
+      utm_json: { course: 'baoke-2026-10-28', page: 'baoke-prep' },
+      hp_url: $('sf-hp').value,
+      form_started_at: startedAt || undefined
+    };
+
+    var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, TIMEOUT_MS);
+
+    fetch(ENDPOINT, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'omit',
+      cache: 'no-store',
+      referrerPolicy: 'no-referrer',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      payload = null;
+      if (res.ok) {
+        form.reset();
+        maskAll();
+        form.querySelectorAll('[aria-invalid]').forEach(function (el) { el.setAttribute('aria-invalid', 'false'); });
+        startedAt = 0;
+        showResult('ok', '<p><strong>已送出，謝謝。</strong>講師收到後會用你填的 Email 寄保客+ 後台帳號給你。為了安全，表單內容已經清空；要修改資料，請在課程群組告訴講師。</p>');
+        result.scrollIntoView({ block: 'nearest' });
+        return;
+      }
+      var code = res.status;
+      var why = code === 429 ? '短時間內送出太多次，請等 1 分鐘再按一次。'
+        : code === 422 || code === 400 ? '資料格式沒有通過檢查。'
+        : code >= 500 ? '後台暫時無法接收資料，請稍後再試一次。'
+        : '送出沒有成功。';
+      showResult('fail', '<p><strong>送出失敗（錯誤代碼 ' + code + '）</strong>：' + why + '</p><p>如果再試一次還是失敗，<strong>請截圖這個畫面給講師</strong>（金鑰欄位是遮罩，不會被截進去）。你填的資料還在，不用重打。</p>');
+    }).catch(function (err) {
+      payload = null;
+      var timeout = err && err.name === 'AbortError';
+      showResult('fail', '<p><strong>送出失敗（' + (timeout ? '連線逾時' : '網路連線失敗') + '）</strong>：請確認網路正常後再按一次。</p><p>如果還是失敗，<strong>請截圖這個畫面給講師</strong>（金鑰欄位是遮罩，不會被截進去）。你填的資料還在，不用重打。</p>');
+    }).then(function () {
+      clearTimeout(timer);
+      sending = false;
+      btn.disabled = false;
+      btn.textContent = '送出學員資料';
+    });
+  });
 })();
 </script>
 
