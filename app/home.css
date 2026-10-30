@@ -8,7 +8,7 @@
  * 且沒開減少動態時才加）；首屏的線是純 CSS 動畫、只畫一次，不等 JS。
  */
 
-/* 字型 @font-face（UG Serif／UG Hand）在 app/fonts.css —— 全站共用 */
+/* 2026-10-31 起全站標題黑體，app/fonts.css 已不再宣告 UG Serif／UG Hand */
 
 .ug-home {
   --ug-ink: #0b2530;

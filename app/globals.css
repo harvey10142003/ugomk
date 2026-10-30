@@ -8,7 +8,7 @@
  * 設計方向「一條線」：docs/design/site-direction.md（改任何頁面前先讀它的禁止清單）。
  * 這個檔把共用 class（eyebrow / heading-* / btn-* / card-* / hero-bg / section-dark …）
  * 全部換成新方向，所以沿用這些 class 的頁面不必逐頁改就會跟著換：
- *   - 標題 h1／h2 用襯線子集（'UG Serif'，scripts/site-fonts.mjs 產生），h3 以下用黑體
+ *   - 標題一律系統黑體（2026-10-31 起，--ug-serif 指向黑體堆疊）
  *   - 不用漸層文字、模糊光球、點陣／網格底紋（對應的 utility 保留成空殼，舊頁面不會壞）
  *   - 卡片不浮起、不發光，只換框線顏色
  * LINE 綠只給與 LINE 有關的元件；綠底按鈕用 line-700 #038638（白字 4.70:1），#06C755 只有 2.26:1。
@@ -32,7 +32,10 @@
     --ug-mist: #f1f5f7;
     --ug-rule: #d3e0e5;
     --ug-night: #062c38;
-    --ug-serif: 'UG Serif', 'Noto Serif TC', var(--font-noto-sans-tc), serif;
+    /* 2026-10-31 全站標題改系統黑體（變數名沿用，避免逐頁改 class） */
+    --ug-sans: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', var(--font-noto-sans-tc), system-ui, sans-serif;
+    --ug-serif: var(--ug-sans);
+    --ug-hand: var(--ug-sans);
   }
 
   html {
@@ -99,7 +102,7 @@
     background: var(--ug-ice);
   }
 
-  /* 標題：h1／h2 襯線，h3 以下黑體 */
+  /* 標題：h1／h2（2026-10-31 起黑體，字重 700） */
   .heading-display,
   .heading-1,
   .heading-2 {

@@ -13,7 +13,7 @@
  *   --icrm-red    #B3342B  曆朱：只給農曆／節日、保障缺口、健康字詞阻擋與「不做」的印記（白底對比 5.9:1）
  * LINE 綠只出現在 LINE 介面示範裡。
  *
- * 字型：標題 Noto Serif TC 700、手寫註記 LXGW WenKai TC（兩者都是本頁用字子集，見 scripts/insurcrm-fonts.mjs），
+ * 字型：2026-10-31 起標題與手寫註記一律系統黑體（原 Noto Serif TC／LXGW WenKai 子集不再載入），
  * 內文沿用全站 Noto Sans TC，時間與數字用 Inter 等寬數字。
  *
  * 動畫原則：
@@ -21,20 +21,7 @@
  *   - 首屏對話只在看得到時循環播放；減少動態時直接顯示完整對話、浮動卡不動。
  */
 
-@font-face {
-  font-family: 'ICRM Serif';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/insurcrm/fonts/serif-700.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'ICRM Hand';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/insurcrm/fonts/hand-400.woff2) format('woff2');
-}
+/* 2026-10-31 全站標題改系統黑體：不再宣告 ICRM Serif／ICRM Hand，public/insurcrm/fonts 舊子集保留但不載入 */
 
 .icrm-page {
   --icrm-ink: #0f2a33;
@@ -50,8 +37,9 @@
   --icrm-tint: #e5f2f3;
   --icrm-red: #b3342b;
   --icrm-line: #06c755;
-  --icrm-serif: 'ICRM Serif', 'Noto Serif TC', var(--font-noto-sans-tc), serif;
-  --icrm-hand: 'ICRM Hand', 'LXGW WenKai TC', 'Kaiti TC', 'DFKai-SB', serif;
+  --icrm-sans: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', var(--font-noto-sans-tc), system-ui, sans-serif;
+  --icrm-serif: var(--icrm-sans);
+  --icrm-hand: var(--icrm-sans);
   --icrm-num: var(--font-inter), var(--font-noto-sans-tc), system-ui, sans-serif;
 
   background: var(--icrm-paper);

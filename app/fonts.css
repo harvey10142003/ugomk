@@ -36,23 +36,9 @@
 }
 
 /*
- * 標題襯線（h1／h2）與手寫註記：Noto Serif TC 700、LXGW WenKai TC 400 的子集，
- * 由 scripts/site-fonts.mjs 產生（標題字從 build 出來的頁面收集）。缺字時退回內文黑體。
+ * 標題（h1／h2）與手寫註記：2026-10-31 起一律系統黑體（feedback_site_sans_font_first），
+ * 不再宣告 UG Serif／UG Hand。public/site/fonts/ 裡的舊子集檔保留但不再被載入。
  */
-@font-face {
-  font-family: 'UG Serif';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url(/site/fonts/serif-700.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'UG Hand';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url(/site/fonts/hand-400.woff2) format('woff2');
-}
 
 /* 與原 next/font 的 variable 同名，tailwind.config.ts 的 fontFamily 不用改。
  * 子集缺字時的退回順序：蘋方（Apple）→ 微軟正黑體（Windows）→ Android 內建的 Noto Sans CJK */
