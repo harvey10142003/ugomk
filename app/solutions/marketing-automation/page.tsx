@@ -27,6 +27,8 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ScenePhoto } from '@/components/ScenePhoto';
+import { scenePhotos, ogImages } from '@/lib/data/scene-photos';
 import { ctaHref } from '@/lib/site-source';
 
 /**
@@ -72,6 +74,7 @@ import { ctaHref } from '@/lib/site-source';
  *  - 「久未回訪」的持續提醒：只發一次，說明書明載目前沒有這個選項
  */
 export const metadata: Metadata = pageMeta({
+  ogImage: ogImages.marketingAutomation,
   path: '/solutions/marketing-automation',
   title: 'LINE 行銷自動化與分眾推播',
   description:
@@ -255,11 +258,14 @@ export default function MarketingAutomationPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section">
         <div className="container-ug">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-14">
           <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">不是訊息發得不夠多，是每一則都發給同一群人</h2>
             <p className="body-base mt-4">
               好友數成長之後，人工跟進就開始失效。真正漏掉的往往是最該被聯繫的那幾位。
             </p>
+          </div>
+          <ScenePhoto photo={scenePhotos.solAutomation} sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, 100vw" />
           </div>
 
           <div className="mt-14 grid gap-5 md:grid-cols-3">

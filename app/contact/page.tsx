@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import { Mail, MessageCircle, MapPin, Phone, Clock } from 'lucide-react';
 import { PageHero } from '@/components/PageHero';
 import { LeadForm } from '@/components/LeadForm';
 import { site } from '@/lib/data/site';
+import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
 
 export const metadata: Metadata = pageMeta({
@@ -15,6 +17,7 @@ export const metadata: Metadata = pageMeta({
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: '預約諮詢', path: '/contact' }])} />
       <PageHero
         eyebrow="預約諮詢"
         title="說說你目前的 LINE 經營問題"

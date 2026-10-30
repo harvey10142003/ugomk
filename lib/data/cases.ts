@@ -1,3 +1,5 @@
+import { scenePhotos, type ScenePhoto } from './scene-photos';
+
 export type CaseStudy = {
   id: string;
   name: string;
@@ -8,14 +10,14 @@ export type CaseStudy = {
   modules: string[];
   outcome: string;
   accent: 'brand' | 'mint' | 'ink';
-  /** 情境照（Unsplash 免費授權，可商用、免標註）— 是產業情境示意，不是客戶實景 */
-  image: string;
+  /** 行業情境照（lib/data/scene-photos.ts，生成圖）— 是產業情境示意，不是客戶實景 */
+  image: ScenePhoto;
 };
 
 export const cases: CaseStudy[] = [
   {
     id: 'gso',
-    image: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1000&h=700&fit=crop&q=80',
+    image: scenePhotos.caseCourse,
     name: '小聚所',
     industry: '課程與體驗活動',
     problem: '線下活動的報名、簽到與名單分散在不同工具，活動結束後沒有後續追蹤，參與者慢慢失去聯繫。',
@@ -28,7 +30,7 @@ export const cases: CaseStudy[] = [
   },
   {
     id: 'finnail',
-    image: 'https://images.unsplash.com/photo-1610992015762-45dca7fa3a85?w=1000&h=700&fit=crop&q=80',
+    image: scenePhotos.caseBeauty,
     name: '菲韻美甲',
     industry: '美業與多分店管理',
     problem: '預約、結帳、儲值與分店權限分散在不同工具，現場人員需要在不同系統之間重複操作。',
@@ -41,7 +43,7 @@ export const cases: CaseStudy[] = [
   },
   {
     id: 'yadianzhan',
-    image: 'https://images.unsplash.com/photo-1592915890261-c96701c071f6?w=1000&h=700&fit=crop&q=80',
+    image: scenePhotos.caseRestaurant,
     name: '鴨點棧 烤鴨專賣',
     industry: '烤鴨專賣與多分店餐飲',
     problem: '五間分店共用一個 LINE 官方帳號，訂位分別來自電話、現場與線上；烤鴨需要提前備料，但訂位當下沒有地方記錄客人要幾隻。',
@@ -54,7 +56,7 @@ export const cases: CaseStudy[] = [
   },
   {
     id: 'princemom',
-    image: 'https://images.unsplash.com/photo-1565598571120-4081876df4f7?w=1000&h=700&fit=crop&q=80',
+    image: scenePhotos.caseConsulting,
     name: '王子娘',
     industry: '創業課程與顧問服務',
     problem: '課程報名、學員名單與後續聯繫散在表單與通訊軟體之間，開課前要人工整理，課後也難以追蹤誰上過哪幾門課。',

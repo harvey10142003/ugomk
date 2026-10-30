@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { JsonLd } from '@/components/JsonLd';
 import { site } from '@/lib/data/site';
-import { organizationLd } from '@/lib/jsonld';
+import { organizationLd, breadcrumbLd } from '@/lib/jsonld';
 import { positioning, approach, milestones, sites } from '@/lib/data/about';
 import { CtaBlock } from '@/components/CtaBlock';
 import { pageMeta } from '@/lib/seo';
@@ -21,6 +21,7 @@ export default function AboutPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: '關於宇果', path: '/about' }])} />
       <JsonLd data={organizationLd} />
 
       {/* ─────────── Hero ─────────── */}

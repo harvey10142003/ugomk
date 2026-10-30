@@ -12,6 +12,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
 import { ctaHref } from '@/lib/site-source';
+import { ScenePhoto } from '@/components/ScenePhoto';
+import { moduleScenePhotos, scenePhotos } from '@/lib/data/scene-photos';
 
 type Props = { params: { slug: string } };
 
@@ -70,6 +72,8 @@ export default function ModulePage({ params }: Props) {
   const siblings = (group?.modules ?? []).filter((m) => m.id !== mod.id).slice(0, 6);
   /* 19 個模組頁共用這支模板，source 帶上 slug 才知道是哪個模組產出的詢問 */
   const source = `solutions_${params.slug}`;
+  const sceneKey = moduleScenePhotos[params.slug];
+  const scene = sceneKey ? scenePhotos[sceneKey] : null;
 
   return (
     <>
@@ -175,6 +179,10 @@ export default function ModulePage({ params }: Props) {
             <Link href={ctaHref(site.cta.primary.href, source, 'for_who')} className="btn-outline mt-6">
               預約需求討論
             </Link>
+            {/* 只有畫面對得上的模組才放情境照（lib/data/scene-photos.ts 的 moduleScenePhotos），其餘不硬塞 */}
+            {scene ? (
+              <ScenePhoto photo={scene} sizes="(min-width: 1280px) 500px, (min-width: 1024px) 40vw, 100vw" className="mt-10" />
+            ) : null}
           </div>
           <ul className="border-t border-ink-100">
             {detail.forWho.map((w) => (

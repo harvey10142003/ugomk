@@ -25,6 +25,8 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ScenePhoto } from '@/components/ScenePhoto';
+import { scenePhotos, ogImages } from '@/lib/data/scene-photos';
 import { ctaHref } from '@/lib/site-source';
 
 /**
@@ -68,6 +70,7 @@ import { ctaHref } from '@/lib/site-source';
  *  - 發票開立時點：儲值與核銷的稅務處理尚未定案，這一頁一個字都不對發票做承諾
  */
 export const metadata: Metadata = pageMeta({
+  ogImage: ogImages.loyalty,
   path: '/solutions/loyalty',
   title: 'LINE 會員集點與票券系統',
   description:
@@ -268,11 +271,14 @@ export default function LoyaltyPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section">
         <div className="container-ug">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-14">
           <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">集點做了三年，還是不知道熟客是誰</h2>
             <p className="body-base mt-4">
               多數店家不是沒有集點，是集點這件事被切在系統外面。
             </p>
+          </div>
+          <ScenePhoto photo={scenePhotos.solLoyalty} sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, 100vw" />
           </div>
 
           <div className="mt-14 grid gap-5 md:grid-cols-3">

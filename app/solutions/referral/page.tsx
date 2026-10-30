@@ -25,6 +25,8 @@ import { solutionDemos } from '@/lib/data/solution-demos';
 import { site } from '@/lib/data/site';
 import { breadcrumbLd, serviceLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ScenePhoto } from '@/components/ScenePhoto';
+import { scenePhotos, ogImages } from '@/lib/data/scene-photos';
 import { ctaHref } from '@/lib/site-source';
 
 /**
@@ -76,6 +78,7 @@ import { ctaHref } from '@/lib/site-source';
  *  - 多層分潤（A 推 B、B 推 C 時 A 也抽成）：只有單層推薦人 + 累積人數階梯，沒有多代
  */
 export const metadata: Metadata = pageMeta({
+  ogImage: ogImages.referral,
   path: '/solutions/referral',
   title: 'LINE 推薦好友獎勵與會員裂變',
   description:
@@ -310,8 +313,11 @@ export default function ReferralPage() {
       {/* ─────────── 解決什麼問題 ─────────── */}
       <section className="section-tight border-y border-ink-100 bg-white">
         <div className="container-ug">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.85fr] lg:gap-14">
           <div className="max-w-2xl">
             <h2 className="heading-2 mt-3 text-balance">「聽朋友說的」是你最大的來源，也是最沒紀錄的那個</h2>
+          </div>
+          <ScenePhoto photo={scenePhotos.solReferral} sizes="(min-width: 1280px) 520px, (min-width: 1024px) 42vw, 100vw" />
           </div>
 
           <div className="mt-12 grid gap-5 md:grid-cols-3">

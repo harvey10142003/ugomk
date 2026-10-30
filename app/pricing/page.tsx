@@ -6,7 +6,7 @@ import { PageHero } from '@/components/PageHero';
 import { CtaBlock } from '@/components/CtaBlock';
 import { JsonLd } from '@/components/JsonLd';
 import { plans, billingNote, pricingFaqs } from '@/lib/data/pricing';
-import { faqPageLd } from '@/lib/jsonld';
+import { faqPageLd, breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
 import { ctaHref } from '@/lib/site-source';
 import { cn } from '@/lib/utils';
@@ -76,6 +76,7 @@ function Cell({ value }: { value: boolean | string }) {
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: '費用方案', path: '/pricing' }])} />
       <JsonLd data={faqPageLd(pricingFaqs)} />
 
       <PageHero

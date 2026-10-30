@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import { PageHero } from '@/components/PageHero';
 import { ArticleCard } from '@/components/ArticleCard';
 import { CtaBlock } from '@/components/CtaBlock';
 import { articles } from '@/lib/data/articles';
+import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
 
 export const metadata: Metadata = pageMeta({
@@ -17,6 +19,7 @@ export default function BlogPage() {
 
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: 'LINE 經營知識', path: '/blog' }])} />
       <PageHero
         eyebrow="LINE 經營知識"
         title="把 LINE 會員經營想清楚的地方"

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { JsonLd } from '@/components/JsonLd';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
@@ -6,9 +7,12 @@ import { PageHero } from '@/components/PageHero';
 import { cases } from '@/lib/data/cases';
 import { site } from '@/lib/data/site';
 import { CtaBlock } from '@/components/CtaBlock';
+import { breadcrumbLd } from '@/lib/jsonld';
 import { pageMeta } from '@/lib/seo';
+import { ogImages } from '@/lib/data/scene-photos';
 
 export const metadata: Metadata = pageMeta({
+  ogImage: ogImages.cases,
   path: '/cases',
   title: 'LINE CRM 客戶案例｜餐飲、美業、課程與會員經營',
   description:
@@ -31,6 +35,7 @@ const quotes: Record<string, { text: string; author: string; role: string }> = {
 export default function CasesPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: '成功案例', path: '/cases' }])} />
       <PageHero
         eyebrow="成功案例"
         title="看看不同企業，如何把 LINE 用進實際營運"
@@ -39,23 +44,23 @@ export default function CasesPage() {
 
       <section className="section">
         <div className="container-ug space-y-10 [&>*]:max-w-5xl">
-          {cases.map((c, idx) => {
+          {cases.map((c) => {
             const q = quotes[c.id];
             return (
               <article key={c.id} className="card overflow-hidden">
-                {/* 產業情境照，非客戶實景 —— 用來讓長篇文字有喘息，不宣稱是現場照片 */}
+                {/* 行業情境照（生成圖，lib/data/scene-photos.ts），非客戶實景 —— 用來讓長篇文字有喘息，不宣稱是現場照片 */}
                 <div className="relative h-52 w-full md:h-64">
                   <Image
-                    src={c.image}
-                    alt={`${c.industry}情境`}
+                    src={c.image.src}
+                    alt={`${c.industry}：${c.image.alt}`}
                     fill
-                    sizes="(min-width: 768px) 900px, 100vw"
+                    sizes="(min-width: 1024px) 1024px, 100vw"
                     className="object-cover"
-                    priority={idx === 0}
+                    loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-950/80 via-brand-950/25 to-transparent" />
-                  {/* 圖庫情境照，不是客戶實景 —— 可見標示（2026-09-28；原本只寫在程式註解裡，訪客看不到） */}
-                  <span className="photo-note">示意照片</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent" />
+                  {/* 行業情境示意，不是客戶實景 —— 可見標示（2026-09-28 起；2026-10-31 換成生成的行業情境照） */}
+                  <span className="photo-note">行業情境示意</span>
                   <div className="absolute bottom-5 left-6 right-6">
                     <div className="font-[family-name:var(--ug-serif)] text-2xl font-bold text-white">{c.name}</div>
                   </div>

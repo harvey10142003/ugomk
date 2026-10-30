@@ -13,12 +13,14 @@ import { howItWorks, audienceViews, industryPacks, siteModuleCount } from '@/lib
 import { serviceOfferings } from '@/lib/data/services';
 import { solutionPages } from '@/lib/data/solution-pages';
 import { site } from '@/lib/data/site';
-import { productLd } from '@/lib/jsonld';
+import { productLd, breadcrumbLd } from '@/lib/jsonld';
 import { CtaBlock } from '@/components/CtaBlock';
 import { pageMeta } from '@/lib/seo';
+import { ogImages } from '@/lib/data/scene-photos';
 import { ctaHref } from '@/lib/site-source';
 
 export const metadata: Metadata = pageMeta({
+  ogImage: ogImages.solutions,
   path: '/solutions',
   title: '多模組架構｜一套系統滿足企業所有需求',
   description:
@@ -55,6 +57,7 @@ function Note({
 export default function SolutionsPage() {
   return (
     <>
+      <JsonLd data={breadcrumbLd([{ name: '首頁', path: '/' }, { name: '解決方案', path: '/solutions' }])} />
       <JsonLd data={productLd} />
 
       {/* ─────────── Hero ─────────── */}
@@ -308,15 +311,16 @@ export default function SolutionsPage() {
               <article key={p.industry} className="card-hover flex flex-col overflow-hidden">
                 <div className="relative h-44 w-full overflow-hidden">
                   <Image
-                    src={p.image}
-                    alt={`${p.industry}場景`}
+                    src={p.image.src}
+                    alt={p.image.alt}
                     fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
+                    sizes="(min-width: 1280px) 400px, (min-width: 768px) 33vw, 100vw"
+                    loading="lazy"
                     className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-brand-950/10 to-transparent" />
-                  {/* 圖庫情境照，不是客戶實景 —— 一律標示（2026-09-28） */}
-                  <span className="photo-note">示意照片</span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+                  {/* 行業情境照（生成圖），不是客戶實景 —— 一律標示（2026-09-28 起） */}
+                  <span className="photo-note">情境示意</span>
                   <span className="absolute bottom-3 left-4 rounded-full bg-white/95 px-3 py-1 text-[11px] font-bold text-brand-800">
                     {p.industry}
                   </span>

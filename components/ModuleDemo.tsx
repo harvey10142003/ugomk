@@ -51,7 +51,7 @@ export function ModuleDemo({ demo }: { demo: ModuleDemoData }) {
                 : 'border-ink-200 bg-white text-ink-500 hover:border-brand-400 hover:text-brand-800'
             )}
           >
-            <span className={cn('font-mono text-[11px]', i === active ? 'text-brand-200' : 'text-ink-300')}>
+            <span className={cn('font-mono text-[11px]', i === active ? 'text-brand-200' : 'text-ink-400')}>
               {String(i + 1).padStart(2, '0')}
             </span>
             {s.label}
@@ -79,7 +79,7 @@ export function ModuleDemo({ demo }: { demo: ModuleDemoData }) {
         <div>
           <div className="flex items-center gap-2">
             <span className="chip-brand">{step.actor}操作</span>
-            <span className="font-mono text-xs text-ink-300">
+            <span className="font-mono text-xs text-ink-400">
               {active + 1} / {demo.steps.length}
             </span>
           </div>
