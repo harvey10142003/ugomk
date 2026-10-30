@@ -40,6 +40,8 @@ export type ArticleCoverIcon =
 export type Article = {
   slug: string;
   title: string;
+  /** 選填：搜尋結果／分享卡用的較短標題（接上站名後約 32 字內）。頁面 h1 與 JSON-LD headline 仍用 title */
+  seoTitle?: string;
   excerpt: string;
   category: string;
   publishedAt: string;
@@ -492,6 +494,7 @@ export const articles: Article[] = [
   {
     slug: 'line-point-card-vs-own-loyalty-system',
     title: 'LINE 集點卡 vs 自建集點系統：六個維度，先確認你屬於哪一種',
+    seoTitle: 'LINE 集點卡 vs 自建集點系統',
     excerpt:
       'LINE 內建的集點卡免費、十分鐘就能開，對很多店家就是正確答案。會需要自建的是另一種店 —— 分界線不在規模大小，在你要不要讓點數跟消費金額掛在一起。',
     category: '選型指南',
@@ -634,6 +637,7 @@ export const articles: Article[] = [
   {
     slug: 'line-oa-as-crm-not-customer-service',
     title: '別把 LINE@ 只當客服 — 從 CRM 角度重新設計顧客旅程',
+    seoTitle: '別把 LINE@ 只當客服',
     excerpt:
       '多數店家把 LINE@ 當客服信箱用，等顧客先發訊息才回應。但 CRM 的價值，是從顧客「還沒開口」之前就開始 — 用標籤、等級、行為觸發，讓對話變成關係。',
     category: '策略思維',

@@ -22,7 +22,7 @@ import { ctaHref } from '@/lib/site-source';
 export const metadata: Metadata = pageMeta({
   ogImage: ogImages.solutions,
   path: '/solutions',
-  title: '多模組架構｜一套系統滿足企業所有需求',
+  title: 'LINE 會員系統模組一覽｜一套系統滿足企業所有需求',
   description:
     '需要收銀就開收銀，需要預約就開預約。UGO AI CRM 讓門市營運與顧客互動模組共用同一份會員資料，每間分店各自開通需要的功能，不必為了一個功能買下整套系統。'
 });

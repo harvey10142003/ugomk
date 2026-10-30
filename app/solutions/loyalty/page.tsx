@@ -74,7 +74,7 @@ export const metadata: Metadata = pageMeta({
   path: '/solutions/loyalty',
   title: 'LINE 會員集點與票券系統',
   description:
-    'LINE 會員集點與票券系統：消費自動累積點數、點數兌換票券、票券掃碼核銷與轉贈、儲值金與會員等級。點數、票券、儲值金與消費紀錄掛在同一位會員身上，不用再跟第三方集點平台對帳。',
+    'LINE 會員集點與票券系統：消費自動累積點數、兌換票券、掃碼核銷與轉贈，點數、儲值金與消費紀錄都在同一位會員身上，不用再跟第三方平台對帳。',
   keywords: [
     'LINE 會員集點系統',
     'LINE 集點卡',

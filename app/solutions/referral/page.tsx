@@ -82,7 +82,7 @@ export const metadata: Metadata = pageMeta({
   path: '/solutions/referral',
   title: 'LINE 推薦好友獎勵與會員裂變',
   description:
-    'LINE 推薦好友獎勵（MGM）：每位會員有專屬推薦碼與推薦連結，朋友加入後系統記得是誰帶的，雙方各自拿到點數或票券。獎勵時機可選加入即發或首次消費才發，並內建防止自我推薦與重複領取。',
+    'LINE 推薦好友獎勵：每位會員有專屬推薦碼，朋友加入後系統記得是誰帶的，雙方各拿點數或票券；可設加入即發或首次消費才發，並防止自我推薦。',
   keywords: [
     'LINE 推薦好友獎勵',
     'MGM 推薦碼',

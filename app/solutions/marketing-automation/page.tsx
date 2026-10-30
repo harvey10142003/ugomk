@@ -78,7 +78,7 @@ export const metadata: Metadata = pageMeta({
   path: '/solutions/marketing-automation',
   title: 'LINE 行銷自動化與分眾推播',
   description:
-    'LINE 行銷自動化：設定「什麼情況發生，系統就做什麼」。生日、消費後、久未回訪、點數達標、票券快到期自動推播、發券、加點與貼標籤，訊息只發給符合條件的會員，不用每次群發全部好友。',
+    'LINE 行銷自動化：生日、消費後、久未回訪、點數達標時，系統自動推播、發券、加點或貼標籤，只發給符合條件的會員，不必每次群發全部好友。',
   keywords: [
     'LINE 行銷自動化',
     'LINE 分眾推播',

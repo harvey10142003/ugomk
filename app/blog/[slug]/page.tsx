@@ -20,7 +20,7 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   if (!a) return { title: '文章不存在' };
   return pageMeta({
     path: `/blog/${a.slug}`,
-    title: a.title,
+    title: a.seoTitle ?? a.title,
     description: a.excerpt,
     ogType: 'article',
     // 文章沒有自己的社群圖，退回全站 og.jpg —— 原本連 images 都沒給，

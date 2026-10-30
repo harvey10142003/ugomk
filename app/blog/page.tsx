@@ -9,9 +9,9 @@ import { pageMeta } from '@/lib/seo';
 
 export const metadata: Metadata = pageMeta({
   path: '/blog',
-  title: 'LINE 經營知識',
+  title: 'LINE 經營知識｜官方帳號經營與會員 CRM',
   description:
-    '給經營者的 LINE 會員經營筆記：會員制度規劃、行銷自動化實務、多分店營運，專注討論真正用得上的決策邏輯。'
+    '給經營者的 LINE 官方帳號經營與會員 CRM 筆記：會員制度規劃、行銷自動化實務、多分店營運，專注討論真正用得上的決策邏輯。'
 });
 
 export default function BlogPage() {
