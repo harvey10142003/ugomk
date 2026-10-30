@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { DEMO_SHOP, hero } from '@/lib/data/home';
 import { ThreadLines } from './ThreadLines';
+import { HeroLive } from './HeroLive';
 
 /*
  * 首頁的產品畫面（HTML／CSS 畫，不是截圖）。
@@ -19,11 +20,18 @@ import { ThreadLines } from './ThreadLines';
 
 const ICON = { size: 16, strokeWidth: 1.75 } as const;
 
-/** LINE 官方帳號畫面：加好友 → 填會員資料 → 會員卡，下方是圖文選單 */
+/*
+ * 首屏的「播放」：元素基本樣式就是播完的樣子，`.ug-live` 底下的 keyframes 只負責把起點拉回去
+ * （見 app/home.css「首屏播放」）。所以 JS 沒跑、減少動態、截圖時都看到完整畫面。
+ * `--t` 是每個元素出場的秒數（一定要帶 s，否則整條 animation 宣告無效）。
+ */
+const at = (t: number) => ({ '--t': `${t}s` }) as React.CSSProperties;
+
+/** LINE 官方帳號畫面：加好友 → 填會員資料 → 會員卡＋入會禮票券，下方是圖文選單 */
 export function LinePhone({ className }: { className?: string }) {
   return (
     <div className={`ug-phone ${className ?? ''}`} aria-hidden data-anchor="phone">
-      <div className="ug-phone-screen" style={{ minHeight: 470 }}>
+      <div className="ug-phone-screen" style={{ minHeight: 540 }}>
         <div className="ug-phone-head">
           <span className="ug-avatar">店</span>
           {DEMO_SHOP}
@@ -32,14 +40,23 @@ export function LinePhone({ className }: { className?: string }) {
           </span>
         </div>
         <div className="ug-chat">
-          <div className="ug-bubble">
+          <div className="ug-bubble ug-a" style={at(0.3)}>
             歡迎加入！填好會員資料，送你 <b className="ug-gold ug-num">100</b> 點。
-            <span className="ug-bubble-btn" data-anchor="join">
+            <span className="ug-bubble-btn ug-a-press" style={at(1.05)} data-anchor="join">
               填寫會員資料
             </span>
           </div>
-          <div className="ug-bubble ug-bubble-me">填好了</div>
-          <div className="ug-card-flex">
+          <div className="ug-me-row">
+            <span className="ug-typing" style={at(1.3)}>
+              <i />
+              <i />
+              <i />
+            </span>
+            <div className="ug-bubble ug-bubble-me ug-a" style={at(2.1)}>
+              填好了
+            </div>
+          </div>
+          <div className="ug-card-flex ug-a" style={at(2.7)}>
             <div className="ug-card-flex-top">
               <div style={{ fontSize: 11, opacity: 0.85 }}>會員卡</div>
               <div style={{ fontWeight: 700, fontSize: 14 }}>林小姐</div>
@@ -51,8 +68,17 @@ export function LinePhone({ className }: { className?: string }) {
               </div>
               <div className="ug-kv" style={{ padding: '3px 0' }}>
                 <span style={{ color: 'var(--ug-ink-3)' }}>點數</span>
-                <b className="ug-gold ug-num">100</b>
+                <b className="ug-gold ug-num ug-a-count" style={at(3)} data-live-count data-count-ms="900">
+                  100
+                </b>
               </div>
+            </div>
+          </div>
+          <div className="ug-ticket ug-a" style={at(3.7)}>
+            <Ticket {...ICON} />
+            <div>
+              <b>入會好禮</b>
+              <span>已放進「我的票券」</span>
             </div>
           </div>
         </div>
@@ -65,7 +91,7 @@ export function LinePhone({ className }: { className?: string }) {
             <CalendarCheck {...ICON} />
             線上預約
           </span>
-          <span>
+          <span className="ug-a-ping" style={at(4.1)}>
             <Ticket {...ICON} />
             我的票券
           </span>
@@ -90,7 +116,7 @@ export function LinePhone({ className }: { className?: string }) {
 /** 後台會員資料：加好友時建檔、問卷答案變標籤、結帳後點數更新 */
 export function MemberCard({ className }: { className?: string }) {
   return (
-    <div className={`ug-screen ${className ?? ''}`} aria-hidden data-anchor="member">
+    <div className={`ug-screen ug-a ${className ?? ''}`} style={at(2.9)} aria-hidden data-anchor="member">
       <div className="ug-screen-bar">
         <b>會員資料</b>
         <span>後台</span>
@@ -106,8 +132,12 @@ export function MemberCard({ className }: { className?: string }) {
           </div>
         </div>
         <div className="ug-chips" style={{ marginTop: 10 }}>
-          <span className="ug-tag">新會員</span>
-          <span className="ug-tag">問卷：手部保養</span>
+          <span className="ug-tag ug-a-pop" style={at(3.3)}>
+            新會員
+          </span>
+          <span className="ug-tag ug-a-pop" style={at(3.55)}>
+            問卷：手部保養
+          </span>
         </div>
         <dl style={{ marginTop: 8 }}>
           <div className="ug-kv">
@@ -117,12 +147,22 @@ export function MemberCard({ className }: { className?: string }) {
           <div className="ug-kv">
             <dt>點數</dt>
             <dd>
-              <span className="ug-gold ug-num">112</span>
+              <span
+                className="ug-gold ug-num ug-a-count"
+                style={at(5.6)}
+                data-live-count
+                data-count-from="100"
+                data-count-ms="700"
+              >
+                112
+              </span>
             </dd>
           </div>
           <div className="ug-kv">
             <dt>最近消費</dt>
-            <dd className="ug-num">NT$ 1,200</dd>
+            <dd className="ug-num ug-a-pop" style={at(5.4)}>
+              NT$ 1,200
+            </dd>
           </div>
         </dl>
       </div>
@@ -133,7 +173,7 @@ export function MemberCard({ className }: { className?: string }) {
 /** 美業結帳：服務＋指定設計師加價、儲值金扣款、點數累積（每 100 元 1 點是系統預設） */
 export function PosTicket({ className }: { className?: string }) {
   return (
-    <div className={`ug-screen ${className ?? ''}`} aria-hidden data-anchor="pos">
+    <div className={`ug-screen ug-a ${className ?? ''}`} style={at(4.3)} aria-hidden data-anchor="pos">
       <div className="ug-screen-bar">
         <span>
           <b>POS 結帳</b>・美業
@@ -142,21 +182,23 @@ export function PosTicket({ className }: { className?: string }) {
       </div>
       <div style={{ padding: '10px 16px 14px' }}>
         <dl>
-          <div className="ug-kv">
+          <div className="ug-kv ug-a-row" style={at(4.55)}>
             <dt>手部保養</dt>
             <dd className="ug-num">1,000</dd>
           </div>
-          <div className="ug-kv">
+          <div className="ug-kv ug-a-row" style={at(4.7)}>
             <dt>指定設計師加價</dt>
             <dd className="ug-num">200</dd>
           </div>
-          <div className="ug-kv">
+          <div className="ug-kv ug-a-row" style={at(4.85)}>
             <dt>儲值金扣款</dt>
             <dd className="ug-num">1,200</dd>
           </div>
-          <div className="ug-kv">
+          <div className="ug-kv ug-a-row" style={at(5.15)}>
             <dt>本次點數</dt>
-            <dd className="ug-gold ug-num">+12</dd>
+            <dd className="ug-gold ug-num ug-a-pop" style={at(5.25)}>
+              +12
+            </dd>
           </div>
         </dl>
       </div>
@@ -168,20 +210,25 @@ export function PosTicket({ className }: { className?: string }) {
  * 首屏舞台：LINE 畫面 → 會員資料 → 結帳，一條線串起來，最後回到 LINE 的圖文選單。
  * 桌機是三欄 grid（手機畫面／空隙／右側兩張卡），線由 ThreadLines 量位置後畫在空隙裡；
  * 手機版改成直的一疊，線換成左側的一條直線（見 app/home.css）。
+ * 播放與重播由 HeroLive 控制（進畫面才播、離開畫面暫停、播完停 6 秒再重播）。
  */
 export function HeroStage() {
   return (
     <div className="ug-hero-visual">
-      <div className="ug-stage">
+      <HeroLive>
         <LinePhone className="ug-st-phone" />
         <div className="ug-st-right">
-          <p className="ug-note ug-hand">{hero.notes.member}</p>
+          <p className="ug-note ug-a" style={at(2.9)}>
+            {hero.notes.member}
+          </p>
           <MemberCard />
           <PosTicket />
-          <p className="ug-note ug-hand ug-note-pos">{hero.notes.pos}</p>
+          <p className="ug-note ug-note-pos ug-a" style={at(5.4)}>
+            {hero.notes.pos}
+          </p>
         </div>
         <ThreadLines />
-      </div>
+      </HeroLive>
       <p className="ug-stage-caption">畫面為系統示意，店家與會員皆為虛構</p>
     </div>
   );
@@ -322,21 +369,21 @@ export function RuleMock() {
         </span>
         <span className="ug-tag">草稿</span>
       </div>
-      <div className="ug-rule-step">
+      <div className="ug-rule-step" data-seq style={{ '--s': '0.25s' } as React.CSSProperties}>
         <span className="ug-rule-label">當</span>
         <div className="ug-field">
           <span>最後一次消費超過 60 天</span>
           <ChevronRight size={14} strokeWidth={1.75} />
         </div>
       </div>
-      <div className="ug-rule-step">
+      <div className="ug-rule-step" data-seq style={{ '--s': '0.45s' } as React.CSSProperties}>
         <span className="ug-rule-label">只給</span>
         <div className="ug-chips">
           <span className="ug-tag">等級：全部</span>
           <span className="ug-tag">排除標籤：已預約</span>
         </div>
       </div>
-      <div className="ug-rule-step">
+      <div className="ug-rule-step" data-seq style={{ '--s': '0.65s' } as React.CSSProperties}>
         <span className="ug-rule-label">就做</span>
         <div style={{ display: 'grid', gap: 6 }}>
           <div className="ug-field">
@@ -350,15 +397,15 @@ export function RuleMock() {
           </div>
         </div>
       </div>
-      <div className="ug-rule-step">
+      <div className="ug-rule-step" data-seq style={{ '--s': '0.85s' } as React.CSSProperties}>
         <span className="ug-rule-label">何時</span>
         <div className="ug-field">
           <span>條件成立後 立即</span>
         </div>
       </div>
-      <div className="ug-preview">
+      <div className="ug-preview" data-seq style={{ '--s': '1.1s' } as React.CSSProperties}>
         <span>
-          啟用前預估：<b className="ug-num">42</b> 位會員符合
+          啟用前預估：<b className="ug-num" data-count data-count-delay="1300">42</b> 位會員符合
         </span>
         <span className="ug-mini-btn">確認啟用</span>
       </div>
@@ -380,19 +427,19 @@ export function PosScene() {
         </div>
         <div style={{ padding: '10px 16px 6px' }}>
           <dl>
-            <div className="ug-kv">
+            <div className="ug-kv" data-seq style={{ '--s': '0.25s' } as React.CSSProperties}>
               <dt>手部保養・Amy</dt>
               <dd className="ug-num">1,000</dd>
             </div>
-            <div className="ug-kv">
+            <div className="ug-kv" data-seq style={{ '--s': '0.4s' } as React.CSSProperties}>
               <dt>指定設計師加價</dt>
               <dd className="ug-num">200</dd>
             </div>
-            <div className="ug-kv">
+            <div className="ug-kv" data-seq style={{ '--s': '0.55s' } as React.CSSProperties}>
               <dt>生日禮 折 100（票券核銷）</dt>
               <dd className="ug-num">−100</dd>
             </div>
-            <div className="ug-kv">
+            <div className="ug-kv" data-seq style={{ '--s': '0.75s' } as React.CSSProperties}>
               <dt style={{ color: 'var(--ug-ink)', fontWeight: 700 }}>應收</dt>
               <dd className="ug-num" style={{ fontSize: 18 }}>
                 NT$ 1,100
@@ -403,10 +450,12 @@ export function PosScene() {
         <div className="ug-pay">
           <span>現金</span>
           <span>信用卡</span>
-          <span data-on="">儲值金</span>
+          <span data-on="" data-seq-on style={{ '--s': '1.05s' } as React.CSSProperties}>
+            儲值金
+          </span>
         </div>
       </div>
-      <div className="ug-phone ug-pos-line" style={{ borderRadius: 22, padding: 6 }}>
+      <div className="ug-phone ug-pos-line" data-seq-pop style={{ borderRadius: 22, padding: 6, '--s': '1.4s' } as React.CSSProperties}>
         <div className="ug-phone-screen" style={{ borderRadius: 17 }}>
           <div className="ug-chat" style={{ padding: 10 }}>
             <div className="ug-bubble" style={{ maxWidth: '100%' }}>

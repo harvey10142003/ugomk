@@ -28,6 +28,8 @@ import {
   ReturnMock,
   RuleMock
 } from '@/components/home/Mocks';
+import { JourneyTabs } from '@/components/home/JourneyTabs';
+import { ModuleMarquee } from '@/components/home/ModuleMarquee';
 import { pageMeta } from '@/lib/seo';
 import { ctaHref } from '@/lib/site-source';
 import './home.css';
@@ -133,8 +135,8 @@ export default function HomePage() {
       <section className="ug-hero">
         <div className="ug-wrap ug-hero-grid">
           <div>
-            <p className="ug-kicker">{hero.kicker}</p>
-            <h1 className="ug-h1 mt-6">
+            {/* 2026-10-30：h1 上方的小標拿掉（impeccable 標為模板感），同一句移到按鈕下方當說明 */}
+            <h1 className="ug-h1">
               <Phrase text={hero.title} latinBreak />
             </h1>
             <p className="ug-lead mt-7">{hero.lead}</p>
@@ -154,7 +156,8 @@ export default function HomePage() {
                 加入 LINE 好友
               </a>
             </div>
-            <div className="mt-9 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <p className="ug-hero-meta mt-9">{hero.kicker}</p>
+            <div className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <span className="text-sm font-bold" style={{ color: 'var(--ug-ink-2)' }}>
                 適用產業
               </span>
@@ -168,12 +171,15 @@ export default function HomePage() {
           <HeroStage />
         </div>
         <div className="ug-wrap">
-          <dl className="ug-trust">
+          {/* 數字進畫面才跳動（HomeMotion 的 data-count）；伺服器輸出的就是最終值 */}
+          <dl className="ug-trust" data-stagger>
             {STATS.map((st) => (
               <div key={st.label}>
                 <dt>{st.label}</dt>
                 <dd className="ug-num">
-                  {st.value}
+                  <span data-count data-count-delay="250">
+                    {st.value}
+                  </span>
                   {st.footnote ? <sup aria-hidden>＊</sup> : null}
                 </dd>
               </div>
@@ -193,7 +199,7 @@ export default function HomePage() {
             <p className="ug-body mt-5">{problem.intro}</p>
           </div>
           <div data-reveal style={{ '--d': '0.08s' } as React.CSSProperties}>
-            <ul className="ug-rows">
+            <ul className="ug-rows" data-stagger>
               {problem.items.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -213,24 +219,14 @@ export default function HomePage() {
             <p className="ug-lead mt-5">{journey.lead}</p>
           </div>
 
-          <ol className="ug-journey">
-            {journey.stops.map((s, i) => {
+          {/* 桌機：四站自動輪播（可點選、滑過暫停）；手機：四站直排、畫面全部攤開 */}
+          <JourneyTabs
+            stops={journey.stops}
+            mocks={journey.stops.map((s) => {
               const Mock = STOP_MOCKS[s.id as keyof typeof STOP_MOCKS];
-              return (
-                <li key={s.id} className="ug-stop" data-reveal style={{ '--d': `${i * 0.08}s` } as React.CSSProperties}>
-                  <span className="ug-stop-dot" aria-hidden />
-                  <span className="ug-stop-step">
-                    <span className="ug-num">{i + 1}</span>・{s.step}
-                  </span>
-                  <h3 className="ug-h3 mt-2">{s.title}</h3>
-                  <p className="ug-body mt-2" style={{ fontSize: '0.98rem' }}>
-                    {s.body}
-                  </p>
-                  <Mock />
-                </li>
-              );
+              return <Mock key={s.id} />;
             })}
-          </ol>
+          />
 
           <div className="ug-multistore" data-reveal>
             <h3 className="ug-h3">{journey.multiStore.title}</h3>
@@ -247,7 +243,7 @@ export default function HomePage() {
               <Phrase text={automation.title} />
             </h2>
             <p className="ug-body mt-5">{automation.lead}</p>
-            <ul className="ug-checks mt-5">
+            <ul className="ug-checks mt-5" data-stagger>
               {automation.items.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -263,7 +259,9 @@ export default function HomePage() {
               {automation.note}
               <NoteArrow />
             </p>
-            <RuleMock />
+            <div className="ug-scrollgrow">
+              <RuleMock />
+            </div>
           </div>
         </div>
       </section>
@@ -276,7 +274,7 @@ export default function HomePage() {
               <Phrase text={pos.title} />
             </h2>
             <p className="ug-body mt-5">{pos.lead}</p>
-            <ul className="ug-checks mt-5">
+            <ul className="ug-checks mt-5" data-stagger>
               {pos.items.map((t) => (
                 <li key={t}>{t}</li>
               ))}
@@ -287,7 +285,9 @@ export default function HomePage() {
             </Link>
           </div>
           <div data-reveal style={{ '--d': '0.1s' } as React.CSSProperties}>
-            <PosScene />
+            <div className="ug-scrollgrow">
+              <PosScene />
+            </div>
             <p className="ug-note ug-hand mt-3">
               <NoteArrow flip />
               {pos.note}
@@ -307,7 +307,8 @@ export default function HomePage() {
               目前共 <span className="ug-num font-bold">{crmModules.length}</span> 個模組，依需求逐一啟用
             </p>
           </div>
-          <div className="ug-index" data-reveal>
+          <ModuleMarquee />
+          <div className="ug-index" data-stagger>
             {features.items.map((f) => (
               <Link key={f.title} href={f.href}>
                 <span className="ug-index-title">{f.title}</span>
@@ -334,7 +335,7 @@ export default function HomePage() {
             </h2>
             <p className="ug-lead mt-5">{consult.lead}</p>
           </div>
-          <ol className="ug-knots" data-reveal>
+          <ol className="ug-knots" data-stagger>
             {consult.questions.map((q) => (
               <li key={q} className="ug-knot">
                 {q}

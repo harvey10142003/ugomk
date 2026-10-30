@@ -1,11 +1,16 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { countUp } from './countUp';
 
 /**
  * 首頁捲動進場的單一控制器（與 app/insurcrm/_components/MotionRoot 同一套規則，class 名不同以免互相影響）。
  *
  * 子元素加 `data-reveal`（可加 style `--d` 延遲）即可，不必各自變成 client component。
+ *   - `data-stagger`：容器本身當觸發點，直接子元素依序錯開進場（JS 只幫每個子元素寫 `--i`）。
+ *   - `data-seq`／`data-seq-pop`／`data-seq-on`（放在 data-reveal 裡）：產品畫面裡的元素依 `--s` 秒數依序出現，純 CSS。
+ *   - `data-count`（放在 data-reveal／data-stagger 裡）：進場時數字從 0（或 data-count-from）跳到最終值。
+ *     伺服器輸出的就是最終值，JS 沒跑、減少動態時都停在最終值。
  *
  * 失敗時一律「全部顯示」：
  *   - 沒有 IntersectionObserver、或使用者開了「減少動態」→ 不加 .ug-motion，CSS 不藏任何東西
@@ -20,7 +25,23 @@ export function HomeMotion({ children, className }: { children: React.ReactNode;
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     if (reduce || typeof IntersectionObserver === 'undefined') return;
 
-    const targets = Array.from(root.querySelectorAll<HTMLElement | SVGElement>('[data-reveal]'));
+    root.querySelectorAll<HTMLElement>('[data-stagger]').forEach((box) => {
+      Array.from(box.children).forEach((c, i) => (c as HTMLElement).style.setProperty('--i', String(i)));
+    });
+    const targets = Array.from(
+      root.querySelectorAll<HTMLElement | SVGElement>('[data-reveal], [data-stagger]')
+    );
+    const reveal = (el: Element) => {
+      if (el.classList.contains('is-in')) return;
+      el.classList.add('is-in');
+      const counters = el.matches('[data-count]')
+        ? [el as HTMLElement]
+        : Array.from(el.querySelectorAll<HTMLElement>('[data-count]'));
+      counters.forEach((c) => {
+        const delay = Number(c.dataset.countDelay ?? 150);
+        window.setTimeout(() => countUp(c), delay);
+      });
+    };
     const vh = window.innerHeight;
     // 已在首屏內的元素：先加 .ug-motion 再下一個 frame 標進場，才有「畫出來」的過程；
     // 但不能先閃一下空白 —— 所以首屏元素的初始狀態只有位移與透明，時間很短
@@ -30,14 +51,14 @@ export function HomeMotion({ children, className }: { children: React.ReactNode;
     });
     root.classList.add('ug-motion');
     const raf = window.requestAnimationFrame(() => {
-      inView.forEach((el) => el.classList.add('is-in'));
+      inView.forEach(reveal);
     });
 
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
           if (e.isIntersecting) {
-            e.target.classList.add('is-in');
+            reveal(e.target);
             io.unobserve(e.target);
           }
         }
@@ -50,7 +71,7 @@ export function HomeMotion({ children, className }: { children: React.ReactNode;
     const sweep = () => {
       const h = window.innerHeight;
       targets.forEach((el) => {
-        if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < h) el.classList.add('is-in');
+        if (!el.classList.contains('is-in') && el.getBoundingClientRect().top < h) reveal(el);
       });
     };
     const onScroll = () => {

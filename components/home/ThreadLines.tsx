@@ -73,12 +73,6 @@ export function ThreadLines() {
       viewBox={geo ? `0 0 ${geo.w} ${geo.h}` : undefined}
       aria-hidden
     >
-      <defs>
-        <linearGradient id="ug-thread-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#8CC8DA" />
-          <stop offset="100%" stopColor="#04566B" />
-        </linearGradient>
-      </defs>
       {geo ? (
         <>
           <path
@@ -86,7 +80,7 @@ export function ThreadLines() {
             pathLength={1}
             d={geo.d}
             fill="none"
-            stroke="url(#ug-thread-grad)"
+            stroke="#0A6178"
             strokeWidth="2.5"
             strokeLinecap="round"
           />
@@ -100,7 +94,7 @@ export function ThreadLines() {
               fill="#fff"
               stroke="#04566B"
               strokeWidth="2"
-              style={{ '--d': `${0.5 + i * 0.22}s` } as React.CSSProperties}
+              style={{ '--d': `${2.5 + i * 0.5}s` } as React.CSSProperties}
             />
           ))}
         </>
