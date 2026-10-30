@@ -19,6 +19,8 @@ import {
   problem
 } from '@/lib/data/home';
 import { HomeMotion } from '@/components/home/HomeMotion';
+import { ScenePhoto } from '@/components/ScenePhoto';
+import { scenePhotos } from '@/lib/data/scene-photos';
 import {
   BuyMock,
   EngageMock,
@@ -197,6 +199,12 @@ export default function HomePage() {
               <Phrase text={problem.title} />
             </h2>
             <p className="ug-body mt-5">{problem.intro}</p>
+            {/* 情境照（2026-10-31）：首屏維持動態示意，照片只從第二屏開始、一律 lazy */}
+            <ScenePhoto
+              photo={scenePhotos.packBeauty}
+              sizes="(min-width: 1200px) 470px, (min-width: 1024px) 40vw, 100vw"
+              className="ug-photo-problem"
+            />
           </div>
           <div data-reveal style={{ '--d': '0.08s' } as React.CSSProperties}>
             <ul className="ug-rows" data-stagger>
@@ -329,11 +337,19 @@ export default function HomePage() {
       {/* ─────────── 顧問式導入（深色） ─────────── */}
       <section className="ug-section ug-night">
         <div className="ug-wrap">
-          <div data-reveal style={{ maxWidth: 780 }}>
-            <h2 className="ug-h2">
-              <Phrase text={consult.title} />
-            </h2>
-            <p className="ug-lead mt-5">{consult.lead}</p>
+          <div className="ug-consult-head">
+            <div data-reveal style={{ maxWidth: 780 }}>
+              <h2 className="ug-h2">
+                <Phrase text={consult.title} />
+              </h2>
+              <p className="ug-lead mt-5">{consult.lead}</p>
+            </div>
+            <div data-reveal style={{ '--d': '0.08s' } as React.CSSProperties}>
+              <ScenePhoto
+                photo={scenePhotos.homeConsult}
+                sizes="(min-width: 1200px) 520px, (min-width: 1024px) 44vw, 100vw"
+              />
+            </div>
           </div>
           <ol className="ug-knots" data-stagger>
             {consult.questions.map((q) => (
@@ -382,6 +398,17 @@ export default function HomePage() {
               查看更多案例
               <ArrowRight className="h-4 w-4" />
             </Link>
+          </div>
+
+          {/* 行業情境照，不是下列任何一家客戶的實景 —— 角標寫「行業情境示意」 */}
+          <div data-reveal>
+            <ScenePhoto
+              photo={scenePhotos.caseRestaurant}
+              note="行業情境示意"
+              sizes="(min-width: 1200px) 1120px, 100vw"
+              className="ug-photo-wide"
+              imgClassName="ug-photo-wide-img"
+            />
           </div>
 
           <div className="ug-cases">
@@ -481,7 +508,8 @@ export default function HomePage() {
 
       {/* ─────────── 最後的行動 ─────────── */}
       <section className="ug-section ug-sheet-bg">
-        <div className="ug-wrap ug-final" data-reveal>
+        <div className="ug-wrap ug-final-split">
+        <div className="ug-final" data-reveal>
           <h2 className="ug-h2">
             <Phrase text={finalCta.title} />
           </h2>
@@ -501,6 +529,14 @@ export default function HomePage() {
               直接加入 LINE 諮詢
             </a>
           </div>
+        </div>
+        <div data-reveal style={{ '--d': '0.1s' } as React.CSSProperties}>
+          <ScenePhoto
+            photo={scenePhotos.modPosRetail}
+            sizes="(min-width: 1200px) 440px, (min-width: 1024px) 36vw, 100vw"
+            className="ug-photo-final"
+          />
+        </div>
         </div>
       </section>
     </HomeMotion>

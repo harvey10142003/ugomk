@@ -42,7 +42,9 @@ export const scenePhotos = {
   modPosRetail: scene('mod-pos-retail', '選物店木櫃台，店主在平板上結帳，客人拿著包好的商品等候'),
   modReservation: scene('mod-reservation', '火鍋店門口帶位台，帶位人員查看平板上的訂位名單，客人在門口等候'),
   modBeauty: scene('mod-beauty', '美睫保養工作室櫃台，櫃台人員看平板上的預約時段，客人坐在一旁等候'),
-  modMarket: scene('mod-market', '週末手作市集，攤主拿出 QR 卡讓逛市集的客人用手機掃描')
+  modMarket: scene('mod-market', '週末手作市集，攤主拿出 QR 卡讓逛市集的客人用手機掃描'),
+  // 首頁
+  homeConsult: scene('home-consult', '餐廳打烊後，顧問與老闆坐在桌邊，老闆指著手繪的流程圖說明，桌上放著平板')
 } satisfies Record<string, ScenePhoto>;
 
 export type ScenePhotoKey = keyof typeof scenePhotos;

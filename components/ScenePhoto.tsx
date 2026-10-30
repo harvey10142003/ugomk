@@ -14,7 +14,8 @@ export function ScenePhoto({
   className,
   imgClassName,
   priority = false,
-  caption
+  caption,
+  note = '情境示意'
 }: {
   photo: ScenePhotoData;
   sizes: string;
@@ -23,6 +24,8 @@ export function ScenePhoto({
   priority?: boolean;
   /** 圖下的小字說明；不給就只有角標 */
   caption?: string;
+  /** 右上角角標；成功案例相關用「行業情境示意」 */
+  note?: string;
 }) {
   return (
     <figure className={cn('relative', className)}>
@@ -38,7 +41,7 @@ export function ScenePhoto({
           className={cn('h-auto w-full object-cover', imgClassName)}
         />
         <span className="photo-note" aria-hidden="true">
-          情境示意
+          {note}
         </span>
       </div>
       {caption ? <figcaption className="mt-3 text-xs leading-relaxed text-ink-500">{caption}</figcaption> : null}

@@ -27,19 +27,20 @@
 |---|---|---|
 | `public/images/scenes/case-course.webp` | /cases 小聚所案例卡片頂部橫幅（lib/data/cases.ts → scenePhotos.caseCourse） | 已上站 |
 | `public/images/scenes/case-beauty.webp` | /cases 菲韻美甲案例卡片頂部橫幅；/cases 社群分享圖 og/case-beauty.jpg | 已上站 |
-| `public/images/scenes/case-restaurant.webp` | /cases 鴨點棧案例卡片頂部橫幅 | 已上站 |
+| `public/images/scenes/case-restaurant.webp` | /cases 鴨點棧案例卡片頂部橫幅；首頁案例區標題下方寬幅（標「行業情境示意」） | 已上站 |
 | `public/images/scenes/case-consulting.webp` | /cases 王子娘案例卡片頂部橫幅 | 已上站 |
 | `public/images/scenes/pack-restaurant.webp` | /solutions「同行通常這樣配」餐飲卡（lib/data/modules.ts industryPacks）；/solutions 社群分享圖 og/pack-restaurant.jpg | 已上站 |
-| `public/images/scenes/pack-beauty.webp` | /solutions「同行通常這樣配」美業卡 | 已上站 |
+| `public/images/scenes/pack-beauty.webp` | /solutions「同行通常這樣配」美業卡；首頁「LINE 好友不少，卻沒有真正變成會員？」區左欄 | 已上站 |
 | `public/images/scenes/pack-course.webp` | /solutions「同行通常這樣配」課程活動卡；/solutions/course_enrollment「這個模組適合誰」左欄 | 已上站 |
 | `public/images/scenes/sol-loyalty.webp` | /solutions/loyalty「解決什麼問題」區右欄；社群分享圖 og/sol-loyalty.jpg | 已上站 |
 | `public/images/scenes/sol-automation.webp` | /solutions/marketing-automation「解決什麼問題」區右欄；社群分享圖 og/sol-automation.jpg | 已上站 |
 | `public/images/scenes/sol-referral.webp` | /solutions/referral「解決什麼問題」區右欄；社群分享圖 og/sol-referral.jpg | 已上站 |
 | `public/images/scenes/mod-pos-restaurant.webp` | /solutions/pos_restaurant「這個模組適合誰」左欄 | 已上站 |
-| `public/images/scenes/mod-pos-retail.webp` | /solutions/pos_retail「這個模組適合誰」左欄 | 已上站 |
+| `public/images/scenes/mod-pos-retail.webp` | /solutions/pos_retail「這個模組適合誰」左欄；首頁最後的預約區右欄 | 已上站 |
 | `public/images/scenes/mod-reservation.webp` | /solutions/pos_reservation「這個模組適合誰」左欄 | 已上站 |
 | `public/images/scenes/mod-beauty.webp` | /solutions/beauty_booking「這個模組適合誰」左欄 | 已上站 |
 | `public/images/scenes/mod-market.webp` | /solutions/market_expo 與 /solutions/event_module「這個模組適合誰」左欄 | 已上站 |
+| `public/images/scenes/home-consult.webp` | 首頁「顧問式導入」深色區（標題右側／手機在說明下方） | 已上站 |
 
 ### case-course
 
@@ -57,7 +58,7 @@
 
 ### case-restaurant
 
-- 位置：/cases 鴨點棧案例卡片頂部橫幅
+- 位置：/cases 鴨點棧案例卡片頂部橫幅；首頁案例區標題下方寬幅（標「行業情境示意」）
 - 畫面：
 
 > A busy Taiwanese family-style Chinese restaurant dining room at lunchtime: a server in a dark apron stands beside a round table with a lazy susan, taking an order on a small handheld tablet while a family of four looks at the dishes. Steam from tea, red-brown wood chairs, plain walls with NO posters, NO menu boards, NO red paper signs, NO calligraphy, nothing written anywhere. Shot from behind the server's shoulder, slight motion in the background staff.
@@ -78,7 +79,7 @@
 
 ### pack-beauty
 
-- 位置：/solutions「同行通常這樣配」美業卡
+- 位置：/solutions「同行通常這樣配」美業卡；首頁「LINE 好友不少，卻沒有真正變成會員？」區左欄
 - 畫面：
 
 > A young woman sitting in a cozy hair salon waiting area in Taiwan, looking down at her smartphone which shows a blurred chat interface with green bubble shapes; behind her out of focus a stylist blow-dries another customer's hair. Plants, a mirror with warm bulbs, afternoon window light. Medium shot, subject on the left third.
@@ -120,7 +121,7 @@
 
 ### mod-pos-retail
 
-- 位置：/solutions/pos_retail「這個模組適合誰」左欄
+- 位置：/solutions/pos_retail「這個模組適合誰」左欄；首頁最後的預約區右欄
 - 畫面：
 
 > A small lifestyle select shop in Taiwan with ceramics, linen bags and plants on wooden shelves: the shop owner, a woman in her thirties, rings up a purchase on a tablet on a stand at the wooden counter while a customer waits with a wrapped item. Afternoon sunlight, calm atmosphere, shot from the side of the counter, the owner's hands on the tablet in focus.
@@ -145,4 +146,11 @@
 - 畫面：
 
 > An outdoor weekend craft market in a Taiwanese park: a vendor at a canvas-covered stall with handmade goods holds out a small printed QR card (pattern only, no text) for a visitor who scans it with her phone; other stalls and strolling people blurred behind, late afternoon sun. Candid, eye-level shot.
+
+### home-consult
+
+- 位置：首頁「顧問式導入」深色區（標題右側／手機在說明下方）
+- 畫面：
+
+> After closing time in a small Taiwanese restaurant: a consultant in a plain shirt and the restaurant owner in an apron sit side by side at a dining table, looking together at a tablet (blurred abstract screen) and a printed sheet with hand-drawn boxes and arrows (no readable words); the owner points at the sheet. Chairs stacked on some tables, warm pendant light, dusk through the window, plain walls with nothing written. Candid three-quarter angle from across the table, both people slightly off-center.
 

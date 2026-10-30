@@ -1108,6 +1108,67 @@
   text-align: left;
 }
 
+/* ── 情境照（2026-10-31）──────────────────────
+ * 首屏不放照片（維持動態示意、不搶 LCP），從第二屏開始、一律 lazy。
+ * 四張刻意不同尺寸：問題區中幅、顧問區大幅、案例區寬幅、收尾區小幅 —— 不排成同尺寸一列。
+ */
+.ug-photo-problem {
+  margin-top: 36px;
+  max-width: 470px;
+}
+.ug-consult-head {
+  display: grid;
+  gap: 36px;
+}
+@media (min-width: 1024px) {
+  .ug-consult-head {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 64px;
+    align-items: end;
+  }
+}
+.ug-night figure > div {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.ug-photo-wide {
+  margin-top: 40px;
+}
+.ug-photo-wide-img {
+  aspect-ratio: 3 / 2;
+}
+@media (min-width: 768px) {
+  .ug-photo-wide-img {
+    aspect-ratio: 21 / 8;
+  }
+}
+.ug-final-split {
+  display: grid;
+  gap: 40px;
+}
+.ug-photo-final {
+  max-width: 440px;
+  margin: 0 auto;
+}
+@media (min-width: 1024px) {
+  .ug-final-split {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+    gap: 72px;
+    align-items: center;
+  }
+  .ug-final-split .ug-final {
+    text-align: left;
+  }
+  .ug-final-split .ug-final .ug-h2 {
+    margin: 0;
+  }
+  .ug-final-split .ug-final .justify-center {
+    justify-content: flex-start;
+  }
+  .ug-photo-final {
+    margin: 0;
+  }
+}
+
 /* ── 進場動畫 ─────────────────────────────── */
 .ug-motion [data-reveal] {
   opacity: 0;
